@@ -5,11 +5,27 @@
         <style>
             body {
                 font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+                width: 900px;
+                margin: 0 auto;
+                font-size: 16px;
+            }
+
+            header h1 {
+                text-align: center;
+                margin-bottom: 3rem;
+            }
+
+            #calendar {
+                width: 540px;
+                margin: 0 auto;
             }
         </style>
         <link href="css/react-calendar.css" rel="stylesheet">
     </head>
     <body>
+        <header>
+            <h1>React Calendar</h1>
+        </header>
         <div id="calendar"></div>
         <script src="build/index.js"></script>
     </body>

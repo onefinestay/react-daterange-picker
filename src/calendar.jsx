@@ -6,6 +6,8 @@ var CalendarMonth = require('./calendar-month.jsx');
 var CalendarDate = require('./calendar-date.jsx');
 /*var AvailabilityCalendarDate = require('./availability-calendar-date');*/
 
+var noop = function() {};
+
 var sortDates = function() {
   return _.sortBy(arguments, function(d) { return d.getTime(); });
 };
@@ -39,7 +41,8 @@ var Calendar = React.createClass({
       nextLabel: '',
       previousLabel: '',
       initialDate: initialDate,
-      selectionType: 'single'
+      selectionType: 'single',
+      onSelect: noop
     };
   },
 

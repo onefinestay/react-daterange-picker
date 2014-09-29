@@ -5,7 +5,10 @@ var React = require('react/addons');
 var Calendar = require('../../src/calendar.jsx');
 
 React.renderComponent(
-    Calendar(),
+    Calendar({
+        numberOfCalendars: 2,
+        selectionType: 'range',
+    }),
     document.getElementById('calendar')
 );
 
@@ -25075,6 +25078,8 @@ var CalendarMonth = require('./calendar-month.jsx');
 var CalendarDate = require('./calendar-date.jsx');
 /*var AvailabilityCalendarDate = require('./availability-calendar-date');*/
 
+var noop = function() {};
+
 var sortDates = function() {
   return _.sortBy(arguments, function(d) { return d.getTime(); });
 };
@@ -25108,7 +25113,8 @@ var Calendar = React.createClass({displayName: 'Calendar',
       nextLabel: '',
       previousLabel: '',
       initialDate: initialDate,
-      selectionType: 'single'
+      selectionType: 'single',
+      onSelect: noop
     };
   },
 
