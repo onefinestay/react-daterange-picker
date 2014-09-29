@@ -1,0 +1,179 @@
+.react-calendars {
+  display: inline-block;
+  position: relative;
+  padding: 0 30px; }
+  .react-calendars .react-calendar-previous,
+  .react-calendars .react-calendar-next {
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    outline: none;
+    border: 0;
+    padding: 0;
+    background-color: #E4E4E4;
+    top: 0;
+    bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+    margin-bottom: 0;
+    width: 30px; }
+    .react-calendars .react-calendar-previous:hover,
+    .react-calendars .react-calendar-next:hover {
+      background-color: #CCC; }
+  .react-calendars .react-calendar-previous {
+    left: 0; }
+  .react-calendars .react-calendar-previous:before {
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    left: 0;
+    content: '\e015';
+    font-family: "ofs-icons";
+    font-weight: normal;
+    font-style: normal;
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-decoration: inherit;
+    font-size: 12px;
+    color: #AAAAAA;
+    text-align: center; }
+  .react-calendars .react-calendar-next {
+    right: 0; }
+  .react-calendars .react-calendar-next:before {
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    right: 0;
+    content: '\e016';
+    font-family: "ofs-icons";
+    font-weight: normal;
+    font-style: normal;
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-decoration: inherit;
+    font-size: 12px;
+    color: #AAAAAA;
+    text-align: center; }
+
+.react-calendar-month {
+  width: 230px;
+  color: #333;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 0 5px; }
+  .react-calendars .react-calendar-month {
+    display: inline-block; }
+  .react-calendar-month .react-calendar-header {
+    position: relative;
+    text-align: center;
+    background: #e4e4e4;
+    font-size: 15px;
+    color: #737373;
+    height: 35px;
+    line-height: 35px; }
+    .react-calendar-month .react-calendar-header .react-calendar-label {
+      display: inline-block;
+      position: relative; }
+    .react-calendar-month .react-calendar-header select {
+      cursor: pointer;
+      display: inline-block;
+      position: absolute;
+      z-index: 5;
+      margin: 0;
+      left: 0;
+      top: 5px;
+      opacity: 0;
+      background: #e4e4e4;
+      border: 0;
+      filter: alpha(opacity=0);
+      opacity: 0; }
+  .react-calendar-month .react-calendar-dates {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 0;
+    margin: 0; }
+    .react-calendar-month .react-calendar-dates th, .react-calendar-month .react-calendar-dates td {
+      width: 14.285714285714286%;
+      padding: 0;
+      text-align: center;
+      font-size: 11px;
+      line-height: 25px; }
+    .react-calendar-month .react-calendar-dates th {
+      color: #fff;
+      background: #4da3a2;
+      border: 1px solid #4da3a2;
+      font-weight: normal; }
+      .react-calendar-month .react-calendar-dates th abbr[title] {
+        text-decoration: none;
+        color: #fff;
+        font-size: inherit;
+        cursor: pointer;
+        border-bottom-width: 0; }
+    .react-calendar-month .react-calendar-dates td {
+      border: 1px solid #ddd;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden; }
+      .react-calendar-month .react-calendar-dates td span {
+        display: block;
+        z-index: 1;
+        width: 100%;
+        text-align: center;
+        position: relative; }
+      .react-calendar-month .react-calendar-dates td svg {
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0; }
+      .react-calendar-month .react-calendar-dates td .am-state {
+        position: absolute;
+        left: -50px;
+        right: -50px;
+        bottom: -50px;
+        top: -50px; }
+      .react-calendar-month .react-calendar-dates td .pm-state {
+        position: absolute;
+        top: -50px;
+        left: 66%;
+        right: -50px;
+        bottom: -50px;
+        -ie-transform: rotate(30deg);
+        -webkit-transform: rotate(30deg);
+        -moz-transform: rotate(30deg);
+        transform: rotate(30deg); }
+      .react-calendar-month .react-calendar-dates td .blocked {
+        background-color: #AAAAAA; }
+      .react-calendar-month .react-calendar-dates td .unavailable {
+        background-color: #AAAAAA; }
+      .react-calendar-month .react-calendar-dates td .available {
+        background-color: #D0E7DB; }
+      .react-calendar-month .react-calendar-dates td .enquire {
+        background-color: #FFFBCB; }
+      .react-calendar-month .react-calendar-dates td .selected {
+        background-color: #ff2558; }
+      .react-calendar-month .react-calendar-dates td .highlighted {
+        background-color: yellow; }
+    .react-calendar-month .react-calendar-dates .react-calendar-date-other-month {
+      color: #ccc;
+      background: #FFFFFF; }
+      .react-calendar-month .react-calendar-dates .react-calendar-date-other-month .am-state, .react-calendar-month .react-calendar-dates .react-calendar-date-other-month .pm-state {
+        display: none; }
+    .react-calendar-month .react-calendar-dates .react-calendar-date-selected {
+      background-color: #ff2558; }
+    .react-calendar-month .react-calendar-dates .react-calendar-date-highlighted {
+      background-color: yellow; }
+    .react-calendar-month .react-calendar-dates .react-calendar-date-disabled {
+      cursor: default;
+      color: #ccc;
+      background: #eee; }
+      .react-calendar-month .react-calendar-dates .react-calendar-date-disabled .am-state, .react-calendar-month .react-calendar-dates .react-calendar-date-disabled .pm-state {
+        display: none; }

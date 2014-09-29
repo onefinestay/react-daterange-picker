@@ -1,0 +1,22 @@
+{
+  "name": "react-calendar",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "build-js": "./node_modules/browserify/bin/cmd.js -t reactify example/js/index.js > example/build/index.js",
+    "build-css": "sass example/css/react-calendar.scss > example/css/react-calendar.css"
+  },
+  "dependencies": {
+    "react": "^0.11.2",
+    "moment": "^2.8.3",
+    "underscore": "^1.7.0",
+    "calendar": "^0.1.0"
+  },
+  "devDependencies": {
+    "browserify": "^5.12.1",
+    "reactify": "^0.14.0"
+  }
+}
