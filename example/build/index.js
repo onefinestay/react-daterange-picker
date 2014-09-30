@@ -6,13 +6,30 @@ var Calendar = require('../../src/calendar.jsx');
 
 window.React = React;
 
-React.renderComponent(
-    Calendar({
-        numberOfCalendars: 2,
-        selectionType: 'range',
-    }),
-    document.getElementById('calendar')
-);
+var DatePicker = React.createClass({
+    getInitialState: function() {
+        return {
+            value: null
+        };
+    },
+    handleSelect: function(date) {
+        this.setState({
+            value: date.toDate()
+        });
+    },
+    render: function() {
+        return React.DOM.div({},
+            Calendar({
+                numberOfCalendars: 2,
+                selectionType: 'range',
+                onSelect: this.handleSelect,
+                value: this.state.value
+            })
+        );
+    }
+});
+
+React.renderComponent(DatePicker(), document.getElementById('calendar'));
 
 },{"../../src/calendar.jsx":167,"react/addons":5}],2:[function(require,module,exports){
 // shim for using process in browser
