@@ -167,10 +167,10 @@
       background: #FFFFFF; }
       .react-calendar-month .react-calendar-dates .react-calendar-date-other-month .am-state, .react-calendar-month .react-calendar-dates .react-calendar-date-other-month .pm-state {
         display: none; }
-    .react-calendar-month .react-calendar-dates .react-calendar-date-selected {
-      background-color: #ff2558; }
     .react-calendar-month .react-calendar-dates .react-calendar-date-highlighted {
       background-color: yellow; }
+    .react-calendar-month .react-calendar-dates .react-calendar-date-selected {
+      background-color: #ff2558; }
     .react-calendar-month .react-calendar-dates .react-calendar-date-disabled {
       cursor: default;
       color: #ccc;
