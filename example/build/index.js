@@ -23,7 +23,8 @@ var DatePicker = React.createClass({
                 numberOfCalendars: 2,
                 selectionType: 'range',
                 onSelect: this.handleSelect,
-                value: this.state.value
+                value: this.state.value,
+                earliestDate: new Date(),
             })
         );
     }
