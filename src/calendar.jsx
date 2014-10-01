@@ -192,9 +192,13 @@ var Calendar = React.createClass({
 
     return (
       <div className="react-calendars">
-        <span className="react-calendar-previous" onClick={this.moveBack}></span>
+        <div className="react-calendar-previous" onClick={this.moveBack}>
+          <div className="arrow"></div>
+        </div>
         {calendars}
-        <span className="react-calendar-next" onClick={this.moveForward}></span>
+        <div className="react-calendar-next" onClick={this.moveForward}>
+          <div className="arrow"></div>
+        </div>
       </div>
     );
   }

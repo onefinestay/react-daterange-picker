@@ -3,6 +3,8 @@
   position: relative;
   padding: 0 30px;
 
+  $arrow-size: 8px;
+
   .react-calendar-previous,
   .react-calendar-next {
     display: block;
@@ -23,52 +25,36 @@
     &:hover {
       background-color: #CCC;
     }
+
+    .arrow {
+        position: absolute;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border-top: $arrow-size solid transparent;
+        border-bottom: $arrow-size solid transparent;
+    }
   }
 
   .react-calendar-previous {
-    left: 0
-  }
-
-  .react-calendar-previous:before {
-    position: absolute;
-    top: 50%;
-    margin-top: -15px;
     left: 0;
-    content: '\e015';
-    font-family: "ofs-icons";
-    font-weight: normal;
-    font-style: normal;
-    display: block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-decoration: inherit;
-    font-size: 12px;
-    color: #AAAAAA;
-    text-align: center;
+
+    .arrow {
+        right: 30px / 2 - ($arrow-size / 2);
+        border-left: $arrow-size solid transparent;
+        border-right: $arrow-size solid #AAAAAA;
+    }
   }
 
   .react-calendar-next {
     right: 0;
-  }
 
-  .react-calendar-next:before {
-    position: absolute;
-    top: 50%;
-    margin-top: -15px;
-    right: 0;
-    content: '\e016';
-    font-family: "ofs-icons";
-    font-weight: normal;
-    font-style: normal;
-    display: block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-decoration: inherit;
-    font-size: 12px;
-    color: #AAAAAA;
-    text-align: center;
+    .arrow {
+        left: 30px / 2 - ($arrow-size / 2);
+
+        border-left: $arrow-size solid #AAAAAA;
+        border-right: $arrow-size solid transparent;
+    }
   }
 }
 

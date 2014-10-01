@@ -25283,9 +25283,13 @@ var Calendar = React.createClass({displayName: 'Calendar',
 
     return (
       React.DOM.div({className: "react-calendars"}, 
-        React.DOM.span({className: "react-calendar-previous", onClick: this.moveBack}), 
+        React.DOM.div({className: "react-calendar-previous", onClick: this.moveBack}, 
+          React.DOM.div({className: "arrow"})
+        ), 
         calendars, 
-        React.DOM.span({className: "react-calendar-next", onClick: this.moveForward})
+        React.DOM.div({className: "react-calendar-next", onClick: this.moveForward}, 
+          React.DOM.div({className: "arrow"})
+        )
       )
     );
   }

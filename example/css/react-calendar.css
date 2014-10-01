@@ -1,7 +1,47 @@
 .react-calendars {
   display: inline-block;
   position: relative;
-  padding: 0 30px; }
+  padding: 0 30px;
+  /*
+  .react-calendar-previous:before {
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    left: 0;
+    content: '\e015';
+    font-family: "ofs-icons";
+    font-weight: normal;
+    font-style: normal;
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-decoration: inherit;
+    font-size: 12px;
+    color: #AAAAAA;
+    text-align: center;
+  }
+  */
+  /*
+  .react-calendar-next:before {
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    right: 0;
+    content: '\e016';
+    font-family: "ofs-icons";
+    font-weight: normal;
+    font-style: normal;
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-decoration: inherit;
+    font-size: 12px;
+    color: #AAAAAA;
+    text-align: center;
+  }
+  */ }
   .react-calendars .react-calendar-previous,
   .react-calendars .react-calendar-next {
     display: block;
@@ -21,44 +61,26 @@
     .react-calendars .react-calendar-previous:hover,
     .react-calendars .react-calendar-next:hover {
       background-color: #CCC; }
+    .react-calendars .react-calendar-previous .arrow,
+    .react-calendars .react-calendar-next .arrow {
+      position: absolute;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent; }
   .react-calendars .react-calendar-previous {
     left: 0; }
-  .react-calendars .react-calendar-previous:before {
-    position: absolute;
-    top: 50%;
-    margin-top: -15px;
-    left: 0;
-    content: '\e015';
-    font-family: "ofs-icons";
-    font-weight: normal;
-    font-style: normal;
-    display: block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-decoration: inherit;
-    font-size: 12px;
-    color: #AAAAAA;
-    text-align: center; }
+    .react-calendars .react-calendar-previous .arrow {
+      right: 11px;
+      border-left: 8px solid transparent;
+      border-right: 8px solid #aaaaaa; }
   .react-calendars .react-calendar-next {
     right: 0; }
-  .react-calendars .react-calendar-next:before {
-    position: absolute;
-    top: 50%;
-    margin-top: -15px;
-    right: 0;
-    content: '\e016';
-    font-family: "ofs-icons";
-    font-weight: normal;
-    font-style: normal;
-    display: block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-decoration: inherit;
-    font-size: 12px;
-    color: #AAAAAA;
-    text-align: center; }
+    .react-calendars .react-calendar-next .arrow {
+      left: 11px;
+      border-left: 8px solid #aaaaaa;
+      border-right: 8px solid transparent; }
 
 .react-calendar-month {
   width: 230px;
