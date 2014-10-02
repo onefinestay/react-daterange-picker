@@ -7,7 +7,7 @@ var _ = require('underscore');
 
 var CalendarMonth = require('./calendar-month.jsx');
 var CalendarDate = require('./calendar-date.jsx');
-/*var AvailabilityCalendarDate = require('./availability-calendar-date');*/
+var RangeCalendarDate = require('./range-calendar-date.jsx');
 
 var noop = function() {};
 
@@ -28,6 +28,7 @@ var Calendar = React.createClass({
     latestDate: React.PropTypes.instanceOf(Date),
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     value: React.PropTypes.object, // range or single value
+    allowedDates: React.PropTypes.array, // an array of allowed date ranges and their states
     onSelect: React.PropTypes.func
   },
 
@@ -181,7 +182,12 @@ var Calendar = React.createClass({
       onStartSelection: this.onStartSelection,
       onCompleteSelection: this.onCompleteSelection,
       /*dateComponent: this.props.useAvailabilities ? AvailabilityCalendarDate : CalendarDate*/
-      dateComponent: CalendarDate
+      dateComponent: (
+          this.props.selectionType == 'range' &&
+          this.props.allowedDates.length > 0
+        ) ? RangeCalendarDate : CalendarDate,
+      allowedDates: this.props.allowedDates
+      /*dateComponent: CalendarDate*/
     };
 
     return CalendarMonth(props);

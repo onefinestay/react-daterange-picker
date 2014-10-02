@@ -2,8 +2,17 @@
 
 var React = require('react/addons');
 var Calendar = require('../../src/calendar.jsx');
+var moment = require('moment-range');
 
 window.React = React;
+
+var allowedDates = [
+  {
+    range: moment().range(moment(), moment().add(7, 'days')),
+    state: 'available',
+    selectable: true
+  }
+];
 
 var DatePicker = React.createClass({
   getInitialState: function() {
@@ -24,6 +33,7 @@ var DatePicker = React.createClass({
         onSelect: this.handleSelect,
         value: this.state.value,
         earliestDate: new Date(),
+        allowedDates: allowedDates,
       })
     );
   }
