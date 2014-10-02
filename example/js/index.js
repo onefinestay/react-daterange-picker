@@ -36,7 +36,6 @@ var DatePicker = React.createClass({
     };
   },
   handleSelect: function(range) {
-    console.log(range);
     this.setState({
       value: range
     });
@@ -50,7 +49,13 @@ var DatePicker = React.createClass({
         value: this.state.value,
         earliestDate: new Date(),
         allowedDates: dateRanges,
-      })
+      }),
+      React.DOM.p(
+        null,
+        this.state.value ?
+          this.state.value.start.format('LL') + ' - ' + this.state.value.end.format('LL') :
+          null
+      )
     );
   }
 });
