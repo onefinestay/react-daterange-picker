@@ -2,6 +2,12 @@
   display: inline-block;
   position: relative;
   padding: 0 30px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   $arrow-size: 8px;
 
