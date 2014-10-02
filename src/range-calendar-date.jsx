@@ -108,6 +108,14 @@ var RangeCalendarDate = React.createClass({
     });
   },
 
+  statesForRange: function(range) {
+    return _.filter(this.props.allowedDates, function(dates) {
+      if (dates.range.intersect(range)) {
+        return dates.state;
+      }
+    });
+  },
+
   /*
     this.state.stateRanges = this.state.stateRanges.map(function(range) {
       var r = moment().range(range[0], range[1]);
@@ -163,7 +171,7 @@ var RangeCalendarDate = React.createClass({
           range.start.toDate().getTime() ===
           this.props.selectedStartDate.getTime()
         );
-        /*range = this.sanitizeRange(range, forwards);*/
+        range = this.sanitizeRange(range, forwards);
         this.props.onHighlightRange(range);
       } else {
         this.props.onHighlightDate(date);
@@ -176,9 +184,6 @@ var RangeCalendarDate = React.createClass({
   },
 
   selectDate: function(date) {
-    var store = this.getFlux().store('AvailabilityStore');
-    var states;
-
     if (this.props.selectedStartDate) {
       // We already have one end of the range
       var datePair = sortDates(this.props.selectedStartDate, date);
@@ -186,15 +191,15 @@ var RangeCalendarDate = React.createClass({
 
       var forwards = range.start.toDate().getTime() === this.props.selectedStartDate.getTime();
 
-      range = store.sanitizeRange(range, forwards);
+      range = this.sanitizeRange(range, forwards);
 
       if (range) {
         if (range.end.diff(range.start, 'days') > 0) {
-          states = store.statesForRange(range);
+          var states = this.statesForRange(range);
           this.props.onCompleteSelection(range, states);
         }
       }
-    } else if (store.isDateSelectable(date)) {
+    } else if (this.isDateSelectable(date)) {
       this.props.onStartSelection(date);
     }
   },
