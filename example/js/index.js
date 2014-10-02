@@ -18,12 +18,12 @@ var dateRanges = [
     selectable: true
   },
   {
-    range: moment().range(moment().add(28, 'days'), moment().add(30, 'days')),
+    range: moment().range(moment().add(28, 'days'), moment().add(31, 'days')),
     state: 'unavailable',
     selectable: false
   },
   {
-    range: moment().range(moment().add(30, 'days'), moment().add(50, 'days')),
+    range: moment().range(moment().add(31, 'days'), moment().add(50, 'days')),
     state: 'available',
     selectable: true
   },
@@ -32,29 +32,43 @@ var dateRanges = [
 var DatePicker = React.createClass({
   getInitialState: function() {
     return {
-      value: null
+      start: null,
+      end: null,
     };
   },
   handleSelect: function(range) {
     this.setState({
-      value: range
+      start: range.start,
+      end: range.end
     });
   },
   render: function() {
+    var range;
+
+    if (this.state.start && this.state.end) {
+      range = moment().range(this.state.start, this.state.end);
+    }
+
     return React.DOM.div({},
       Calendar({
         numberOfCalendars: 2,
         selectionType: 'range',
         onSelect: this.handleSelect,
-        value: this.state.value,
+        value: range,
         earliestDate: new Date(),
         allowedDates: dateRanges,
       }),
-      React.DOM.p(
-        null,
-        this.state.value ?
-          this.state.value.start.format('LL') + ' - ' + this.state.value.end.format('LL') :
-          null
+      React.DOM.div(null,
+        React.DOM.input({
+          type: 'text',
+          value: this.state.start ? this.state.start.format('LL') : null,
+          readOnly: true
+        }, null),
+        React.DOM.input({
+          type: 'text',
+          value: this.state.end ? this.state.end.format('LL') : null,
+          readOnly: true
+        }, null)
       )
     );
   }

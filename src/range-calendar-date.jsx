@@ -193,11 +193,9 @@ var RangeCalendarDate = React.createClass({
 
       range = this.sanitizeRange(range, forwards);
 
-      if (range) {
-        if (range.end.diff(range.start, 'days') > 0) {
-          var states = this.statesForRange(range);
-          this.props.onCompleteSelection(range, states);
-        }
+      if (range && range.end.diff(range.start, 'days') > 0) {
+        var states = this.statesForRange(range);
+        this.props.onCompleteSelection(range, states);
       }
     } else if (this.isDateSelectable(date)) {
       this.props.onStartSelection(date);
