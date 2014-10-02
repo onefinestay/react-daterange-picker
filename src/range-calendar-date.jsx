@@ -116,19 +116,6 @@ var RangeCalendarDate = React.createClass({
     });
   },
 
-  /*
-    this.state.stateRanges = this.state.stateRanges.map(function(range) {
-      var r = moment().range(range[0], range[1]);
-      return {
-        range: r,
-        state: range[2],
-        selectable: range[3]
-      };
-    });
-
-
-  */
-
   sanitizeRange: function(range, forwards) {
     /* Truncates the provided range at the first intersection
      * with a non-selectable state. Using forwards to determine
@@ -202,8 +189,21 @@ var RangeCalendarDate = React.createClass({
     }
   },
 
-  getClasses: function() {
-    var date = this.props.date;
+  shouldComponentUpdate: function(nextProps, nextState) {
+    var currentProps = this.props;
+
+    if (!_.isEqual(
+      this.getSegmentStates(currentProps),
+      this.getSegmentStates(nextProps)
+    )) {
+      return true;
+    }
+
+    return false;
+  },
+
+  getClasses: function(props) {
+    var date = props.date;
     var dateMoment = moment(date);
     var isOtherMonth = false;
     var isSelected = false;
@@ -216,26 +216,26 @@ var RangeCalendarDate = React.createClass({
 
     var time = date.getTime();
 
-    if (date.getMonth() !== this.props.firstOfMonth.getMonth()) {
+    if (date.getMonth() !== props.firstOfMonth.getMonth()) {
       isOtherMonth = true;
     }
 
     if (!isDisabled) {
-      if (this.props.value) {
-        if (this.props.selectionType === 'range' && this.props.value.contains(date)) {
+      if (props.value) {
+        if (props.selectionType === 'range' && props.value.contains(date)) {
           isSelectedRange = true;
-        } else if (this.props.selectionType === 'single' && this.props.value.getTime() === time) {
+        } else if (props.selectionType === 'single' && props.value.getTime() === time) {
           isSelected = true;
         }
       }
 
       // Highlights (Hover states)
-      if (this.props.highlightedDate && this.props.highlightedDate.getTime() === time) {
+      if (props.highlightedDate && props.highlightedDate.getTime() === time) {
         isHighlighted = true;
       }
 
-      if (this.props.highlightedRange) {
-        if (this.props.highlightedRange.contains(date)) {
+      if (props.highlightedRange) {
+        if (props.highlightedRange.contains(date)) {
           isHighlightedRange = true;
         }
       }
@@ -253,8 +253,53 @@ var RangeCalendarDate = React.createClass({
     return classes;
   },
 
+  getSegmentStates: function(props) {
+    var date = props.date;
+    var amDisplayState;
+    var pmDisplayState;
+
+    if (props.value && props.value.contains(date)) {
+      if (props.value.start.toDate().getTime() === date.getTime()) {
+        // It's the first day in the range, so only PM is selected
+        pmDisplayState = 'selected';
+      } else if (props.value.end.toDate().getTime() === date.getTime()) {
+        // It's the last day in the range, so only AM is selected
+        amDisplayState = 'selected';
+      } else {
+        // It's somewhere in the range, so AM and PM are selected
+        amDisplayState = 'selected';
+        pmDisplayState = 'selected';
+      }
+    }
+
+    if (props.highlightedRange && props.highlightedRange.contains(date)) {
+      if (props.highlightedRange.start.toDate().getTime() === date.getTime()) {
+        pmDisplayState = 'highlighted';
+      } else if (props.highlightedRange.end.toDate().getTime() === date.getTime()) {
+        amDisplayState = 'highlighted';
+      } else {
+        amDisplayState = 'highlighted';
+        pmDisplayState = 'highlighted';
+      }
+    }
+
+    if (
+      props.highlightedDate &&
+      !props.highlightedRange &&
+      date.getTime() === props.highlightedDate.getTime()
+    ) {
+        amDisplayState = 'highlighted';
+        pmDisplayState = 'highlighted';
+    }
+
+    return {
+      am: amDisplayState,
+      pm: pmDisplayState
+    };
+  },
+
   render: function() {
-    var classes = this.getClasses();
+    var classes = this.getClasses(this.props);
     var date = this.props.date;
     var amState;
     var pmState;
@@ -275,40 +320,15 @@ var RangeCalendarDate = React.createClass({
       }
     }
 
-    if (this.props.value && this.props.value.contains(date)) {
-      if (this.props.value.start.toDate().getTime() === date.getTime()) {
-        // It's the first day in the range, so only PM is selected
-        pmDisplayState = 'selected';
-      } else if (this.props.value.end.toDate().getTime() === date.getTime()) {
-        // It's the last day in the range, so only AM is selected
-        amDisplayState = 'selected';
-      } else {
-        // It's somewhere in the range, so AM and PM are selected
-        amDisplayState = 'selected';
-        pmDisplayState = 'selected';
-      }
-    }
-
-    if (this.props.highlightedRange && this.props.highlightedRange.contains(date)) {
-      if (this.props.highlightedRange.start.toDate().getTime() === date.getTime()) {
-        pmDisplayState = 'highlighted';
-      } else if (this.props.highlightedRange.end.toDate().getTime() === date.getTime()) {
-        amDisplayState = 'highlighted';
-      } else {
-        amDisplayState = 'highlighted';
-        pmDisplayState = 'highlighted';
-      }
-    }
-
-    if (this.props.highlightedDate && !this.props.highlightedRange && date.getTime() === this.props.highlightedDate.getTime()) {
-        amDisplayState = 'highlighted';
-        pmDisplayState = 'highlighted';
-    }
+    var segementState = this.getSegmentStates(this.props);
 
     return (
-      <td className={cx(classes)} onMouseEnter={_.partial(this.highlightDate, this.props.date)} onMouseLeave={_.partial(this.unHighlightDate, this.props.date)} onClick={_.partial(this.selectDate, this.props.date)}>
-        <AMState displayState={amDisplayState} availabilityAction={amAction} />
-        <PMState displayState={pmDisplayState} availabilityAction={pmAction} />
+      <td className={cx(classes)}
+        onMouseEnter={_.partial(this.highlightDate, this.props.date)}
+        onMouseLeave={_.partial(this.unHighlightDate, this.props.date)}
+        onClick={_.partial(this.selectDate, this.props.date)}>
+        <AMState displayState={segementState.am} availabilityAction={amAction} />
+        <PMState displayState={segementState.pm} availabilityAction={pmAction} />
         <span className="react-datepicker-date-label">{this.props.date.getDate()}</span>
       </td>
     );
