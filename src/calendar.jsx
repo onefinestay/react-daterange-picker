@@ -1,3 +1,6 @@
+/** @jsx React.DOM */
+"use strict";
+
 var React = require('react/addons');
 var moment = require('moment');
 var _ = require('underscore');
@@ -24,8 +27,7 @@ var Calendar = React.createClass({
     earliestDate: React.PropTypes.instanceOf(Date),
     latestDate: React.PropTypes.instanceOf(Date),
     selectionType: React.PropTypes.oneOf(['single', 'range']),
-    value: React.PropTypes.object,
-    useAvailabilities : React.PropTypes.bool,
+    value: React.PropTypes.object, // range or single value
     onSelect: React.PropTypes.func
   },
 
@@ -34,7 +36,6 @@ var Calendar = React.createClass({
     var initialDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
     return {
-      useAvailabilities: false,
       numberOfCalendars: 1,
       firstOfWeek: 0,
       disableNavigation: false,

@@ -1,3 +1,6 @@
+/** @jsx React.DOM */
+"use strict";
+
 var React = require('react/addons');
 var cx = React.addons.classSet;
 var moment = require('moment');

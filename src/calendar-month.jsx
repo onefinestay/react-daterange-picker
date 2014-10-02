@@ -1,3 +1,6 @@
+/** @jsx React.DOM */
+"use strict";
+
 var calendar = require('calendar');
 var React = require('react/addons');
 var moment = require('moment');

@@ -6,8 +6,9 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "build-js": "./node_modules/browserify/bin/cmd.js -t reactify example/js/index.js > example/build/index.js",
-    "build-css": "sass example/css/react-calendar.scss > example/css/react-calendar.css"
+    "build-js": "./node_modules/browserify/bin/cmd.js -t reactify example/js/index.js -o example/build/index.js",
+    "build-css": "sass example/css/react-calendar.scss > example/css/react-calendar.css",
+    "watch-js": "./node_modules/watchify/bin/cmd.js -t reactify example/js/index.js -o example/build/index.js -v"
   },
   "dependencies": {
     "react": "^0.11.2",
@@ -17,6 +18,7 @@
   },
   "devDependencies": {
     "browserify": "^5.12.1",
-    "reactify": "^0.14.0"
+    "reactify": "^0.14.0",
+    "watchify": "^1.0.6"
   }
 }
