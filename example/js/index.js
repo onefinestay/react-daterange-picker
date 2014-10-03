@@ -1,7 +1,7 @@
 "use strict";
 
 var React = require('react/addons');
-var Calendar = require('../../src/calendar.jsx');
+var RangePicker = require('../../src/range-picker.jsx');
 var moment = require('moment-range');
 
 window.React = React;
@@ -50,7 +50,7 @@ var DatePicker = React.createClass({
     }
 
     return React.DOM.div({},
-      Calendar({
+      RangePicker({
         numberOfCalendars: 2,
         selectionType: 'range',
         onSelect: this.handleSelect,

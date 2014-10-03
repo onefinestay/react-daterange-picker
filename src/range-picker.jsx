@@ -15,7 +15,7 @@ var sortDates = function() {
   return _.sortBy(arguments, function(d) { return d.getTime(); });
 };
 
-var RangePicker = React.createClass({
+var Calendar = React.createClass({
   propTypes: {
     numberOfCalendars: React.PropTypes.number,
     firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
@@ -181,8 +181,13 @@ var RangePicker = React.createClass({
       onSelect: this.onSelect,
       onStartSelection: this.onStartSelection,
       onCompleteSelection: this.onCompleteSelection,
-      dateComponent: this.props.selectionType == 'range' ? RangeCalendarDate : CalendarDate,
+      /*dateComponent: this.props.useAvailabilities ? AvailabilityCalendarDate : CalendarDate*/
+      dateComponent: (
+          this.props.selectionType == 'range' &&
+          this.props.allowedDates.length > 0
+        ) ? RangeCalendarDate : CalendarDate,
       allowedDates: this.props.allowedDates
+      /*dateComponent: CalendarDate*/
     };
 
     return CalendarMonth(props);
@@ -206,4 +211,4 @@ var RangePicker = React.createClass({
   }
 });
 
-module.exports = RangePicker;
+module.exports = Calendar;
