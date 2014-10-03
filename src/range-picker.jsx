@@ -11,9 +11,6 @@ var RangeDate = require('./range-date.jsx');
 
 var noop = function() {};
 
-var sortDates = function() {
-  return _.sortBy(arguments, function(d) { return d.getTime(); });
-};
 
 var RangePicker = React.createClass({
   propTypes: {

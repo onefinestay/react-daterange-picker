@@ -6,9 +6,6 @@ var cx = React.addons.classSet;
 var moment = require('moment');
 var _ = require('underscore');
 
-var sortDates = function() {
-  return _.sortBy(arguments, function(d) { return d.getTime(); });
-};
 
 var SingleDate = React.createClass({
   isDisabled: function(date) {

@@ -6,9 +6,8 @@ var cx = React.addons.classSet;
 var moment = require('moment-range');
 var _ = require('underscore');
 
-var sortDates = function() {
-  return _.sortBy(arguments, function(d) { return d.getTime(); });
-};
+var utils = require('./utils');
+
 
 var AMState = React.createClass({
   render: function() {
@@ -148,11 +147,10 @@ var RangeDate = React.createClass({
     return range;
   },
 
-
   highlightDate: function(date) {
     if (this.isDateSelectable(date)) {
       if (this.props.selectedStartDate) {
-        var datePair = sortDates(this.props.selectedStartDate, date);
+        var datePair = utils.sortDates(this.props.selectedStartDate, date);
         var range = moment().range(datePair[0], datePair[1]);
         var forwards = (
           range.start.toDate().getTime() ===
@@ -173,7 +171,7 @@ var RangeDate = React.createClass({
   selectDate: function(date) {
     if (this.props.selectedStartDate) {
       // We already have one end of the range
-      var datePair = sortDates(this.props.selectedStartDate, date);
+      var datePair = utils.sortDates(this.props.selectedStartDate, date);
       var range = moment().range(datePair[0], datePair[1]);
 
       var forwards = range.start.toDate().getTime() === this.props.selectedStartDate.getTime();
