@@ -60,7 +60,7 @@ var RangeDate = React.createClass({
     highlightedRange: React.PropTypes.object,
     highlightedDate: React.PropTypes.object,
     selectedStartDate: React.PropTypes.instanceOf(Date),
-    dateRanges: React.PropTypes.array,
+    dateStates: React.PropTypes.array,
 
     onHighlightDate: React.PropTypes.func,
     onUnHighlightDate: React.PropTypes.func,
@@ -106,7 +106,7 @@ var RangeDate = React.createClass({
   },
 
   nonSelectableStateRanges: function() {
-    return _.chain(this.props.dateRanges)
+    return _.chain(this.props.dateStates)
       .filter(function(dates) {
         return !dates.selectable;
       })
@@ -125,7 +125,7 @@ var RangeDate = React.createClass({
   },
 
   dateRangesForDate: function(date) {
-    return _.filter(this.props.dateRanges, function(dates) {
+    return _.filter(this.props.dateStates, function(dates) {
       if (dates.range.contains(date)) {
         return dates.range;
       }
@@ -133,7 +133,7 @@ var RangeDate = React.createClass({
   },
 
   statesForRange: function(range) {
-    return _.filter(this.props.dateRanges, function(dates) {
+    return _.filter(this.props.dateStates, function(dates) {
       if (dates.range.intersect(range)) {
         return dates.state;
       }
