@@ -50,14 +50,12 @@ var DatePicker = React.createClass({
     }
 
     return React.DOM.div({},
-      RangePicker({
-        numberOfCalendars: 2,
-        selectionType: 'range',
-        onSelect: this.handleSelect,
-        value: range,
-        earliestDate: new Date(),
-        dateStates: dateRanges,
-      }),
+      this.transferPropsTo(
+        RangePicker({
+          onSelect: this.handleSelect,
+          value: range
+        })
+      ),
       React.DOM.div(null,
         React.DOM.input({
           type: 'text',
@@ -74,4 +72,21 @@ var DatePicker = React.createClass({
   }
 });
 
-React.renderComponent(DatePicker(), document.getElementById('range-picker'));
+React.renderComponent(
+  DatePicker({
+    numberOfCalendars: 2,
+    selectionType: 'range',
+    earliestDate: new Date(),
+    dateStates: dateRanges,
+  }),
+  document.getElementById('range-picker')
+);
+
+React.renderComponent(
+  DatePicker({
+    numberOfCalendars: 2,
+    selectionType: 'range',
+    earliestDate: new Date(),
+  }),
+  document.getElementById('range-picker-no-states')
+);
