@@ -8,6 +8,28 @@ var _ = require('underscore');
 
 
 var SingleDate = React.createClass({
+  propTypes: {
+    date: React.PropTypes.instanceOf(Date).isRequired,
+
+    firstOfMonth: React.PropTypes.instanceOf(Date).isRequired,
+    index: React.PropTypes.number.isRequired,
+    maxIndex: React.PropTypes.number.isRequired,
+    selectionType: React.PropTypes.string.isRequired,
+
+    value: React.PropTypes.object,
+    minDate: React.PropTypes.instanceOf(Date),
+    maxDate: React.PropTypes.instanceOf(Date),
+    highlightedRange: React.PropTypes.object,
+    highlightedDate: React.PropTypes.instanceOf(Date),
+    selectedStartDate: React.PropTypes.instanceOf(Date),
+    dateStates: React.PropTypes.array,
+
+    onHighlightDate: React.PropTypes.func,
+    onUnHighlightDate: React.PropTypes.func,
+    onStartSelection: React.PropTypes.func,
+    onCompleteSelection: React.PropTypes.func
+  },
+
   isDisabled: function(date) {
     var y = this.props.firstOfMonth.getFullYear();
     var m = this.props.firstOfMonth.getMonth();
@@ -64,7 +86,7 @@ var SingleDate = React.createClass({
 
     if (!isDisabled) {
       // Selections
-      if (this.props.value && (time === this.props.value.getTime())) {
+      if (this.props.value && (time === this.props.value.toDate().getTime())) {
         isSelected = true;
       }
 

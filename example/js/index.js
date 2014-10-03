@@ -29,7 +29,7 @@ var dateRanges = [
   },
 ];
 
-var DatePicker = React.createClass({
+var DatePickerRange = React.createClass({
   getInitialState: function() {
     return {
       start: null,
@@ -72,8 +72,38 @@ var DatePicker = React.createClass({
   }
 });
 
+var DatePickerSingle = React.createClass({
+  getInitialState: function() {
+    return {
+      value: null,
+    };
+  },
+  handleSelect: function(value) {
+    this.setState({
+      value: value,
+    });
+  },
+  render: function() {
+    return React.DOM.div({},
+      this.transferPropsTo(
+        RangePicker({
+          onSelect: this.handleSelect,
+          value: this.state.value
+        })
+      ),
+      React.DOM.div(null,
+        React.DOM.input({
+          type: 'text',
+          value: this.state.value ? this.state.value.format('LL') : null,
+          readOnly: true
+        }, null)
+      )
+    );
+  }
+});
+
 React.renderComponent(
-  DatePicker({
+  DatePickerRange({
     numberOfCalendars: 2,
     selectionType: 'range',
     earliestDate: new Date(),
@@ -83,10 +113,19 @@ React.renderComponent(
 );
 
 React.renderComponent(
-  DatePicker({
+  DatePickerRange({
     numberOfCalendars: 2,
     selectionType: 'range',
     earliestDate: new Date(),
   }),
   document.getElementById('range-picker-no-states')
+);
+
+React.renderComponent(
+  DatePickerSingle({
+    numberOfCalendars: 1,
+    selectionType: 'single',
+    earliestDate: new Date(),
+  }),
+  document.getElementById('single-picker-no-states')
 );

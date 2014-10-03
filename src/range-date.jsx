@@ -58,7 +58,7 @@ var RangeDate = React.createClass({
     minDate: React.PropTypes.instanceOf(Date),
     maxDate: React.PropTypes.instanceOf(Date),
     highlightedRange: React.PropTypes.object,
-    highlightedDate: React.PropTypes.object,
+    highlightedDate: React.PropTypes.instanceOf(Date),
     selectedStartDate: React.PropTypes.instanceOf(Date),
     dateStates: React.PropTypes.array,
 
