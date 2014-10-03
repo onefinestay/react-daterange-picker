@@ -22,7 +22,6 @@ var SingleDate = React.createClass({
     highlightedRange: React.PropTypes.object,
     highlightedDate: React.PropTypes.instanceOf(Date),
     selectedStartDate: React.PropTypes.instanceOf(Date),
-    dateStates: React.PropTypes.array,
 
     onHighlightDate: React.PropTypes.func,
     onUnHighlightDate: React.PropTypes.func,

@@ -123,7 +123,7 @@ React.renderComponent(
 
 React.renderComponent(
   DatePickerSingle({
-    numberOfCalendars: 1,
+    numberOfCalendars: 2,
     selectionType: 'single',
     earliestDate: new Date(),
   }),
