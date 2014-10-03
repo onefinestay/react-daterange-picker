@@ -48,7 +48,7 @@ var PMState = React.createClass({
 
 var RangeDate = React.createClass({
   propTypes: {
-    allowedDates: React.PropTypes.array.isRequired,
+    dateRanges: React.PropTypes.array.isRequired,
   },
 
   isDisabled: function(date) {
@@ -74,15 +74,15 @@ var RangeDate = React.createClass({
   },
 
   isDateSelectable: function(date) {
-    var stateRanges = this.stateRangesForDate(date);
-    if (_.some(stateRanges, function(r) { return r.selectable; })) {
+    var dateRanges = this.dateRangesForDate(date);
+    if (_.some(dateRanges, function(r) { return r.selectable; })) {
       return true;
     }
     return false;
   },
 
   nonSelectableStateRanges: function() {
-    return _.chain(this.props.allowedDates)
+    return _.chain(this.props.dateRanges)
       .filter(function(dates) {
         return !dates.selectable;
       })
@@ -100,8 +100,8 @@ var RangeDate = React.createClass({
       .value();
   },
 
-  stateRangesForDate: function(date) {
-    return _.filter(this.props.allowedDates, function(dates) {
+  dateRangesForDate: function(date) {
+    return _.filter(this.props.dateRanges, function(dates) {
       if (dates.range.contains(date)) {
         return dates.range;
       }
@@ -109,7 +109,7 @@ var RangeDate = React.createClass({
   },
 
   statesForRange: function(range) {
-    return _.filter(this.props.allowedDates, function(dates) {
+    return _.filter(this.props.dateRanges, function(dates) {
       if (dates.range.intersect(range)) {
         return dates.state;
       }
@@ -307,7 +307,7 @@ var RangeDate = React.createClass({
     var pmDisplayState;
     var amAction;
     var pmAction;
-    var states = this.stateRangesForDate(date);
+    var states = this.dateRangesForDate(date);
 
     if (states.length > 0) {
       if (states.length === 1) {

@@ -56,7 +56,7 @@ var DatePicker = React.createClass({
         onSelect: this.handleSelect,
         value: range,
         earliestDate: new Date(),
-        allowedDates: dateRanges,
+        dateRanges: dateRanges,
       }),
       React.DOM.div(null,
         React.DOM.input({
