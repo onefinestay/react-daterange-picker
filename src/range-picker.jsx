@@ -41,7 +41,7 @@ var RangePicker = React.createClass({
       nextLabel: '',
       previousLabel: '',
       initialDate: initialDate,
-      selectionType: 'single',
+      selectionType: 'range',
       defaultState: {
         selectable: true,
       },

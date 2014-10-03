@@ -8,22 +8,22 @@ window.React = React;
 
 var dateRanges = [
   {
-    range: moment().range(moment(), moment().add(14, 'days')),
+    range: moment().range(moment(), moment().add(2, 'weeks')),
     state: 'available',
     selectable: true
   },
   {
-    range: moment().range(moment().add(14, 'days'), moment().add(28, 'days')),
+    range: moment().range(moment().add(2, 'weeks'), moment().add(3, 'weeks')),
     state: 'enquire',
     selectable: true
   },
   {
-    range: moment().range(moment().add(28, 'days'), moment().add(31, 'days')),
+    range: moment().range(moment().add(3, 'weeks'), moment().add(3, 'weeks').add(5, 'days')),
     state: 'unavailable',
     selectable: false
   },
   {
-    range: moment().range(moment().add(31, 'days'), moment().add(50, 'days')),
+    range: moment().range(moment().add(3, 'weeks').add(5, 'days'), moment().add(5, 'weeks')),
     state: 'available',
     selectable: true
   },
