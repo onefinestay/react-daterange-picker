@@ -74,4 +74,4 @@ var DatePicker = React.createClass({
   }
 });
 
-React.renderComponent(DatePicker(), document.getElementById('calendar'));
+React.renderComponent(DatePicker(), document.getElementById('range-picker'));

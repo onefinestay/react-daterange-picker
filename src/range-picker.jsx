@@ -5,9 +5,9 @@ var React = require('react/addons');
 var moment = require('moment');
 var _ = require('underscore');
 
-var CalendarMonth = require('./calendar-month.jsx');
-var CalendarDate = require('./calendar-date.jsx');
-var RangeCalendarDate = require('./range-calendar-date.jsx');
+var Month = require('./month.jsx');
+var SingleDate = require('./single-date.jsx');
+var RangeDate = require('./range-date.jsx');
 
 var noop = function() {};
 
@@ -181,16 +181,11 @@ var Calendar = React.createClass({
       onSelect: this.onSelect,
       onStartSelection: this.onStartSelection,
       onCompleteSelection: this.onCompleteSelection,
-      /*dateComponent: this.props.useAvailabilities ? AvailabilityCalendarDate : CalendarDate*/
-      dateComponent: (
-          this.props.selectionType == 'range' &&
-          this.props.allowedDates.length > 0
-        ) ? RangeCalendarDate : CalendarDate,
+      dateComponent: this.props.selectionType == 'range' ? RangeDate : SingleDate,
       allowedDates: this.props.allowedDates
-      /*dateComponent: CalendarDate*/
     };
 
-    return CalendarMonth(props);
+    return Month(props);
   },
 
   render: function() {
