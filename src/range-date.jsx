@@ -46,7 +46,7 @@ var PMState = React.createClass({
   }
 });
 
-var RangeCalendarDate = React.createClass({
+var RangeDate = React.createClass({
   propTypes: {
     allowedDates: React.PropTypes.array.isRequired,
   },
@@ -336,4 +336,4 @@ var RangeCalendarDate = React.createClass({
 
 });
 
-module.exports = RangeCalendarDate;
+module.exports = RangeDate;

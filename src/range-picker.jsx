@@ -15,7 +15,7 @@ var sortDates = function() {
   return _.sortBy(arguments, function(d) { return d.getTime(); });
 };
 
-var Calendar = React.createClass({
+var RangePicker = React.createClass({
   propTypes: {
     numberOfCalendars: React.PropTypes.number,
     firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
@@ -206,4 +206,4 @@ var Calendar = React.createClass({
   }
 });
 
-module.exports = Calendar;
+module.exports = RangePicker;

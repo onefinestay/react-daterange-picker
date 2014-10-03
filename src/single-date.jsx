@@ -10,7 +10,7 @@ var sortDates = function() {
   return _.sortBy(arguments, function(d) { return d.getTime(); });
 };
 
-var CalendarDate = React.createClass({
+var SingleDate = React.createClass({
   isDisabled: function(date) {
     var y = this.props.firstOfMonth.getFullYear();
     var m = this.props.firstOfMonth.getMonth();
@@ -99,4 +99,4 @@ var CalendarDate = React.createClass({
   }
 });
 
-module.exports = CalendarDate;
+module.exports = SingleDate;
