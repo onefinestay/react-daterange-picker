@@ -2,9 +2,9 @@
   "name": "react-range-picker",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
   "author": "",
   "license": "ISC",
+  "main": "dist/range-picker.js",
   "scripts": {
     "build-js": "./node_modules/browserify/bin/cmd.js -t reactify example/js/index.js -o example/build/index.js",
     "build-css": "sass example/css/react-calendar.scss > example/css/react-calendar.css",
