@@ -47,7 +47,25 @@ var PMState = React.createClass({
 
 var RangeDate = React.createClass({
   propTypes: {
-    dateRanges: React.PropTypes.array.isRequired,
+    date: React.PropTypes.instanceOf(Date).isRequired,
+
+    firstOfMonth: React.PropTypes.instanceOf(Date).isRequired,
+    index: React.PropTypes.number.isRequired,
+    maxIndex: React.PropTypes.number.isRequired,
+    selectionType: React.PropTypes.string.isRequired,
+
+    value: React.PropTypes.object,
+    minDate: React.PropTypes.instanceOf(Date),
+    maxDate: React.PropTypes.instanceOf(Date),
+    highlightedRange: React.PropTypes.object,
+    highlightedDate: React.PropTypes.object,
+    selectedStartDate: React.PropTypes.instanceOf(Date),
+    dateRanges: React.PropTypes.array,
+
+    onHighlightDate: React.PropTypes.func,
+    onUnHighlightDate: React.PropTypes.func,
+    onStartSelection: React.PropTypes.func,
+    onCompleteSelection: React.PropTypes.func
   },
 
   isDisabled: function(date) {
@@ -55,10 +73,17 @@ var RangeDate = React.createClass({
     var m = this.props.firstOfMonth.getMonth();
 
     if (date.getMonth() !== m) {
-      if (this.props.index < this.props.maxIndex && date.getTime() >= new Date(y, m + 1, 1).getTime()) {
+      if (
+        this.props.index < this.props.maxIndex &&
+        date.getTime() >= new Date(y, m + 1, 1).getTime()
+      ) {
         return true;
       }
-      if (this.props.index > 0 && date.getTime() <= new Date(y, m, 1).getTime()) {
+
+      if (
+        this.props.index > 0 &&
+        date.getTime() <= new Date(y, m, 1).getTime()
+      ) {
         return true;
       }
     }
