@@ -25,6 +25,7 @@ var RangePicker = React.createClass({
     latestDate: React.PropTypes.instanceOf(Date),
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     dateStates: React.PropTypes.array, // an array of date ranges and their states
+    defaultState: React.PropTypes.object,
     value: React.PropTypes.object, // range or single value
     onSelect: React.PropTypes.func
   },
@@ -41,6 +42,9 @@ var RangePicker = React.createClass({
       previousLabel: '',
       initialDate: initialDate,
       selectionType: 'single',
+      defaultState: {
+        selectable: true,
+      },
       onSelect: noop
     };
   },
@@ -179,7 +183,8 @@ var RangePicker = React.createClass({
       onStartSelection: this.onStartSelection,
       onCompleteSelection: this.onCompleteSelection,
       dateComponent: this.props.selectionType == 'range' ? RangeDate : SingleDate,
-      dateStates: this.props.dateStates
+      dateStates: this.props.dateStates,
+      defaultState: this.props.defaultState
     };
 
     return Month(props);

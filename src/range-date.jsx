@@ -99,8 +99,12 @@ var RangeDate = React.createClass({
 
   isDateSelectable: function(date) {
     var dateRanges = this.dateRangesForDate(date);
-    if (_.some(dateRanges, function(r) { return r.selectable; })) {
+    if (dateRanges.length === 0 && this.props.defaultState.selectable) {
       return true;
+    } else {
+      if (_.some(dateRanges, function(r) { return r.selectable; })) {
+        return true;
+      }
     }
     return false;
   },
@@ -331,6 +335,7 @@ var RangeDate = React.createClass({
     var amAction;
     var pmAction;
     var states = this.dateRangesForDate(date);
+    var defaultState = this.props.defaultState;
 
     if (states.length > 0) {
       if (states.length === 1) {
@@ -341,6 +346,9 @@ var RangeDate = React.createClass({
         amAction = states[0].state;
         pmAction = states[1].state;
       }
+    } else if (defaultState && defaultState.state) {
+      amAction = defaultState.state;
+      pmAction = defaultState.state;
     }
 
     var segementState = this.getSegmentStates(this.props);
