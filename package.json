@@ -6,9 +6,9 @@
   "license": "Apache 2.0",
   "main": "dist/range-picker.js",
   "scripts": {
-    "build-js": "./node_modules/browserify/bin/cmd.js -t reactify example/js/index.js -o example/build/index.js",
+    "build-js": "./node_modules/browserify/bin/cmd.js --extension .jsx -t reactify example/js/index.js -o example/build/index.js",
     "build-css": "sass example/css/react-calendar.scss > example/css/react-calendar.css",
-    "watch-js": "./node_modules/watchify/bin/cmd.js -t reactify example/js/index.js -o example/build/index.js -v"
+    "watch-js": "./node_modules/watchify/bin/cmd.js --extension .jsx -t reactify example/js/index.js -o example/build/index.js -v"
   },
   "dependencies": {
     "react": "^0.11.2",

@@ -5,9 +5,9 @@ var React = require('react/addons');
 var moment = require('moment');
 var _ = require('underscore');
 
-var Month = require('./month.jsx');
-var SingleDate = require('./single-date.jsx');
-var RangeDate = require('./range-date.jsx');
+var Month = require('./month');
+var SingleDate = require('./single-date');
+var RangeDate = require('./range-date');
 
 var noop = function() {};
 
@@ -160,6 +160,20 @@ var RangePicker = React.createClass({displayName: 'RangePicker',
 
     monthDate = new Date(year, month + index, 1);
 
+    // sanitize date states
+    var dateStates = _.map(this.props.dateStates, function(state) {
+      var range = moment().range(
+        state.range.start.startOf('day'),
+        state.range.end.startOf('day')
+      );
+
+      return {
+        range: range,
+        state: state.state,
+        selectable: state.selectable
+      };
+    });
+
     var props = {
       index: index,
       maxIndex: this.props.numberOfCalendars - 1,
@@ -183,7 +197,7 @@ var RangePicker = React.createClass({displayName: 'RangePicker',
       onStartSelection: this.onStartSelection,
       onCompleteSelection: this.onCompleteSelection,
       dateComponent: this.props.selectionType == 'range' ? RangeDate : SingleDate,
-      dateStates: this.props.dateStates,
+      dateStates: dateStates,
       defaultState: this.props.defaultState
     };
 

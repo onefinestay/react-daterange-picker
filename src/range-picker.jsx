@@ -5,9 +5,9 @@ var React = require('react/addons');
 var moment = require('moment');
 var _ = require('underscore');
 
-var Month = require('./month.jsx');
-var SingleDate = require('./single-date.jsx');
-var RangeDate = require('./range-date.jsx');
+var Month = require('./month');
+var SingleDate = require('./single-date');
+var RangeDate = require('./range-date');
 
 var noop = function() {};
 
