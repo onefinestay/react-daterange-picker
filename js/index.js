@@ -9,22 +9,34 @@ window.React = React;
 
 var dateRanges = [
   {
-    range: moment().range(moment(), moment().add(2, 'weeks')),
+    range: moment().range(
+      moment().startOf('day'),
+      moment().add(2, 'weeks')
+    ),
     state: 'available',
     selectable: true
   },
   {
-    range: moment().range(moment().add(2, 'weeks'), moment().add(3, 'weeks')),
+    range: moment().range(
+      moment().add(2, 'weeks'),
+      moment().add(3, 'weeks')
+    ),
     state: 'enquire',
     selectable: true
   },
   {
-    range: moment().range(moment().add(3, 'weeks'), moment().add(3, 'weeks').add(5, 'days')),
+    range: moment().range(
+      moment().add(3, 'weeks'),
+      moment().add(3, 'weeks').add(5, 'days')
+    ),
     state: 'unavailable',
     selectable: false
   },
   {
-    range: moment().range(moment().add(3, 'weeks').add(5, 'days'), moment().add(5, 'weeks')),
+    range: moment().range(
+      moment().add(3, 'weeks').add(5, 'days'),
+      moment().add(5, 'weeks')
+    ),
     state: 'available',
     selectable: true
   },
@@ -25931,6 +25943,20 @@ var RangePicker = React.createClass({displayName: 'RangePicker',
 
     monthDate = new Date(year, month + index, 1);
 
+    // sanitize date states
+    var dateStates = _.map(this.props.dateStates, function(state) {
+      var range = moment().range(
+        state.range.start.startOf('day'),
+        state.range.end.startOf('day')
+      );
+
+      return {
+        range: range,
+        state: state.state,
+        selectable: state.selectable
+      };
+    });
+
     var props = {
       index: index,
       maxIndex: this.props.numberOfCalendars - 1,
@@ -25954,7 +25980,7 @@ var RangePicker = React.createClass({displayName: 'RangePicker',
       onStartSelection: this.onStartSelection,
       onCompleteSelection: this.onCompleteSelection,
       dateComponent: this.props.selectionType == 'range' ? RangeDate : SingleDate,
-      dateStates: this.props.dateStates,
+      dateStates: dateStates,
       defaultState: this.props.defaultState
     };
 
