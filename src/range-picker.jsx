@@ -160,6 +160,20 @@ var RangePicker = React.createClass({
 
     monthDate = new Date(year, month + index, 1);
 
+    // sanitize date states
+    var dateStates = _.map(this.props.dateStates, function(state) {
+      var range = moment().range(
+        state.range.start.startOf('day'),
+        state.range.end.startOf('day')
+      );
+
+      return {
+        range: range,
+        state: state.state,
+        selectable: state.selectable
+      };
+    });
+
     var props = {
       index: index,
       maxIndex: this.props.numberOfCalendars - 1,
@@ -183,7 +197,7 @@ var RangePicker = React.createClass({
       onStartSelection: this.onStartSelection,
       onCompleteSelection: this.onCompleteSelection,
       dateComponent: this.props.selectionType == 'range' ? RangeDate : SingleDate,
-      dateStates: this.props.dateStates,
+      dateStates: dateStates,
       defaultState: this.props.defaultState
     };
 
