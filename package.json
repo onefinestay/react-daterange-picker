@@ -1,9 +1,9 @@
 {
-  "name": "react-range-picker",
+  "name": "react-daterange-picker",
   "version": "0.0.0",
   "description": "",
   "author": "",
-  "license": "ISC",
+  "license": "Apache 2.0",
   "main": "dist/range-picker.js",
   "scripts": {
     "build-js": "./node_modules/browserify/bin/cmd.js -t reactify example/js/index.js -o example/build/index.js",
