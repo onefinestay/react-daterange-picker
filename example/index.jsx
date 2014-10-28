@@ -36,10 +36,12 @@ var DatePickerRange = React.createClass({
         <div>
           <input type="text"
             value={this.state.start ?  this.state.start.format('LL') : null}
-            readOnly={true} />
+            readOnly={true}
+            placeholder="Start date"/>
           <input type="text"
             value={this.state.end ? this.state.end.format('LL') : null}
-            readOnly={true} />
+            readOnly={true}
+            placeholder="End date" />
         </div>
       </div>
     );
@@ -76,6 +78,7 @@ var DatePickerSingle = React.createClass({
   }
 });
 
+// CODE_EXAMPLE
 var CODE_EXAMPLE = function() {
 var RangePicker = require('react-daterange-picker');
 
@@ -175,7 +178,7 @@ var Homepage = React.createClass({
     return (
       <html>
         <head>
-          <title>React Range Picker Demo</title>
+          <title>React Daterange Picker Demo</title>
           <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'></link>
           <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/docco.min.css' rel='stylesheet' type='text/css'></link>
           <link href="css/react-calendar.css" rel="stylesheet"></link>
@@ -183,6 +186,7 @@ var Homepage = React.createClass({
         </head>
         <body>
           <Header />
+          <GithubRibbon />
 
           <div className="content">
             <div id="range-picker" className="example">
@@ -235,7 +239,7 @@ var Header = React.createClass({
     return (
       <header className="header">
         <img src="img/logo.png" className="header__logo" />
-        <h1 className="header__title">React Range Picker</h1>
+        <h1 className="header__title">React Daterange Picker</h1>
       </header>
     );
   }
@@ -249,6 +253,23 @@ var Footer = React.createClass({
         <a href="https://github.com/onefinestay" className="footer__link">Github</a>
         <a href="https://twitter.com/buildingOFS" className="footer__link">Twitter</a>
       </footer>
+    );
+  }
+});
+
+var GithubRibbon = React.createClass({
+  render: function() {
+    var style = {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      border: 0
+    };
+
+    return (
+      <a href="https://github.com/onefinestay/react-daterange-picker">
+        <img style={style} src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" />
+      </a>
     );
   }
 });
