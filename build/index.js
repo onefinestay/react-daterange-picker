@@ -1,48 +1,888 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/jkimbo/code/ofs/react-daterange-picker/example/js/index.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/jkimbo/code/ofs/react-daterange-picker/dist/month.js":[function(require,module,exports){
+/** @jsx React.DOM */
+"use strict";
+
+var calendar = require('calendar');
+var React = require('react/addons');
+var moment = require('moment');
+var cx = React.addons.classSet;
+var _ = require('underscore');
+
+// And get the language object
+var lang = moment().localeData();
+
+var WEEKDAYS = _.zip(lang._weekdays, lang._weekdaysShort);
+var MONTHS = lang._months;
+
+
+var Month = React.createClass({displayName: 'Month',
+  renderDay: function(date, i) {
+    return this.transferPropsTo(this.props.dateComponent({
+      date: date,
+      key: i
+    }));
+  },
+
+  renderWeek: function(dates, i) {
+    var days = _.map(dates, this.renderDay);
+    return (
+      React.DOM.tr({key: i}, days)
+    );
+  },
+
+  renderDayHeaders: function() {
+    var indices = _.range(this.props.firstOfWeek ,7).concat(_.range(0, this.props.firstOfWeek));
+
+    var headers = _.map(indices, function(index) {
+        var weekday = WEEKDAYS[index];
+        return (
+          React.DOM.th({key: weekday, scope: "col"}, React.DOM.abbr({title: weekday[0]}, weekday[1]))
+        );
+    });
+
+    return (
+      React.DOM.tr(null, headers)
+    );
+  },
+
+  handleYearChange: function(event) {
+    this.props.onYearChange(parseInt(event.target.value, 10));
+  },
+
+  renderYearChoice: function(year, i) {
+    if (this.props.minDate && year < this.props.minDate.getFullYear()) {
+      return;
+    }
+
+    if (this.props.maxDate && year > this.props.maxDate.getFullYear()) {
+      return;
+    }
+
+    return (
+      React.DOM.option({key: year, value: year}, year)
+    );
+  },
+
+  renderHeaderYear: function() {
+    var monthMoment = moment(this.props.firstOfMonth);
+    var y = this.props.firstOfMonth.getFullYear();
+    var years = _.range(y - 5, y).concat(_.range(y, y + 10));
+    var choices = _.map(years, this.renderYearChoice);
+
+    return (
+      React.DOM.span({className: "react-calendar-label"}, 
+        monthMoment.format('YYYY'), 
+        this.props.disableNavigation ? null : React.DOM.select({value: y, onChange: this.handleYearChange}, choices)
+      )
+    );
+  },
+
+  handleMonthChange: function(event) {
+    this.props.onMonthChange(parseInt(event.target.value, 10));
+  },
+
+  renderMonthChoice: function(month , i) {
+    var disabled = false;
+    var year = this.props.firstOfMonth.getFullYear();
+
+    if (this.props.minDate && new Date(year, i + 1, 1).getTime() < this.props.minDate.getTime()) {
+      disabled = true;
+    }
+
+    if (this.props.maxDate && new Date(year, i, 1).getTime() > this.props.maxDate.getTime()) {
+      disabled = true;
+    }
+
+    return (
+      React.DOM.option({key: month, value: i, disabled: disabled ? 'disabled' : null}, month)
+    );
+  },
+
+  renderHeaderMonth: function() {
+    var monthMoment = moment(this.props.firstOfMonth);
+
+    var choices = _.map(MONTHS, this.renderMonthChoice);
+
+    return (
+      React.DOM.span({className: "react-calendar-label"}, 
+        monthMoment.format('MMMM'), 
+        this.props.disableNavigation ? null : React.DOM.select({value: this.props.month, onChange: this.handleMonthChange}, choices)
+      )
+    );
+  },
+
+  renderHeader: function() {
+    return (
+      React.DOM.div({className: "react-calendar-header"}, 
+        this.renderHeaderMonth(), " ", this.renderHeaderYear()
+      )
+    );
+  },
+
+  render: function() {
+    var cal = new calendar.Calendar(this.props.firstOfWeek);
+    var monthDates = cal.monthDates(this.props.firstOfMonth.getFullYear(), this.props.firstOfMonth.getMonth());
+    var weeks =_.map(monthDates, this.renderWeek);
+
+    return (
+      React.DOM.div({className: "react-calendar-month"}, 
+        this.renderHeader(), 
+        React.DOM.table({className: "react-calendar-dates"}, 
+          React.DOM.thead(null, 
+            this.renderDayHeaders()
+          ), 
+          React.DOM.tbody(null, 
+            weeks
+          )
+        )
+      )
+    );
+  }
+});
+
+module.exports = Month;
+
+},{"calendar":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/calendar/lib/calendar.js","moment":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/moment/moment.js","react/addons":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/react/addons.js","underscore":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/underscore/underscore.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/dist/range-date.js":[function(require,module,exports){
+/** @jsx React.DOM */
 "use strict";
 
 var React = require('react/addons');
-var RangePicker = require('../../src/range-picker.jsx');
+var cx = React.addons.classSet;
 var moment = require('moment-range');
+var _ = require('underscore');
 
-window.React = React;
+var utils = require('./utils');
 
-var dateRanges = [
-  {
-    range: moment().range(
-      moment().startOf('day'),
-      moment().add(2, 'weeks')
-    ),
-    state: 'available',
-    selectable: true
-  },
-  {
-    range: moment().range(
-      moment().add(2, 'weeks'),
-      moment().add(3, 'weeks')
-    ),
-    state: 'enquire',
-    selectable: true
-  },
-  {
-    range: moment().range(
-      moment().add(3, 'weeks'),
-      moment().add(3, 'weeks').add(5, 'days')
-    ),
-    state: 'unavailable',
-    selectable: false
-  },
-  {
-    range: moment().range(
-      moment().add(3, 'weeks').add(5, 'days'),
-      moment().add(5, 'weeks')
-    ),
-    state: 'available',
-    selectable: true
-  },
-];
 
-var DatePickerRange = React.createClass({
+var AMState = React.createClass({displayName: 'AMState',
+  render: function() {
+    var classes = {
+      'am-state': true
+    };
+    if (this.props.availabilityAction) {
+      classes[this.props.availabilityAction] = true;
+    }
+    if (this.props.displayState) {
+      classes[this.props.displayState] = true;
+    }
+
+    return (
+      React.DOM.div({className: cx(classes)})
+    );
+  }
+});
+
+var PMState = React.createClass({displayName: 'PMState',
+  render: function() {
+    var classes = {
+      'pm-state': true
+    };
+    if (this.props.availabilityAction) {
+      classes[this.props.availabilityAction] = true;
+    }
+    if (this.props.displayState) {
+      classes[this.props.displayState] = true;
+    }
+
+    return (
+      React.DOM.div({className: cx(classes)})
+    );
+  }
+});
+
+var RangeDate = React.createClass({displayName: 'RangeDate',
+  propTypes: {
+    date: React.PropTypes.instanceOf(Date).isRequired,
+
+    firstOfMonth: React.PropTypes.instanceOf(Date).isRequired,
+    index: React.PropTypes.number.isRequired,
+    maxIndex: React.PropTypes.number.isRequired,
+    selectionType: React.PropTypes.string.isRequired,
+
+    value: React.PropTypes.object,
+    minDate: React.PropTypes.instanceOf(Date),
+    maxDate: React.PropTypes.instanceOf(Date),
+    highlightedRange: React.PropTypes.object,
+    highlightedDate: React.PropTypes.instanceOf(Date),
+    selectedStartDate: React.PropTypes.instanceOf(Date),
+    dateStates: React.PropTypes.array,
+
+    onHighlightDate: React.PropTypes.func,
+    onUnHighlightDate: React.PropTypes.func,
+    onStartSelection: React.PropTypes.func,
+    onCompleteSelection: React.PropTypes.func
+  },
+
+  isDisabled: function(date) {
+    var y = this.props.firstOfMonth.getFullYear();
+    var m = this.props.firstOfMonth.getMonth();
+
+    if (date.getMonth() !== m) {
+      if (
+        this.props.index < this.props.maxIndex &&
+        date.getTime() >= new Date(y, m + 1, 1).getTime()
+      ) {
+        return true;
+      }
+
+      if (
+        this.props.index > 0 &&
+        date.getTime() <= new Date(y, m, 1).getTime()
+      ) {
+        return true;
+      }
+    }
+
+    if (this.props.minDate && date.getTime() < this.props.minDate.getTime()) {
+      return true;
+    }
+    if (this.props.maxDate && date.getTime() > this.props.maxDate.getTime()) {
+      return true;
+    }
+    return false;
+  },
+
+  isDateSelectable: function(date) {
+    var dateRanges = this.dateRangesForDate(date);
+    if (dateRanges.length === 0 && this.props.defaultState.selectable) {
+      return true;
+    } else {
+      if (_.some(dateRanges, function(r) { return r.selectable; })) {
+        return true;
+      }
+    }
+    return false;
+  },
+
+  nonSelectableStateRanges: function() {
+    return _.chain(this.props.dateStates)
+      .filter(function(dates) {
+        return !dates.selectable;
+      })
+      .map(function(dates) {
+        var newStart = new Date(dates.range.start);
+        var newEnd = new Date(dates.range.end);
+        newStart.setDate(newStart.getDate());
+        newEnd.setDate(newEnd.getDate());
+        return {
+          range: moment().range(newStart, newEnd),
+          state: dates.state,
+          selectable: dates.selectable
+        };
+      })
+      .value();
+  },
+
+  dateRangesForDate: function(date) {
+    return _.filter(this.props.dateStates, function(dates) {
+      if (dates.range.contains(date)) {
+        return dates.range;
+      }
+    });
+  },
+
+  statesForRange: function(range) {
+    return _.filter(this.props.dateStates, function(dates) {
+      if (dates.range.intersect(range)) {
+        return dates.state;
+      }
+    });
+  },
+
+  sanitizeRange: function(range, forwards) {
+    /* Truncates the provided range at the first intersection
+     * with a non-selectable state. Using forwards to determine
+     * which direction to work
+     */
+    var i;
+    var blockedRanges = this.nonSelectableStateRanges();
+    var blockedRange;
+    var intersect;
+
+    if (forwards) {
+      for (i = 0; i < blockedRanges.length; i++) {
+        blockedRange = blockedRanges[i];
+        intersect = range.intersect(blockedRange.range);
+
+        if (intersect) {
+          return moment().range(range.start, intersect.start);
+        }
+      }
+    } else {
+      for (i = blockedRanges.length - 1; i >= 0; i--) {
+        blockedRange = blockedRanges[i];
+        intersect = range.intersect(blockedRange.range);
+
+        if (intersect) {
+          return moment().range(intersect.end, range.end);
+        }
+      }
+    }
+    return range;
+  },
+
+  highlightDate: function(date) {
+    if (this.isDateSelectable(date)) {
+      if (this.props.selectedStartDate) {
+        var datePair = utils.sortDates(this.props.selectedStartDate, date);
+        var range = moment().range(datePair[0], datePair[1]);
+        var forwards = (
+          range.start.toDate().getTime() ===
+          this.props.selectedStartDate.getTime()
+        );
+        range = this.sanitizeRange(range, forwards);
+        this.props.onHighlightRange(range);
+      } else {
+        this.props.onHighlightDate(date);
+      }
+    }
+  },
+
+  unHighlightDate: function(date) {
+    this.props.onUnHighlightDate(date);
+  },
+
+  selectDate: function(date) {
+    if (this.props.selectedStartDate) {
+      // We already have one end of the range
+      var datePair = utils.sortDates(this.props.selectedStartDate, date);
+      var range = moment().range(datePair[0], datePair[1]);
+
+      var forwards = range.start.toDate().getTime() === this.props.selectedStartDate.getTime();
+
+      range = this.sanitizeRange(range, forwards);
+
+      if (range && range.end.diff(range.start, 'days') > 0) {
+        var states = this.statesForRange(range);
+        this.props.onCompleteSelection(range, states);
+      }
+    } else if (this.isDateSelectable(date)) {
+      this.props.onStartSelection(date);
+    }
+  },
+
+  shouldComponentUpdate: function(nextProps, nextState) {
+    var currentProps = this.props;
+
+    if (!_.isEqual(
+      this.getSegmentStates(currentProps),
+      this.getSegmentStates(nextProps)
+    )) {
+      return true;
+    }
+
+    return false;
+  },
+
+  getClasses: function(props) {
+    var date = props.date;
+    var dateMoment = moment(date);
+    var isOtherMonth = false;
+    var isSelected = false;
+    var isSelectedRange = false;
+    var isHighlightedRange = false;
+    var isHighlighted = false;
+
+    var isDisabled = this.isDisabled(date);
+    var range = null;
+
+    var time = date.getTime();
+
+    if (date.getMonth() !== props.firstOfMonth.getMonth()) {
+      isOtherMonth = true;
+    }
+
+    if (!isDisabled) {
+      if (props.value) {
+        if (props.selectionType === 'range' && props.value.contains(date)) {
+          isSelectedRange = true;
+        } else if (props.selectionType === 'single' && props.value.getTime() === time) {
+          isSelected = true;
+        }
+      }
+
+      // Highlights (Hover states)
+      if (props.highlightedDate && props.highlightedDate.getTime() === time) {
+        isHighlighted = true;
+      }
+
+      if (props.highlightedRange) {
+        if (props.highlightedRange.contains(date)) {
+          isHighlightedRange = true;
+        }
+      }
+    }
+
+    var classes = {
+      'react-calendar-date': true,
+      'react-calendar-date-selected': isSelected,
+      'react-calendar-date-selected-range': isSelectedRange,
+      'react-calendar-date-highlighted': isHighlighted,
+      'react-calendar-date-highlighted-range': isHighlightedRange,
+      'react-calendar-date-disabled': isDisabled,
+      'react-calendar-date-other-month': isOtherMonth
+    };
+    return classes;
+  },
+
+  getSegmentStates: function(props) {
+    var date = props.date;
+    var amDisplayState;
+    var pmDisplayState;
+
+    if (props.value && props.value.contains(date)) {
+      if (props.value.start.toDate().getTime() === date.getTime()) {
+        // It's the first day in the range, so only PM is selected
+        pmDisplayState = 'selected';
+      } else if (props.value.end.toDate().getTime() === date.getTime()) {
+        // It's the last day in the range, so only AM is selected
+        amDisplayState = 'selected';
+      } else {
+        // It's somewhere in the range, so AM and PM are selected
+        amDisplayState = 'selected';
+        pmDisplayState = 'selected';
+      }
+    }
+
+    if (props.highlightedRange && props.highlightedRange.contains(date)) {
+      if (props.highlightedRange.start.toDate().getTime() === date.getTime()) {
+        pmDisplayState = 'highlighted';
+      } else if (props.highlightedRange.end.toDate().getTime() === date.getTime()) {
+        amDisplayState = 'highlighted';
+      } else {
+        amDisplayState = 'highlighted';
+        pmDisplayState = 'highlighted';
+      }
+    }
+
+    if (
+      props.highlightedDate &&
+      !props.highlightedRange &&
+      date.getTime() === props.highlightedDate.getTime()
+    ) {
+        amDisplayState = 'highlighted';
+        pmDisplayState = 'highlighted';
+    }
+
+    return {
+      am: amDisplayState,
+      pm: pmDisplayState
+    };
+  },
+
+  render: function() {
+    var classes = this.getClasses(this.props);
+    var date = this.props.date;
+    var amState;
+    var pmState;
+    var amDisplayState;
+    var pmDisplayState;
+    var amAction;
+    var pmAction;
+    var states = this.dateRangesForDate(date);
+    var defaultState = this.props.defaultState;
+
+    if (states.length > 0) {
+      if (states.length === 1) {
+        // If there's only one state, it means we're not at a boundary, AM/PM are the same
+        amAction = states[0].state;
+        pmAction = states[0].state;
+      } else {
+        amAction = states[0].state;
+        pmAction = states[1].state;
+      }
+    } else if (defaultState && defaultState.state) {
+      amAction = defaultState.state;
+      pmAction = defaultState.state;
+    }
+
+    var segementState = this.getSegmentStates(this.props);
+
+    return (
+      React.DOM.td({className: cx(classes), 
+        onMouseEnter: _.partial(this.highlightDate, this.props.date), 
+        onMouseLeave: _.partial(this.unHighlightDate, this.props.date), 
+        onClick: _.partial(this.selectDate, this.props.date)}, 
+        AMState({displayState: segementState.am, availabilityAction: amAction}), 
+        PMState({displayState: segementState.pm, availabilityAction: pmAction}), 
+        React.DOM.span({className: "react-datepicker-date-label"}, this.props.date.getDate())
+      )
+    );
+  }
+
+});
+
+module.exports = RangeDate;
+
+},{"./utils":"/Users/jkimbo/code/ofs/react-daterange-picker/dist/utils.js","moment-range":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/moment-range/lib/moment-range.js","react/addons":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/react/addons.js","underscore":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/underscore/underscore.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/dist/range-picker.js":[function(require,module,exports){
+/** @jsx React.DOM */
+"use strict";
+
+var React = require('react/addons');
+var moment = require('moment');
+var _ = require('underscore');
+
+var Month = require('./month');
+var SingleDate = require('./single-date');
+var RangeDate = require('./range-date');
+
+var noop = function() {};
+
+
+var RangePicker = React.createClass({displayName: 'RangePicker',
+  propTypes: {
+    numberOfCalendars: React.PropTypes.number,
+    firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
+    disableNavigation: React.PropTypes.bool,
+    initialDate: React.PropTypes.instanceOf(Date),
+    initialRange: React.PropTypes.object,
+    initialMonth: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
+    initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
+    earliestDate: React.PropTypes.instanceOf(Date),
+    latestDate: React.PropTypes.instanceOf(Date),
+    selectionType: React.PropTypes.oneOf(['single', 'range']),
+    dateStates: React.PropTypes.array, // an array of date ranges and their states
+    defaultState: React.PropTypes.object,
+    value: React.PropTypes.object, // range or single value
+    onSelect: React.PropTypes.func
+  },
+
+  getDefaultProps: function() {
+    var date = new Date();
+    var initialDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+    return {
+      numberOfCalendars: 1,
+      firstOfWeek: 0,
+      disableNavigation: false,
+      nextLabel: '',
+      previousLabel: '',
+      initialDate: initialDate,
+      selectionType: 'range',
+      defaultState: {
+        selectable: true,
+      },
+      onSelect: noop
+    };
+  },
+
+  getInitialState: function() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth();
+
+    if (this.props.initialYear && this.props.initialMonth) {
+      year = this.props.initialYear;
+      month = this.props.initialMonth;
+    }
+
+    return {
+      year: year,
+      month: month,
+      selectedStartDate: null,
+      highlightStartDate: null,
+      highlightedDate: null,
+      highlightRange: null
+    };
+  },
+
+  onSelect: function(date) {
+    this.props.onSelect(moment(date));
+  },
+
+  onStartSelection: function(date) {
+    this.setState({
+      selectedStartDate: date
+    });
+  },
+
+  onCompleteSelection: function(range, states) {
+    this.setState({
+      selectedStartDate: null,
+      highlightedRange: null,
+      highlightedDate: null
+    });
+    this.props.onSelect(range, states);
+  },
+
+  onHighlightDate: function(date) {
+    this.setState({
+      highlightedDate: date,
+    });
+  },
+
+  onHighlightRange: function(range) {
+    this.setState({
+      highlightedRange: range,
+      highlightedDate: null
+    });
+  },
+
+  onUnHighlightDate: function(date) {
+    this.setState({
+      highlightedDate: null
+    });
+  },
+
+  getMonthDate: function() {
+    return new Date(this.state.year, this.state.month, 1);
+  },
+
+  moveForward: function() {
+    var monthDate = this.getMonthDate();
+    monthDate.setMonth(monthDate.getMonth() + 1);
+    this.setState({
+      year: monthDate.getFullYear(),
+      month: monthDate.getMonth()
+    });
+  },
+
+  moveBack: function() {
+    var monthDate = this.getMonthDate();
+    monthDate.setMonth(monthDate.getMonth() - 1);
+    this.setState({
+      year: monthDate.getFullYear(),
+      month: monthDate.getMonth()
+    });
+  },
+
+  changeYear: function(year) {
+    var month = this.state.month;
+
+    if (this.props.earliestDate && new Date(year, month, 1).getTime() < this.props.earliestDate.getTime()) {
+      month = this.props.earliestDate.getMonth();
+    }
+
+    if (this.props.latestDate && new Date(year, month + 1, 1).getTime() > this.props.latestDate.getTime()) {
+      month = this.props.latestDate.getMonth();
+    }
+
+    this.setState({
+      year: year,
+      month: month
+    });
+  },
+
+  changeMonth: function(date) {
+    this.setState({
+      month: date
+    });
+  },
+
+  renderCalendar: function(index) {
+    var monthDate = this.getMonthDate();
+    var year = monthDate.getFullYear();
+    var month = monthDate.getMonth();
+    var key = index + '-' + year + '-' + month;
+
+    monthDate = new Date(year, month + index, 1);
+
+    // sanitize date states
+    var dateStates = _.map(this.props.dateStates, function(state) {
+      var range = moment().range(
+        state.range.start.startOf('day'),
+        state.range.end.startOf('day')
+      );
+
+      return {
+        range: range,
+        state: state.state,
+        selectable: state.selectable
+      };
+    });
+
+    var props = {
+      index: index,
+      maxIndex: this.props.numberOfCalendars - 1,
+      minDate: this.props.earliestDate,
+      maxDate: this.props.latestDate,
+      firstOfMonth: monthDate,
+      firstOfWeek: this.props.firstOfWeek,
+      onMonthChange: this.changeMonth,
+      onYearChange: this.changeYear,
+      key: key,
+      value: this.props.value,
+      highlightStartDate: this.state.highlightStartDate,
+      selectionType: this.props.selectionType,
+      selectedStartDate: this.state.selectedStartDate,
+      highlightedDate: this.state.highlightedDate,
+      highlightedRange: this.state.highlightedRange,
+      onHighlightRange: this.onHighlightRange,
+      onHighlightDate: this.onHighlightDate,
+      onUnHighlightDate: this.onUnHighlightDate,
+      onSelect: this.onSelect,
+      onStartSelection: this.onStartSelection,
+      onCompleteSelection: this.onCompleteSelection,
+      dateComponent: this.props.selectionType == 'range' ? RangeDate : SingleDate,
+      dateStates: dateStates,
+      defaultState: this.props.defaultState
+    };
+
+    return Month(props);
+  },
+
+  render: function() {
+    var range = _.range(this.props.numberOfCalendars);
+    var calendars = _.map(range, this.renderCalendar);
+
+    return (
+      React.DOM.div({className: "react-calendars"}, 
+        React.DOM.div({className: "react-calendar-previous", onClick: this.moveBack}, 
+          React.DOM.div({className: "arrow"})
+        ), 
+        calendars, 
+        React.DOM.div({className: "react-calendar-next", onClick: this.moveForward}, 
+          React.DOM.div({className: "arrow"})
+        )
+      )
+    );
+  }
+});
+
+module.exports = RangePicker;
+
+},{"./month":"/Users/jkimbo/code/ofs/react-daterange-picker/dist/month.js","./range-date":"/Users/jkimbo/code/ofs/react-daterange-picker/dist/range-date.js","./single-date":"/Users/jkimbo/code/ofs/react-daterange-picker/dist/single-date.js","moment":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/moment/moment.js","react/addons":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/react/addons.js","underscore":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/underscore/underscore.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/dist/single-date.js":[function(require,module,exports){
+/** @jsx React.DOM */
+"use strict";
+
+var React = require('react/addons');
+var cx = React.addons.classSet;
+var moment = require('moment');
+var _ = require('underscore');
+
+
+var SingleDate = React.createClass({displayName: 'SingleDate',
+  propTypes: {
+    date: React.PropTypes.instanceOf(Date).isRequired,
+
+    firstOfMonth: React.PropTypes.instanceOf(Date).isRequired,
+    index: React.PropTypes.number.isRequired,
+    maxIndex: React.PropTypes.number.isRequired,
+    selectionType: React.PropTypes.string.isRequired,
+
+    value: React.PropTypes.object,
+    minDate: React.PropTypes.instanceOf(Date),
+    maxDate: React.PropTypes.instanceOf(Date),
+    highlightedRange: React.PropTypes.object,
+    highlightedDate: React.PropTypes.instanceOf(Date),
+    selectedStartDate: React.PropTypes.instanceOf(Date),
+
+    onHighlightDate: React.PropTypes.func,
+    onUnHighlightDate: React.PropTypes.func,
+    onStartSelection: React.PropTypes.func,
+    onCompleteSelection: React.PropTypes.func
+  },
+
+  isDisabled: function(date) {
+    var y = this.props.firstOfMonth.getFullYear();
+    var m = this.props.firstOfMonth.getMonth();
+
+    if (date.getMonth() !== m) {
+      if (this.props.index < this.props.maxIndex && date.getTime() >= new Date(y, m + 1, 1).getTime()) {
+        return true;
+      }
+      if (this.props.index > 0 && date.getTime() <= new Date(y, m, 1).getTime()) {
+        return true;
+      }
+    }
+
+    if (this.props.minDate && date.getTime() < this.props.minDate.getTime()) {
+      return true;
+    }
+    if (this.props.maxDate && date.getTime() > this.props.maxDate.getTime()) {
+      return true;
+    }
+    return false;
+  },
+
+  highlightDate: function(date) {
+    if (!this.isDisabled(date)) {
+      this.props.onHighlightDate(date);
+    }
+  },
+
+  unHighlightDate: function(date) {
+    this.props.onUnHighlightDate(date);
+  },
+
+  selectDate: function(date) {
+    if (!this.isDisabled(date)) {
+      this.props.onSelect(date);
+    }
+  },
+
+  getClasses: function() {
+    var date = this.props.date;
+    var dateMoment = moment(date);
+    var isOtherMonth = false;
+    var isSelected = false;
+    var isHighlighted = false;
+
+    var isDisabled = this.isDisabled(date);
+    var range = null;
+
+    var time = date.getTime();
+
+    if (date.getMonth() !== this.props.firstOfMonth.getMonth()) {
+      isOtherMonth = true;
+    }
+
+    if (!isDisabled) {
+      // Selections
+      if (this.props.value && (time === this.props.value.toDate().getTime())) {
+        isSelected = true;
+      }
+
+      // Highlights (Hover states)
+      if (this.props.highlightedDate && this.props.highlightedDate.getTime() === time) {
+        isHighlighted = true;
+      }
+    }
+
+    var classes = {
+      'react-calendar-date': true,
+      'react-calendar-date-selected': isSelected,
+      'react-calendar-date-highlighted': isHighlighted,
+      'react-calendar-date-disabled': isDisabled,
+      'react-calendar-date-other-month': isOtherMonth
+    };
+    return classes;
+  },
+
+  render: function() {
+    var classes = this.getClasses();
+    var date = this.props.date;
+
+    return (
+      React.DOM.td({className: cx(classes), onMouseEnter: _.partial(this.highlightDate, this.props.date), onMouseLeave: _.partial(this.unHighlightDate, this.props.date), onClick: _.partial(this.selectDate, this.props.date)}, 
+        React.DOM.span({className: "react-datepicker-date-label"}, this.props.date.getDate())
+      )
+    );
+  }
+});
+
+module.exports = SingleDate;
+
+},{"moment":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/moment/moment.js","react/addons":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/react/addons.js","underscore":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/underscore/underscore.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/dist/utils.js":[function(require,module,exports){
+"use strict";
+
+var _ = require('underscore');
+
+module.exports = {
+  sortDates: function() {
+    return _.sortBy(arguments, function(d) { return d.getTime(); });
+  }
+};
+
+},{"underscore":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/underscore/underscore.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/example/index.jsx":[function(require,module,exports){
+/** @jsx React.DOM */
+"use strict";
+
+var React = require('react/addons');
+var moment = require('moment-range');
+var RangePicker = require('../dist/range-picker');
+
+var DatePickerRange = React.createClass({displayName: 'DatePickerRange',
   getInitialState: function() {
     return {
       start: null,
@@ -62,30 +902,28 @@ var DatePickerRange = React.createClass({
       range = moment().range(this.state.start, this.state.end);
     }
 
-    return React.DOM.div({},
-      this.transferPropsTo(
-        RangePicker({
-          onSelect: this.handleSelect,
-          value: range
-        })
-      ),
-      React.DOM.div(null,
-        React.DOM.input({
-          type: 'text',
-          value: this.state.start ? this.state.start.format('LL') : null,
-          readOnly: true
-        }, null),
-        React.DOM.input({
-          type: 'text',
-          value: this.state.end ? this.state.end.format('LL') : null,
-          readOnly: true
-        }, null)
+    return (
+      React.DOM.div(null, 
+        this.transferPropsTo(
+          RangePicker({
+            onSelect: this.handleSelect,
+            value: range
+          })
+        ), 
+        React.DOM.div(null, 
+          React.DOM.input({type: "text", 
+            value: this.state.start ?  this.state.start.format('LL') : null, 
+            readOnly: true}), 
+          React.DOM.input({type: "text", 
+            value: this.state.end ? this.state.end.format('LL') : null, 
+            readOnly: true})
+        )
       )
     );
   }
 });
 
-var DatePickerSingle = React.createClass({
+var DatePickerSingle = React.createClass({displayName: 'DatePickerSingle',
   getInitialState: function() {
     return {
       value: null,
@@ -115,35 +953,202 @@ var DatePickerSingle = React.createClass({
   }
 });
 
-React.renderComponent(
-  DatePickerRange({
-    numberOfCalendars: 2,
-    selectionType: 'range',
-    earliestDate: new Date(),
-    dateStates: dateRanges,
-  }),
-  document.getElementById('range-picker')
-);
+var CODE_EXAMPLE = function() {
+var RangePicker = require('react-daterange-picker');
+
+var dateStates = [
+  {
+    state: 'available',
+    range: moment().range(moment(), moment().add(2, 'weeks')),
+    selectable: true
+  },
+  {
+    state: 'enquire',
+    range: moment().range(moment().add(2, 'weeks'), moment().add(3, 'weeks')),
+    selectable: true
+  },
+  {
+    state: 'unavailable',
+    range: moment().range(moment().add(3, 'weeks'), moment().add(3, 'weeks').add(5, 'days')),
+    selectable: false
+  },
+  {
+    state: 'available',
+    range: moment().range(moment().add(3, 'weeks').add(5, 'days'), moment().add(5, 'weeks')),
+    selectable: true
+  }
+];
+
+var DatePicker = React.createClass({displayName: 'DatePicker',
+  getInitialState: function() {
+    return {
+        value: null
+    };
+  },
+  handleSelect: function(range) {
+    // range is a moment-range object
+    this.setState({
+        value: range
+    });
+  },
+  render: function() {
+    return RangePicker({
+      numberOfCalendars: 2,
+      dateStates: dateStates,
+      value: this.state.value,
+      onSelect: this.handleSelect
+    });
+  }
+});
+}.toString();
+
+// remove function declarations
+var lines = CODE_EXAMPLE.split('\n');
+lines.splice(0, 1);
+lines.splice(lines.length - 1, 1);
+CODE_EXAMPLE = lines.join('\n');
+
+var Homepage = React.createClass({displayName: 'Homepage',
+  getDefaultProps: function() {
+    return {};
+  },
+
+  render: function() {
+    var dateRanges = [
+      {
+        range: moment().range(
+          moment().startOf('day'),
+          moment().add(2, 'weeks')
+        ),
+        state: 'available',
+        selectable: true
+      },
+      {
+        range: moment().range(
+          moment().add(2, 'weeks'),
+          moment().add(3, 'weeks')
+        ),
+        state: 'enquire',
+        selectable: true
+      },
+      {
+        range: moment().range(
+          moment().add(3, 'weeks'),
+          moment().add(3, 'weeks').add(5, 'days')
+        ),
+        state: 'unavailable',
+        selectable: false
+      },
+      {
+        range: moment().range(
+          moment().add(3, 'weeks').add(5, 'days'),
+          moment().add(5, 'weeks')
+        ),
+        state: 'available',
+        selectable: true
+      },
+    ];
+
+    return (
+      React.DOM.html(null, 
+        React.DOM.head(null, 
+          React.DOM.title(null, "React Range Picker Demo"), 
+          React.DOM.link({href: "http://fonts.googleapis.com/css?family=Open+Sans:400,300", rel: "stylesheet", type: "text/css"}), 
+          React.DOM.link({href: "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/docco.min.css", rel: "stylesheet", type: "text/css"}), 
+          React.DOM.link({href: "css/react-calendar.css", rel: "stylesheet"}), 
+          React.DOM.link({href: "css/example.css", rel: "stylesheet"})
+        ), 
+        React.DOM.body(null, 
+          Header(null), 
+
+          React.DOM.div({className: "content"}, 
+            React.DOM.div({id: "range-picker", className: "example"}, 
+              DatePickerRange({
+                numberOfCalendars: 2, 
+                selectionType: "range", 
+                earliestDate: new Date(), 
+                dateStates: dateRanges})
+            ), 
+            React.DOM.div({className: "code-example"}, 
+              React.DOM.pre({id: "code-snippet"}, 
+                React.DOM.code({className: "javascript"}, 
+                  CODE_EXAMPLE
+                )
+              )
+            ), 
+
+            React.DOM.div({className: "examples"}, 
+              React.DOM.div({className: "example"}, 
+                React.DOM.h4(null, "Range with no date states"), 
+                DatePickerRange({
+                  numberOfCalendars: 2, 
+                  selectionType: "range", 
+                  earliestDate: new Date()})
+              ), 
+
+              React.DOM.div({className: "example"}, 
+                React.DOM.h4(null, "Single with no date states"), 
+                DatePickerSingle({
+                  numberOfCalendars: 2, 
+                  selectionType: "single", 
+                  earliestDate: new Date()})
+              )
+            )
+          ), 
+
+          Footer(null), 
+
+          React.DOM.script({type: "text/javascript", src: "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js", charSet: "utf-8"}), 
+          React.DOM.script({type: "text/javascript", src: "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/languages/javascript.min.js", charSet: "utf-8"}), 
+          React.DOM.script({src: "build/index.js"})
+        )
+      )
+    );
+  }
+});
+
+var Header = React.createClass({displayName: 'Header',
+  render: function() {
+    return (
+      React.DOM.header({className: "header"}, 
+        React.DOM.img({src: "img/logo.png", className: "header__logo"}), 
+        React.DOM.h1({className: "header__title"}, "React Range Picker")
+      )
+    );
+  }
+});
+
+var Footer = React.createClass({displayName: 'Footer',
+  render: function() {
+    return (
+      React.DOM.footer({className: "footer"}, 
+        React.DOM.a({href: "http://www.onefinestay.com/", className: "footer__link"}, "onefinestay"), 
+        React.DOM.a({href: "https://github.com/onefinestay", className: "footer__link"}, "Github"), 
+        React.DOM.a({href: "https://twitter.com/buildingOFS", className: "footer__link"}, "Twitter")
+      )
+    );
+  }
+});
+
+module.exports = Homepage;
+
+},{"../dist/range-picker":"/Users/jkimbo/code/ofs/react-daterange-picker/dist/range-picker.js","moment-range":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/moment-range/lib/moment-range.js","react-daterange-picker":false,"react/addons":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/react/addons.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/example/js/index.js":[function(require,module,exports){
+/* global hljs */
+"use strict";
+
+var React = require('react/addons');
+var Homepage = require('../index.jsx');
+
+window.React = React;
 
 React.renderComponent(
-  DatePickerRange({
-    numberOfCalendars: 2,
-    selectionType: 'range',
-    earliestDate: new Date(),
-  }),
-  document.getElementById('range-picker-no-states')
+  Homepage(),
+  document
 );
 
-React.renderComponent(
-  DatePickerSingle({
-    numberOfCalendars: 2,
-    selectionType: 'single',
-    earliestDate: new Date(),
-  }),
-  document.getElementById('single-picker-no-states')
-);
+hljs.initHighlightingOnLoad();
 
-},{"../../src/range-picker.jsx":"/Users/jkimbo/code/ofs/react-daterange-picker/src/range-picker.jsx","moment-range":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/moment-range/lib/moment-range.js","react/addons":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/react/addons.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
+},{"../index.jsx":"/Users/jkimbo/code/ofs/react-daterange-picker/example/index.jsx","react/addons":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/react/addons.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -25264,880 +26269,4 @@ module.exports = warning;
   }
 }.call(this));
 
-},{}],"/Users/jkimbo/code/ofs/react-daterange-picker/src/month.jsx":[function(require,module,exports){
-/** @jsx React.DOM */
-"use strict";
-
-var calendar = require('calendar');
-var React = require('react/addons');
-var moment = require('moment');
-var cx = React.addons.classSet;
-var _ = require('underscore');
-
-// And get the language object
-var lang = moment().localeData();
-
-var WEEKDAYS = _.zip(lang._weekdays, lang._weekdaysShort);
-var MONTHS = lang._months;
-
-
-var Month = React.createClass({displayName: 'Month',
-  renderDay: function(date, i) {
-    return this.transferPropsTo(this.props.dateComponent({
-      date: date,
-      key: i
-    }));
-  },
-
-  renderWeek: function(dates, i) {
-    var days = _.map(dates, this.renderDay);
-    return (
-      React.DOM.tr({key: i}, days)
-    );
-  },
-
-  renderDayHeaders: function() {
-    var indices = _.range(this.props.firstOfWeek ,7).concat(_.range(0, this.props.firstOfWeek));
-
-    var headers = _.map(indices, function(index) {
-        var weekday = WEEKDAYS[index];
-        return (
-          React.DOM.th({key: weekday, scope: "col"}, React.DOM.abbr({title: weekday[0]}, weekday[1]))
-        );
-    });
-
-    return (
-      React.DOM.tr(null, headers)
-    );
-  },
-
-  handleYearChange: function(event) {
-    this.props.onYearChange(parseInt(event.target.value, 10));
-  },
-
-  renderYearChoice: function(year, i) {
-    if (this.props.minDate && year < this.props.minDate.getFullYear()) {
-      return;
-    }
-
-    if (this.props.maxDate && year > this.props.maxDate.getFullYear()) {
-      return;
-    }
-
-    return (
-      React.DOM.option({key: year, value: year}, year)
-    );
-  },
-
-  renderHeaderYear: function() {
-    var monthMoment = moment(this.props.firstOfMonth);
-    var y = this.props.firstOfMonth.getFullYear();
-    var years = _.range(y - 5, y).concat(_.range(y, y + 10));
-    var choices = _.map(years, this.renderYearChoice);
-
-    return (
-      React.DOM.span({className: "react-calendar-label"}, 
-        monthMoment.format('YYYY'), 
-        this.props.disableNavigation ? null : React.DOM.select({value: y, onChange: this.handleYearChange}, choices)
-      )
-    );
-  },
-
-  handleMonthChange: function(event) {
-    this.props.onMonthChange(parseInt(event.target.value, 10));
-  },
-
-  renderMonthChoice: function(month , i) {
-    var disabled = false;
-    var year = this.props.firstOfMonth.getFullYear();
-
-    if (this.props.minDate && new Date(year, i + 1, 1).getTime() < this.props.minDate.getTime()) {
-      disabled = true;
-    }
-
-    if (this.props.maxDate && new Date(year, i, 1).getTime() > this.props.maxDate.getTime()) {
-      disabled = true;
-    }
-
-    return (
-      React.DOM.option({key: month, value: i, disabled: disabled ? 'disabled' : null}, month)
-    );
-  },
-
-  renderHeaderMonth: function() {
-    var monthMoment = moment(this.props.firstOfMonth);
-
-    var choices = _.map(MONTHS, this.renderMonthChoice);
-
-    return (
-      React.DOM.span({className: "react-calendar-label"}, 
-        monthMoment.format('MMMM'), 
-        this.props.disableNavigation ? null : React.DOM.select({value: this.props.month, onChange: this.handleMonthChange}, choices)
-      )
-    );
-  },
-
-  renderHeader: function() {
-    return (
-      React.DOM.div({className: "react-calendar-header"}, 
-        this.renderHeaderMonth(), " ", this.renderHeaderYear()
-      )
-    );
-  },
-
-  render: function() {
-    var cal = new calendar.Calendar(this.props.firstOfWeek);
-    var monthDates = cal.monthDates(this.props.firstOfMonth.getFullYear(), this.props.firstOfMonth.getMonth());
-    var weeks =_.map(monthDates, this.renderWeek);
-
-    return (
-      React.DOM.div({className: "react-calendar-month"}, 
-        this.renderHeader(), 
-        React.DOM.table({className: "react-calendar-dates"}, 
-          React.DOM.thead(null, 
-            this.renderDayHeaders()
-          ), 
-          React.DOM.tbody(null, 
-            weeks
-          )
-        )
-      )
-    );
-  }
-});
-
-module.exports = Month;
-
-},{"calendar":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/calendar/lib/calendar.js","moment":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/moment/moment.js","react/addons":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/react/addons.js","underscore":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/underscore/underscore.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/src/range-date.jsx":[function(require,module,exports){
-/** @jsx React.DOM */
-"use strict";
-
-var React = require('react/addons');
-var cx = React.addons.classSet;
-var moment = require('moment-range');
-var _ = require('underscore');
-
-var utils = require('./utils');
-
-
-var AMState = React.createClass({displayName: 'AMState',
-  render: function() {
-    var classes = {
-      'am-state': true
-    };
-    if (this.props.availabilityAction) {
-      classes[this.props.availabilityAction] = true;
-    }
-    if (this.props.displayState) {
-      classes[this.props.displayState] = true;
-    }
-
-    return (
-      React.DOM.div({className: cx(classes)})
-    );
-  }
-});
-
-var PMState = React.createClass({displayName: 'PMState',
-  render: function() {
-    var classes = {
-      'pm-state': true
-    };
-    if (this.props.availabilityAction) {
-      classes[this.props.availabilityAction] = true;
-    }
-    if (this.props.displayState) {
-      classes[this.props.displayState] = true;
-    }
-
-    return (
-      React.DOM.div({className: cx(classes)})
-    );
-  }
-});
-
-var RangeDate = React.createClass({displayName: 'RangeDate',
-  propTypes: {
-    date: React.PropTypes.instanceOf(Date).isRequired,
-
-    firstOfMonth: React.PropTypes.instanceOf(Date).isRequired,
-    index: React.PropTypes.number.isRequired,
-    maxIndex: React.PropTypes.number.isRequired,
-    selectionType: React.PropTypes.string.isRequired,
-
-    value: React.PropTypes.object,
-    minDate: React.PropTypes.instanceOf(Date),
-    maxDate: React.PropTypes.instanceOf(Date),
-    highlightedRange: React.PropTypes.object,
-    highlightedDate: React.PropTypes.instanceOf(Date),
-    selectedStartDate: React.PropTypes.instanceOf(Date),
-    dateStates: React.PropTypes.array,
-
-    onHighlightDate: React.PropTypes.func,
-    onUnHighlightDate: React.PropTypes.func,
-    onStartSelection: React.PropTypes.func,
-    onCompleteSelection: React.PropTypes.func
-  },
-
-  isDisabled: function(date) {
-    var y = this.props.firstOfMonth.getFullYear();
-    var m = this.props.firstOfMonth.getMonth();
-
-    if (date.getMonth() !== m) {
-      if (
-        this.props.index < this.props.maxIndex &&
-        date.getTime() >= new Date(y, m + 1, 1).getTime()
-      ) {
-        return true;
-      }
-
-      if (
-        this.props.index > 0 &&
-        date.getTime() <= new Date(y, m, 1).getTime()
-      ) {
-        return true;
-      }
-    }
-
-    if (this.props.minDate && date.getTime() < this.props.minDate.getTime()) {
-      return true;
-    }
-    if (this.props.maxDate && date.getTime() > this.props.maxDate.getTime()) {
-      return true;
-    }
-    return false;
-  },
-
-  isDateSelectable: function(date) {
-    var dateRanges = this.dateRangesForDate(date);
-    if (dateRanges.length === 0 && this.props.defaultState.selectable) {
-      return true;
-    } else {
-      if (_.some(dateRanges, function(r) { return r.selectable; })) {
-        return true;
-      }
-    }
-    return false;
-  },
-
-  nonSelectableStateRanges: function() {
-    return _.chain(this.props.dateStates)
-      .filter(function(dates) {
-        return !dates.selectable;
-      })
-      .map(function(dates) {
-        var newStart = new Date(dates.range.start);
-        var newEnd = new Date(dates.range.end);
-        newStart.setDate(newStart.getDate());
-        newEnd.setDate(newEnd.getDate());
-        return {
-          range: moment().range(newStart, newEnd),
-          state: dates.state,
-          selectable: dates.selectable
-        };
-      })
-      .value();
-  },
-
-  dateRangesForDate: function(date) {
-    return _.filter(this.props.dateStates, function(dates) {
-      if (dates.range.contains(date)) {
-        return dates.range;
-      }
-    });
-  },
-
-  statesForRange: function(range) {
-    return _.filter(this.props.dateStates, function(dates) {
-      if (dates.range.intersect(range)) {
-        return dates.state;
-      }
-    });
-  },
-
-  sanitizeRange: function(range, forwards) {
-    /* Truncates the provided range at the first intersection
-     * with a non-selectable state. Using forwards to determine
-     * which direction to work
-     */
-    var i;
-    var blockedRanges = this.nonSelectableStateRanges();
-    var blockedRange;
-    var intersect;
-
-    if (forwards) {
-      for (i = 0; i < blockedRanges.length; i++) {
-        blockedRange = blockedRanges[i];
-        intersect = range.intersect(blockedRange.range);
-
-        if (intersect) {
-          return moment().range(range.start, intersect.start);
-        }
-      }
-    } else {
-      for (i = blockedRanges.length - 1; i >= 0; i--) {
-        blockedRange = blockedRanges[i];
-        intersect = range.intersect(blockedRange.range);
-
-        if (intersect) {
-          return moment().range(intersect.end, range.end);
-        }
-      }
-    }
-    return range;
-  },
-
-  highlightDate: function(date) {
-    if (this.isDateSelectable(date)) {
-      if (this.props.selectedStartDate) {
-        var datePair = utils.sortDates(this.props.selectedStartDate, date);
-        var range = moment().range(datePair[0], datePair[1]);
-        var forwards = (
-          range.start.toDate().getTime() ===
-          this.props.selectedStartDate.getTime()
-        );
-        range = this.sanitizeRange(range, forwards);
-        this.props.onHighlightRange(range);
-      } else {
-        this.props.onHighlightDate(date);
-      }
-    }
-  },
-
-  unHighlightDate: function(date) {
-    this.props.onUnHighlightDate(date);
-  },
-
-  selectDate: function(date) {
-    if (this.props.selectedStartDate) {
-      // We already have one end of the range
-      var datePair = utils.sortDates(this.props.selectedStartDate, date);
-      var range = moment().range(datePair[0], datePair[1]);
-
-      var forwards = range.start.toDate().getTime() === this.props.selectedStartDate.getTime();
-
-      range = this.sanitizeRange(range, forwards);
-
-      if (range && range.end.diff(range.start, 'days') > 0) {
-        var states = this.statesForRange(range);
-        this.props.onCompleteSelection(range, states);
-      }
-    } else if (this.isDateSelectable(date)) {
-      this.props.onStartSelection(date);
-    }
-  },
-
-  shouldComponentUpdate: function(nextProps, nextState) {
-    var currentProps = this.props;
-
-    if (!_.isEqual(
-      this.getSegmentStates(currentProps),
-      this.getSegmentStates(nextProps)
-    )) {
-      return true;
-    }
-
-    return false;
-  },
-
-  getClasses: function(props) {
-    var date = props.date;
-    var dateMoment = moment(date);
-    var isOtherMonth = false;
-    var isSelected = false;
-    var isSelectedRange = false;
-    var isHighlightedRange = false;
-    var isHighlighted = false;
-
-    var isDisabled = this.isDisabled(date);
-    var range = null;
-
-    var time = date.getTime();
-
-    if (date.getMonth() !== props.firstOfMonth.getMonth()) {
-      isOtherMonth = true;
-    }
-
-    if (!isDisabled) {
-      if (props.value) {
-        if (props.selectionType === 'range' && props.value.contains(date)) {
-          isSelectedRange = true;
-        } else if (props.selectionType === 'single' && props.value.getTime() === time) {
-          isSelected = true;
-        }
-      }
-
-      // Highlights (Hover states)
-      if (props.highlightedDate && props.highlightedDate.getTime() === time) {
-        isHighlighted = true;
-      }
-
-      if (props.highlightedRange) {
-        if (props.highlightedRange.contains(date)) {
-          isHighlightedRange = true;
-        }
-      }
-    }
-
-    var classes = {
-      'react-calendar-date': true,
-      'react-calendar-date-selected': isSelected,
-      'react-calendar-date-selected-range': isSelectedRange,
-      'react-calendar-date-highlighted': isHighlighted,
-      'react-calendar-date-highlighted-range': isHighlightedRange,
-      'react-calendar-date-disabled': isDisabled,
-      'react-calendar-date-other-month': isOtherMonth
-    };
-    return classes;
-  },
-
-  getSegmentStates: function(props) {
-    var date = props.date;
-    var amDisplayState;
-    var pmDisplayState;
-
-    if (props.value && props.value.contains(date)) {
-      if (props.value.start.toDate().getTime() === date.getTime()) {
-        // It's the first day in the range, so only PM is selected
-        pmDisplayState = 'selected';
-      } else if (props.value.end.toDate().getTime() === date.getTime()) {
-        // It's the last day in the range, so only AM is selected
-        amDisplayState = 'selected';
-      } else {
-        // It's somewhere in the range, so AM and PM are selected
-        amDisplayState = 'selected';
-        pmDisplayState = 'selected';
-      }
-    }
-
-    if (props.highlightedRange && props.highlightedRange.contains(date)) {
-      if (props.highlightedRange.start.toDate().getTime() === date.getTime()) {
-        pmDisplayState = 'highlighted';
-      } else if (props.highlightedRange.end.toDate().getTime() === date.getTime()) {
-        amDisplayState = 'highlighted';
-      } else {
-        amDisplayState = 'highlighted';
-        pmDisplayState = 'highlighted';
-      }
-    }
-
-    if (
-      props.highlightedDate &&
-      !props.highlightedRange &&
-      date.getTime() === props.highlightedDate.getTime()
-    ) {
-        amDisplayState = 'highlighted';
-        pmDisplayState = 'highlighted';
-    }
-
-    return {
-      am: amDisplayState,
-      pm: pmDisplayState
-    };
-  },
-
-  render: function() {
-    var classes = this.getClasses(this.props);
-    var date = this.props.date;
-    var amState;
-    var pmState;
-    var amDisplayState;
-    var pmDisplayState;
-    var amAction;
-    var pmAction;
-    var states = this.dateRangesForDate(date);
-    var defaultState = this.props.defaultState;
-
-    if (states.length > 0) {
-      if (states.length === 1) {
-        // If there's only one state, it means we're not at a boundary, AM/PM are the same
-        amAction = states[0].state;
-        pmAction = states[0].state;
-      } else {
-        amAction = states[0].state;
-        pmAction = states[1].state;
-      }
-    } else if (defaultState && defaultState.state) {
-      amAction = defaultState.state;
-      pmAction = defaultState.state;
-    }
-
-    var segementState = this.getSegmentStates(this.props);
-
-    return (
-      React.DOM.td({className: cx(classes), 
-        onMouseEnter: _.partial(this.highlightDate, this.props.date), 
-        onMouseLeave: _.partial(this.unHighlightDate, this.props.date), 
-        onClick: _.partial(this.selectDate, this.props.date)}, 
-        AMState({displayState: segementState.am, availabilityAction: amAction}), 
-        PMState({displayState: segementState.pm, availabilityAction: pmAction}), 
-        React.DOM.span({className: "react-datepicker-date-label"}, this.props.date.getDate())
-      )
-    );
-  }
-
-});
-
-module.exports = RangeDate;
-
-},{"./utils":"/Users/jkimbo/code/ofs/react-daterange-picker/src/utils.js","moment-range":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/moment-range/lib/moment-range.js","react/addons":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/react/addons.js","underscore":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/underscore/underscore.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/src/range-picker.jsx":[function(require,module,exports){
-/** @jsx React.DOM */
-"use strict";
-
-var React = require('react/addons');
-var moment = require('moment');
-var _ = require('underscore');
-
-var Month = require('./month');
-var SingleDate = require('./single-date');
-var RangeDate = require('./range-date');
-
-var noop = function() {};
-
-
-var RangePicker = React.createClass({displayName: 'RangePicker',
-  propTypes: {
-    numberOfCalendars: React.PropTypes.number,
-    firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
-    disableNavigation: React.PropTypes.bool,
-    initialDate: React.PropTypes.instanceOf(Date),
-    initialRange: React.PropTypes.object,
-    initialMonth: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
-    initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
-    earliestDate: React.PropTypes.instanceOf(Date),
-    latestDate: React.PropTypes.instanceOf(Date),
-    selectionType: React.PropTypes.oneOf(['single', 'range']),
-    dateStates: React.PropTypes.array, // an array of date ranges and their states
-    defaultState: React.PropTypes.object,
-    value: React.PropTypes.object, // range or single value
-    onSelect: React.PropTypes.func
-  },
-
-  getDefaultProps: function() {
-    var date = new Date();
-    var initialDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-    return {
-      numberOfCalendars: 1,
-      firstOfWeek: 0,
-      disableNavigation: false,
-      nextLabel: '',
-      previousLabel: '',
-      initialDate: initialDate,
-      selectionType: 'range',
-      defaultState: {
-        selectable: true,
-      },
-      onSelect: noop
-    };
-  },
-
-  getInitialState: function() {
-    var now = new Date();
-    var year = now.getFullYear();
-    var month = now.getMonth();
-
-    if (this.props.initialYear && this.props.initialMonth) {
-      year = this.props.initialYear;
-      month = this.props.initialMonth;
-    }
-
-    return {
-      year: year,
-      month: month,
-      selectedStartDate: null,
-      highlightStartDate: null,
-      highlightedDate: null,
-      highlightRange: null
-    };
-  },
-
-  onSelect: function(date) {
-    this.props.onSelect(moment(date));
-  },
-
-  onStartSelection: function(date) {
-    this.setState({
-      selectedStartDate: date
-    });
-  },
-
-  onCompleteSelection: function(range, states) {
-    this.setState({
-      selectedStartDate: null,
-      highlightedRange: null,
-      highlightedDate: null
-    });
-    this.props.onSelect(range, states);
-  },
-
-  onHighlightDate: function(date) {
-    this.setState({
-      highlightedDate: date,
-    });
-  },
-
-  onHighlightRange: function(range) {
-    this.setState({
-      highlightedRange: range,
-      highlightedDate: null
-    });
-  },
-
-  onUnHighlightDate: function(date) {
-    this.setState({
-      highlightedDate: null
-    });
-  },
-
-  getMonthDate: function() {
-    return new Date(this.state.year, this.state.month, 1);
-  },
-
-  moveForward: function() {
-    var monthDate = this.getMonthDate();
-    monthDate.setMonth(monthDate.getMonth() + 1);
-    this.setState({
-      year: monthDate.getFullYear(),
-      month: monthDate.getMonth()
-    });
-  },
-
-  moveBack: function() {
-    var monthDate = this.getMonthDate();
-    monthDate.setMonth(monthDate.getMonth() - 1);
-    this.setState({
-      year: monthDate.getFullYear(),
-      month: monthDate.getMonth()
-    });
-  },
-
-  changeYear: function(year) {
-    var month = this.state.month;
-
-    if (this.props.earliestDate && new Date(year, month, 1).getTime() < this.props.earliestDate.getTime()) {
-      month = this.props.earliestDate.getMonth();
-    }
-
-    if (this.props.latestDate && new Date(year, month + 1, 1).getTime() > this.props.latestDate.getTime()) {
-      month = this.props.latestDate.getMonth();
-    }
-
-    this.setState({
-      year: year,
-      month: month
-    });
-  },
-
-  changeMonth: function(date) {
-    this.setState({
-      month: date
-    });
-  },
-
-  renderCalendar: function(index) {
-    var monthDate = this.getMonthDate();
-    var year = monthDate.getFullYear();
-    var month = monthDate.getMonth();
-    var key = index + '-' + year + '-' + month;
-
-    monthDate = new Date(year, month + index, 1);
-
-    // sanitize date states
-    var dateStates = _.map(this.props.dateStates, function(state) {
-      var range = moment().range(
-        state.range.start.startOf('day'),
-        state.range.end.startOf('day')
-      );
-
-      return {
-        range: range,
-        state: state.state,
-        selectable: state.selectable
-      };
-    });
-
-    var props = {
-      index: index,
-      maxIndex: this.props.numberOfCalendars - 1,
-      minDate: this.props.earliestDate,
-      maxDate: this.props.latestDate,
-      firstOfMonth: monthDate,
-      firstOfWeek: this.props.firstOfWeek,
-      onMonthChange: this.changeMonth,
-      onYearChange: this.changeYear,
-      key: key,
-      value: this.props.value,
-      highlightStartDate: this.state.highlightStartDate,
-      selectionType: this.props.selectionType,
-      selectedStartDate: this.state.selectedStartDate,
-      highlightedDate: this.state.highlightedDate,
-      highlightedRange: this.state.highlightedRange,
-      onHighlightRange: this.onHighlightRange,
-      onHighlightDate: this.onHighlightDate,
-      onUnHighlightDate: this.onUnHighlightDate,
-      onSelect: this.onSelect,
-      onStartSelection: this.onStartSelection,
-      onCompleteSelection: this.onCompleteSelection,
-      dateComponent: this.props.selectionType == 'range' ? RangeDate : SingleDate,
-      dateStates: dateStates,
-      defaultState: this.props.defaultState
-    };
-
-    return Month(props);
-  },
-
-  render: function() {
-    var range = _.range(this.props.numberOfCalendars);
-    var calendars = _.map(range, this.renderCalendar);
-
-    return (
-      React.DOM.div({className: "react-calendars"}, 
-        React.DOM.div({className: "react-calendar-previous", onClick: this.moveBack}, 
-          React.DOM.div({className: "arrow"})
-        ), 
-        calendars, 
-        React.DOM.div({className: "react-calendar-next", onClick: this.moveForward}, 
-          React.DOM.div({className: "arrow"})
-        )
-      )
-    );
-  }
-});
-
-module.exports = RangePicker;
-
-},{"./month":"/Users/jkimbo/code/ofs/react-daterange-picker/src/month.jsx","./range-date":"/Users/jkimbo/code/ofs/react-daterange-picker/src/range-date.jsx","./single-date":"/Users/jkimbo/code/ofs/react-daterange-picker/src/single-date.jsx","moment":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/moment/moment.js","react/addons":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/react/addons.js","underscore":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/underscore/underscore.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/src/single-date.jsx":[function(require,module,exports){
-/** @jsx React.DOM */
-"use strict";
-
-var React = require('react/addons');
-var cx = React.addons.classSet;
-var moment = require('moment');
-var _ = require('underscore');
-
-
-var SingleDate = React.createClass({displayName: 'SingleDate',
-  propTypes: {
-    date: React.PropTypes.instanceOf(Date).isRequired,
-
-    firstOfMonth: React.PropTypes.instanceOf(Date).isRequired,
-    index: React.PropTypes.number.isRequired,
-    maxIndex: React.PropTypes.number.isRequired,
-    selectionType: React.PropTypes.string.isRequired,
-
-    value: React.PropTypes.object,
-    minDate: React.PropTypes.instanceOf(Date),
-    maxDate: React.PropTypes.instanceOf(Date),
-    highlightedRange: React.PropTypes.object,
-    highlightedDate: React.PropTypes.instanceOf(Date),
-    selectedStartDate: React.PropTypes.instanceOf(Date),
-
-    onHighlightDate: React.PropTypes.func,
-    onUnHighlightDate: React.PropTypes.func,
-    onStartSelection: React.PropTypes.func,
-    onCompleteSelection: React.PropTypes.func
-  },
-
-  isDisabled: function(date) {
-    var y = this.props.firstOfMonth.getFullYear();
-    var m = this.props.firstOfMonth.getMonth();
-
-    if (date.getMonth() !== m) {
-      if (this.props.index < this.props.maxIndex && date.getTime() >= new Date(y, m + 1, 1).getTime()) {
-        return true;
-      }
-      if (this.props.index > 0 && date.getTime() <= new Date(y, m, 1).getTime()) {
-        return true;
-      }
-    }
-
-    if (this.props.minDate && date.getTime() < this.props.minDate.getTime()) {
-      return true;
-    }
-    if (this.props.maxDate && date.getTime() > this.props.maxDate.getTime()) {
-      return true;
-    }
-    return false;
-  },
-
-  highlightDate: function(date) {
-    if (!this.isDisabled(date)) {
-      this.props.onHighlightDate(date);
-    }
-  },
-
-  unHighlightDate: function(date) {
-    this.props.onUnHighlightDate(date);
-  },
-
-  selectDate: function(date) {
-    if (!this.isDisabled(date)) {
-      this.props.onSelect(date);
-    }
-  },
-
-  getClasses: function() {
-    var date = this.props.date;
-    var dateMoment = moment(date);
-    var isOtherMonth = false;
-    var isSelected = false;
-    var isHighlighted = false;
-
-    var isDisabled = this.isDisabled(date);
-    var range = null;
-
-    var time = date.getTime();
-
-    if (date.getMonth() !== this.props.firstOfMonth.getMonth()) {
-      isOtherMonth = true;
-    }
-
-    if (!isDisabled) {
-      // Selections
-      if (this.props.value && (time === this.props.value.toDate().getTime())) {
-        isSelected = true;
-      }
-
-      // Highlights (Hover states)
-      if (this.props.highlightedDate && this.props.highlightedDate.getTime() === time) {
-        isHighlighted = true;
-      }
-    }
-
-    var classes = {
-      'react-calendar-date': true,
-      'react-calendar-date-selected': isSelected,
-      'react-calendar-date-highlighted': isHighlighted,
-      'react-calendar-date-disabled': isDisabled,
-      'react-calendar-date-other-month': isOtherMonth
-    };
-    return classes;
-  },
-
-  render: function() {
-    var classes = this.getClasses();
-    var date = this.props.date;
-
-    return (
-      React.DOM.td({className: cx(classes), onMouseEnter: _.partial(this.highlightDate, this.props.date), onMouseLeave: _.partial(this.unHighlightDate, this.props.date), onClick: _.partial(this.selectDate, this.props.date)}, 
-        React.DOM.span({className: "react-datepicker-date-label"}, this.props.date.getDate())
-      )
-    );
-  }
-});
-
-module.exports = SingleDate;
-
-},{"moment":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/moment/moment.js","react/addons":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/react/addons.js","underscore":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/underscore/underscore.js"}],"/Users/jkimbo/code/ofs/react-daterange-picker/src/utils.js":[function(require,module,exports){
-"use strict";
-
-var _ = require('underscore');
-
-module.exports = {
-  sortDates: function() {
-    return _.sortBy(arguments, function(d) { return d.getTime(); });
-  }
-};
-
-},{"underscore":"/Users/jkimbo/code/ofs/react-daterange-picker/node_modules/underscore/underscore.js"}]},{},["/Users/jkimbo/code/ofs/react-daterange-picker/example/js/index.js"]);
+},{}]},{},["/Users/jkimbo/code/ofs/react-daterange-picker/example/js/index.js"]);

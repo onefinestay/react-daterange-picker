@@ -1,0 +1,58 @@
+/* line 1, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+body {
+  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  width: 900px;
+  margin: 0 auto; }
+
+/* line 11, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+h1, h2, h3, h4 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: lighter; }
+
+/* line 16, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+.header {
+  margin-top: 50px; }
+  /* line 19, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  .header__logo {
+    width: 200px;
+    margin: 0 auto;
+    display: block; }
+  /* line 25, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  .header__title {
+    text-align: center;
+    margin-bottom: 3rem; }
+
+/* line 31, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+.example {
+  width: 540px;
+  margin: 0 auto;
+  overflow: hidden; }
+
+/* line 37, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+input {
+  padding: 5px 10px;
+  width: 43%; }
+  /* line 41, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  input:last-child {
+    float: right; }
+
+/* line 46, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+.react-calendars {
+  margin-bottom: 20px; }
+
+/* line 50, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+.footer {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px 0;
+  border-top: 1px solid #ccc; }
+  /* line 56, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  .footer__link {
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 10px;
+    color: #999; }
+
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImV4YW1wbGUuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQUE7RUFDSSxhQUFhO0VBQ2IsV0FBVztFQUNYLE9BQU87RUFDUCxRQUFROzs7QUFHWixJQUFJLElBQUksSUFBSTtFQUlSLGFBQWE7RUFDYixhQUFhOzs7QUFHakI7RUFDSSxZQUFZOztFQUFoQjtJQUdRLE9BQU87SUFDUCxRQUFRO0lBQ1IsU0FBUzs7RUFDakI7SUFHUSxZQUFZO0lBQ1osZUFBZTs7O0FBSXZCO0VBQ0ksT0FBTztFQUNQLFFBQVE7RUFDUixVQUFVOzs7QUFHZDtFQUNJLFNBQVM7RUFDVCxPQUFPOztFQUFYLEtBQUs7SUFHRyxPQUFPOzs7QUFJZjtFQUNJLGVBQWU7OztBQUduQjtFQUNJLFlBQVk7RUFDWixRQUFRO0VBQ1IsU0FBUztFQUNULFlBQVk7O0VBQWhCO0lBR1EsaUJBQWlCO0lBQ2pCLFNBQVM7SUFDVCxjQUFjO0lBQ2QsT0FBTyIsImZpbGUiOiJleGFtcGxlLmNzcyIsInNvdXJjZXNDb250ZW50IjpbImJvZHkge1xuICAgIGZvbnQtZmFtaWx5OiBcIkhlbHZldGljYSBOZXVlXCIsXCJIZWx2ZXRpY2FcIixIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZjtcbiAgICBmb250LXNpemU6IDE2cHg7XG4gICAgd2lkdGg6IDkwMHB4O1xuICAgIG1hcmdpbjogMCBhdXRvO1xufVxuXG5oMSxcbmgyLFxuaDMsXG5oNCB7XG4gICAgZm9udC1mYW1pbHk6ICdPcGVuIFNhbnMnLCBzYW5zLXNlcmlmO1xuICAgIGZvbnQtd2VpZ2h0OiBsaWdodGVyO1xufVxuXG4uaGVhZGVyIHtcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuXG4gICAgJl9fbG9nbyB7XG4gICAgICAgIHdpZHRoOiAyMDBweDtcbiAgICAgICAgbWFyZ2luOiAwIGF1dG87XG4gICAgICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgIH1cblxuICAgICZfX3RpdGxlIHtcbiAgICAgICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgICAgICBtYXJnaW4tYm90dG9tOiAzcmVtO1xuICAgIH1cbn1cblxuLmV4YW1wbGUge1xuICAgIHdpZHRoOiA1NDBweDtcbiAgICBtYXJnaW46IDAgYXV0bztcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xufVxuXG5pbnB1dCB7XG4gICAgcGFkZGluZzogNXB4IDEwcHg7XG4gICAgd2lkdGg6IDQzJTtcblxuICAgICY6bGFzdC1jaGlsZCB7XG4gICAgICAgIGZsb2F0OiByaWdodDtcbiAgICB9XG59XG5cbi5yZWFjdC1jYWxlbmRhcnMge1xuICAgIG1hcmdpbi1ib3R0b206IDIwcHg7XG59XG5cbi5mb290ZXIge1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBtYXJnaW46IDIwcHggMDtcbiAgICBwYWRkaW5nOiAyMHB4IDA7XG4gICAgYm9yZGVyLXRvcDogMXB4IHNvbGlkICNjY2M7XG5cbiAgICAmX19saW5rIHtcbiAgICAgICAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xuICAgICAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gICAgICAgIG1hcmdpbi1yaWdodDogMTBweDtcbiAgICAgICAgY29sb3I6ICM5OTk7XG4gICAgfVxufVxuIl0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9 */

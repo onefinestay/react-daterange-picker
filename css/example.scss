@@ -1,0 +1,62 @@
+body {
+    font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    width: 900px;
+    margin: 0 auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: lighter;
+}
+
+.header {
+    margin-top: 50px;
+
+    &__logo {
+        width: 200px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    &__title {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+}
+
+.example {
+    width: 540px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+input {
+    padding: 5px 10px;
+    width: 43%;
+
+    &:last-child {
+        float: right;
+    }
+}
+
+.react-calendars {
+    margin-bottom: 20px;
+}
+
+.footer {
+    text-align: center;
+    margin: 20px 0;
+    padding: 20px 0;
+    border-top: 1px solid #ccc;
+
+    &__link {
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 10px;
+        color: #999;
+    }
+}
