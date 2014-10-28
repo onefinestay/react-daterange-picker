@@ -4,7 +4,7 @@
   "description": "",
   "author": "",
   "license": "Apache 2.0",
-  "main": "dist/range-picker.js",
+  "main": "dist/js/range-picker.js",
   "scripts": {
     "build-js": "./node_modules/browserify/bin/cmd.js --extension .jsx -t reactify example/js/index.js -o example/build/index.js",
     "build-css": "sass example/css/react-calendar.scss > example/css/react-calendar.css",
