@@ -13,9 +13,19 @@ h4 {
     font-weight: lighter;
 }
 
-header h1 {
-    text-align: center;
-    margin-bottom: 3rem;
+.header {
+    margin-top: 50px;
+
+    &__logo {
+        width: 200px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    &__title {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
 }
 
 .example {
@@ -37,13 +47,13 @@ input {
     margin-bottom: 20px;
 }
 
-footer {
+.footer {
     text-align: center;
     margin: 20px 0;
     padding: 20px 0;
     border-top: 1px solid #ccc;
 
-    a {
+    &__link {
         text-decoration: none;
         display: inline-block;
         margin-right: 10px;

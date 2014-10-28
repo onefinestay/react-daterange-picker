@@ -182,9 +182,7 @@ var Homepage = React.createClass({
           <link href="css/example.css" rel="stylesheet"></link>
         </head>
         <body>
-          <header>
-            <h1>React Range Picker</h1>
-          </header>
+          <Header />
 
           <div className="content">
             <div id="range-picker" className="example">
@@ -232,13 +230,24 @@ var Homepage = React.createClass({
   }
 });
 
+var Header = React.createClass({
+  render: function() {
+    return (
+      <header className="header">
+        <img src="img/logo.png" className="header__logo" />
+        <h1 className="header__title">React Range Picker</h1>
+      </header>
+    );
+  }
+});
+
 var Footer = React.createClass({
   render: function() {
     return (
-      <footer>
-        <a href="http://www.onefinestay.com/">onefinestay</a>
-        <a href="https://github.com/onefinestay">Github</a>
-        <a href="https://twitter.com/buildingOFS">Twitter</a>
+      <footer className="footer">
+        <a href="http://www.onefinestay.com/" className="footer__link">onefinestay</a>
+        <a href="https://github.com/onefinestay" className="footer__link">Github</a>
+        <a href="https://twitter.com/buildingOFS" className="footer__link">Twitter</a>
       </footer>
     );
   }
