@@ -1056,7 +1056,6 @@ var Homepage = React.createClass({displayName: 'Homepage',
       React.DOM.html(null, 
         React.DOM.head(null, 
           React.DOM.title(null, "React Daterange Picker Demo"), 
-          React.DOM.link({href: "http://fonts.googleapis.com/css?family=Open+Sans:400,300", rel: "stylesheet", type: "text/css"}), 
           React.DOM.link({href: "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/docco.min.css", rel: "stylesheet", type: "text/css"}), 
           React.DOM.link({href: "css/react-calendar.css", rel: "stylesheet"}), 
           React.DOM.link({href: "css/example.css", rel: "stylesheet"})
