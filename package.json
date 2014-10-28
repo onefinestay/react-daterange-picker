@@ -6,8 +6,6 @@
   "license": "Apache 2.0",
   "main": "dist/js/range-picker.js",
   "scripts": {
-    "build-js": "./node_modules/browserify/bin/cmd.js --extension .jsx -t reactify example/js/index.js -o example/build/index.js",
-    "build-css": "sass example/css/react-calendar.scss > example/css/react-calendar.css",
     "watch-js": "./node_modules/watchify/bin/cmd.js --extension .jsx -t reactify example/js/index.js -o example/build/index.js -v"
   },
   "dependencies": {
@@ -21,6 +19,8 @@
     "browserify": "^5.12.1",
     "gulp": "^3.8.9",
     "gulp-gh-pages": "^0.4.0",
+    "gulp-sass": "^1.2.0",
+    "gulp-util": "^3.0.1",
     "reactify": "^0.14.0",
     "watchify": "^1.0.6"
   }
