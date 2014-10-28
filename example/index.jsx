@@ -179,7 +179,6 @@ var Homepage = React.createClass({
       <html>
         <head>
           <title>React Daterange Picker Demo</title>
-          <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'></link>
           <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/docco.min.css' rel='stylesheet' type='text/css'></link>
           <link href="css/react-calendar.css" rel="stylesheet"></link>
           <link href="css/example.css" rel="stylesheet"></link>
