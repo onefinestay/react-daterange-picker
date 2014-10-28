@@ -1,8 +1,8 @@
 body {
     font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+    font-size: 16px;
     width: 900px;
     margin: 0 auto;
-    font-size: 16px;
 }
 
 h1,
@@ -21,17 +21,32 @@ header h1 {
 .example {
     width: 540px;
     margin: 0 auto;
+    overflow: hidden;
 }
 
 input {
     padding: 5px 10px;
     width: 43%;
-}
 
-input:last-child {
-    float: right;
+    &:last-child {
+        float: right;
+    }
 }
 
 .react-calendars {
     margin-bottom: 20px;
+}
+
+footer {
+    text-align: center;
+    margin: 20px 0;
+    padding: 20px 0;
+    border-top: 1px solid #ccc;
+
+    a {
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 10px;
+        color: #999;
+    }
 }

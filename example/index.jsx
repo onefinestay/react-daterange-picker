@@ -185,43 +185,61 @@ var Homepage = React.createClass({
           <header>
             <h1>React Range Picker</h1>
           </header>
-          <div id="range-picker" className="example">
-            <DatePickerRange
-              numberOfCalendars={2}
-              selectionType='range'
-              earliestDate={new Date()}
-              dateStates={dateRanges} />
-          </div>
-          <div className="code-example">
-            <pre id="code-snippet">
-              <code className="javascript">
-                {CODE_EXAMPLE}
-              </code>
-            </pre>
-          </div>
 
-          <div className="examples">
-            <div className="example">
-              <h4>Range with no date states</h4>
+          <div className="content">
+            <div id="range-picker" className="example">
               <DatePickerRange
                 numberOfCalendars={2}
-                selectionType="range"
-                earliestDate={new Date()} />
+                selectionType='range'
+                earliestDate={new Date()}
+                dateStates={dateRanges} />
+            </div>
+            <div className="code-example">
+              <pre id="code-snippet">
+                <code className="javascript">
+                  {CODE_EXAMPLE}
+                </code>
+              </pre>
             </div>
 
-            <div className="example">
-              <h4>Single with no date states</h4>
-              <DatePickerSingle
-                numberOfCalendars={2}
-                selectionType="single"
-                earliestDate={new Date()} />
+            <div className="examples">
+              <div className="example">
+                <h4>Range with no date states</h4>
+                <DatePickerRange
+                  numberOfCalendars={2}
+                  selectionType="range"
+                  earliestDate={new Date()} />
+              </div>
+
+              <div className="example">
+                <h4>Single with no date states</h4>
+                <DatePickerSingle
+                  numberOfCalendars={2}
+                  selectionType="single"
+                  earliestDate={new Date()} />
+              </div>
             </div>
           </div>
+
+          <Footer />
+
           <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js" charSet="utf-8"></script>
           <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/languages/javascript.min.js" charSet="utf-8"></script>
           <script src="build/index.js"></script>
         </body>
       </html>
+    );
+  }
+});
+
+var Footer = React.createClass({
+  render: function() {
+    return (
+      <footer>
+        <a href="http://www.onefinestay.com/">onefinestay</a>
+        <a href="https://github.com/onefinestay">Github</a>
+        <a href="https://twitter.com/buildingOFS">Twitter</a>
+      </footer>
     );
   }
 });
