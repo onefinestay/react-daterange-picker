@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "browserify": "^5.12.1",
+    "gulp": "^3.8.9",
+    "gulp-gh-pages": "^0.4.0",
     "reactify": "^0.14.0",
     "watchify": "^1.0.6"
   }
