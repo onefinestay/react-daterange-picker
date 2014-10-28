@@ -913,10 +913,12 @@ var DatePickerRange = React.createClass({displayName: 'DatePickerRange',
         React.DOM.div(null, 
           React.DOM.input({type: "text", 
             value: this.state.start ?  this.state.start.format('LL') : null, 
-            readOnly: true}), 
+            readOnly: true, 
+            placeholder: "Start date"}), 
           React.DOM.input({type: "text", 
             value: this.state.end ? this.state.end.format('LL') : null, 
-            readOnly: true})
+            readOnly: true, 
+            placeholder: "End date"})
         )
       )
     );
@@ -953,6 +955,7 @@ var DatePickerSingle = React.createClass({displayName: 'DatePickerSingle',
   }
 });
 
+// CODE_EXAMPLE
 var CODE_EXAMPLE = function() {
 var RangePicker = require('react-daterange-picker');
 
@@ -1052,7 +1055,7 @@ var Homepage = React.createClass({displayName: 'Homepage',
     return (
       React.DOM.html(null, 
         React.DOM.head(null, 
-          React.DOM.title(null, "React Range Picker Demo"), 
+          React.DOM.title(null, "React Daterange Picker Demo"), 
           React.DOM.link({href: "http://fonts.googleapis.com/css?family=Open+Sans:400,300", rel: "stylesheet", type: "text/css"}), 
           React.DOM.link({href: "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/docco.min.css", rel: "stylesheet", type: "text/css"}), 
           React.DOM.link({href: "css/react-calendar.css", rel: "stylesheet"}), 
@@ -1060,6 +1063,7 @@ var Homepage = React.createClass({displayName: 'Homepage',
         ), 
         React.DOM.body(null, 
           Header(null), 
+          GithubRibbon(null), 
 
           React.DOM.div({className: "content"}, 
             React.DOM.div({id: "range-picker", className: "example"}, 
@@ -1112,7 +1116,7 @@ var Header = React.createClass({displayName: 'Header',
     return (
       React.DOM.header({className: "header"}, 
         React.DOM.img({src: "img/logo.png", className: "header__logo"}), 
-        React.DOM.h1({className: "header__title"}, "React Range Picker")
+        React.DOM.h1({className: "header__title"}, "React Daterange Picker")
       )
     );
   }
@@ -1125,6 +1129,23 @@ var Footer = React.createClass({displayName: 'Footer',
         React.DOM.a({href: "http://www.onefinestay.com/", className: "footer__link"}, "onefinestay"), 
         React.DOM.a({href: "https://github.com/onefinestay", className: "footer__link"}, "Github"), 
         React.DOM.a({href: "https://twitter.com/buildingOFS", className: "footer__link"}, "Twitter")
+      )
+    );
+  }
+});
+
+var GithubRibbon = React.createClass({displayName: 'GithubRibbon',
+  render: function() {
+    var style = {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      border: 0
+    };
+
+    return (
+      React.DOM.a({href: "https://github.com/onefinestay/react-daterange-picker"}, 
+        React.DOM.img({style: style, src: "https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67", alt: "Fork me on GitHub", 'data-canonical-src': "https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"})
       )
     );
   }
