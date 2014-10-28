@@ -9,6 +9,7 @@ var reactify = require('reactify');
 var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var watch = require('gulp-watch');
+var render = require('gulp-render');
 
 gulp.task('build-css', function() {
   gulp.src('./example/css/*.scss')
@@ -41,6 +42,15 @@ gulp.task('build-js', function() {
   // bundle it all up
   return bundle.bundle()
     .pipe(dest);
+});
+
+gulp.task('build-example', function() {
+  return gulp.src('./example/index.jsx')
+    .pipe(render({
+      template: '<!doctype html>' +
+                '<%=body%>'
+    }))
+    .pipe(gulp.dest('./example'));
 });
 
 gulp.task('deploy', function() {

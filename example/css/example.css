@@ -1,0 +1,37 @@
+body {
+    font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+    width: 900px;
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: lighter;
+}
+
+header h1 {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.example {
+    width: 540px;
+    margin: 0 auto;
+}
+
+input {
+    padding: 5px 10px;
+    width: 43%;
+}
+
+input:last-child {
+    float: right;
+}
+
+.react-calendars {
+    margin-bottom: 20px;
+}

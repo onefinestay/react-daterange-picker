@@ -6,7 +6,7 @@
   "license": "Apache 2.0",
   "main": "dist/js/range-picker.js",
   "scripts": {
-    "watch-js": "./node_modules/watchify/bin/cmd.js --extension .jsx -t reactify example/js/index.js -o example/build/index.js -v"
+    "watch-js": "./node_modules/watchify/bin/cmd.js --extension .jsx -t reactify example/js/index.js -o example/build/index.js -v --exclude react-daterange-picker"
   },
   "dependencies": {
     "react": "^0.11.2",
@@ -19,6 +19,7 @@
     "browserify": "^5.12.1",
     "gulp": "^3.8.9",
     "gulp-gh-pages": "^0.4.0",
+    "gulp-render": "0.0.4",
     "gulp-sass": "^1.2.0",
     "gulp-sourcemaps": "^1.2.4",
     "gulp-util": "^3.0.1",
