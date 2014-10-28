@@ -7,11 +7,21 @@ var sass = require('gulp-sass');
 var browserify = require('browserify');
 var reactify = require('reactify');
 var gutil = require('gulp-util');
+var sourcemaps = require('gulp-sourcemaps');
+var watch = require('gulp-watch');
 
 gulp.task('build-css', function() {
   gulp.src('./example/css/*.scss')
-    .pipe(sass())
+    .pipe(sourcemaps.init())
+      .pipe(sass())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('./example/css'));
+});
+
+gulp.task('watch-css', function() {
+  watch('./example/css/*.scss', function(files, cb) {
+    gulp.start('build-css', cb);
+  });
 });
 
 gulp.task('build-js', function() {
