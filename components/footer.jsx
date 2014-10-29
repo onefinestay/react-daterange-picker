@@ -22,7 +22,7 @@ var OFSCredit = React.createClass({
   render: function() {
     return (
       <div className="ofs-credit">
-        <p className="ofs-credit__text">Brought to you by</p>
+        <p className="ofs-credit__text">Built by</p>
         <a href="http://www.onefinestay.com/" className="ofs-credit__logo">
           <img src="img/logo.png"/>
         </a>

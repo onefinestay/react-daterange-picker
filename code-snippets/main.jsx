@@ -1,7 +1,6 @@
-/* global moment, React */
+/* global React */
 "use strict";
 
-module.exports = function() {
 var RangePicker = require('react-daterange-picker');
 var moment = require('moment-range');
 
@@ -55,12 +54,12 @@ var DatePicker = React.createClass({
     });
   },
   render: function() {
-    return RangePicker({
-      numberOfCalendars: 2,
-      dateStates: dateStates,
-      value: this.state.value,
-      onSelect: this.handleSelect
-    });
+    return (
+      <RangePicker
+        numberOfCalendars={2}
+        dateStates={dateStates}
+        value={this.state.value}
+        onSelect={this.handleSelect} />
+    );
   }
 });
-};
