@@ -99,9 +99,25 @@ var RangeDate = React.createClass({
 
   isDateSelectable: function(date) {
     var dateRanges = this.dateRangesForDate(date);
-    if (dateRanges.length === 0 && this.props.defaultState.selectable) {
+    var defaultState = this.props.defaultState;
+
+    if (dateRanges.length === 0 && defaultState.selectable) {
       return true;
     } else {
+      // if one date range and date is at the start or end of it then return
+      // defaultState
+      if (dateRanges.length === 1) {
+        var state = dateRanges[0];
+        var start = state.range.start.toDate();
+        var end = state.range.end.toDate();
+        if (
+          start.getTime() == date.getTime() ||
+          end.getTime() == date.getTime()
+        ) {
+          return defaultState.selectable === true;
+        }
+      }
+
       if (_.some(dateRanges, function(r) { return r.selectable; })) {
         return true;
       }
@@ -315,8 +331,8 @@ var RangeDate = React.createClass({
       !props.highlightedRange &&
       date.getTime() === props.highlightedDate.getTime()
     ) {
-        amDisplayState = 'highlighted';
-        pmDisplayState = 'highlighted';
+      amDisplayState = 'highlighted';
+      pmDisplayState = 'highlighted';
     }
 
     return {
@@ -339,9 +355,27 @@ var RangeDate = React.createClass({
 
     if (states.length > 0) {
       if (states.length === 1) {
-        // If there's only one state, it means we're not at a boundary, AM/PM are the same
-        amAction = states[0].state;
-        pmAction = states[0].state;
+        // If there's only one state, it means we're not at a boundary
+        var state = states[0];
+        var start = state.range.start.toDate();
+        var end = state.range.end.toDate();
+
+        if (!defaultState) {
+          amAction = state.state;
+          pmAction = state.state;
+        } else {
+          // start of range
+          if (start.getTime() == date.getTime()) {
+            amAction = defaultState.state;
+            pmAction = state.state;
+          } else if (end.getTime() == date.getTime()) {
+            amAction = state.state;
+            pmAction = defaultState.state;
+          } else {
+            amAction = state.state;
+            pmAction = state.state;
+          }
+        }
       } else {
         amAction = states[0].state;
         pmAction = states[1].state;
