@@ -8,6 +8,7 @@ var RangePicker = require('../dist/range-picker');
 var Header = require('./components/header.jsx');
 var Footer = require('./components/footer.jsx');
 var GithubRibbon = require('./components/github-ribbon.jsx');
+var CodeSnippet = require('./components/code-snippet.jsx');
 
 function processCodeSnippet(src) {
   var lines = src.split('\n');
@@ -89,7 +90,7 @@ var DatePickerSingle = React.createClass({
   }
 });
 
-var mainCodeSnippet = require('./code-snippets/main.jsx').toString();
+var mainCodeSnippet = require('./code-snippets/main.js').toString();
 
 var Homepage = React.createClass({
   getDefaultProps: function() {
@@ -152,13 +153,9 @@ var Homepage = React.createClass({
                 earliestDate={new Date()}
                 dateStates={dateRanges} />
             </div>
-            <div className="code-example">
-              <pre id="code-snippet">
-                <code className="javascript">
-                  {processCodeSnippet(mainCodeSnippet)}
-                </code>
-              </pre>
-            </div>
+            <CodeSnippet>
+              {processCodeSnippet(mainCodeSnippet)}
+            </CodeSnippet>
 
             <div className="examples">
               <div className="example">
