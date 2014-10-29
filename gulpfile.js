@@ -1,6 +1,7 @@
 "use strict";
 
 var fs = require('fs');
+var path = require('path');
 var gulp = require('gulp');
 var deploy = require('gulp-gh-pages');
 var sass = require('gulp-sass');
@@ -10,6 +11,7 @@ var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var watch = require('gulp-watch');
 var render = require('gulp-render');
+var envify = require('envify/custom');
 
 gulp.task('build-css', function() {
   gulp.src('./example/css/*.scss')
@@ -31,10 +33,27 @@ gulp.task('build-js', function() {
     extensions: ['.jsx', '.js'],
   });
 
+  bundle.exclude('react-daterange-picker');
+
   bundle.transform(function(file) {
     return reactify(file, {
       extension: ['jsx', 'js']
     });
+  });
+
+  bundle.transform({global: true}, envify({
+    NODE_ENV: 'production'
+  }));
+
+  var map = './index.js.map';
+  var output = './example/build/index.js.map';
+
+  bundle.plugin('minifyify', {
+    map: map,
+    output: output,
+    compressPath: function(p) {
+      return '/' + path.relative(__dirname, p);
+    }
   });
 
   var dest = fs.createWriteStream('./example/build/index.js');
