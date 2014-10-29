@@ -102,38 +102,19 @@ var Homepage = React.createClass({
   render: function() {
     var dateRanges = [
       {
-        range: moment().range(
-          moment().startOf('day'),
-          moment().add(2, 'weeks')
-        ),
-        state: 'available',
-        selectable: true
-      },
-      {
-        range: moment().range(
-          moment().add(2, 'weeks'),
-          moment().add(3, 'weeks')
-        ),
-        state: 'enquire',
-        selectable: true
-      },
-      {
+        state: 'unavailable',
         range: moment().range(
           moment().add(3, 'weeks'),
           moment().add(3, 'weeks').add(5, 'days')
         ),
-        state: 'unavailable',
         selectable: false
-      },
-      {
-        range: moment().range(
-          moment().add(3, 'weeks').add(5, 'days'),
-          moment().add(10, 'weeks')
-        ),
-        state: 'available',
-        selectable: true
-      },
+      }
     ];
+
+    var defaultState = {
+      selectable: true,
+      state: 'available'
+    };
 
     var initialStart = moment().add(1, 'weeks').startOf('day');
     var initialEnd = moment().add(2, 'weeks').startOf('day');
@@ -157,6 +138,7 @@ var Homepage = React.createClass({
                 selectionType='range'
                 earliestDate={new Date()}
                 dateStates={dateRanges}
+                defaultState={defaultState}
                 start={initialStart}
                 end={initialEnd} />
               <CodeSnippet language="javascript">
