@@ -10,6 +10,8 @@ h2,
 h3,
 h4 {
     font-weight: lighter;
+    letter-spacing: 1.2px;
+    text-rendering: optimizeLegibility;
 }
 
 .header {
@@ -47,15 +49,35 @@ input {
 }
 
 .footer {
-    text-align: center;
     margin: 20px 0;
     padding: 20px 0;
     border-top: 1px solid #ccc;
+
+    &__links {
+        text-align: center;
+    }
 
     &__link {
         text-decoration: none;
         display: inline-block;
         margin-right: 10px;
         color: #999;
+    }
+}
+
+.ofs-credit {
+    margin-bottom: 1rem;
+
+    &__text {
+        text-align: center;
+        margin: 0;
+        color: #999;
+        margin-bottom: 0.5rem;
+    }
+
+    &__logo {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
     }
 }
