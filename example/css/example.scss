@@ -4,7 +4,7 @@ $ofs-red: #d80033;
 body {
     font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
     font-size: 16px;
-    width: 900px;
+    width: 540px;
     margin: 0 auto;
 }
 
@@ -38,8 +38,6 @@ h2 {
 }
 
 .example {
-    width: 540px;
-    margin: 0 auto;
     overflow: hidden;
 }
 
@@ -57,6 +55,35 @@ input {
 }
 
 .code-snippet {
+    margin-top: 1rem;
+
+    $arrow-size: 6px;
+
+    &__arrow {
+        display: inline-block;
+        width: 0;
+        height: 0;
+
+        &--right {
+            border-top: $arrow-size solid transparent;
+            border-bottom: $arrow-size solid transparent;
+
+            border-left: $arrow-size solid #AAAAAA;
+            border-right: $arrow-size solid transparent;
+        }
+
+        &--up {
+            margin-right: 6px;
+            margin-bottom: 3px;
+
+            border-top: $arrow-size solid transparent;
+            border-bottom: $arrow-size solid #AAAAAA;
+
+            border-left: $arrow-size solid transparent;
+            border-right: $arrow-size solid transparent;
+        }
+    }
+
     &__toggle-button {
         color: $ofs-pink;
         text-decoration: none;
@@ -98,5 +125,12 @@ input {
         display: block;
         width: 200px;
         margin: 0 auto;
+    }
+}
+
+.features {
+    &__point {
+        margin-bottom: 0.3rem;
+        font-weight: 200;
     }
 }

@@ -10,6 +10,7 @@ var Footer = require('./components/footer.jsx');
 var GithubRibbon = require('./components/github-ribbon.jsx');
 var CodeSnippet = require('./components/code-snippet.jsx');
 var Install = require('./components/install.jsx');
+var Features = require('./components/features.jsx');
 
 function processCodeSnippet(src) {
   var lines = src.split('\n');
@@ -147,17 +148,18 @@ var Homepage = React.createClass({
           <GithubRibbon />
 
           <div className="content">
-            <div id="range-picker" className="example">
+            <div className="example">
               <DatePickerRange
                 numberOfCalendars={2}
                 selectionType='range'
                 earliestDate={new Date()}
                 dateStates={dateRanges} />
+              <CodeSnippet language="javascript">
+                {processCodeSnippet(mainCodeSnippet)}
+              </CodeSnippet>
             </div>
-            <CodeSnippet language="javascript">
-              {processCodeSnippet(mainCodeSnippet)}
-            </CodeSnippet>
 
+            <Features />
             <Install />
 
             <div className="examples">

@@ -3,6 +3,7 @@
 "use strict";
 
 var React = require('react/addons');
+var cx = React.addons.classSet;
 
 var CodeSnippet = React.createClass({
   propTypes: {
@@ -48,10 +49,17 @@ var CodeSnippet = React.createClass({
   },
 
   render: function() {
+    var arrowClasses = cx({
+      'code-snippet__arrow': true,
+      'code-snippet__arrow--right': !this.state.visible,
+      'code-snippet__arrow--up': this.state.visible,
+    });
+
     return (
       <div className="code-snippet">
         {this.props.toggle ?
           <a href="#" onClick={this.handleClick} className="code-snippet__toggle-button">
+            <span className={arrowClasses}></span>
             {!this.state.visible ? "Show code" : "Hide code"}
           </a> : null}
         {this.state.visible ?
