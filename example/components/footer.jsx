@@ -9,6 +9,7 @@ var Footer = React.createClass({
       <footer className="footer">
         <OFSCredit />
         <div className="footer__links">
+          <a href="http://tech.onefinestay.com/" className="footer__link">Blog</a>
           <a href="https://github.com/onefinestay" className="footer__link">Github</a>
           <a href="https://twitter.com/buildingOFS" className="footer__link">Twitter</a>
         </div>

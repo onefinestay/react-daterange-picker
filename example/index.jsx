@@ -9,6 +9,7 @@ var Header = require('./components/header.jsx');
 var Footer = require('./components/footer.jsx');
 var GithubRibbon = require('./components/github-ribbon.jsx');
 var CodeSnippet = require('./components/code-snippet.jsx');
+var Install = require('./components/install.jsx');
 
 function processCodeSnippet(src) {
   var lines = src.split('\n');
@@ -153,11 +154,15 @@ var Homepage = React.createClass({
                 earliestDate={new Date()}
                 dateStates={dateRanges} />
             </div>
-            <CodeSnippet>
+            <CodeSnippet language="javascript">
               {processCodeSnippet(mainCodeSnippet)}
             </CodeSnippet>
 
+            <Install />
+
             <div className="examples">
+              <h2>Examples</h2>
+
               <div className="example">
                 <h4>Range with no date states</h4>
                 <DatePickerRange

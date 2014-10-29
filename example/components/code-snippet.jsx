@@ -6,12 +6,21 @@ var React = require('react/addons');
 
 var CodeSnippet = React.createClass({
   propTypes: {
+    language: React.PropTypes.string.isRequired,
+    toggle: React.PropTypes.bool,
     visible: React.PropTypes.bool
+  },
+
+  getDefaultProps: function() {
+    return {
+      toggle: true,
+      visible: false
+    };
   },
 
   getInitialState: function() {
     return {
-      visible: this.props.visible
+      visible: this.props.visible || !this.props.toggle
     };
   },
 
@@ -31,15 +40,23 @@ var CodeSnippet = React.createClass({
     });
   },
 
+  componentDidMount: function() {
+    if (this.state.visible) {
+      var el = this.refs.codeBlock.getDOMNode();
+      hljs.highlightBlock(el);
+    }
+  },
+
   render: function() {
     return (
       <div className="code-snippet">
-        <a href="#" onClick={this.handleClick} className="code-snippet__toggle-button">
-          {!this.state.visible ? "Show code" : "Hide code"}
-        </a>
+        {this.props.toggle ?
+          <a href="#" onClick={this.handleClick} className="code-snippet__toggle-button">
+            {!this.state.visible ? "Show code" : "Hide code"}
+          </a> : null}
         {this.state.visible ?
           <pre>
-            <code className="javascript" ref="codeBlock">
+            <code className={this.props.language} ref="codeBlock">
               {this.props.children}
             </code>
           </pre> : null}
