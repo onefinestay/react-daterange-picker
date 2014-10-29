@@ -3,6 +3,7 @@
 
 var React = require('react/addons');
 var moment = require('moment-range');
+var fs = require('fs');
 var RangePicker = require('../dist/range-picker');
 
 var Header = require('./components/header.jsx');
@@ -14,8 +15,7 @@ var Features = require('./components/features.jsx');
 
 function processCodeSnippet(src) {
   var lines = src.split('\n');
-  lines.splice(0, 1);
-  lines.splice(lines.length - 1, 1);
+  lines.splice(0, 3);
   return lines.join('\n');
 }
 
@@ -92,7 +92,7 @@ var DatePickerSingle = React.createClass({
   }
 });
 
-var mainCodeSnippet = require('./code-snippets/main.js').toString();
+var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 
 var Homepage = React.createClass({
   getDefaultProps: function() {

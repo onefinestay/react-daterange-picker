@@ -29,6 +29,7 @@ gulp.task('watch-css', function() {
 
 gulp.task('build-js', function() {
   var bundle = browserify('./example/js/index.js', {
+    debug: true,
     extensions: ['.jsx', '.js'],
   });
 
@@ -44,15 +45,18 @@ gulp.task('build-js', function() {
     NODE_ENV: 'production'
   }));
 
+  bundle.transform('brfs');
+
   var map = './index.js.map';
   var output = './example/build/index.js.map';
 
-  bundle.transform({
-    global: true,
-    ignore: [
-      '**/code-snippets/*'
-    ]
-  }, 'uglifyify');
+  bundle.plugin('minifyify', {
+    map: map,
+    output: output,
+    compressPath: function(p) {
+      return '/' + path.relative(__dirname, p);
+    }
+  });
 
   var dest = fs.createWriteStream('./example/build/index.js');
 
