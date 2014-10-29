@@ -22,8 +22,8 @@ function processCodeSnippet(src) {
 var DatePickerRange = React.createClass({
   getInitialState: function() {
     return {
-      start: null,
-      end: null,
+      start: this.props.start,
+      end: this.props.end,
     };
   },
   handleSelect: function(range) {
@@ -128,12 +128,15 @@ var Homepage = React.createClass({
       {
         range: moment().range(
           moment().add(3, 'weeks').add(5, 'days'),
-          moment().add(5, 'weeks')
+          moment().add(10, 'weeks')
         ),
         state: 'available',
         selectable: true
       },
     ];
+
+    var initialStart = moment().add(1, 'weeks').startOf('day');
+    var initialEnd = moment().add(2, 'weeks').startOf('day');
 
     return (
       <html>
@@ -153,7 +156,9 @@ var Homepage = React.createClass({
                 numberOfCalendars={2}
                 selectionType='range'
                 earliestDate={new Date()}
-                dateStates={dateRanges} />
+                dateStates={dateRanges}
+                start={initialStart}
+                end={initialEnd} />
               <CodeSnippet language="javascript">
                 {processCodeSnippet(mainCodeSnippet)}
               </CodeSnippet>
