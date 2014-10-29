@@ -37,10 +37,6 @@ h2 {
     }
 }
 
-.example {
-    overflow: hidden;
-}
-
 input {
     padding: 5px 10px;
     width: 43%;
@@ -129,8 +125,28 @@ input {
 }
 
 .features {
+    overflow: hidden;
+
     &__point {
         margin-bottom: 0.3rem;
         font-weight: 200;
     }
 }
+
+.install {
+    overflow: hidden;
+}
+
+.examples {
+    overflow: hidden;
+}
+
+.example {
+    overflow: hidden;
+    margin-bottom: 1rem;
+
+    h4 {
+        margin-top: 0;
+    }
+}
+
