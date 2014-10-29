@@ -9,9 +9,18 @@ var Features = React.createClass({
       <div className="features">
         <h2>Features</h2>
         <ul className="features__list">
-          <li className="features__point">Amazing - Will transform your life.</li>
-          <li className="features__point">Revolutionary - No one has ever thought of doing this. Ever.</li>
-          <li className="features__point">Mind blowing - Boom.</li>
+          <li className="features__point">
+            Select a date range in an intuitive way.
+          </li>
+          <li className="features__point">
+            Define date ranges that are not available for selection.
+          </li>
+          <li className="features__point">
+            Show any number of months at the same time.
+          </li>
+          <li className="features__point">
+            Visually represent half day states.
+          </li>
         </ul>
       </div>
     );
