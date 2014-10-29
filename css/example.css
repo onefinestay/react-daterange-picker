@@ -1,57 +1,128 @@
-/* line 1, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+/* line 4, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
 body {
   font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
   font-size: 16px;
-  width: 900px;
+  width: 540px;
   margin: 0 auto; }
 
-/* line 11, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+/* line 14, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
 h1, h2, h3, h4 {
-  font-weight: lighter; }
+  font-weight: lighter;
+  letter-spacing: 1.2px;
+  text-rendering: optimizeLegibility; }
 
-/* line 15, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+/* line 21, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+h1, h2 {
+  color: #ff2558; }
+
+/* line 25, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
 .header {
   margin-top: 50px; }
-  /* line 18, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  /* line 28, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
   .header__logo {
     width: 200px;
     margin: 0 auto;
     display: block; }
-  /* line 24, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  /* line 34, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
   .header__title {
     text-align: center;
     margin-bottom: 3rem; }
 
-/* line 30, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
-.example {
-  width: 540px;
-  margin: 0 auto;
-  overflow: hidden; }
-
-/* line 36, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+/* line 40, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
 input {
   padding: 5px 10px;
   width: 43%; }
-  /* line 40, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  /* line 44, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
   input:last-child {
     float: right; }
 
-/* line 45, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+/* line 49, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
 .react-calendars {
   margin-bottom: 20px; }
 
-/* line 49, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+/* line 53, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+.code-snippet {
+  margin-top: 1rem; }
+  /* line 58, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  .code-snippet__arrow {
+    display: inline-block;
+    width: 0;
+    height: 0; }
+    /* line 63, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+    .code-snippet__arrow--right {
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 6px solid #AAAAAA;
+      border-right: 6px solid transparent; }
+    /* line 71, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+    .code-snippet__arrow--up {
+      margin-right: 6px;
+      margin-bottom: 3px;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid #AAAAAA;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent; }
+  /* line 83, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  .code-snippet__toggle-button {
+    color: #ff2558;
+    text-decoration: none; }
+    /* line 87, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+    .code-snippet__toggle-button:hover {
+      color: #d80033; }
+
+/* line 93, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
 .footer {
-  text-align: center;
   margin: 20px 0;
   padding: 20px 0;
   border-top: 1px solid #ccc; }
-  /* line 55, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  /* line 98, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  .footer__links {
+    text-align: center; }
+  /* line 102, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
   .footer__link {
     text-decoration: none;
     display: inline-block;
     margin-right: 10px;
-    color: #999; }
+    color: #ff2558; }
+
+/* line 110, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+.ofs-credit {
+  margin-bottom: 1rem; }
+  /* line 113, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  .ofs-credit__text {
+    text-align: center;
+    margin: 0;
+    color: #999;
+    margin-bottom: 0.5rem; }
+  /* line 120, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  .ofs-credit__logo {
+    display: block;
+    width: 200px;
+    margin: 0 auto; }
+
+/* line 127, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+.features {
+  overflow: hidden; }
+  /* line 130, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  .features__point {
+    margin-bottom: 0.5rem;
+    font-weight: 200; }
+
+/* line 136, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+.install {
+  overflow: hidden; }
+
+/* line 140, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+.examples {
+  overflow: hidden; }
+
+/* line 144, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+.example {
+  overflow: hidden;
+  margin-bottom: 1rem; }
+  /* line 148, /Users/jkimbo/code/ofs/react-daterange-picker/example/css/example.scss */
+  .example h4 {
+    margin-top: 0; }
 
 
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImV4YW1wbGUuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQUE7RUFDSSxhQUFhO0VBQ2IsV0FBVztFQUNYLE9BQU87RUFDUCxRQUFROzs7QUFHWixJQUFJLElBQUksSUFBSTtFQUlSLGFBQWE7OztBQUdqQjtFQUNJLFlBQVk7O0VBQWhCO0lBR1EsT0FBTztJQUNQLFFBQVE7SUFDUixTQUFTOztFQUNqQjtJQUdRLFlBQVk7SUFDWixlQUFlOzs7QUFJdkI7RUFDSSxPQUFPO0VBQ1AsUUFBUTtFQUNSLFVBQVU7OztBQUdkO0VBQ0ksU0FBUztFQUNULE9BQU87O0VBQVgsS0FBSztJQUdHLE9BQU87OztBQUlmO0VBQ0ksZUFBZTs7O0FBR25CO0VBQ0ksWUFBWTtFQUNaLFFBQVE7RUFDUixTQUFTO0VBQ1QsWUFBWTs7RUFBaEI7SUFHUSxpQkFBaUI7SUFDakIsU0FBUztJQUNULGNBQWM7SUFDZCxPQUFPIiwiZmlsZSI6ImV4YW1wbGUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiYm9keSB7XG4gICAgZm9udC1mYW1pbHk6IFwiSGVsdmV0aWNhIE5ldWVcIixcIkhlbHZldGljYVwiLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmO1xuICAgIGZvbnQtc2l6ZTogMTZweDtcbiAgICB3aWR0aDogOTAwcHg7XG4gICAgbWFyZ2luOiAwIGF1dG87XG59XG5cbmgxLFxuaDIsXG5oMyxcbmg0IHtcbiAgICBmb250LXdlaWdodDogbGlnaHRlcjtcbn1cblxuLmhlYWRlciB7XG4gICAgbWFyZ2luLXRvcDogNTBweDtcblxuICAgICZfX2xvZ28ge1xuICAgICAgICB3aWR0aDogMjAwcHg7XG4gICAgICAgIG1hcmdpbjogMCBhdXRvO1xuICAgICAgICBkaXNwbGF5OiBibG9jaztcbiAgICB9XG5cbiAgICAmX190aXRsZSB7XG4gICAgICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICAgICAgbWFyZ2luLWJvdHRvbTogM3JlbTtcbiAgICB9XG59XG5cbi5leGFtcGxlIHtcbiAgICB3aWR0aDogNTQwcHg7XG4gICAgbWFyZ2luOiAwIGF1dG87XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcbn1cblxuaW5wdXQge1xuICAgIHBhZGRpbmc6IDVweCAxMHB4O1xuICAgIHdpZHRoOiA0MyU7XG5cbiAgICAmOmxhc3QtY2hpbGQge1xuICAgICAgICBmbG9hdDogcmlnaHQ7XG4gICAgfVxufVxuXG4ucmVhY3QtY2FsZW5kYXJzIHtcbiAgICBtYXJnaW4tYm90dG9tOiAyMHB4O1xufVxuXG4uZm9vdGVyIHtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgbWFyZ2luOiAyMHB4IDA7XG4gICAgcGFkZGluZzogMjBweCAwO1xuICAgIGJvcmRlci10b3A6IDFweCBzb2xpZCAjY2NjO1xuXG4gICAgJl9fbGluayB7XG4gICAgICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICAgICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICAgICAgICBtYXJnaW4tcmlnaHQ6IDEwcHg7XG4gICAgICAgIGNvbG9yOiAjOTk5O1xuICAgIH1cbn1cbiJdLCJzb3VyY2VSb290IjoiL3NvdXJjZS8ifQ== */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImV4YW1wbGUuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBR0E7RUFDSSxhQUFhO0VBQ2IsV0FBVztFQUNYLE9BQU87RUFDUCxRQUFROzs7QUFHWixJQUFJLElBQUksSUFBSTtFQUlSLGFBQWE7RUFDYixnQkFBZ0I7RUFDaEIsZ0JBQWdCOzs7QUFHcEIsSUFBSTtFQUVBLE9BckJPOzs7QUF3Qlg7RUFDSSxZQUFZOztFQUFoQjtJQUdRLE9BQU87SUFDUCxRQUFRO0lBQ1IsU0FBUzs7RUFDakI7SUFHUSxZQUFZO0lBQ1osZUFBZTs7O0FBSXZCO0VBQ0ksU0FBUztFQUNULE9BQU87O0VBQVgsS0FBSztJQUdHLE9BQU87OztBQUlmO0VBQ0ksZUFBZTs7O0FBR25CO0VBQ0ksWUFBWTs7RUFFaEI7SUFHUSxTQUFTO0lBQ1QsT0FBTztJQUNQLFFBQVE7O0lBQWhCO01BR1ksWUFBWTtNQUNaLGVBQWU7TUFFZixhQUFhO01BQ2IsY0FBYzs7SUFDMUI7TUFHWSxjQUFjO01BQ2QsZUFBZTtNQUVmLFlBQVk7TUFDWixlQUFlO01BRWYsYUFBYTtNQUNiLGNBQWM7O0VBRTFCO0lBR1EsT0FuRkc7SUFvRkgsaUJBQWlCOztJQUF6Qiw0QkFBNEI7TUFHaEIsT0F0RkY7OztBQTJGVjtFQUNJLFFBQVE7RUFDUixTQUFTO0VBQ1QsWUFBWTs7RUFBaEI7SUFHUSxZQUFZOztFQUNwQjtJQUdRLGlCQUFpQjtJQUNqQixTQUFTO0lBQ1QsY0FBYztJQUNkLE9BekdHOzs7QUE2R1g7RUFDSSxlQUFlOztFQUFuQjtJQUdRLFlBQVk7SUFDWixRQUFRO0lBQ1IsT0FBTztJQUNQLGVBQWU7O0VBQ3ZCO0lBR1EsU0FBUztJQUNULE9BQU87SUFDUCxRQUFROzs7QUFJaEI7RUFDSSxVQUFVOztFQUFkO0lBR1EsZUFBZTtJQUNmLGFBQWE7OztBQUlyQjtFQUNJLFVBQVU7OztBQUdkO0VBQ0ksVUFBVTs7O0FBR2Q7RUFDSSxVQUFVO0VBQ1YsZUFBZTs7RUFBbkIsU0FBUztJQUdELFlBQVkiLCJmaWxlIjoiZXhhbXBsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIkb2ZzLXBpbms6ICNmZjI1NTg7XG4kb2ZzLXJlZDogI2Q4MDAzMztcblxuYm9keSB7XG4gICAgZm9udC1mYW1pbHk6IFwiSGVsdmV0aWNhIE5ldWVcIixcIkhlbHZldGljYVwiLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmO1xuICAgIGZvbnQtc2l6ZTogMTZweDtcbiAgICB3aWR0aDogNTQwcHg7XG4gICAgbWFyZ2luOiAwIGF1dG87XG59XG5cbmgxLFxuaDIsXG5oMyxcbmg0IHtcbiAgICBmb250LXdlaWdodDogbGlnaHRlcjtcbiAgICBsZXR0ZXItc3BhY2luZzogMS4ycHg7XG4gICAgdGV4dC1yZW5kZXJpbmc6IG9wdGltaXplTGVnaWJpbGl0eTtcbn1cblxuaDEsXG5oMiB7XG4gICAgY29sb3I6ICRvZnMtcGluaztcbn1cblxuLmhlYWRlciB7XG4gICAgbWFyZ2luLXRvcDogNTBweDtcblxuICAgICZfX2xvZ28ge1xuICAgICAgICB3aWR0aDogMjAwcHg7XG4gICAgICAgIG1hcmdpbjogMCBhdXRvO1xuICAgICAgICBkaXNwbGF5OiBibG9jaztcbiAgICB9XG5cbiAgICAmX190aXRsZSB7XG4gICAgICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICAgICAgbWFyZ2luLWJvdHRvbTogM3JlbTtcbiAgICB9XG59XG5cbmlucHV0IHtcbiAgICBwYWRkaW5nOiA1cHggMTBweDtcbiAgICB3aWR0aDogNDMlO1xuXG4gICAgJjpsYXN0LWNoaWxkIHtcbiAgICAgICAgZmxvYXQ6IHJpZ2h0O1xuICAgIH1cbn1cblxuLnJlYWN0LWNhbGVuZGFycyB7XG4gICAgbWFyZ2luLWJvdHRvbTogMjBweDtcbn1cblxuLmNvZGUtc25pcHBldCB7XG4gICAgbWFyZ2luLXRvcDogMXJlbTtcblxuICAgICRhcnJvdy1zaXplOiA2cHg7XG5cbiAgICAmX19hcnJvdyB7XG4gICAgICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgICAgICAgd2lkdGg6IDA7XG4gICAgICAgIGhlaWdodDogMDtcblxuICAgICAgICAmLS1yaWdodCB7XG4gICAgICAgICAgICBib3JkZXItdG9wOiAkYXJyb3ctc2l6ZSBzb2xpZCB0cmFuc3BhcmVudDtcbiAgICAgICAgICAgIGJvcmRlci1ib3R0b206ICRhcnJvdy1zaXplIHNvbGlkIHRyYW5zcGFyZW50O1xuXG4gICAgICAgICAgICBib3JkZXItbGVmdDogJGFycm93LXNpemUgc29saWQgI0FBQUFBQTtcbiAgICAgICAgICAgIGJvcmRlci1yaWdodDogJGFycm93LXNpemUgc29saWQgdHJhbnNwYXJlbnQ7XG4gICAgICAgIH1cblxuICAgICAgICAmLS11cCB7XG4gICAgICAgICAgICBtYXJnaW4tcmlnaHQ6IDZweDtcbiAgICAgICAgICAgIG1hcmdpbi1ib3R0b206IDNweDtcblxuICAgICAgICAgICAgYm9yZGVyLXRvcDogJGFycm93LXNpemUgc29saWQgdHJhbnNwYXJlbnQ7XG4gICAgICAgICAgICBib3JkZXItYm90dG9tOiAkYXJyb3ctc2l6ZSBzb2xpZCAjQUFBQUFBO1xuXG4gICAgICAgICAgICBib3JkZXItbGVmdDogJGFycm93LXNpemUgc29saWQgdHJhbnNwYXJlbnQ7XG4gICAgICAgICAgICBib3JkZXItcmlnaHQ6ICRhcnJvdy1zaXplIHNvbGlkIHRyYW5zcGFyZW50O1xuICAgICAgICB9XG4gICAgfVxuXG4gICAgJl9fdG9nZ2xlLWJ1dHRvbiB7XG4gICAgICAgIGNvbG9yOiAkb2ZzLXBpbms7XG4gICAgICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcblxuICAgICAgICAmOmhvdmVyIHtcbiAgICAgICAgICAgIGNvbG9yOiAkb2ZzLXJlZDtcbiAgICAgICAgfVxuICAgIH1cbn1cblxuLmZvb3RlciB7XG4gICAgbWFyZ2luOiAyMHB4IDA7XG4gICAgcGFkZGluZzogMjBweCAwO1xuICAgIGJvcmRlci10b3A6IDFweCBzb2xpZCAjY2NjO1xuXG4gICAgJl9fbGlua3Mge1xuICAgICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgfVxuXG4gICAgJl9fbGluayB7XG4gICAgICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICAgICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICAgICAgICBtYXJnaW4tcmlnaHQ6IDEwcHg7XG4gICAgICAgIGNvbG9yOiAkb2ZzLXBpbms7XG4gICAgfVxufVxuXG4ub2ZzLWNyZWRpdCB7XG4gICAgbWFyZ2luLWJvdHRvbTogMXJlbTtcblxuICAgICZfX3RleHQge1xuICAgICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgY29sb3I6ICM5OTk7XG4gICAgICAgIG1hcmdpbi1ib3R0b206IDAuNXJlbTtcbiAgICB9XG5cbiAgICAmX19sb2dvIHtcbiAgICAgICAgZGlzcGxheTogYmxvY2s7XG4gICAgICAgIHdpZHRoOiAyMDBweDtcbiAgICAgICAgbWFyZ2luOiAwIGF1dG87XG4gICAgfVxufVxuXG4uZmVhdHVyZXMge1xuICAgIG92ZXJmbG93OiBoaWRkZW47XG5cbiAgICAmX19wb2ludCB7XG4gICAgICAgIG1hcmdpbi1ib3R0b206IDAuNXJlbTtcbiAgICAgICAgZm9udC13ZWlnaHQ6IDIwMDtcbiAgICB9XG59XG5cbi5pbnN0YWxsIHtcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xufVxuXG4uZXhhbXBsZXMge1xuICAgIG92ZXJmbG93OiBoaWRkZW47XG59XG5cbi5leGFtcGxlIHtcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xuICAgIG1hcmdpbi1ib3R0b206IDFyZW07XG5cbiAgICBoNCB7XG4gICAgICAgIG1hcmdpbi10b3A6IDA7XG4gICAgfVxufVxuIl0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9 */

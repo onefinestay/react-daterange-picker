@@ -10,5 +10,3 @@ React.renderComponent(
   Homepage(),
   document
 );
-
-hljs.initHighlightingOnLoad();

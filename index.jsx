@@ -5,11 +5,25 @@ var React = require('react/addons');
 var moment = require('moment-range');
 var RangePicker = require('../dist/range-picker');
 
+var Header = require('./components/header.jsx');
+var Footer = require('./components/footer.jsx');
+var GithubRibbon = require('./components/github-ribbon.jsx');
+var CodeSnippet = require('./components/code-snippet.jsx');
+var Install = require('./components/install.jsx');
+var Features = require('./components/features.jsx');
+
+function processCodeSnippet(src) {
+  var lines = src.split('\n');
+  lines.splice(0, 1);
+  lines.splice(lines.length - 1, 1);
+  return lines.join('\n');
+}
+
 var DatePickerRange = React.createClass({
   getInitialState: function() {
     return {
-      start: null,
-      end: null,
+      start: this.props.start,
+      end: this.props.end,
     };
   },
   handleSelect: function(range) {
@@ -78,61 +92,7 @@ var DatePickerSingle = React.createClass({
   }
 });
 
-// CODE_EXAMPLE
-var CODE_EXAMPLE = function() {
-var RangePicker = require('react-daterange-picker');
-
-var dateStates = [
-  {
-    state: 'available',
-    range: moment().range(moment(), moment().add(2, 'weeks')),
-    selectable: true
-  },
-  {
-    state: 'enquire',
-    range: moment().range(moment().add(2, 'weeks'), moment().add(3, 'weeks')),
-    selectable: true
-  },
-  {
-    state: 'unavailable',
-    range: moment().range(moment().add(3, 'weeks'), moment().add(3, 'weeks').add(5, 'days')),
-    selectable: false
-  },
-  {
-    state: 'available',
-    range: moment().range(moment().add(3, 'weeks').add(5, 'days'), moment().add(5, 'weeks')),
-    selectable: true
-  }
-];
-
-var DatePicker = React.createClass({
-  getInitialState: function() {
-    return {
-        value: null
-    };
-  },
-  handleSelect: function(range) {
-    // range is a moment-range object
-    this.setState({
-        value: range
-    });
-  },
-  render: function() {
-    return RangePicker({
-      numberOfCalendars: 2,
-      dateStates: dateStates,
-      value: this.state.value,
-      onSelect: this.handleSelect
-    });
-  }
-});
-}.toString();
-
-// remove function declarations
-var lines = CODE_EXAMPLE.split('\n');
-lines.splice(0, 1);
-lines.splice(lines.length - 1, 1);
-CODE_EXAMPLE = lines.join('\n');
+var mainCodeSnippet = require('./code-snippets/main.js').toString();
 
 var Homepage = React.createClass({
   getDefaultProps: function() {
@@ -168,12 +128,15 @@ var Homepage = React.createClass({
       {
         range: moment().range(
           moment().add(3, 'weeks').add(5, 'days'),
-          moment().add(5, 'weeks')
+          moment().add(10, 'weeks')
         ),
         state: 'available',
         selectable: true
       },
     ];
+
+    var initialStart = moment().add(1, 'weeks').startOf('day');
+    var initialEnd = moment().add(2, 'weeks').startOf('day');
 
     return (
       <html>
@@ -188,22 +151,25 @@ var Homepage = React.createClass({
           <GithubRibbon />
 
           <div className="content">
-            <div id="range-picker" className="example">
+            <div className="example">
               <DatePickerRange
                 numberOfCalendars={2}
                 selectionType='range'
                 earliestDate={new Date()}
-                dateStates={dateRanges} />
-            </div>
-            <div className="code-example">
-              <pre id="code-snippet">
-                <code className="javascript">
-                  {CODE_EXAMPLE}
-                </code>
-              </pre>
+                dateStates={dateRanges}
+                start={initialStart}
+                end={initialEnd} />
+              <CodeSnippet language="javascript">
+                {processCodeSnippet(mainCodeSnippet)}
+              </CodeSnippet>
             </div>
 
+            <Features />
+            <Install />
+
             <div className="examples">
+              <h2>Examples</h2>
+
               <div className="example">
                 <h4>Range with no date states</h4>
                 <DatePickerRange
@@ -229,46 +195,6 @@ var Homepage = React.createClass({
           <script src="build/index.js"></script>
         </body>
       </html>
-    );
-  }
-});
-
-var Header = React.createClass({
-  render: function() {
-    return (
-      <header className="header">
-        <img src="img/logo.png" className="header__logo" />
-        <h1 className="header__title">React Daterange Picker</h1>
-      </header>
-    );
-  }
-});
-
-var Footer = React.createClass({
-  render: function() {
-    return (
-      <footer className="footer">
-        <a href="http://www.onefinestay.com/" className="footer__link">onefinestay</a>
-        <a href="https://github.com/onefinestay" className="footer__link">Github</a>
-        <a href="https://twitter.com/buildingOFS" className="footer__link">Twitter</a>
-      </footer>
-    );
-  }
-});
-
-var GithubRibbon = React.createClass({
-  render: function() {
-    var style = {
-      position: 'absolute',
-      top: 0,
-      right: 0,
-      border: 0
-    };
-
-    return (
-      <a href="https://github.com/onefinestay/react-daterange-picker">
-        <img style={style} src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" />
-      </a>
     );
   }
 });

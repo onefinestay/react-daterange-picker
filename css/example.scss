@@ -1,7 +1,10 @@
+$ofs-pink: #ff2558;
+$ofs-red: #d80033;
+
 body {
     font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
     font-size: 16px;
-    width: 900px;
+    width: 540px;
     margin: 0 auto;
 }
 
@@ -10,6 +13,13 @@ h2,
 h3,
 h4 {
     font-weight: lighter;
+    letter-spacing: 1.2px;
+    text-rendering: optimizeLegibility;
+}
+
+h1,
+h2 {
+    color: $ofs-pink;
 }
 
 .header {
@@ -27,12 +37,6 @@ h4 {
     }
 }
 
-.example {
-    width: 540px;
-    margin: 0 auto;
-    overflow: hidden;
-}
-
 input {
     padding: 5px 10px;
     width: 43%;
@@ -46,16 +50,102 @@ input {
     margin-bottom: 20px;
 }
 
+.code-snippet {
+    margin-top: 1rem;
+
+    $arrow-size: 6px;
+
+    &__arrow {
+        display: inline-block;
+        width: 0;
+        height: 0;
+
+        &--right {
+            border-top: $arrow-size solid transparent;
+            border-bottom: $arrow-size solid transparent;
+
+            border-left: $arrow-size solid #AAAAAA;
+            border-right: $arrow-size solid transparent;
+        }
+
+        &--up {
+            margin-right: 6px;
+            margin-bottom: 3px;
+
+            border-top: $arrow-size solid transparent;
+            border-bottom: $arrow-size solid #AAAAAA;
+
+            border-left: $arrow-size solid transparent;
+            border-right: $arrow-size solid transparent;
+        }
+    }
+
+    &__toggle-button {
+        color: $ofs-pink;
+        text-decoration: none;
+
+        &:hover {
+            color: $ofs-red;
+        }
+    }
+}
+
 .footer {
-    text-align: center;
     margin: 20px 0;
     padding: 20px 0;
     border-top: 1px solid #ccc;
+
+    &__links {
+        text-align: center;
+    }
 
     &__link {
         text-decoration: none;
         display: inline-block;
         margin-right: 10px;
+        color: $ofs-pink;
+    }
+}
+
+.ofs-credit {
+    margin-bottom: 1rem;
+
+    &__text {
+        text-align: center;
+        margin: 0;
         color: #999;
+        margin-bottom: 0.5rem;
+    }
+
+    &__logo {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
+    }
+}
+
+.features {
+    overflow: hidden;
+
+    &__point {
+        margin-bottom: 0.5rem;
+        font-weight: 200;
+    }
+}
+
+.install {
+    overflow: hidden;
+}
+
+.examples {
+    overflow: hidden;
+}
+
+.example {
+    overflow: hidden;
+    margin-bottom: 1rem;
+
+    h4 {
+        margin-top: 0;
     }
 }
