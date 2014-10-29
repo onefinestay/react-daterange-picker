@@ -25,8 +25,8 @@
     "gulp-sourcemaps": "^1.2.4",
     "gulp-util": "^3.0.1",
     "gulp-watch": "^1.1.0",
-    "minifyify": "^4.4.0",
     "reactify": "^0.14.0",
+    "uglifyify": "^2.6.0",
     "watchify": "^1.0.6"
   }
 }

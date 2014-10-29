@@ -29,7 +29,6 @@ gulp.task('watch-css', function() {
 
 gulp.task('build-js', function() {
   var bundle = browserify('./example/js/index.js', {
-    debug: true,
     extensions: ['.jsx', '.js'],
   });
 
@@ -48,13 +47,12 @@ gulp.task('build-js', function() {
   var map = './index.js.map';
   var output = './example/build/index.js.map';
 
-  bundle.plugin('minifyify', {
-    map: map,
-    output: output,
-    compressPath: function(p) {
-      return '/' + path.relative(__dirname, p);
-    }
-  });
+  bundle.transform({
+    global: true,
+    ignore: [
+      '**/code-snippets/*'
+    ]
+  }, 'uglifyify');
 
   var dest = fs.createWriteStream('./example/build/index.js');
 
@@ -72,7 +70,9 @@ gulp.task('build-example', function() {
     .pipe(gulp.dest('./example'));
 });
 
-gulp.task('deploy', function() {
+gulp.task('deploy-example', ['build-js', 'build-css'], function() {
   return gulp.src('./example/**/*')
     .pipe(deploy());
 });
+
+gulp.task('deploy', ['build-js', 'build-css', 'deploy-example']);
