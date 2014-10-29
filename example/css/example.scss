@@ -1,4 +1,5 @@
 $ofs-pink: #ff2558;
+$ofs-red: #d80033;
 
 body {
     font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
@@ -50,6 +51,17 @@ input {
     margin-bottom: 20px;
 }
 
+.code-snippet {
+    &__toggle-button {
+        color: $ofs-pink;
+        text-decoration: none;
+
+        &:hover {
+            color: $ofs-red;
+        }
+    }
+}
+
 .footer {
     margin: 20px 0;
     padding: 20px 0;
@@ -63,7 +75,7 @@ input {
         text-decoration: none;
         display: inline-block;
         margin-right: 10px;
-        color: #999;
+        color: $ofs-pink;
     }
 }
 
