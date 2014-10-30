@@ -41,12 +41,7 @@ var DatePickerRange = React.createClass({
 
     return (
       <div>
-        {this.transferPropsTo(
-          RangePicker({
-            onSelect: this.handleSelect,
-            value: range
-          })
-        )}
+        <RangePicker {...this.props} onSelect={this.handleSelect} value={range} />
         <div>
           <input type="text"
             value={this.state.start ?  this.state.start.format('LL') : null}
@@ -74,27 +69,23 @@ var DatePickerSingle = React.createClass({
     });
   },
   render: function() {
-    return React.DOM.div({},
-      this.transferPropsTo(
-        RangePicker({
-          onSelect: this.handleSelect,
-          value: this.state.value
-        })
-      ),
-      React.DOM.div(null,
-        React.DOM.input({
-          type: 'text',
-          value: this.state.value ? this.state.value.format('LL') : null,
-          readOnly: true
-        }, null)
-      )
+    return (
+      <div>
+        <RangePicker {...this.props} onSelect={this.handleSelect}
+          value={this.state.value} />
+        <div>
+          <input type="text"
+            value={this.state.value ?  this.state.value.format('LL') : null}
+            readOnly={true} />
+        </div>
+      </div>
     );
   }
 });
 
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 
-var Homepage = React.createClass({
+var Index = React.createClass({
   getDefaultProps: function() {
     return {};
   },
@@ -181,4 +172,4 @@ var Homepage = React.createClass({
   }
 });
 
-module.exports = Homepage;
+module.exports = Index;
