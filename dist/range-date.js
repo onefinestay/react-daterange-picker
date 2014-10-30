@@ -22,7 +22,7 @@ var AMState = React.createClass({displayName: 'AMState',
     }
 
     return (
-      React.DOM.div({className: cx(classes)})
+      React.createElement("div", {className: cx(classes)})
     );
   }
 });
@@ -40,7 +40,7 @@ var PMState = React.createClass({displayName: 'PMState',
     }
 
     return (
-      React.DOM.div({className: cx(classes)})
+      React.createElement("div", {className: cx(classes)})
     );
   }
 });
@@ -388,13 +388,13 @@ var RangeDate = React.createClass({displayName: 'RangeDate',
     var segementState = this.getSegmentStates(this.props);
 
     return (
-      React.DOM.td({className: cx(classes), 
+      React.createElement("td", {className: cx(classes), 
         onMouseEnter: _.partial(this.highlightDate, this.props.date), 
         onMouseLeave: _.partial(this.unHighlightDate, this.props.date), 
         onClick: _.partial(this.selectDate, this.props.date)}, 
-        AMState({displayState: segementState.am, availabilityAction: amAction}), 
-        PMState({displayState: segementState.pm, availabilityAction: pmAction}), 
-        React.DOM.span({className: "react-datepicker-date-label"}, this.props.date.getDate())
+        React.createElement(AMState, {displayState: segementState.am, availabilityAction: amAction}), 
+        React.createElement(PMState, {displayState: segementState.pm, availabilityAction: pmAction}), 
+        React.createElement("span", {className: "react-datepicker-date-label"}, this.props.date.getDate())
       )
     );
   }

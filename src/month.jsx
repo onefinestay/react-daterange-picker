@@ -16,10 +16,9 @@ var MONTHS = lang._months;
 
 var Month = React.createClass({
   renderDay: function(date, i) {
-    return this.transferPropsTo(this.props.dateComponent({
-      date: date,
-      key: i
-    }));
+    var DateComponent = this.props.dateComponent;
+
+    return <DateComponent {...this.props} date={date} key={i} />;
   },
 
   renderWeek: function(dates, i) {

@@ -16,16 +16,15 @@ var MONTHS = lang._months;
 
 var Month = React.createClass({displayName: 'Month',
   renderDay: function(date, i) {
-    return this.transferPropsTo(this.props.dateComponent({
-      date: date,
-      key: i
-    }));
+    var DateComponent = this.props.dateComponent;
+
+    return React.createElement(DateComponent, React.__spread({},  this.props, {date: date, key: i}));
   },
 
   renderWeek: function(dates, i) {
     var days = _.map(dates, this.renderDay);
     return (
-      React.DOM.tr({key: i}, days)
+      React.createElement("tr", {key: i}, days)
     );
   },
 
@@ -35,12 +34,12 @@ var Month = React.createClass({displayName: 'Month',
     var headers = _.map(indices, function(index) {
         var weekday = WEEKDAYS[index];
         return (
-          React.DOM.th({key: weekday, scope: "col"}, React.DOM.abbr({title: weekday[0]}, weekday[1]))
+          React.createElement("th", {key: weekday, scope: "col"}, React.createElement("abbr", {title: weekday[0]}, weekday[1]))
         );
     });
 
     return (
-      React.DOM.tr(null, headers)
+      React.createElement("tr", null, headers)
     );
   },
 
@@ -58,7 +57,7 @@ var Month = React.createClass({displayName: 'Month',
     }
 
     return (
-      React.DOM.option({key: year, value: year}, year)
+      React.createElement("option", {key: year, value: year}, year)
     );
   },
 
@@ -69,9 +68,9 @@ var Month = React.createClass({displayName: 'Month',
     var choices = _.map(years, this.renderYearChoice);
 
     return (
-      React.DOM.span({className: "react-calendar-label"}, 
+      React.createElement("span", {className: "react-calendar-label"}, 
         monthMoment.format('YYYY'), 
-        this.props.disableNavigation ? null : React.DOM.select({value: y, onChange: this.handleYearChange}, choices)
+        this.props.disableNavigation ? null : React.createElement("select", {value: y, onChange: this.handleYearChange}, choices)
       )
     );
   },
@@ -93,7 +92,7 @@ var Month = React.createClass({displayName: 'Month',
     }
 
     return (
-      React.DOM.option({key: month, value: i, disabled: disabled ? 'disabled' : null}, month)
+      React.createElement("option", {key: month, value: i, disabled: disabled ? 'disabled' : null}, month)
     );
   },
 
@@ -103,16 +102,16 @@ var Month = React.createClass({displayName: 'Month',
     var choices = _.map(MONTHS, this.renderMonthChoice);
 
     return (
-      React.DOM.span({className: "react-calendar-label"}, 
+      React.createElement("span", {className: "react-calendar-label"}, 
         monthMoment.format('MMMM'), 
-        this.props.disableNavigation ? null : React.DOM.select({value: this.props.month, onChange: this.handleMonthChange}, choices)
+        this.props.disableNavigation ? null : React.createElement("select", {value: this.props.month, onChange: this.handleMonthChange}, choices)
       )
     );
   },
 
   renderHeader: function() {
     return (
-      React.DOM.div({className: "react-calendar-header"}, 
+      React.createElement("div", {className: "react-calendar-header"}, 
         this.renderHeaderMonth(), " ", this.renderHeaderYear()
       )
     );
@@ -124,13 +123,13 @@ var Month = React.createClass({displayName: 'Month',
     var weeks =_.map(monthDates, this.renderWeek);
 
     return (
-      React.DOM.div({className: "react-calendar-month"}, 
+      React.createElement("div", {className: "react-calendar-month"}, 
         this.renderHeader(), 
-        React.DOM.table({className: "react-calendar-dates"}, 
-          React.DOM.thead(null, 
+        React.createElement("table", {className: "react-calendar-dates"}, 
+          React.createElement("thead", null, 
             this.renderDayHeaders()
           ), 
-          React.DOM.tbody(null, 
+          React.createElement("tbody", null, 
             weeks
           )
         )

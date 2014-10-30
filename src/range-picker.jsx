@@ -201,7 +201,7 @@ var RangePicker = React.createClass({
       defaultState: this.props.defaultState
     };
 
-    return Month(props);
+    return <Month {...props} />;
   },
 
   render: function() {

@@ -201,7 +201,7 @@ var RangePicker = React.createClass({displayName: 'RangePicker',
       defaultState: this.props.defaultState
     };
 
-    return Month(props);
+    return React.createElement(Month, React.__spread({},  props));
   },
 
   render: function() {
@@ -209,13 +209,13 @@ var RangePicker = React.createClass({displayName: 'RangePicker',
     var calendars = _.map(range, this.renderCalendar);
 
     return (
-      React.DOM.div({className: "react-calendars"}, 
-        React.DOM.div({className: "react-calendar-previous", onClick: this.moveBack}, 
-          React.DOM.div({className: "arrow"})
+      React.createElement("div", {className: "react-calendars"}, 
+        React.createElement("div", {className: "react-calendar-previous", onClick: this.moveBack}, 
+          React.createElement("div", {className: "arrow"})
         ), 
         calendars, 
-        React.DOM.div({className: "react-calendar-next", onClick: this.moveForward}, 
-          React.DOM.div({className: "arrow"})
+        React.createElement("div", {className: "react-calendar-next", onClick: this.moveForward}, 
+          React.createElement("div", {className: "arrow"})
         )
       )
     );

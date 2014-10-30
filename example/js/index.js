@@ -2,11 +2,11 @@
 "use strict";
 
 var React = require('react/addons');
-var Homepage = require('../index.jsx');
+var Index = React.createFactory(require('../index.jsx'));
 
 window.React = React;
 
-React.renderComponent(
-  Homepage(),
+React.render(
+  Index(),
   document
 );

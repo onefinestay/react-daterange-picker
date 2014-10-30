@@ -110,8 +110,8 @@ var SingleDate = React.createClass({displayName: 'SingleDate',
     var date = this.props.date;
 
     return (
-      React.DOM.td({className: cx(classes), onMouseEnter: _.partial(this.highlightDate, this.props.date), onMouseLeave: _.partial(this.unHighlightDate, this.props.date), onClick: _.partial(this.selectDate, this.props.date)}, 
-        React.DOM.span({className: "react-datepicker-date-label"}, this.props.date.getDate())
+      React.createElement("td", {className: cx(classes), onMouseEnter: _.partial(this.highlightDate, this.props.date), onMouseLeave: _.partial(this.unHighlightDate, this.props.date), onClick: _.partial(this.selectDate, this.props.date)}, 
+        React.createElement("span", {className: "react-datepicker-date-label"}, this.props.date.getDate())
       )
     );
   }
