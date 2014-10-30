@@ -4,7 +4,7 @@
   "description": "",
   "author": "",
   "license": "Apache 2.0",
-  "main": "dist/js/range-picker.js",
+  "main": "dist/range-picker.js",
   "scripts": {
     "watch-js": "./node_modules/watchify/bin/cmd.js --extension .jsx -t reactify -t brfs example/js/index.js -o example/build/index.js -v --exclude react-daterange-picker"
   },
