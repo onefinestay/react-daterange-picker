@@ -1,5 +1,6 @@
 .sass-cache/
 node_modules/
 .module-cache/
+example/index.html
 example/build/
 example/css/*.css
