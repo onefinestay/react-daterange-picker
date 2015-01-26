@@ -14,7 +14,7 @@ var WEEKDAYS = _.zip(lang._weekdays, lang._weekdaysShort);
 var MONTHS = lang._months;
 
 
-var Month = React.createClass({displayName: 'Month',
+var Month = React.createClass({displayName: "Month",
   renderDay: function(date, i) {
     var DateComponent = this.props.dateComponent;
 

@@ -7,7 +7,7 @@ var moment = require('moment');
 var _ = require('underscore');
 
 
-var SingleDate = React.createClass({displayName: 'SingleDate',
+var SingleDate = React.createClass({displayName: "SingleDate",
   propTypes: {
     date: React.PropTypes.instanceOf(Date).isRequired,
 

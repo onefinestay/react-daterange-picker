@@ -12,7 +12,7 @@ var RangeDate = require('./range-date');
 var noop = function() {};
 
 
-var RangePicker = React.createClass({displayName: 'RangePicker',
+var RangePicker = React.createClass({displayName: "RangePicker",
   propTypes: {
     numberOfCalendars: React.PropTypes.number,
     firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
