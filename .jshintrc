@@ -1,6 +1,28 @@
 {
-    "newcap": false,
-    "globalstrict": true,
-    "node": true,
-    "browser": true
+  // turn on to ENABLE warnings
+  "camelcase": true,
+  "bitwise": true,
+  "freeze": true,
+  "curly": true,
+  "eqeqeq": true,
+  "nonbsp": true,
+  "immed": true,
+  "noarg": true,
+  "unused": true,
+  "undef": true,
+  "strict": true,
+  "newcap": false,
+  "maxparams": 5,
+  "maxdepth": 5,
+
+  // turn on to DISABLE warnings
+  "globalstrict": true,
+  "eqnull": true,
+  "sub": true,
+  "supernew": true,
+
+  //enviroment
+  "node": true,
+  "browser": true,
+  "esnext": true
 }
