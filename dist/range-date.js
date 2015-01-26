@@ -9,7 +9,7 @@ var _ = require('underscore');
 var utils = require('./utils');
 
 
-var AMState = React.createClass({displayName: 'AMState',
+var AMState = React.createClass({displayName: "AMState",
   render: function() {
     var classes = {
       'am-state': true
@@ -27,7 +27,7 @@ var AMState = React.createClass({displayName: 'AMState',
   }
 });
 
-var PMState = React.createClass({displayName: 'PMState',
+var PMState = React.createClass({displayName: "PMState",
   render: function() {
     var classes = {
       'pm-state': true
@@ -45,7 +45,7 @@ var PMState = React.createClass({displayName: 'PMState',
   }
 });
 
-var RangeDate = React.createClass({displayName: 'RangeDate',
+var RangeDate = React.createClass({displayName: "RangeDate",
   propTypes: {
     date: React.PropTypes.instanceOf(Date).isRequired,
 
