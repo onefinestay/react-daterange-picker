@@ -1,4 +1,6 @@
-.react-calendars {
+$arrow-size: 8px;
+
+.reactDaterangePicker {
   display: inline-block;
   position: relative;
   padding: 0 30px;
@@ -9,10 +11,7 @@
   -ms-user-select: none;
   user-select: none;
 
-  $arrow-size: 8px;
-
-  .react-calendar-previous,
-  .react-calendar-next {
+  &__pagination {
     display: block;
     cursor: pointer;
     position: absolute;
@@ -28,57 +27,52 @@
     margin-bottom: 0;
     width: 30px;
 
+    &--previous {
+      left: 0;
+    }
+
+    &--next {
+      right: 0;
+    }
+
     &:hover {
       background-color: #CCC;
     }
+  }
 
-    .arrow {
-        position: absolute;
-        top: 48%;
-        width: 0;
-        height: 0;
-        border-top: $arrow-size solid transparent;
-        border-bottom: $arrow-size solid transparent;
+  &__arrow {
+    position: absolute;
+    top: 48%;
+    width: 0;
+    height: 0;
+    border-top: $arrow-size solid transparent;
+    border-bottom: $arrow-size solid transparent;
+
+    &--previous {
+      right: 30px / 2 - ($arrow-size / 2);
+      border-left: $arrow-size solid transparent;
+      border-right: $arrow-size solid #AAAAAA;
+    }
+
+    &--next {
+      left: 30px / 2 - ($arrow-size / 2);
+      border-left: $arrow-size solid #AAAAAA;
+      border-right: $arrow-size solid transparent;
     }
   }
 
-  .react-calendar-previous {
-    left: 0;
-
-    .arrow {
-        right: 30px / 2 - ($arrow-size / 2);
-        border-left: $arrow-size solid transparent;
-        border-right: $arrow-size solid #AAAAAA;
-    }
+  &__month {
+    width: 230px;
+    color: #333;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0 5px;
   }
 
-  .react-calendar-next {
-    right: 0;
-
-    .arrow {
-        left: 30px / 2 - ($arrow-size / 2);
-
-        border-left: $arrow-size solid #AAAAAA;
-        border-right: $arrow-size solid transparent;
-    }
-  }
-}
-
-.react-calendar-month {
-  width: 230px;
-  color: #333;
-  position: relative;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  margin: 0 5px;
-
-  .react-calendars & {
-    display: inline-block;
-  }
-
-  .react-calendar-header {
+  &__monthHeader {
     position: relative;
     text-align: center;
     background: #e4e4e4;
@@ -86,151 +80,162 @@
     color: #737373;
     height: 35px;
     line-height: 35px;
-
-    .react-calendar-label {
-      display: inline-block;
-      position: relative;
-    }
-
-    select {
-      cursor: pointer;
-      display: inline-block;
-      position: absolute;
-      z-index: 5;
-      margin: 0;
-      left: 0;
-      top: 0;
-      opacity: 0;
-      background: #e4e4e4;
-      border: 0;
-      filter: alpha(opacity=0);
-      opacity: 0;
-      width: 100%;
-      height: 100%;
-    }
   }
 
-  .react-calendar-dates {
+  &__monthHeaderLabel {
+    display: inline-block;
+    position: relative;
+  }
+
+  &__monthHeaderSelect {
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+    z-index: 5;
+    margin: 0;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    background: #e4e4e4;
+    border: 0;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__monthDates {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
     border: 0;
     margin: 0;
+  }
 
-    th, td {
-      width: 14.285714285714286%;
-      padding: 0;
-      text-align: center;
-      font-size: 11px;
-      line-height: 25px;
-    }
+  &__weekdayHeading,
+  &__date {
+    width: 14.285714285714286%;
+    padding: 0;
+    text-align: center;
+    font-size: 11px;
+    line-height: 25px;
+  }
 
-    th {
+  &__weekdayHeading {
+    color: #fff;
+    background: #4da3a2;
+    border: 1px solid #4da3a2;
+    font-weight: normal;
+
+    abbr[title] {
+      text-decoration: none;
       color: #fff;
-      background: #4da3a2;
-      border: 1px solid #4da3a2;
-      font-weight: normal;
-
-      abbr[title] {
-        text-decoration: none;
-        color: #fff;
-        font-size: inherit;
-        cursor: pointer;
-        border-bottom-width: 0;
-      }
-    }
-
-    td {
-      border: 1px solid #ddd;
+      font-size: inherit;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
+      border-bottom-width: 0;
+    }
+  }
 
-      span {
-        display: block;
-        z-index: 1;
-        width: 100%;
-        text-align: center;
-        position: relative;
-      }
-
-      svg {
-        display: block;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-      }
-
-      .am-state {
-        position: absolute;
-        left: -50px;
-        right: -50px;
-        bottom: -50px;
-        top: -50px;
-      }
-
-      .pm-state {
-        position: absolute;
-        top: -50px;
-        left: 66%;
-        right: -50px;
-        bottom: -50px;
-        -ie-transform: rotate(30deg);
-        -webkit-transform: rotate(30deg);
-        -moz-transform: rotate(30deg);
-        transform: rotate(30deg);
-      }
-
-      .blocked {
-        background-color: #AAAAAA;
-      }
-
-      .unavailable {
-        background-color: #AAAAAA;
-      }
-
-      .available {
-        background-color: #D0E7DB;
-      }
-
-      .enquire {
-        background-color: #FFFBCB;
-      }
-
-      .selected {
-        background-color: #ff2558;
-      }
-
-      .highlighted {
-        background-color: yellow;
-      }
+  &__date,
+  &__halfDay {
+    &--is-blocked {
+      background-color: #AAAAAA;
     }
 
-    .react-calendar-date-other-month {
-      color: #ccc;
-      background: #FFFFFF;
-
-      .am-state, .pm-state {
-        display: none;
-      }
+    &--is-unavailable {
+      background-color: #AAAAAA;
     }
 
-    .react-calendar-date-highlighted {
-      background-color: yellow;
+    &--is-available {
+      background-color: #D0E7DB;
     }
 
-    .react-calendar-date-selected {
+    &--is-enquire {
+      background-color: #FFFBCB;
+    }
+
+    &--is-selected {
       background-color: #ff2558;
     }
 
-    .react-calendar-date-disabled {
+    &--is-highlighted {
+      background-color: yellow;
+    }
+
+    &--is-disabled {
       cursor: default;
       color: #ccc;
       background: #eee;
+    }
 
-      .am-state, .pm-state {
-        display: none;
-      }
+    &--is-inOtherMonth {
+      color: #ccc;
+      background: #FFFFFF;
     }
   }
+
+  &__date {
+    border: 1px solid #ddd;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__halfDay {
+    position: absolute;
+    top: -50px;
+    bottom: -50px;
+
+    &--am {
+      left: -50px;
+      right: -50px;
+    }
+
+    &--pm {
+      left: 66%;
+      right: -50px;
+      transform: rotate(30deg);
+    }
+  }
+
+  &__dateLabel {
+    display: block;
+    z-index: 1;
+    width: 100%;
+    text-align: center;
+    position: relative;
+  }
+
+
 }
+
+//
+//
+//.react-calendar-month {
+//
+//  .react-calendar-dates {
+//    .react-calendar-date-other-month {
+//
+//
+//      .am-state, .pm-state {
+//        display: none;
+//      }
+//    }
+//
+//    .react-calendar-date-highlighted {
+//      background-color: yellow;
+//    }
+//
+//    .react-calendar-date-selected {
+//      background-color: #ff2558;
+//    }
+//
+//    .react-calendar-date-disabled {
+//
+//
+//      .am-state, .pm-state {
+//        display: none;
+//      }
+//    }
+//  }
+//}

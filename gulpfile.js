@@ -1,8 +1,9 @@
 "use strict";
 
 var gulp = require('gulp');
+var extReplace = require('gulp-ext-replace');
 var watch = require('gulp-watch');
-var react = require('gulp-react');
+var to5 = require('gulp-6to5');
 var render = require('gulp-render');
 var connect = require('gulp-connect');
 var sass = require('gulp-sass');
@@ -11,7 +12,8 @@ var deploy = require('gulp-gh-pages');
 gulp.task('build-js', function() {
   // build javascript files
   return gulp.src('src/*{js,jsx}')
-    .pipe(react())
+    .pipe(to5({experimental: true, runtime: false}))
+    .pipe(extReplace('.js'))
     .pipe(gulp.dest('dist'));
 });
 
@@ -24,6 +26,7 @@ gulp.task('watch-js', function() {
 
 gulp.task('build-example', ['build-js'], function() {
   return gulp.src('./example/index.jsx')
+    .pipe(to5({experimental: true, runtime: false}))
     .pipe(render({
       template: '<!doctype html>' +
                 '<%=body%>'

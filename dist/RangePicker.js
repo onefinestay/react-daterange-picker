@@ -1,18 +1,30 @@
-/** @jsx React.DOM */
 "use strict";
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
 
-var React = require('react/addons');
-var moment = require('moment');
-var _ = require('underscore');
+var React = _interopRequire(require("react/addons"));
 
-var Month = require('./month');
-var SingleDate = require('./single-date');
-var RangeDate = require('./range-date');
+var moment = _interopRequire(require("moment"));
 
-var noop = function() {};
+var _ = _interopRequire(require("underscore"));
+
+var Month = _interopRequire(require("./Month"));
+
+var SingleDate = _interopRequire(require("./SingleDate"));
+
+var RangeDate = _interopRequire(require("./RangeDate"));
+
+var PureRenderMixin = require("react").addons.PureRenderMixin;
 
 
-var RangePicker = React.createClass({displayName: "RangePicker",
+function noop() {}
+
+
+var RangePicker = React.createClass({
+  displayName: "RangePicker",
+  mixins: [PureRenderMixin],
+
   propTypes: {
     numberOfCalendars: React.PropTypes.number,
     firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
@@ -23,14 +35,14 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
     earliestDate: React.PropTypes.instanceOf(Date),
     latestDate: React.PropTypes.instanceOf(Date),
-    selectionType: React.PropTypes.oneOf(['single', 'range']),
+    selectionType: React.PropTypes.oneOf(["single", "range"]),
     dateStates: React.PropTypes.array, // an array of date ranges and their states
     defaultState: React.PropTypes.object,
     value: React.PropTypes.object, // range or single value
     onSelect: React.PropTypes.func
   },
 
-  getDefaultProps: function() {
+  getDefaultProps: function getDefaultProps() {
     var date = new Date();
     var initialDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
@@ -38,18 +50,17 @@ var RangePicker = React.createClass({displayName: "RangePicker",
       numberOfCalendars: 1,
       firstOfWeek: 0,
       disableNavigation: false,
-      nextLabel: '',
-      previousLabel: '',
+      nextLabel: "",
+      previousLabel: "",
       initialDate: initialDate,
-      selectionType: 'range',
+      selectionType: "range",
       defaultState: {
-        selectable: true,
-      },
+        selectable: true },
       onSelect: noop
     };
   },
 
-  getInitialState: function() {
+  getInitialState: function getInitialState() {
     var now = new Date();
     var year = now.getFullYear();
     var month = now.getMonth();
@@ -69,17 +80,17 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     };
   },
 
-  onSelect: function(date) {
+  onSelect: function onSelect(date) {
     this.props.onSelect(moment(date));
   },
 
-  onStartSelection: function(date) {
+  onStartSelection: function onStartSelection(date) {
     this.setState({
       selectedStartDate: date
     });
   },
 
-  onCompleteSelection: function(range, states) {
+  onCompleteSelection: function onCompleteSelection(range, states) {
     this.setState({
       selectedStartDate: null,
       highlightedRange: null,
@@ -88,30 +99,29 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     this.props.onSelect(range, states);
   },
 
-  onHighlightDate: function(date) {
+  onHighlightDate: function onHighlightDate(date) {
     this.setState({
-      highlightedDate: date,
-    });
+      highlightedDate: date });
   },
 
-  onHighlightRange: function(range) {
+  onHighlightRange: function onHighlightRange(range) {
     this.setState({
       highlightedRange: range,
       highlightedDate: null
     });
   },
 
-  onUnHighlightDate: function(date) {
+  onUnHighlightDate: function onUnHighlightDate(date) {
     this.setState({
       highlightedDate: null
     });
   },
 
-  getMonthDate: function() {
+  getMonthDate: function getMonthDate() {
     return new Date(this.state.year, this.state.month, 1);
   },
 
-  moveForward: function() {
+  moveForward: function moveForward() {
     var monthDate = this.getMonthDate();
     monthDate.setMonth(monthDate.getMonth() + 1);
     this.setState({
@@ -120,7 +130,7 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     });
   },
 
-  moveBack: function() {
+  moveBack: function moveBack() {
     var monthDate = this.getMonthDate();
     monthDate.setMonth(monthDate.getMonth() - 1);
     this.setState({
@@ -129,7 +139,7 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     });
   },
 
-  changeYear: function(year) {
+  changeYear: function changeYear(year) {
     var month = this.state.month;
 
     if (this.props.earliestDate && new Date(year, month, 1).getTime() < this.props.earliestDate.getTime()) {
@@ -146,26 +156,25 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     });
   },
 
-  changeMonth: function(date) {
+  changeMonth: function changeMonth(date) {
     this.setState({
       month: date
     });
   },
 
-  renderCalendar: function(index) {
+  renderCalendar: function renderCalendar(index) {
     var monthDate = this.getMonthDate();
     var year = monthDate.getFullYear();
     var month = monthDate.getMonth();
-    var key = index + '-' + year + '-' + month;
+    var key = index + "-" + year + "-" + month;
+    var props;
+    var dateStates;
 
     monthDate = new Date(year, month + index, 1);
 
     // sanitize date states
-    var dateStates = _.map(this.props.dateStates, function(state) {
-      var range = moment().range(
-        state.range.start.startOf('day'),
-        state.range.end.startOf('day')
-      );
+    dateStates = _.map(this.props.dateStates, function (state) {
+      var range = moment().range(state.range.start.startOf("day"), state.range.end.startOf("day"));
 
       return {
         range: range,
@@ -174,7 +183,7 @@ var RangePicker = React.createClass({displayName: "RangePicker",
       };
     });
 
-    var props = {
+    props = {
       index: index,
       maxIndex: this.props.numberOfCalendars - 1,
       minDate: this.props.earliestDate,
@@ -196,27 +205,31 @@ var RangePicker = React.createClass({displayName: "RangePicker",
       onSelect: this.onSelect,
       onStartSelection: this.onStartSelection,
       onCompleteSelection: this.onCompleteSelection,
-      dateComponent: this.props.selectionType == 'range' ? RangeDate : SingleDate,
+      dateComponent: this.props.selectionType == "range" ? RangeDate : SingleDate,
       dateStates: dateStates,
       defaultState: this.props.defaultState
     };
 
-    return React.createElement(Month, React.__spread({},  props));
+    return React.createElement(Month, props);
   },
 
-  render: function() {
+  render: function () {
     var range = _.range(this.props.numberOfCalendars);
     var calendars = _.map(range, this.renderCalendar);
 
-    return (
-      React.createElement("div", {className: "react-calendars"}, 
-        React.createElement("div", {className: "react-calendar-previous", onClick: this.moveBack}, 
-          React.createElement("div", {className: "arrow"})
-        ), 
-        calendars, 
-        React.createElement("div", {className: "react-calendar-next", onClick: this.moveForward}, 
-          React.createElement("div", {className: "arrow"})
-        )
+    return React.createElement(
+      "div",
+      { className: "reactDaterangePicker" },
+      React.createElement(
+        "div",
+        { className: "reactDaterangePicker__pagination reactDaterangePicker__pagination--previous", onClick: this.moveBack },
+        React.createElement("div", { className: "reactDaterangePicker__arrow reactDaterangePicker__arrow--previous" })
+      ),
+      calendars,
+      React.createElement(
+        "div",
+        { className: "reactDaterangePicker__pagination reactDaterangePicker__pagination--next", onClick: this.moveForward },
+        React.createElement("div", { className: "reactDaterangePicker__arrow reactDaterangePicker__arrow--next" })
       )
     );
   }

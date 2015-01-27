@@ -1,51 +1,21 @@
-/** @jsx React.DOM */
-"use strict";
+'use strict';
 
-var React = require('react/addons');
+import React from 'react/addons';
+import moment from 'moment-range';
+import _ from 'underscore';
+
+import sortDates from './sortDates';
+
+import AMState from './AMState';
+import PMState from './PMState';
+
+var PureRenderMixin = require('react').addons.PureRenderMixin;
 var cx = React.addons.classSet;
-var moment = require('moment-range');
-var _ = require('underscore');
-
-var utils = require('./utils');
 
 
-var AMState = React.createClass({displayName: "AMState",
-  render: function() {
-    var classes = {
-      'am-state': true
-    };
-    if (this.props.availabilityAction) {
-      classes[this.props.availabilityAction] = true;
-    }
-    if (this.props.displayState) {
-      classes[this.props.displayState] = true;
-    }
+var RangeDate = React.createClass({
+  mixins: [PureRenderMixin],
 
-    return (
-      React.createElement("div", {className: cx(classes)})
-    );
-  }
-});
-
-var PMState = React.createClass({displayName: "PMState",
-  render: function() {
-    var classes = {
-      'pm-state': true
-    };
-    if (this.props.availabilityAction) {
-      classes[this.props.availabilityAction] = true;
-    }
-    if (this.props.displayState) {
-      classes[this.props.displayState] = true;
-    }
-
-    return (
-      React.createElement("div", {className: cx(classes)})
-    );
-  }
-});
-
-var RangeDate = React.createClass({displayName: "RangeDate",
   propTypes: {
     date: React.PropTypes.instanceOf(Date).isRequired,
 
@@ -68,7 +38,7 @@ var RangeDate = React.createClass({displayName: "RangeDate",
     onCompleteSelection: React.PropTypes.func
   },
 
-  isDisabled: function(date) {
+  isDisabled(date) {
     var y = this.props.firstOfMonth.getFullYear();
     var m = this.props.firstOfMonth.getMonth();
 
@@ -97,7 +67,7 @@ var RangeDate = React.createClass({displayName: "RangeDate",
     return false;
   },
 
-  isDateSelectable: function(date) {
+  isDateSelectable(date) {
     var dateRanges = this.dateRangesForDate(date);
     var defaultState = this.props.defaultState;
 
@@ -125,7 +95,7 @@ var RangeDate = React.createClass({displayName: "RangeDate",
     return false;
   },
 
-  nonSelectableStateRanges: function() {
+  nonSelectableStateRanges() {
     return _.chain(this.props.dateStates)
       .filter(function(dates) {
         return !dates.selectable;
@@ -144,7 +114,7 @@ var RangeDate = React.createClass({displayName: "RangeDate",
       .value();
   },
 
-  dateRangesForDate: function(date) {
+  dateRangesForDate(date) {
     return _.filter(this.props.dateStates, function(dates) {
       if (dates.range.contains(date)) {
         return dates.range;
@@ -152,7 +122,7 @@ var RangeDate = React.createClass({displayName: "RangeDate",
     });
   },
 
-  statesForRange: function(range) {
+  statesForRange(range) {
     return _.filter(this.props.dateStates, function(dates) {
       if (dates.range.intersect(range)) {
         return dates.state;
@@ -160,7 +130,7 @@ var RangeDate = React.createClass({displayName: "RangeDate",
     });
   },
 
-  sanitizeRange: function(range, forwards) {
+  sanitizeRange(range, forwards) {
     /* Truncates the provided range at the first intersection
      * with a non-selectable state. Using forwards to determine
      * which direction to work
@@ -192,10 +162,10 @@ var RangeDate = React.createClass({displayName: "RangeDate",
     return range;
   },
 
-  highlightDate: function(date) {
+  highlightDate(date) {
     if (this.isDateSelectable(date)) {
       if (this.props.selectedStartDate) {
-        var datePair = utils.sortDates(this.props.selectedStartDate, date);
+        var datePair = sortDates(this.props.selectedStartDate, date);
         var range = moment().range(datePair[0], datePair[1]);
         var forwards = (
           range.start.toDate().getTime() ===
@@ -209,14 +179,14 @@ var RangeDate = React.createClass({displayName: "RangeDate",
     }
   },
 
-  unHighlightDate: function(date) {
+  unHighlightDate(date) {
     this.props.onUnHighlightDate(date);
   },
 
-  selectDate: function(date) {
+  selectDate(date) {
     if (this.props.selectedStartDate) {
       // We already have one end of the range
-      var datePair = utils.sortDates(this.props.selectedStartDate, date);
+      var datePair = sortDates(this.props.selectedStartDate, date);
       var range = moment().range(datePair[0], datePair[1]);
 
       var forwards = range.start.toDate().getTime() === this.props.selectedStartDate.getTime();
@@ -232,20 +202,7 @@ var RangeDate = React.createClass({displayName: "RangeDate",
     }
   },
 
-  shouldComponentUpdate: function(nextProps, nextState) {
-    var currentProps = this.props;
-
-    if (!_.isEqual(
-      this.getSegmentStates(currentProps),
-      this.getSegmentStates(nextProps)
-    )) {
-      return true;
-    }
-
-    return false;
-  },
-
-  getClasses: function(props) {
+  getClasses(props) {
     var date = props.date;
     var dateMoment = moment(date);
     var isOtherMonth = false;
@@ -284,45 +241,60 @@ var RangeDate = React.createClass({displayName: "RangeDate",
       }
     }
 
-    var classes = {
-      'react-calendar-date': true,
-      'react-calendar-date-selected': isSelected,
-      'react-calendar-date-selected-range': isSelectedRange,
-      'react-calendar-date-highlighted': isHighlighted,
-      'react-calendar-date-highlighted-range': isHighlightedRange,
-      'react-calendar-date-disabled': isDisabled,
-      'react-calendar-date-other-month': isOtherMonth
+    return {
+      'reactDaterangePicker__date': true,
+      'reactDaterangePicker__date--is-selected': isSelected,
+      'reactDaterangePicker__date--is-inSelectedRange': isSelectedRange,
+      'reactDaterangePicker__date--is-highlighted': isHighlighted,
+      'reactDaterangePicker__date--is-inHighlightedRange': isHighlightedRange,
+      'reactDaterangePicker__date--is-disabled': isDisabled,
+      'reactDaterangePicker__date--is-inOtherMonth': isOtherMonth
     };
-    return classes;
   },
 
-  getSegmentStates: function(props) {
+  getSegmentStates(props) {
     var date = props.date;
-    var amDisplayState;
-    var pmDisplayState;
+    var isDisabled = this.isDisabled(date);
+    var isOtherMonth = false;
+    var amDisplayStates = [];
+    var pmDisplayStates = [];
+
+    if (date.getMonth() !== props.firstOfMonth.getMonth()) {
+      isOtherMonth = true;
+    }
+
+    if (isDisabled) {
+      amDisplayStates.push('disabled');
+      pmDisplayStates.push('disabled');
+    }
+
+    if (isOtherMonth) {
+      amDisplayStates.push('inOtherMonth');
+      pmDisplayStates.push('inOtherMonth');
+    }
 
     if (props.value && props.value.contains(date)) {
       if (props.value.start.toDate().getTime() === date.getTime()) {
         // It's the first day in the range, so only PM is selected
-        pmDisplayState = 'selected';
+        pmDisplayStates.push('selected');
       } else if (props.value.end.toDate().getTime() === date.getTime()) {
         // It's the last day in the range, so only AM is selected
-        amDisplayState = 'selected';
+        amDisplayStates.push('selected');
       } else {
         // It's somewhere in the range, so AM and PM are selected
-        amDisplayState = 'selected';
-        pmDisplayState = 'selected';
+        amDisplayStates.push('selected');
+        pmDisplayStates.push('selected');
       }
     }
 
     if (props.highlightedRange && props.highlightedRange.contains(date)) {
       if (props.highlightedRange.start.toDate().getTime() === date.getTime()) {
-        pmDisplayState = 'highlighted';
+        pmDisplayStates.push('highlighted');
       } else if (props.highlightedRange.end.toDate().getTime() === date.getTime()) {
-        amDisplayState = 'highlighted';
+        amDisplayStates.push('highlighted');
       } else {
-        amDisplayState = 'highlighted';
-        pmDisplayState = 'highlighted';
+        amDisplayStates.push('highlighted');
+        pmDisplayStates.push('highlighted');
       }
     }
 
@@ -331,34 +303,34 @@ var RangeDate = React.createClass({displayName: "RangeDate",
       !props.highlightedRange &&
       date.getTime() === props.highlightedDate.getTime()
     ) {
-      amDisplayState = 'highlighted';
-      pmDisplayState = 'highlighted';
+      amDisplayStates.push('highlighted');
+      pmDisplayStates.push('highlighted');
     }
 
     return {
-      am: amDisplayState,
-      pm: pmDisplayState
+      am: amDisplayStates,
+      pm: pmDisplayStates
     };
   },
 
-  render: function() {
+  render() {
     var classes = this.getClasses(this.props);
     var date = this.props.date;
-    var amState;
-    var pmState;
-    var amDisplayState;
-    var pmDisplayState;
     var amAction;
     var pmAction;
     var states = this.dateRangesForDate(date);
     var defaultState = this.props.defaultState;
+    var state;
+    var start;
+    var end;
+    var segmentStates;
 
     if (states.length > 0) {
       if (states.length === 1) {
         // If there's only one state, it means we're not at a boundary
-        var state = states[0];
-        var start = state.range.start.toDate();
-        var end = state.range.end.toDate();
+        state = states[0];
+        start = state.range.start.toDate();
+        end = state.range.end.toDate();
 
         if (!defaultState) {
           amAction = state.state;
@@ -385,20 +357,20 @@ var RangeDate = React.createClass({displayName: "RangeDate",
       pmAction = defaultState.state;
     }
 
-    var segementState = this.getSegmentStates(this.props);
+    segmentStates = this.getSegmentStates(this.props);
 
     return (
-      React.createElement("td", {className: cx(classes), 
-        onMouseEnter: _.partial(this.highlightDate, this.props.date), 
-        onMouseLeave: _.partial(this.unHighlightDate, this.props.date), 
-        onClick: _.partial(this.selectDate, this.props.date)}, 
-        React.createElement(AMState, {displayState: segementState.am, availabilityAction: amAction}), 
-        React.createElement(PMState, {displayState: segementState.pm, availabilityAction: pmAction}), 
-        React.createElement("span", {className: "react-datepicker-date-label"}, this.props.date.getDate())
-      )
+      <td className={cx(classes)}
+        onMouseEnter={_.partial(this.highlightDate, this.props.date)}
+        onMouseLeave={_.partial(this.unHighlightDate, this.props.date)}
+        onClick={_.partial(this.selectDate, this.props.date)}>
+        <AMState displayStates={segmentStates.am} availabilityAction={amAction} />
+        <PMState displayStates={segmentStates.pm} availabilityAction={pmAction} />
+        <span className="reactDaterangePicker__dateLabel">{this.props.date.getDate()}</span>
+      </td>
     );
   }
 
 });
 
-module.exports = RangeDate;
+export default RangeDate;

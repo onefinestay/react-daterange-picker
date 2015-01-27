@@ -4,3 +4,4 @@ node_modules/
 example/index.html
 example/build/
 example/css/*.css
+.idea

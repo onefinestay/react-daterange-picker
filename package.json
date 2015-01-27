@@ -4,7 +4,7 @@
   "description": "",
   "author": "Jonathan Kim <jonathan.kim@onefinestay.com>",
   "license": "Apache 2.0",
-  "main": "dist/range-picker.js",
+  "main": "dist/RangePicker.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/onefinestay/react-daterange-picker"
@@ -17,9 +17,12 @@
     "moment-range": "^1.0.5"
   },
   "devDependencies": {
+    "6to5-loader": "^2.0.0",
     "brfs": "^1.2.0",
     "gulp": "^3.8.9",
+    "gulp-6to5": "^2.0.2",
     "gulp-connect": "^2.2.0",
+    "gulp-ext-replace": "^0.1.0",
     "gulp-gh-pages": "^0.4.0",
     "gulp-react": "^2.0.0",
     "gulp-render": "0.1.1",
