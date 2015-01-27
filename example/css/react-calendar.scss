@@ -4,6 +4,7 @@ $arrow-size: 8px;
   display: inline-block;
   position: relative;
   padding: 0 30px;
+  margin-bottom: 10px;
   //user-select: none;
 
   &__pagination {
@@ -19,7 +20,7 @@ $arrow-size: 8px;
     white-space: nowrap;
     overflow: hidden;
     text-align: center;
-    margin-bottom: 0;
+    margin-bottom: 5px;
     width: 30px;
 
     &--previous {
@@ -64,7 +65,7 @@ $arrow-size: 8px;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    margin: 0 5px;
+    margin: 0 5px 5px;
   }
 
   &__monthHeader {
