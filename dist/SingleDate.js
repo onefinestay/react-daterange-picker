@@ -8,9 +8,7 @@ var React = _interopRequire(require("react/addons"));
 
 var moment = _interopRequire(require("moment"));
 
-var _ = _interopRequire(require("underscore"));
-
-var PureRenderMixin = require("react").addons.PureRenderMixin;
+var PureRenderMixin = React.addons.PureRenderMixin;
 var cx = React.addons.classSet;
 
 

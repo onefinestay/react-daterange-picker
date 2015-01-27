@@ -1,9 +1,7 @@
 'use strict';
 import React from 'react/addons';
 
-import utils from './utils';
-
-var PureRenderMixin = require('react').addons.PureRenderMixin;
+var PureRenderMixin = React.addons.PureRenderMixin;
 var cx = React.addons.classSet;
 
 

@@ -10,11 +10,11 @@
     "url": "https://github.com/onefinestay/react-daterange-picker"
   },
   "dependencies": {
-    "react": "^0.12.0",
-    "moment": "^2.8.3",
-    "underscore": "^1.7.0",
     "calendar": "^0.1.0",
-    "moment-range": "^1.0.5"
+    "immutable": "^3.6.2",
+    "moment": "^2.8.3",
+    "moment-range": "^1.0.5",
+    "react": "^0.12.0"
   },
   "devDependencies": {
     "6to5-loader": "^2.0.0",
@@ -25,13 +25,11 @@
     "gulp-connect": "^2.2.0",
     "gulp-ext-replace": "^0.1.0",
     "gulp-gh-pages": "^0.4.0",
-    "gulp-react": "^2.0.0",
     "gulp-render": "0.1.1",
     "gulp-sass": "^1.2.0",
     "gulp-sourcemaps": "^1.2.4",
     "gulp-util": "^3.0.1",
     "gulp-watch": "^1.1.0",
-    "jsx-loader": "^0.12.2",
     "transform-loader": "^0.2.1",
     "webpack": "^1.5.3"
   }

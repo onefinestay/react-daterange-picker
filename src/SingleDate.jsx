@@ -2,9 +2,8 @@
 
 import React from 'react/addons';
 import moment from 'moment';
-import _ from 'underscore';
 
-var PureRenderMixin = require('react').addons.PureRenderMixin;
+var PureRenderMixin = React.addons.PureRenderMixin;
 var cx = React.addons.classSet;
 
 

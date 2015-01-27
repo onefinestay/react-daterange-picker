@@ -5,9 +5,7 @@ var _interopRequire = function (obj) {
 
 var React = _interopRequire(require("react/addons"));
 
-var utils = _interopRequire(require("./utils"));
-
-var PureRenderMixin = require("react").addons.PureRenderMixin;
+var PureRenderMixin = React.addons.PureRenderMixin;
 var cx = React.addons.classSet;
 
 

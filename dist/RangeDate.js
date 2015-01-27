@@ -8,16 +8,16 @@ var React = _interopRequire(require("react/addons"));
 
 var moment = _interopRequire(require("moment-range"));
 
-var _ = _interopRequire(require("underscore"));
-
-var sortDates = _interopRequire(require("./sortDates"));
+var Immutable = _interopRequire(require("immutable"));
 
 var AMState = _interopRequire(require("./AMState"));
 
 var PMState = _interopRequire(require("./PMState"));
 
-var PureRenderMixin = require("react").addons.PureRenderMixin;
+var PureRenderMixin = React.addons.PureRenderMixin;
 var cx = React.addons.classSet;
+
+
 
 
 var RangeDate = React.createClass({
@@ -38,7 +38,7 @@ var RangeDate = React.createClass({
     highlightedRange: React.PropTypes.object,
     highlightedDate: React.PropTypes.instanceOf(Date),
     selectedStartDate: React.PropTypes.instanceOf(Date),
-    dateStates: React.PropTypes.array,
+    dateStates: React.PropTypes.instanceOf(Immutable.List),
 
     onHighlightDate: React.PropTypes.func,
     onUnHighlightDate: React.PropTypes.func,
@@ -72,23 +72,27 @@ var RangeDate = React.createClass({
   isDateSelectable: function isDateSelectable(date) {
     var dateRanges = this.dateRangesForDate(date);
     var defaultState = this.props.defaultState;
+    var state;
+    var start;
+    var end;
 
-    if (dateRanges.length === 0 && defaultState.selectable) {
+
+    if (dateRanges.count() === 0 && defaultState.selectable) {
       return true;
     } else {
       // if one date range and date is at the start or end of it then return
       // defaultState
-      if (dateRanges.length === 1) {
-        var state = dateRanges[0];
-        var start = state.range.start.toDate();
-        var end = state.range.end.toDate();
+      if (dateRanges.count() === 1) {
+        state = dateRanges.get(0);
+        start = state.get("range").start.toDate();
+        end = state.get("range").end.toDate();
         if (start.getTime() == date.getTime() || end.getTime() == date.getTime()) {
           return defaultState.selectable === true;
         }
       }
 
-      if (_.some(dateRanges, function (r) {
-        return r.selectable;
+      if (dateRanges.some(function (r) {
+        return r.get("selectable");
       })) {
         return true;
       }
@@ -97,34 +101,32 @@ var RangeDate = React.createClass({
   },
 
   nonSelectableStateRanges: function nonSelectableStateRanges() {
-    return _.chain(this.props.dateStates).filter(function (dates) {
-      return !dates.selectable;
+    return this.props.dateStates.filter(function (d) {
+      return !d.get("selectable");
     }).map(function (dates) {
-      var newStart = new Date(dates.range.start);
-      var newEnd = new Date(dates.range.end);
+      var newStart = new Date(dates.get("range").start);
+      var newEnd = new Date(dates.get("range").end);
       newStart.setDate(newStart.getDate());
       newEnd.setDate(newEnd.getDate());
-      return {
+      return Immutable.Map({
         range: moment().range(newStart, newEnd),
-        state: dates.state,
-        selectable: dates.selectable
-      };
-    }).value();
+        state: dates.get("state"),
+        selectable: dates.get("selectable")
+      });
+    }).valueSeq();
   },
 
   dateRangesForDate: function dateRangesForDate(date) {
-    return _.filter(this.props.dateStates, function (dates) {
-      if (dates.range.contains(date)) {
-        return dates.range;
-      }
+    return this.props.dateStates.filter(function (d) {
+      return d.get("range").contains(date);
     });
   },
 
   statesForRange: function statesForRange(range) {
-    return _.filter(this.props.dateStates, function (dates) {
-      if (dates.range.intersect(range)) {
-        return dates.state;
-      }
+    return this.props.dateStates.filter(function (d) {
+      return d.get("range").intersect(range);
+    }).map(function (d) {
+      return d.get("state");
     });
   },
 
@@ -133,63 +135,70 @@ var RangeDate = React.createClass({
      * with a non-selectable state. Using forwards to determine
      * which direction to work
      */
-    var i;
     var blockedRanges = this.nonSelectableStateRanges();
-    var blockedRange;
     var intersect;
 
     if (forwards) {
-      for (i = 0; i < blockedRanges.length; i++) {
-        blockedRange = blockedRanges[i];
-        intersect = range.intersect(blockedRange.range);
-
-        if (intersect) {
-          return moment().range(range.start, intersect.start);
-        }
+      intersect = blockedRanges.find(function (r) {
+        return range.intersect(r.get("range"));
+      });
+      if (intersect) {
+        return moment().range(range.start, intersect.get("range").start);
       }
     } else {
-      for (i = blockedRanges.length - 1; i >= 0; i--) {
-        blockedRange = blockedRanges[i];
-        intersect = range.intersect(blockedRange.range);
+      intersect = blockedRanges.findLast(function (r) {
+        return range.intersect(r.get("range"));
+      });
 
-        if (intersect) {
-          return moment().range(intersect.end, range.end);
-        }
+      if (intersect) {
+        return moment().range(intersect.get("range").end, range.end);
       }
     }
     return range;
   },
 
-  highlightDate: function highlightDate(date) {
-    if (this.isDateSelectable(date)) {
-      if (this.props.selectedStartDate) {
-        var datePair = sortDates(this.props.selectedStartDate, date);
-        var range = moment().range(datePair[0], datePair[1]);
-        var forwards = range.start.toDate().getTime() === this.props.selectedStartDate.getTime();
-        range = this.sanitizeRange(range, forwards);
-        this.props.onHighlightRange(range);
-      } else {
-        this.props.onHighlightDate(date);
-      }
+  highlightDate: function highlightDate() {
+    var date = this.props.date;
+    var datePair;
+    var range;
+    var forwards;
+
+    if (this.props.selectedStartDate) {
+      datePair = Immutable.List.of(this.props.selectedStartDate, date).sortBy(function (d) {
+        return d.getTime();
+      });
+      range = moment().range(datePair.get(0), datePair.get(1));
+      forwards = range.start.toDate().getTime() === this.props.selectedStartDate.getTime();
+      range = this.sanitizeRange(range, forwards);
+      this.props.onHighlightRange(range);
+    } else {
+      this.props.onHighlightDate(date);
     }
   },
 
-  unHighlightDate: function unHighlightDate(date) {
-    this.props.onUnHighlightDate(date);
+  unHighlightDate: function unHighlightDate() {
+    this.props.onUnHighlightDate(this.props.date);
   },
 
-  selectDate: function selectDate(date) {
+  selectDate: function selectDate() {
+    var date = this.props.date;
+    var datePair;
+    var range;
+    var forwards;
+    var states;
+
     if (this.props.selectedStartDate) {
       // We already have one end of the range
-      var datePair = sortDates(this.props.selectedStartDate, date);
-      var range = moment().range(datePair[0], datePair[1]);
-
-      var forwards = range.start.toDate().getTime() === this.props.selectedStartDate.getTime();
+      datePair = Immutable.List.of(this.props.selectedStartDate, date).sortBy(function (d) {
+        return d.getTime();
+      });
+      range = moment().range(datePair.get(0), datePair.get(1));
+      forwards = range.start.toDate().getTime() === this.props.selectedStartDate.getTime();
 
       range = this.sanitizeRange(range, forwards);
 
       if (range && range.end.diff(range.start, "days") > 0) {
-        var states = this.statesForRange(range);
+        states = this.statesForRange(range);
         this.props.onCompleteSelection(range, states);
       }
     } else if (this.isDateSelectable(date)) {
@@ -199,7 +208,6 @@ var RangeDate = React.createClass({
 
   getClasses: function getClasses(props) {
     var date = props.date;
-    var dateMoment = moment(date);
     var isOtherMonth = false;
     var isSelected = false;
     var isSelectedRange = false;
@@ -316,32 +324,32 @@ var RangeDate = React.createClass({
     var end;
     var segmentStates;
 
-    if (states.length > 0) {
-      if (states.length === 1) {
+    if (states.count() > 0) {
+      if (states.count() === 1) {
         // If there's only one state, it means we're not at a boundary
-        state = states[0];
-        start = state.range.start.toDate();
-        end = state.range.end.toDate();
+        state = states.get(0);
+        start = state.get("range").start.toDate();
+        end = state.get("range").end.toDate();
 
         if (!defaultState) {
-          amAction = state.state;
-          pmAction = state.state;
+          amAction = state.get("state");
+          pmAction = state.get("state");
         } else {
           // start of range
           if (start.getTime() == date.getTime()) {
             amAction = defaultState.state;
-            pmAction = state.state;
+            pmAction = state.get("state");
           } else if (end.getTime() == date.getTime()) {
-            amAction = state.state;
+            amAction = state.get("state");
             pmAction = defaultState.state;
           } else {
-            amAction = state.state;
-            pmAction = state.state;
+            amAction = state.get("state");
+            pmAction = state.get("state");
           }
         }
       } else {
-        amAction = states[0].state;
-        pmAction = states[1].state;
+        amAction = states.getIn([0, "state"]);
+        pmAction = states.getIn([1, "state"]);
       }
     } else if (defaultState && defaultState.state) {
       amAction = defaultState.state;
@@ -353,9 +361,9 @@ var RangeDate = React.createClass({
     return React.createElement(
       "td",
       { className: cx(classes),
-        onMouseEnter: _.partial(this.highlightDate, this.props.date),
-        onMouseLeave: _.partial(this.unHighlightDate, this.props.date),
-        onClick: _.partial(this.selectDate, this.props.date) },
+        onMouseEnter: this.highlightDate,
+        onMouseLeave: this.unHighlightDate,
+        onClick: this.selectDate },
       React.createElement(AMState, { displayStates: segmentStates.am, availabilityAction: amAction }),
       React.createElement(PMState, { displayStates: segmentStates.pm, availabilityAction: pmAction }),
       React.createElement(

@@ -7,7 +7,7 @@ var React = _interopRequire(require("react/addons"));
 
 var moment = _interopRequire(require("moment"));
 
-var _ = _interopRequire(require("underscore"));
+var Immutable = _interopRequire(require("immutable"));
 
 var Month = _interopRequire(require("./Month"));
 
@@ -15,7 +15,7 @@ var SingleDate = _interopRequire(require("./SingleDate"));
 
 var RangeDate = _interopRequire(require("./RangeDate"));
 
-var PureRenderMixin = require("react").addons.PureRenderMixin;
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 
 function noop() {}
@@ -173,14 +173,14 @@ var RangePicker = React.createClass({
     monthDate = new Date(year, month + index, 1);
 
     // sanitize date states
-    dateStates = _.map(this.props.dateStates, function (state) {
-      var range = moment().range(state.range.start.startOf("day"), state.range.end.startOf("day"));
+    dateStates = Immutable.List(this.props.dateStates).map(function (s) {
+      var range = moment().range(s.range.start.startOf("day"), s.range.end.startOf("day"));
 
-      return {
+      return Immutable.Map({
         range: range,
-        state: state.state,
-        selectable: state.selectable
-      };
+        state: s.state,
+        selectable: s.selectable
+      });
     });
 
     props = {
@@ -214,8 +214,7 @@ var RangePicker = React.createClass({
   },
 
   render: function () {
-    var range = _.range(this.props.numberOfCalendars);
-    var calendars = _.map(range, this.renderCalendar);
+    var calendars = Immutable.Range(0, this.props.numberOfCalendars).map(this.renderCalendar);
 
     return React.createElement(
       "div",
@@ -225,7 +224,7 @@ var RangePicker = React.createClass({
         { className: "reactDaterangePicker__pagination reactDaterangePicker__pagination--previous", onClick: this.moveBack },
         React.createElement("div", { className: "reactDaterangePicker__arrow reactDaterangePicker__arrow--previous" })
       ),
-      calendars,
+      calendars.toJS(),
       React.createElement(
         "div",
         { className: "reactDaterangePicker__pagination reactDaterangePicker__pagination--next", onClick: this.moveForward },

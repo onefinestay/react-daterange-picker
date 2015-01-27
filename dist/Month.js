@@ -10,15 +10,15 @@ var moment = _interopRequire(require("moment"));
 
 var calendar = _interopRequire(require("calendar"));
 
-var _ = _interopRequire(require("underscore"));
+var Immutable = _interopRequire(require("immutable"));
 
-var PureRenderMixin = require("react").addons.PureRenderMixin;
+var PureRenderMixin = React.addons.PureRenderMixin;
 var cx = React.addons.classSet;
 
 var lang = moment().localeData();
 
-var WEEKDAYS = _.zip(lang._weekdays, lang._weekdaysShort);
-var MONTHS = lang._months;
+var WEEKDAYS = Immutable.List(lang._weekdays).zip(Immutable.List(lang._weekdaysShort));
+var MONTHS = Immutable.List(lang._months);
 
 
 var Month = React.createClass({
@@ -32,19 +32,19 @@ var Month = React.createClass({
   },
 
   renderWeek: function renderWeek(dates, i) {
-    var days = _.map(dates, this.renderDay);
+    var days = dates.map(this.renderDay);
     return React.createElement(
       "tr",
       { className: "reactDaterangePicker__week", key: i },
-      days
+      days.toJS()
     );
   },
 
   renderDayHeaders: function renderDayHeaders() {
-    var indices = _.range(this.props.firstOfWeek, 7).concat(_.range(0, this.props.firstOfWeek));
+    var indices = Immutable.Range(this.props.firstOfWeek, 7).concat(Immutable.Range(0, this.props.firstOfWeek));
 
-    var headers = _.map(indices, function (index) {
-      var weekday = WEEKDAYS[index];
+    var headers = indices.map(function (index) {
+      var weekday = WEEKDAYS.get(index);
       return React.createElement(
         "th",
         { className: "reactDaterangePicker__weekdayHeading", key: weekday, scope: "col" },
@@ -59,7 +59,7 @@ var Month = React.createClass({
     return React.createElement(
       "tr",
       { className: "reactDaterangePicker__weekdays" },
-      headers
+      headers.toJS()
     );
   },
 
@@ -86,8 +86,8 @@ var Month = React.createClass({
   renderHeaderYear: function renderHeaderYear() {
     var monthMoment = moment(this.props.firstOfMonth);
     var y = this.props.firstOfMonth.getFullYear();
-    var years = _.range(y - 5, y).concat(_.range(y, y + 10));
-    var choices = _.map(years, this.renderYearChoice);
+    var years = Immutable.Range(y - 5, y).concat(Immutable.Range(y, y + 10));
+    var choices = years.map(this.renderYearChoice);
 
     return React.createElement(
       "span",
@@ -96,7 +96,7 @@ var Month = React.createClass({
       this.props.disableNavigation ? null : React.createElement(
         "select",
         { className: "reactDaterangePicker__monthHeaderSelect", value: y, onChange: this.handleYearChange },
-        choices
+        choices.toJS()
       )
     );
   },
@@ -127,7 +127,7 @@ var Month = React.createClass({
   renderHeaderMonth: function renderHeaderMonth() {
     var monthMoment = moment(this.props.firstOfMonth);
 
-    var choices = _.map(MONTHS, this.renderMonthChoice);
+    var choices = MONTHS.map(this.renderMonthChoice);
 
     return React.createElement(
       "span",
@@ -136,7 +136,7 @@ var Month = React.createClass({
       this.props.disableNavigation ? null : React.createElement(
         "select",
         { className: "reactDaterangePicker__monthHeaderSelect", value: this.props.month, onChange: this.handleMonthChange },
-        choices
+        choices.toJS()
       )
     );
   },
@@ -153,8 +153,8 @@ var Month = React.createClass({
 
   render: function render() {
     var cal = new calendar.Calendar(this.props.firstOfWeek);
-    var monthDates = cal.monthDates(this.props.firstOfMonth.getFullYear(), this.props.firstOfMonth.getMonth());
-    var weeks = _.map(monthDates, this.renderWeek);
+    var monthDates = Immutable.fromJS(cal.monthDates(this.props.firstOfMonth.getFullYear(), this.props.firstOfMonth.getMonth()));
+    var weeks = monthDates.map(this.renderWeek);
 
     return React.createElement(
       "div",
@@ -171,7 +171,7 @@ var Month = React.createClass({
         React.createElement(
           "tbody",
           null,
-          weeks
+          weeks.toJS()
         )
       )
     );
