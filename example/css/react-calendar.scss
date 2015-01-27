@@ -4,11 +4,6 @@ $arrow-size: 8px;
   display: inline-block;
   position: relative;
   padding: 0 30px;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 
   &__pagination {
@@ -205,37 +200,4 @@ $arrow-size: 8px;
     text-align: center;
     position: relative;
   }
-
-
 }
-
-//
-//
-//.react-calendar-month {
-//
-//  .react-calendar-dates {
-//    .react-calendar-date-other-month {
-//
-//
-//      .am-state, .pm-state {
-//        display: none;
-//      }
-//    }
-//
-//    .react-calendar-date-highlighted {
-//      background-color: yellow;
-//    }
-//
-//    .react-calendar-date-selected {
-//      background-color: #ff2558;
-//    }
-//
-//    .react-calendar-date-disabled {
-//
-//
-//      .am-state, .pm-state {
-//        display: none;
-//      }
-//    }
-//  }
-//}

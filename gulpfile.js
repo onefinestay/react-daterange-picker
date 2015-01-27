@@ -1,6 +1,7 @@
 "use strict";
 
 var gulp = require('gulp');
+var autoprefixer = require('gulp-autoprefixer');
 var extReplace = require('gulp-ext-replace');
 var watch = require('gulp-watch');
 var to5 = require('gulp-6to5');
@@ -37,6 +38,7 @@ gulp.task('build-example', ['build-js'], function() {
 gulp.task('build-example-scss', function() {
   gulp.src('./example/css/**/*.scss')
     .pipe(sass())
+    .pipe(autoprefixer())
     .pipe(gulp.dest('./example/css'));
 });
 
