@@ -1,4 +1,6 @@
 $arrow-size: 8px;
+$selection-radius: 5px;
+$selection-margin: 5px;
 
 .reactDaterangePicker {
   display: inline-block;
@@ -14,7 +16,6 @@ $arrow-size: 8px;
     outline: none;
     border: 0;
     padding: 0;
-    background-color: #E4E4E4;
     top: 0;
     bottom: 0;
     white-space: nowrap;
@@ -58,22 +59,23 @@ $arrow-size: 8px;
   }
 
   &__month {
-    width: 230px;
+    width: 275px;
     color: #333;
     position: relative;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    margin: 0 5px 5px;
+    margin: 0 20px;
+    display: inline-block;
   }
 
   &__monthHeader {
     position: relative;
     text-align: center;
-    background: #e4e4e4;
-    font-size: 15px;
-    color: #737373;
+    font-weight: bold;
+    font-size: 14px;
+    color: #000;
     height: 35px;
     line-height: 35px;
   }
@@ -111,24 +113,28 @@ $arrow-size: 8px;
   &__weekdayHeading,
   &__date {
     width: 14.285714285714286%;
-    padding: 0;
+    padding: 10px 0;
     text-align: center;
-    font-size: 11px;
-    line-height: 25px;
+    font-size: 12px;
+    line-height: 1;
   }
 
   &__weekdayHeading {
-    color: #fff;
-    background: #4da3a2;
-    border: 1px solid #4da3a2;
-    font-weight: normal;
+    color: #000;
+    font-weight: bold;
 
     abbr[title] {
       text-decoration: none;
-      color: #fff;
+      color: #000;
       font-size: inherit;
       cursor: pointer;
       border-bottom-width: 0;
+    }
+  }
+
+  &__date {
+    &--is-inSelection {
+      color: #fff;
     }
   }
 
@@ -177,20 +183,36 @@ $arrow-size: 8px;
     overflow: hidden;
   }
 
-  &__halfDay {
+  &__halfDateStates {
     position: absolute;
     top: -50px;
+    left: -50px;
+    right: -50px;
     bottom: -50px;
+    transform: rotate(30deg);
+  }
+
+  &__fullDateStates {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &__halfDay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
 
     &--am {
-      left: -50px;
-      right: -50px;
+      left: 0;
+      right: 50%;
     }
 
     &--pm {
-      left: 66%;
-      right: -50px;
-      transform: rotate(30deg);
+      left: 50%;
+      right: 0;
     }
   }
 
@@ -200,5 +222,75 @@ $arrow-size: 8px;
     width: 100%;
     text-align: center;
     position: relative;
+  }
+
+  &__selection {
+    position: absolute;
+    top: $selection-margin;
+    bottom: $selection-margin;
+    left: 0;
+    right: 0;
+    background-color: #ed5434;
+    border: 1px solid darken(#ed5434, 5);
+
+    &--start {
+      left: $selection-margin;
+      border-top-left-radius: $selection-radius;
+      border-bottom-left-radius: $selection-radius;
+      border-right-width: 0;
+    }
+
+    &--end {
+      right: $selection-margin;
+      border-top-right-radius: $selection-radius;
+      border-bottom-right-radius: $selection-radius;
+      border-left-width: 0;
+    }
+
+    &--segment {
+      border-left-width: 0;
+      border-right-width: 0;
+    }
+
+    &--single {
+      left: $selection-margin;
+      right: $selection-margin;
+      border-radius: $selection-radius;
+    }
+  }
+
+  &__highlight {
+    position: absolute;
+    top: $selection-margin;
+    bottom: $selection-margin;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+
+    &--start {
+      left: $selection-margin;
+      border-top-left-radius: $selection-radius;
+      border-bottom-left-radius: $selection-radius;
+      border-right-width: 0;
+    }
+
+    &--end {
+      right: $selection-margin;
+      border-top-right-radius: $selection-radius;
+      border-bottom-right-radius: $selection-radius;
+      border-left-width: 0;
+    }
+
+    &--segment {
+      border-left-width: 0;
+      border-right-width: 0;
+    }
+
+    &--single {
+      left: $selection-margin;
+      right: $selection-margin;
+      border-radius: $selection-radius;
+    }
   }
 }

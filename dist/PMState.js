@@ -14,21 +14,16 @@ var PMState = React.createClass({
   mixins: [PureRenderMixin],
 
   render: function render() {
-    var i;
+    var style = {};
     var classes = {
       reactDaterangePicker__halfDay: true,
       "reactDaterangePicker__halfDay--pm": true
     };
-    if (this.props.availabilityAction) {
-      classes["reactDaterangePicker__halfDay--is-" + this.props.availabilityAction] = true;
-    }
-    if (this.props.displayStates) {
-      for (i = 0; i < this.props.displayStates.length; i++) {
-        classes["reactDaterangePicker__halfDay--is-" + this.props.displayStates[i]] = true;
-      }
+    if (this.props.color) {
+      style.backgroundColor = this.props.color;
     }
 
-    return React.createElement("div", { className: cx(classes) });
+    return React.createElement("div", { style: style, className: cx(classes) });
   }
 });
 

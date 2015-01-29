@@ -91,24 +91,43 @@ var Index = React.createClass({
   },
 
   render: function() {
+    var stateDefinitions = {
+      available: {
+        selectable: true,
+        color: '#fff',
+        labe: 'Available'
+      },
+      enquire: {
+        selectable: true,
+        color: '#ffd200',
+        label: 'Enquire'
+      },
+      unavailable: {
+        selectable: false,
+        color: '#78818b',
+        label: 'Unavailable'
+      }
+    };
+
     var dateRanges = [
+      {
+        state: 'enquire',
+        range: moment().range(
+          moment().add(2, 'weeks').subtract(5, 'days'),
+          moment().add(2, 'weeks')
+        )
+      },
       {
         state: 'unavailable',
         range: moment().range(
           moment().add(3, 'weeks'),
           moment().add(3, 'weeks').add(5, 'days')
-        ),
-        selectable: false
+        )
       }
     ];
 
-    var defaultState = {
-      selectable: true,
-      state: 'available'
-    };
-
     var initialStart = moment().add(1, 'weeks').startOf('day');
-    var initialEnd = moment().add(2, 'weeks').startOf('day');
+    var initialEnd = moment().add(1, 'weeks').add(3, 'days').startOf('day');
 
     return (
       <html>
@@ -128,8 +147,9 @@ var Index = React.createClass({
                 numberOfCalendars={2}
                 selectionType='range'
                 earliestDate={new Date()}
+                stateDefinitions={stateDefinitions}
                 dateStates={dateRanges}
-                defaultState={defaultState}
+                defaultState="available"
                 start={initialStart}
                 end={initialEnd} />
               <CodeSnippet language="javascript">
@@ -140,25 +160,7 @@ var Index = React.createClass({
             <Features />
             <Install />
 
-            <div className="examples">
-              <h2>Examples</h2>
 
-              <div className="example">
-                <h4>Range with no date states</h4>
-                <DatePickerRange
-                  numberOfCalendars={2}
-                  selectionType="range"
-                  earliestDate={new Date()} />
-              </div>
-
-              <div className="example">
-                <h4>Single with no date states</h4>
-                <DatePickerSingle
-                  numberOfCalendars={2}
-                  selectionType="single"
-                  earliestDate={new Date()} />
-              </div>
-            </div>
           </div>
 
           <Footer />
@@ -173,3 +175,24 @@ var Index = React.createClass({
 });
 
 module.exports = Index;
+
+            //
+            //<div className="examples">
+            //  <h2>Examples</h2>
+            //
+            //  <div className="example">
+            //    <h4>Range with no date states</h4>
+            //    <DatePickerRange
+            //      numberOfCalendars={2}
+            //      selectionType="range"
+            //      earliestDate={new Date()} />
+            //  </div>
+            //
+            //  <div className="example">
+            //    <h4>Single with no date states</h4>
+            //    <DatePickerSingle
+            //      numberOfCalendars={2}
+            //      selectionType="single"
+            //      earliestDate={new Date()} />
+            //  </div>
+            //</div>

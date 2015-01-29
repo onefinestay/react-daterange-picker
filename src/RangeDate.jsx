@@ -7,10 +7,19 @@ import Immutable from 'immutable';
 import AMState from './AMState';
 import PMState from './PMState';
 
+import HighlightEnd from './HighlightEnd';
+import HighlightSegment from './HighlightSegment';
+import HighlightSingle from './HighlightSingle';
+import HighlightStart from './HighlightStart';
+
+import SelectionEnd from './SelectionEnd';
+import SelectionSegment from './SelectionSegment';
+import SelectionSingle from './SelectionSingle';
+import SelectionStart from './SelectionStart';
+
+
 var PureRenderMixin = React.addons.PureRenderMixin;
 var cx = React.addons.classSet;
-
-
 
 
 var RangeDate = React.createClass({
@@ -68,49 +77,11 @@ var RangeDate = React.createClass({
   },
 
   isDateSelectable(date) {
-    var dateRanges = this.dateRangesForDate(date);
-    var defaultState = this.props.defaultState;
-    var state;
-    var start;
-    var end;
-
-
-    if (dateRanges.count() === 0 && defaultState.selectable) {
-      return true;
-    } else {
-      // if one date range and date is at the start or end of it then return
-      // defaultState
-      if (dateRanges.count() === 1) {
-        state = dateRanges.get(0);
-        start = state.get('range').start.toDate();
-        end = state.get('range').end.toDate();
-        if (
-          start.getTime() == date.getTime() ||
-          end.getTime() == date.getTime()
-        ) {
-          return defaultState.selectable === true;
-        }
-      }
-
-      if (dateRanges.some(r => r.get('selectable'))) {
-        return true;
-      }
-    }
-    return false;
+    return this.dateRangesForDate(date).some(r => r.get('selectable'));
   },
 
   nonSelectableStateRanges() {
-    return this.props.dateStates.filter(d => !d.get('selectable')).map(function(dates) {
-      var newStart = new Date(dates.get('range').start);
-      var newEnd = new Date(dates.get('range').end);
-      newStart.setDate(newStart.getDate());
-      newEnd.setDate(newEnd.getDate());
-      return Immutable.Map({
-        range: moment().range(newStart, newEnd),
-        state: dates.get('state'),
-        selectable: dates.get('selectable')
-      });
-    }).valueSeq();
+    return this.props.dateStates.filter(d => !d.get('selectable'));
   },
 
   dateRangesForDate(date) {
@@ -193,47 +164,14 @@ var RangeDate = React.createClass({
   getClasses(props) {
     var date = props.date;
     var isOtherMonth = false;
-    var isSelected = false;
-    var isSelectedRange = false;
-    var isHighlightedRange = false;
-    var isHighlighted = false;
-
     var isDisabled = this.isDisabled(date);
-    var range = null;
-
-    var time = date.getTime();
 
     if (date.getMonth() !== props.firstOfMonth.getMonth()) {
       isOtherMonth = true;
     }
 
-    if (!isDisabled) {
-      if (props.value) {
-        if (props.selectionType === 'range' && props.value.contains(date)) {
-          isSelectedRange = true;
-        } else if (props.selectionType === 'single' && props.value.getTime() === time) {
-          isSelected = true;
-        }
-      }
-
-      // Highlights (Hover states)
-      if (props.highlightedDate && props.highlightedDate.getTime() === time) {
-        isHighlighted = true;
-      }
-
-      if (props.highlightedRange) {
-        if (props.highlightedRange.contains(date)) {
-          isHighlightedRange = true;
-        }
-      }
-    }
-
     return {
       'reactDaterangePicker__date': true,
-      'reactDaterangePicker__date--is-selected': isSelected,
-      'reactDaterangePicker__date--is-inSelectedRange': isSelectedRange,
-      'reactDaterangePicker__date--is-highlighted': isHighlighted,
-      'reactDaterangePicker__date--is-inHighlightedRange': isHighlightedRange,
       'reactDaterangePicker__date--is-disabled': isDisabled,
       'reactDaterangePicker__date--is-inOtherMonth': isOtherMonth
     };
@@ -295,65 +233,103 @@ var RangeDate = React.createClass({
     }
 
     return {
-      am: amDisplayStates,
-      pm: pmDisplayStates
+      am: Immutable.List(amDisplayStates),
+      pm: Immutable.List(pmDisplayStates)
     };
   },
 
   render() {
     var classes = this.getClasses(this.props);
-    var date = this.props.date;
-    var amAction;
-    var pmAction;
+    var date = moment(this.props.date);
+    var color;
+    var amColor;
+    var pmColor;
     var states = this.dateRangesForDate(date);
-    var defaultState = this.props.defaultState;
-    var state;
-    var start;
-    var end;
-    var segmentStates;
+    var numStates = states.count();
+    var style ={};
+    var inSelection = false;
+    var inHighlight = false;
 
-    if (states.count() > 0) {
-      if (states.count() === 1) {
-        // If there's only one state, it means we're not at a boundary
-        state = states.get(0);
-        start = state.get('range').start.toDate();
-        end = state.get('range').end.toDate();
+    var HighlightComponent = null;
+    var SelectionComponent = null;
 
-        if (!defaultState) {
-          amAction = state.get('state');
-          pmAction = state.get('state');
-        } else {
-          // start of range
-          if (start.getTime() == date.getTime()) {
-            amAction = defaultState.state;
-            pmAction = state.get('state');
-          } else if (end.getTime() == date.getTime()) {
-            amAction = state.get('state');
-            pmAction = defaultState.state;
-          } else {
-            amAction = state.get('state');
-            pmAction = state.get('state');
-          }
+    if (this.props.value) {
+      if (!this.props.value.start) {
+        if (date.isSame(this.props.value)) {
+          SelectionComponent = SelectionSingle;
+          inSelection = true;
+        }
+      } else if (this.props.value.start.isSame(this.props.value.end)) {
+        if (date.isSame(this.props.value.start)) {
+          SelectionComponent = SelectionSingle;
+          inSelection = true;
         }
       } else {
-        amAction = states.getIn([0, 'state']);
-        pmAction = states.getIn([1, 'state']);
+        // It's a range
+        if (this.props.value.contains(date)) {
+          if (date.isSame(this.props.value.start)) {
+            SelectionComponent = SelectionStart;
+            inSelection = true;
+          } else if (date.isSame(this.props.value.end)) {
+            SelectionComponent = SelectionEnd;
+            inSelection = true;
+          } else {
+            SelectionComponent = SelectionSegment;
+            inSelection = true;
+          }
+        }
       }
-    } else if (defaultState && defaultState.state) {
-      amAction = defaultState.state;
-      pmAction = defaultState.state;
     }
 
-    segmentStates = this.getSegmentStates(this.props);
+    if (this.props.highlightedRange && this.props.highlightedRange.contains(date)) {
+      if (date.isSame(this.props.highlightedRange.start)) {
+        HighlightComponent = HighlightStart;
+        inHighlight = true;
+      } else if (date.isSame(this.props.highlightedRange.end)) {
+        HighlightComponent = HighlightEnd;
+        inHighlight = true;
+      } else {
+        HighlightComponent = HighlightSegment;
+        inHighlight = true;
+      }
+    }
+
+    if (this.props.highlightedDate && date.isSame(this.props.highlightedDate)) {
+      HighlightComponent = HighlightSingle;
+      inHighlight = true;
+    }
+
+    if (inHighlight) {
+      classes['reactDaterangePicker__date--is-inHighlight'] = true;
+    }
+
+    if (inSelection) {
+      classes['reactDaterangePicker__date--is-inSelection'] = true;
+    }
+
+    if (numStates === 1) {
+      // If there's only one state, it means we're not at a boundary
+      style = {
+        backgroundColor: states.getIn([0, 'color'])
+      };
+    } else {
+      amColor = states.getIn([0, 'color']);
+      pmColor = states.getIn([1, 'color']);
+    }
 
     return (
       <td className={cx(classes)}
         onMouseEnter={this.highlightDate}
         onMouseLeave={this.unHighlightDate}
         onClick={this.selectDate}>
-        <AMState displayStates={segmentStates.am} availabilityAction={amAction} />
-        <PMState displayStates={segmentStates.pm} availabilityAction={pmAction} />
-        <span className="reactDaterangePicker__dateLabel">{this.props.date.getDate()}</span>
+        {numStates > 1 ?
+          <div className="reactDaterangePicker__halfDateStates">
+            <AMState color={amColor} />
+            <PMState color={pmColor} />
+          </div> : <div className="reactDaterangePicker__fullDateStates" style={style} />}
+        <span className="reactDaterangePicker__dateLabel">{date.format('D')}</span>
+        {SelectionComponent && <SelectionComponent date={date} />}
+        {HighlightComponent && <HighlightComponent date={date} />}
       </td>
     );
   }

@@ -27,10 +27,12 @@ var RangePicker = React.createClass({
     earliestDate: React.PropTypes.instanceOf(Date),
     latestDate: React.PropTypes.instanceOf(Date),
     selectionType: React.PropTypes.oneOf(['single', 'range']),
+    stateDefinitions: React.PropTypes.object,
     dateStates: React.PropTypes.array, // an array of date ranges and their states
-    defaultState: React.PropTypes.object,
+    defaultState: React.PropTypes.string,
     value: React.PropTypes.object, // range or single value
     initialFromValue: React.PropTypes.bool,
+    showLegend: React.PropTypes.bool,
     onSelect: React.PropTypes.func
   },
 
@@ -47,9 +49,16 @@ var RangePicker = React.createClass({
       initialDate: initialDate,
       initialFromValue: true,
       selectionType: 'range',
-      defaultState: {
-        selectable: true
+      stateDefinitions: {
+        '__default': {
+          color: null,
+          selectable: true,
+          label: null
+        }
       },
+      defaultState: '__default',
+      dateStates: [],
+      showLegend: false,
       onSelect: noop
     };
   },
@@ -82,6 +91,39 @@ var RangePicker = React.createClass({
       highlightedDate: null,
       highlightRange: null
     };
+  },
+
+  getDateStates() {
+    var dateStates = this.props.dateStates;
+    var actualStates = [];
+    var minDate = new Date(-8640000000000000 / 2);
+    var maxDate = new Date(8640000000000000 / 2);
+    var dateCursor = moment(minDate);
+
+    dateStates.forEach(function(s) {
+      var r = s.range;
+      if (!dateCursor.isSame(r.start)) {
+        actualStates.push({
+          state: this.props.defaultState,
+          range: moment().range(
+            dateCursor,
+            r.start
+          )
+        });
+      }
+
+      actualStates.push(s);
+      dateCursor = r.end;
+    }.bind(this));
+
+    actualStates.push({
+      state: this.props.defaultState,
+      range: moment().range(
+        dateCursor,
+        moment(maxDate)
+      )
+    });
+    return actualStates;
   },
 
   onSelect(date) {
@@ -178,18 +220,21 @@ var RangePicker = React.createClass({
     monthDate = new Date(year, month + index, 1);
 
     // sanitize date states
-    dateStates = Immutable.List(this.props.dateStates).map(function(s) {
+    dateStates = Immutable.List(this.getDateStates()).map(function(s) {
       var range = moment().range(
         s.range.start.startOf('day'),
         s.range.end.startOf('day')
       );
 
+      var def = this.props.stateDefinitions[s.state];
+
       return Immutable.Map({
         range: range,
         state: s.state,
-        selectable: s.selectable
+        selectable: def.selectable,
+        color: def.color
       });
-    });
+    }.bind(this));
 
     props = {
       index: index,
@@ -214,8 +259,7 @@ var RangePicker = React.createClass({
       onStartSelection: this.onStartSelection,
       onCompleteSelection: this.onCompleteSelection,
       dateComponent: this.props.selectionType == 'range' ? RangeDate : SingleDate,
-      dateStates: dateStates,
-      defaultState: this.props.defaultState
+      dateStates: dateStates
     };
 
     return <Month {...props} />;
@@ -233,6 +277,7 @@ var RangePicker = React.createClass({
         <div className="reactDaterangePicker__pagination reactDaterangePicker__pagination--next" onClick={this.moveForward}>
           <div className="reactDaterangePicker__arrow reactDaterangePicker__arrow--next"></div>
         </div>
+        {this.props.showLegend ? <p>Legendary</p> : null}
       </div>
     );
   }
