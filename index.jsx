@@ -4,7 +4,7 @@
 var React = require('react/addons');
 var moment = require('moment-range');
 var fs = require('fs');
-var RangePicker = require('../dist/range-picker');
+var RangePicker = require('..');
 
 var Header = require('./components/header.jsx');
 var Footer = require('./components/footer.jsx');
