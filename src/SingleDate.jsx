@@ -1,13 +1,15 @@
-/** @jsx React.DOM */
-"use strict";
+'use strict';
 
-var React = require('react/addons');
+import React from 'react/addons';
+import moment from 'moment';
+
+var PureRenderMixin = React.addons.PureRenderMixin;
 var cx = React.addons.classSet;
-var moment = require('moment');
-var _ = require('underscore');
 
 
 var SingleDate = React.createClass({
+  mixins: [PureRenderMixin],
+
   propTypes: {
     date: React.PropTypes.instanceOf(Date).isRequired,
 
@@ -29,7 +31,7 @@ var SingleDate = React.createClass({
     onCompleteSelection: React.PropTypes.func
   },
 
-  isDisabled: function(date) {
+  isDisabled(date) {
     var y = this.props.firstOfMonth.getFullYear();
     var m = this.props.firstOfMonth.getMonth();
 
@@ -51,31 +53,29 @@ var SingleDate = React.createClass({
     return false;
   },
 
-  highlightDate: function(date) {
+  highlightDate(date) {
     if (!this.isDisabled(date)) {
       this.props.onHighlightDate(date);
     }
   },
 
-  unHighlightDate: function(date) {
+  unHighlightDate(date) {
     this.props.onUnHighlightDate(date);
   },
 
-  selectDate: function(date) {
+  selectDate(date) {
     if (!this.isDisabled(date)) {
       this.props.onSelect(date);
     }
   },
 
-  getClasses: function() {
+  getClasses() {
     var date = this.props.date;
-    var dateMoment = moment(date);
     var isOtherMonth = false;
     var isSelected = false;
     var isHighlighted = false;
 
     var isDisabled = this.isDisabled(date);
-    var range = null;
 
     var time = date.getTime();
 
@@ -95,26 +95,24 @@ var SingleDate = React.createClass({
       }
     }
 
-    var classes = {
-      'react-calendar-date': true,
-      'react-calendar-date-selected': isSelected,
-      'react-calendar-date-highlighted': isHighlighted,
-      'react-calendar-date-disabled': isDisabled,
-      'react-calendar-date-other-month': isOtherMonth
+    return {
+      'reactDaterangePicker__date': true,
+      'reactDaterangePicker__date--is-selected': isSelected,
+      'reactDaterangePicker__date--is-highlighted': isHighlighted,
+      'reactDaterangePicker__date--is-disabled': isDisabled,
+      'reactDaterangePicker__date--is-inOtherMonth': isOtherMonth
     };
-    return classes;
   },
 
   render: function() {
     var classes = this.getClasses();
-    var date = this.props.date;
 
     return (
-      <td className={cx(classes)} onMouseEnter={_.partial(this.highlightDate, this.props.date)} onMouseLeave={_.partial(this.unHighlightDate, this.props.date)} onClick={_.partial(this.selectDate, this.props.date)}>
-        <span className="react-datepicker-date-label">{this.props.date.getDate()}</span>
+      <td className={cx(classes)} onMouseEnter={this.highlightDate.bind(this, this.props.date)} onMouseLeave={this.unHighlightDate.bind(this, this.props.date)} onClick={this.selectDate.bind(this, this.props.date)}>
+        <span className="reactDaterangePicker__dateLabel">{this.props.date.getDate()}</span>
       </td>
     );
   }
 });
 
-module.exports = SingleDate;
+export default SingleDate;

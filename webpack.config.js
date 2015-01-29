@@ -9,12 +9,19 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
+        test: /\.jsx$/,
+        exclude: /node_modules\//,
         loaders: [
-          'jsx?harmony&sourceMap=true'
+          '6to5-loader?experimental=true&runtime=true'
         ]
-      }
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules\//,
+        loaders: [
+          '6to5-loader?experimental=true&react=false&runtime=true'
+        ]
+      },
     ],
     postLoaders: [
       {

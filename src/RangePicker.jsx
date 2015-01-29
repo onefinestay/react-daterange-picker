@@ -1,18 +1,21 @@
-/** @jsx React.DOM */
-"use strict";
+'use strict';
+import React from 'react/addons';
+import moment from 'moment';
+import Immutable from 'immutable';
 
-var React = require('react/addons');
-var moment = require('moment');
-var _ = require('underscore');
+import Month from './Month';
+import SingleDate from './SingleDate';
+import RangeDate from './RangeDate';
 
-var Month = require('./month');
-var SingleDate = require('./single-date');
-var RangeDate = require('./range-date');
-
-var noop = function() {};
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 
-var RangePicker = React.createClass({displayName: "RangePicker",
+function noop () {}
+
+
+var RangePicker = React.createClass({
+  mixins: [PureRenderMixin],
+
   propTypes: {
     numberOfCalendars: React.PropTypes.number,
     firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
@@ -27,10 +30,11 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     dateStates: React.PropTypes.array, // an array of date ranges and their states
     defaultState: React.PropTypes.object,
     value: React.PropTypes.object, // range or single value
+    initialFromValue: React.PropTypes.bool,
     onSelect: React.PropTypes.func
   },
 
-  getDefaultProps: function() {
+  getDefaultProps() {
     var date = new Date();
     var initialDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
@@ -41,15 +45,16 @@ var RangePicker = React.createClass({displayName: "RangePicker",
       nextLabel: '',
       previousLabel: '',
       initialDate: initialDate,
+      initialFromValue: true,
       selectionType: 'range',
       defaultState: {
-        selectable: true,
+        selectable: true
       },
       onSelect: noop
     };
   },
 
-  getInitialState: function() {
+  getInitialState() {
     var now = new Date();
     var year = now.getFullYear();
     var month = now.getMonth();
@@ -57,6 +62,16 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     if (this.props.initialYear && this.props.initialMonth) {
       year = this.props.initialYear;
       month = this.props.initialMonth;
+    }
+
+    if (this.props.initialFromValue && this.props.value) {
+      if (this.props.selectionType === 'single') {
+        year = this.props.value.toDate().getFullYear();
+        month = this.props.value.toDate().getMonth();
+      } else {
+        year = this.props.value.start.toDate().getFullYear();
+        month = this.props.value.start.toDate().getMonth();
+      }
     }
 
     return {
@@ -69,17 +84,17 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     };
   },
 
-  onSelect: function(date) {
+  onSelect(date) {
     this.props.onSelect(moment(date));
   },
 
-  onStartSelection: function(date) {
+  onStartSelection(date) {
     this.setState({
       selectedStartDate: date
     });
   },
 
-  onCompleteSelection: function(range, states) {
+  onCompleteSelection(range, states) {
     this.setState({
       selectedStartDate: null,
       highlightedRange: null,
@@ -88,30 +103,30 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     this.props.onSelect(range, states);
   },
 
-  onHighlightDate: function(date) {
+  onHighlightDate(date) {
     this.setState({
       highlightedDate: date,
     });
   },
 
-  onHighlightRange: function(range) {
+  onHighlightRange(range) {
     this.setState({
       highlightedRange: range,
       highlightedDate: null
     });
   },
 
-  onUnHighlightDate: function(date) {
+  onUnHighlightDate(date) {
     this.setState({
       highlightedDate: null
     });
   },
 
-  getMonthDate: function() {
+  getMonthDate() {
     return new Date(this.state.year, this.state.month, 1);
   },
 
-  moveForward: function() {
+  moveForward() {
     var monthDate = this.getMonthDate();
     monthDate.setMonth(monthDate.getMonth() + 1);
     this.setState({
@@ -120,7 +135,7 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     });
   },
 
-  moveBack: function() {
+  moveBack() {
     var monthDate = this.getMonthDate();
     monthDate.setMonth(monthDate.getMonth() - 1);
     this.setState({
@@ -129,7 +144,7 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     });
   },
 
-  changeYear: function(year) {
+  changeYear(year) {
     var month = this.state.month;
 
     if (this.props.earliestDate && new Date(year, month, 1).getTime() < this.props.earliestDate.getTime()) {
@@ -146,35 +161,37 @@ var RangePicker = React.createClass({displayName: "RangePicker",
     });
   },
 
-  changeMonth: function(date) {
+  changeMonth(date) {
     this.setState({
       month: date
     });
   },
 
-  renderCalendar: function(index) {
+  renderCalendar(index) {
     var monthDate = this.getMonthDate();
     var year = monthDate.getFullYear();
     var month = monthDate.getMonth();
     var key = index + '-' + year + '-' + month;
+    var props;
+    var dateStates;
 
     monthDate = new Date(year, month + index, 1);
 
     // sanitize date states
-    var dateStates = _.map(this.props.dateStates, function(state) {
+    dateStates = Immutable.List(this.props.dateStates).map(function(s) {
       var range = moment().range(
-        state.range.start.startOf('day'),
-        state.range.end.startOf('day')
+        s.range.start.startOf('day'),
+        s.range.end.startOf('day')
       );
 
-      return {
+      return Immutable.Map({
         range: range,
-        state: state.state,
-        selectable: state.selectable
-      };
+        state: s.state,
+        selectable: s.selectable
+      });
     });
 
-    var props = {
+    props = {
       index: index,
       maxIndex: this.props.numberOfCalendars - 1,
       minDate: this.props.earliestDate,
@@ -201,25 +218,24 @@ var RangePicker = React.createClass({displayName: "RangePicker",
       defaultState: this.props.defaultState
     };
 
-    return React.createElement(Month, React.__spread({},  props));
+    return <Month {...props} />;
   },
 
   render: function() {
-    var range = _.range(this.props.numberOfCalendars);
-    var calendars = _.map(range, this.renderCalendar);
+    var calendars = Immutable.Range(0, this.props.numberOfCalendars).map(this.renderCalendar);
 
     return (
-      React.createElement("div", {className: "react-calendars"}, 
-        React.createElement("div", {className: "react-calendar-previous", onClick: this.moveBack}, 
-          React.createElement("div", {className: "arrow"})
-        ), 
-        calendars, 
-        React.createElement("div", {className: "react-calendar-next", onClick: this.moveForward}, 
-          React.createElement("div", {className: "arrow"})
-        )
-      )
+      <div className="reactDaterangePicker">
+        <div className="reactDaterangePicker__pagination reactDaterangePicker__pagination--previous" onClick={this.moveBack}>
+          <div className="reactDaterangePicker__arrow reactDaterangePicker__arrow--previous"></div>
+        </div>
+        {calendars.toJS()}
+        <div className="reactDaterangePicker__pagination reactDaterangePicker__pagination--next" onClick={this.moveForward}>
+          <div className="reactDaterangePicker__arrow reactDaterangePicker__arrow--next"></div>
+        </div>
+      </div>
     );
   }
 });
 
-module.exports = RangePicker;
+export default RangePicker;

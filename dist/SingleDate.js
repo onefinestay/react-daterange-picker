@@ -1,13 +1,21 @@
-/** @jsx React.DOM */
 "use strict";
 
-var React = require('react/addons');
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var React = _interopRequire(require("react/addons"));
+
+var moment = _interopRequire(require("moment"));
+
+var PureRenderMixin = React.addons.PureRenderMixin;
 var cx = React.addons.classSet;
-var moment = require('moment');
-var _ = require('underscore');
 
 
-var SingleDate = React.createClass({displayName: "SingleDate",
+var SingleDate = React.createClass({
+  displayName: "SingleDate",
+  mixins: [PureRenderMixin],
+
   propTypes: {
     date: React.PropTypes.instanceOf(Date).isRequired,
 
@@ -29,7 +37,7 @@ var SingleDate = React.createClass({displayName: "SingleDate",
     onCompleteSelection: React.PropTypes.func
   },
 
-  isDisabled: function(date) {
+  isDisabled: function isDisabled(date) {
     var y = this.props.firstOfMonth.getFullYear();
     var m = this.props.firstOfMonth.getMonth();
 
@@ -51,31 +59,29 @@ var SingleDate = React.createClass({displayName: "SingleDate",
     return false;
   },
 
-  highlightDate: function(date) {
+  highlightDate: function highlightDate(date) {
     if (!this.isDisabled(date)) {
       this.props.onHighlightDate(date);
     }
   },
 
-  unHighlightDate: function(date) {
+  unHighlightDate: function unHighlightDate(date) {
     this.props.onUnHighlightDate(date);
   },
 
-  selectDate: function(date) {
+  selectDate: function selectDate(date) {
     if (!this.isDisabled(date)) {
       this.props.onSelect(date);
     }
   },
 
-  getClasses: function() {
+  getClasses: function getClasses() {
     var date = this.props.date;
-    var dateMoment = moment(date);
     var isOtherMonth = false;
     var isSelected = false;
     var isHighlighted = false;
 
     var isDisabled = this.isDisabled(date);
-    var range = null;
 
     var time = date.getTime();
 
@@ -85,7 +91,7 @@ var SingleDate = React.createClass({displayName: "SingleDate",
 
     if (!isDisabled) {
       // Selections
-      if (this.props.value && (time === this.props.value.toDate().getTime())) {
+      if (this.props.value && time === this.props.value.toDate().getTime()) {
         isSelected = true;
       }
 
@@ -95,23 +101,25 @@ var SingleDate = React.createClass({displayName: "SingleDate",
       }
     }
 
-    var classes = {
-      'react-calendar-date': true,
-      'react-calendar-date-selected': isSelected,
-      'react-calendar-date-highlighted': isHighlighted,
-      'react-calendar-date-disabled': isDisabled,
-      'react-calendar-date-other-month': isOtherMonth
+    return {
+      reactDaterangePicker__date: true,
+      "reactDaterangePicker__date--is-selected": isSelected,
+      "reactDaterangePicker__date--is-highlighted": isHighlighted,
+      "reactDaterangePicker__date--is-disabled": isDisabled,
+      "reactDaterangePicker__date--is-inOtherMonth": isOtherMonth
     };
-    return classes;
   },
 
-  render: function() {
+  render: function () {
     var classes = this.getClasses();
-    var date = this.props.date;
 
-    return (
-      React.createElement("td", {className: cx(classes), onMouseEnter: _.partial(this.highlightDate, this.props.date), onMouseLeave: _.partial(this.unHighlightDate, this.props.date), onClick: _.partial(this.selectDate, this.props.date)}, 
-        React.createElement("span", {className: "react-datepicker-date-label"}, this.props.date.getDate())
+    return React.createElement(
+      "td",
+      { className: cx(classes), onMouseEnter: this.highlightDate.bind(this, this.props.date), onMouseLeave: this.unHighlightDate.bind(this, this.props.date), onClick: this.selectDate.bind(this, this.props.date) },
+      React.createElement(
+        "span",
+        { className: "reactDaterangePicker__dateLabel" },
+        this.props.date.getDate()
       )
     );
   }
