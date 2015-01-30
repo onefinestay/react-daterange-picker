@@ -30,6 +30,8 @@ var SelectionSingle = _interopRequire(require("./SelectionSingle"));
 
 var SelectionStart = _interopRequire(require("./SelectionStart"));
 
+var lightenDarkenColor = _interopRequire(require("./lightenDarkenColor"));
+
 
 
 
@@ -191,15 +193,22 @@ var RangeDate = React.createClass({
   getClasses: function getClasses(props) {
     var date = props.date;
     var isOtherMonth = false;
+    var isWeekend = false;
     var isDisabled = this.isDisabled(date);
 
     if (date.getMonth() !== props.firstOfMonth.getMonth()) {
       isOtherMonth = true;
     }
 
+    if (date.getDay() === 0 || date.getDay() === 6) {
+      isWeekend = true;
+    }
+
+
     return {
       reactDaterangePicker__date: true,
       "reactDaterangePicker__date--is-disabled": isDisabled,
+      "reactDaterangePicker__date--is-weekend": isWeekend,
       "reactDaterangePicker__date--is-inOtherMonth": isOtherMonth
     };
   },
@@ -269,9 +278,12 @@ var RangeDate = React.createClass({
     var pmColor;
     var states = this.dateRangesForDate(date);
     var numStates = states.count();
+    var cellStyle = {};
     var style = {};
     var inSelection = false;
     var inHighlight = false;
+    var isInOtherMonth = this.props.date.getMonth() !== this.props.firstOfMonth.getMonth();
+
 
     var HighlightComponent = null;
     var SelectionComponent = null;
@@ -330,35 +342,55 @@ var RangeDate = React.createClass({
       classes["reactDaterangePicker__date--is-inSelection"] = true;
     }
 
-    if (numStates === 1) {
-      // If there's only one state, it means we're not at a boundary
-      style = {
-        backgroundColor: states.getIn([0, "color"])
-      };
-    } else {
-      amColor = states.getIn([0, "color"]);
-      pmColor = states.getIn([1, "color"]);
+    if (!isInOtherMonth) {
+      if (numStates === 1) {
+        // If there's only one state, it means we're not at a boundary
+        color = states.getIn([0, "color"]);
+
+        if (color) {
+          style = {
+            backgroundColor: color
+          };
+          cellStyle = {
+            borderLeftColor: lightenDarkenColor(color, -10),
+            borderRightColor: lightenDarkenColor(color, -10)
+          };
+        }
+      } else {
+        amColor = states.getIn([0, "color"]);
+        pmColor = states.getIn([1, "color"]);
+
+        if (amColor) {
+          cellStyle.borderLeftColor = lightenDarkenColor(amColor, -10);
+        }
+
+        if (pmColor) {
+          cellStyle.borderRightColor = lightenDarkenColor(pmColor, -10);
+        }
+      }
     }
 
     return React.createElement(
       "td",
       { className: cx(classes),
+        style: cellStyle,
         onMouseEnter: this.highlightDate,
         onMouseLeave: this.unHighlightDate,
         onClick: this.selectDate },
-      numStates > 1 ? React.createElement(
+      !isInOtherMonth && numStates > 1 && React.createElement(
         "div",
         { className: "reactDaterangePicker__halfDateStates" },
         React.createElement(AMState, { color: amColor }),
         React.createElement(PMState, { color: pmColor })
-      ) : React.createElement("div", { className: "reactDaterangePicker__fullDateStates", style: style }),
+      ),
+      !isInOtherMonth && numStates === 1 && React.createElement("div", { className: "reactDaterangePicker__fullDateStates", style: style }),
       React.createElement(
         "span",
         { className: "reactDaterangePicker__dateLabel" },
         date.format("D")
       ),
-      SelectionComponent && React.createElement(SelectionComponent, { date: date }),
-      HighlightComponent && React.createElement(HighlightComponent, { date: date })
+      SelectionComponent && React.createElement(SelectionComponent, { date: date, isInOtherMonth: isInOtherMonth }),
+      HighlightComponent && React.createElement(HighlightComponent, { date: date, isInOtherMonth: isInOtherMonth })
     );
   }
 

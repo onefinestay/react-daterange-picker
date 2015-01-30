@@ -9,8 +9,14 @@ var SelectionStart = React.createClass({
   mixins: [PureRenderMixin],
 
   render() {
+    var classes = {
+      'reactDaterangePicker__selection': true,
+      'reactDaterangePicker__selection--start': true,
+      'reactDaterangePicker__selection--is-inOtherMonth': this.props.isInOtherMonth
+    };
+
     return (
-      <div className="reactDaterangePicker__selection reactDaterangePicker__selection--start" />
+      <div className={cx(classes)} />
     );
   }
 });

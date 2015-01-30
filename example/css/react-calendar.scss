@@ -5,7 +5,7 @@ $selection-margin: 5px;
 .reactDaterangePicker {
   display: inline-block;
   position: relative;
-  padding: 0 30px;
+  padding: 0;
   margin-bottom: 10px;
   //user-select: none;
 
@@ -17,19 +17,18 @@ $selection-margin: 5px;
     border: 0;
     padding: 0;
     top: 0;
-    bottom: 0;
+    height: 35px;
     white-space: nowrap;
     overflow: hidden;
     text-align: center;
-    margin-bottom: 5px;
-    width: 30px;
+    width: 35px;
 
     &--previous {
-      left: 0;
+      left: 20px;
     }
 
     &--next {
-      right: 0;
+      right: 20px;
     }
 
     &:hover {
@@ -39,7 +38,7 @@ $selection-margin: 5px;
 
   &__arrow {
     position: absolute;
-    top: 48%;
+    top: 10px;
     width: 0;
     height: 0;
     border-top: $arrow-size solid transparent;
@@ -62,9 +61,6 @@ $selection-margin: 5px;
     width: 275px;
     color: #333;
     position: relative;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     margin: 0 20px;
     display: inline-block;
@@ -104,14 +100,15 @@ $selection-margin: 5px;
 
   &__monthDates {
     width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border: 0;
     margin: 0;
+    border-collapse: separate;
+    border-spacing: 0 1px;
+    border-bottom: 1px solid #f4f5f6;
+
   }
 
-  &__weekdayHeading,
-  &__date {
+ &__weekdayHeading,
+ &__date {
     width: 14.285714285714286%;
     padding: 10px 0;
     text-align: center;
@@ -120,6 +117,7 @@ $selection-margin: 5px;
   }
 
   &__weekdayHeading {
+    border-bottom: 1px solid #f4f5f6;
     color: #000;
     font-weight: bold;
 
@@ -133,54 +131,36 @@ $selection-margin: 5px;
   }
 
   &__date {
-    &--is-inSelection {
-      color: #fff;
-    }
-  }
+    border: 1px solid #f4f5f6;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
 
-  &__date,
-  &__halfDay {
-    &--is-blocked {
-      background-color: #AAAAAA;
-    }
-
-    &--is-unavailable {
-      background-color: #AAAAAA;
+    &:first-child {
+      border-left-width: 1px;
     }
 
-    &--is-available {
-      background-color: #D0E7DB;
-    }
 
-    &--is-enquire {
-      background-color: #FFFBCB;
-    }
-
-    &--is-selected {
-      background-color: #ff2558;
-    }
-
-    &--is-highlighted {
-      background-color: yellow;
+    &--is-weekend {
+      background-color: #f6f7f9;
     }
 
     &--is-disabled {
       cursor: default;
-      color: #ccc;
-      background: #eee;
+      color: #cdcdd1;
     }
 
     &--is-inOtherMonth {
-      color: #ccc;
-      background: #FFFFFF;
+      opacity: 0.5;
     }
-  }
 
-  &__date {
-    border: 1px solid #ddd;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+    &--is-inSelection {
+      color: #fff;
+    }
+
   }
 
   &__halfDateStates {
@@ -233,6 +213,10 @@ $selection-margin: 5px;
     background-color: #ed5434;
     border: 1px solid darken(#ed5434, 5);
 
+    &--is-inOtherMonth {
+      opacity: 0.5;
+    }
+
     &--start {
       left: $selection-margin;
       border-top-left-radius: $selection-radius;
@@ -268,6 +252,10 @@ $selection-margin: 5px;
     background-color: rgba(255, 255, 255, 0.25);
     border: 1px solid rgba(0, 0, 0, 0.25);
 
+    &--is-inOtherMonth {
+      opacity: 0.5;
+    }
+
     &--start {
       left: $selection-margin;
       border-top-left-radius: $selection-radius;
@@ -291,6 +279,33 @@ $selection-margin: 5px;
       left: $selection-margin;
       right: $selection-margin;
       border-radius: $selection-radius;
+    }
+  }
+
+  &__legend {
+    list-style-type: none;
+    margin: 20px 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 16px;
+    color: #52575e;
+  }
+
+  &__legendItem {
+    display: inline-block;
+    margin: 0 20px;
+  }
+
+  &__legendItemColor {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: text-bottom;
+
+    &--selection {
+      background-color: #ed5434;
     }
   }
 }

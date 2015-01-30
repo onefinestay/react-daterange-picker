@@ -9,8 +9,14 @@ var SelectionEnd = React.createClass({
   mixins: [PureRenderMixin],
 
   render() {
+    var classes = {
+      'reactDaterangePicker__selection': true,
+      'reactDaterangePicker__selection--end': true,
+      'reactDaterangePicker__selection--is-inOtherMonth': this.props.isInOtherMonth
+    };
+
     return (
-      <div className="reactDaterangePicker__selection reactDaterangePicker__selection--end" />
+      <div className={cx(classes)} />
     );
   }
 });

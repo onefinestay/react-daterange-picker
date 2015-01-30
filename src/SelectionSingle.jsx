@@ -9,8 +9,14 @@ var SelectionSingle = React.createClass({
   mixins: [PureRenderMixin],
 
   render() {
+    var classes = {
+      'reactDaterangePicker__selection': true,
+      'reactDaterangePicker__selection--single': true,
+      'reactDaterangePicker__selection--is-inOtherMonth': this.props.isInOtherMonth
+    };
+
     return (
-      <div className="reactDaterangePicker__selection reactDaterangePicker__selection--single" />
+      <div className={cx(classes)} />
     );
   }
 });

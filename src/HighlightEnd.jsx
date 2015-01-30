@@ -9,8 +9,14 @@ var HighlightEnd = React.createClass({
   mixins: [PureRenderMixin],
 
   render() {
+    var classes = {
+      'reactDaterangePicker__highlight': true,
+      'reactDaterangePicker__highlight--end': true,
+      'reactDaterangePicker__highlight--is-inOtherMonth': this.props.isInOtherMonth
+    };
+
     return (
-      <div className="reactDaterangePicker__highlight reactDaterangePicker__highlight--end" />
+      <div className={cx(classes)} />
     );
   }
 });

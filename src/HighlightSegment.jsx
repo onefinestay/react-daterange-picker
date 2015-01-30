@@ -9,8 +9,14 @@ var HightlightSegment = React.createClass({
   mixins: [PureRenderMixin],
 
   render() {
+    var classes = {
+      'reactDaterangePicker__highlight': true,
+      'reactDaterangePicker__highlight--segment': true,
+      'reactDaterangePicker__highlight--is-inOtherMonth': this.props.isInOtherMonth
+    };
+
     return (
-      <div className="reactDaterangePicker__highlight reactDaterangePicker__highlight--segment" />
+      <div className={cx(classes)} />
     );
   }
 });

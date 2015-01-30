@@ -9,6 +9,8 @@ var moment = _interopRequire(require("moment"));
 
 var Immutable = _interopRequire(require("immutable"));
 
+var Legend = _interopRequire(require("./Legend"));
+
 var Month = _interopRequire(require("./Month"));
 
 var SingleDate = _interopRequire(require("./SingleDate"));
@@ -281,11 +283,7 @@ var RangePicker = React.createClass({
         { className: "reactDaterangePicker__pagination reactDaterangePicker__pagination--next", onClick: this.moveForward },
         React.createElement("div", { className: "reactDaterangePicker__arrow reactDaterangePicker__arrow--next" })
       ),
-      this.props.showLegend ? React.createElement(
-        "p",
-        null,
-        "Legendary"
-      ) : null
+      this.props.showLegend ? React.createElement(Legend, { stateDefinitions: this.props.stateDefinitions }) : null
     );
   }
 });

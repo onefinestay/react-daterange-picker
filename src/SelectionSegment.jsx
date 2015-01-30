@@ -9,8 +9,14 @@ var SelectionSegment = React.createClass({
   mixins: [PureRenderMixin],
 
   render() {
+    var classes = {
+      'reactDaterangePicker__selection': true,
+      'reactDaterangePicker__selection--segment': true,
+      'reactDaterangePicker__selection--is-inOtherMonth': this.props.isInOtherMonth
+    };
+
     return (
-      <div className="reactDaterangePicker__selection reactDaterangePicker__selection--segment" />
+      <div className={cx(classes)} />
     );
   }
 });

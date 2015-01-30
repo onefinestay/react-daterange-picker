@@ -3,6 +3,7 @@ import React from 'react/addons';
 import moment from 'moment';
 import Immutable from 'immutable';
 
+import Legend from './Legend';
 import Month from './Month';
 import SingleDate from './SingleDate';
 import RangeDate from './RangeDate';
@@ -277,7 +278,7 @@ var RangePicker = React.createClass({
         <div className="reactDaterangePicker__pagination reactDaterangePicker__pagination--next" onClick={this.moveForward}>
           <div className="reactDaterangePicker__arrow reactDaterangePicker__arrow--next"></div>
         </div>
-        {this.props.showLegend ? <p>Legendary</p> : null}
+        {this.props.showLegend ? <Legend stateDefinitions={this.props.stateDefinitions} /> : null}
       </div>
     );
   }
