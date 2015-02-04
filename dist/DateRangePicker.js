@@ -123,23 +123,26 @@ var DateRangePicker = React.createClass({
     var actualStates = [];
     var minDate = new Date(-8640000000000000 / 2);
     var maxDate = new Date(8640000000000000 / 2);
-    var dateCursor = moment(minDate);
+    var dateCursor = moment(minDate).startOf("day");
 
     dateStates.forEach((function (s) {
       var r = s.range;
-      if (!dateCursor.isSame(r.start)) {
+      var start = r.start.startOf("day");
+      var end = r.end.startOf("day");
+
+      if (!dateCursor.isSame(start)) {
         actualStates.push({
           state: defaultState,
-          range: moment().range(dateCursor, r.start)
+          range: moment().range(dateCursor, start)
         });
       }
       actualStates.push(s);
-      dateCursor = r.end;
+      dateCursor = end;
     }).bind(this));
 
     actualStates.push({
       state: defaultState,
-      range: moment().range(dateCursor, moment(maxDate))
+      range: moment().range(dateCursor, moment(maxDate).startOf("day"))
     });
     return actualStates;
   },
@@ -255,12 +258,9 @@ var DateRangePicker = React.createClass({
 
     // sanitize date states
     dateStates = Immutable.List(this.getDateStates()).map((function (s) {
-      var range = moment().range(s.range.start.startOf("day"), s.range.end.startOf("day"));
-
       var def = stateDefinitions[s.state];
-
       return Immutable.Map({
-        range: range,
+        range: s.range,
         state: s.state,
         selectable: def.selectable,
         color: def.color
