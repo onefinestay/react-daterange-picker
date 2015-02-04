@@ -1,19 +1,41 @@
 /* global React */
 "use strict";
 
-var RangePicker = require('react-daterange-picker');
+var DateRangePicker = require('react-daterange-picker');
 var moment = require('moment-range');
 
-var dateStates = [
+var stateDefinitions = {
+  available: {
+    selectable: true,
+    color: null,
+    labe: 'Available'
+  },
+  enquire: {
+    selectable: true,
+    color: '#ffd200',
+    label: 'Enquire'
+  },
+  unavailable: {
+    selectable: false,
+    color: '#78818b',
+    label: 'Unavailable'
+  }
+};
+
+var dateRanges = [
+  {
+    state: 'enquire',
+    range: moment().range(
+      moment().add(2, 'weeks').subtract(5, 'days'),
+      moment().add(2, 'weeks').add(6, 'days')
+    )
+  },
   {
     state: 'unavailable',
-    // unavailable for 5 days in 2 weeks time
     range: moment().range(
       moment().add(3, 'weeks'),
-      moment().add(3, 'weeks')
-        .add(5, 'days')
-    ),
-    selectable: false
+      moment().add(3, 'weeks').add(5, 'days')
+    )
   }
 ];
 
@@ -23,12 +45,14 @@ var DatePicker = React.createClass({
         value: null
     };
   },
-  handleSelect: function(range) {
+  handleSelect: function(range, states) {
     // range is a moment-range object
     this.setState({
-        value: range
+      value: range
+      states: states,
     });
   },
+
   render: function() {
     var defaultState = {
       selectable: true,
@@ -36,10 +60,15 @@ var DatePicker = React.createClass({
     };
 
     return (
-      <RangePicker
+      <DateRangePicker
+        firstOfWeek={1}
         numberOfCalendars={2}
-        dateStates={dateStates}
-        defaultState={defaultState}
+        selectionType='range'
+        earliestDate={new Date()}
+        stateDefinitions={stateDefinitions}
+        dateStates={dateRanges}
+        defaultState="available"
+        showLegend={true}
         value={this.state.value}
         onSelect={this.handleSelect} />
     );

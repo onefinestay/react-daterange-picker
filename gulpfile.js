@@ -1,5 +1,7 @@
 "use strict";
 
+Object.assign = require('object.assign');
+
 var gulp = require('gulp');
 var autoprefixer = require('gulp-autoprefixer');
 var extReplace = require('gulp-ext-replace');
@@ -12,7 +14,7 @@ var deploy = require('gulp-gh-pages');
 
 gulp.task('build-js', function() {
   // build javascript files
-  return gulp.src('src/*{js,jsx}')
+  return gulp.src('src/**/*.{js,jsx}')
     .pipe(to5({experimental: true, runtime: false}))
     .pipe(extReplace('.js'))
     .pipe(gulp.dest('dist'));

@@ -2,14 +2,41 @@ $arrow-size: 8px;
 $selection-radius: 5px;
 $selection-margin: 5px;
 
-.reactDaterangePicker {
+.DateRangePicker {
   display: inline-block;
   position: relative;
   padding: 0;
   margin-bottom: 10px;
-  //user-select: none;
+  user-select: none;
 
-  &__pagination {
+  &__Legend {
+    list-style-type: none;
+    margin: 20px 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 16px;
+    color: #52575e;
+  }
+
+  &__LegendItem {
+    display: inline-block;
+    margin: 0 20px;
+  }
+
+  &__LegendItemColor {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: text-bottom;
+
+    &--selection {
+      background-color: #ed5434;
+    }
+  }
+
+  &__PaginationArrow {
     display: block;
     cursor: pointer;
     position: absolute;
@@ -22,6 +49,7 @@ $selection-margin: 5px;
     overflow: hidden;
     text-align: center;
     width: 35px;
+    z-index: 1;
 
     &--previous {
       left: 20px;
@@ -36,7 +64,7 @@ $selection-margin: 5px;
     }
   }
 
-  &__arrow {
+  &__PaginationArrowIcon {
     position: absolute;
     top: 10px;
     width: 0;
@@ -57,7 +85,7 @@ $selection-margin: 5px;
     }
   }
 
-  &__month {
+  &__Month {
     width: 275px;
     color: #333;
     position: relative;
@@ -66,7 +94,7 @@ $selection-margin: 5px;
     display: inline-block;
   }
 
-  &__monthHeader {
+  &__MonthHeader {
     position: relative;
     text-align: center;
     font-weight: bold;
@@ -76,12 +104,12 @@ $selection-margin: 5px;
     line-height: 35px;
   }
 
-  &__monthHeaderLabel {
+  &__MonthHeaderLabel {
     display: inline-block;
     position: relative;
   }
 
-  &__monthHeaderSelect {
+  &__MonthHeaderSelect {
     cursor: pointer;
     display: inline-block;
     position: absolute;
@@ -98,17 +126,16 @@ $selection-margin: 5px;
     height: 100%;
   }
 
-  &__monthDates {
+  &__MonthDates {
     width: 100%;
     margin: 0;
     border-collapse: separate;
     border-spacing: 0 1px;
     border-bottom: 1px solid #f4f5f6;
-
   }
 
- &__weekdayHeading,
- &__date {
+ &__WeekdayHeading,
+ &__Date {
     width: 14.285714285714286%;
     padding: 10px 0;
     text-align: center;
@@ -116,7 +143,7 @@ $selection-margin: 5px;
     line-height: 1;
   }
 
-  &__weekdayHeading {
+  &__WeekdayHeading {
     border-bottom: 1px solid #f4f5f6;
     color: #000;
     font-weight: bold;
@@ -130,11 +157,9 @@ $selection-margin: 5px;
     }
   }
 
-  &__date {
-    border: 1px solid #f4f5f6;
-    border-left-width: 0;
-    border-top-width: 0;
-    border-bottom-width: 0;
+  &__Date {
+    border: 0 solid #f4f5f6;
+    border-right-width: 1px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -144,8 +169,12 @@ $selection-margin: 5px;
     }
 
 
-    &--is-weekend {
+    &--weekend {
       background-color: #f6f7f9;
+    }
+
+    &--otherMonth {
+      opacity: 0.25;
     }
 
     &--is-disabled {
@@ -153,34 +182,16 @@ $selection-margin: 5px;
       color: #cdcdd1;
     }
 
-    &--is-inOtherMonth {
-      opacity: 0.5;
-    }
-
-    &--is-inSelection {
+    &--is-selected {
       color: #fff;
     }
 
+    &--is-highlighted {
+      color: #333;
+    }
   }
 
-  &__halfDateStates {
-    position: absolute;
-    top: -50px;
-    left: -50px;
-    right: -50px;
-    bottom: -50px;
-    transform: rotate(30deg);
-  }
-
-  &__fullDateStates {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-
-  &__halfDay {
+  &__CalendarDatePeriod {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -196,15 +207,7 @@ $selection-margin: 5px;
     }
   }
 
-  &__dateLabel {
-    display: block;
-    z-index: 1;
-    width: 100%;
-    text-align: center;
-    position: relative;
-  }
-
-  &__selection {
+  &__CalendarSelection {
     position: absolute;
     top: $selection-margin;
     bottom: $selection-margin;
@@ -213,7 +216,7 @@ $selection-margin: 5px;
     background-color: #ed5434;
     border: 1px solid darken(#ed5434, 5);
 
-    &--is-inOtherMonth {
+    &--inOtherMonth {
       opacity: 0.5;
     }
 
@@ -243,7 +246,7 @@ $selection-margin: 5px;
     }
   }
 
-  &__highlight {
+  &__CalendarHighlight {
     position: absolute;
     top: $selection-margin;
     bottom: $selection-margin;
@@ -252,7 +255,7 @@ $selection-margin: 5px;
     background-color: rgba(255, 255, 255, 0.25);
     border: 1px solid rgba(0, 0, 0, 0.25);
 
-    &--is-inOtherMonth {
+    &--inOtherMonth {
       opacity: 0.5;
     }
 
@@ -276,36 +279,36 @@ $selection-margin: 5px;
     }
 
     &--single {
+      background-color: #fff;
+      border: 1px solid darken(#ed5434, 5);
       left: $selection-margin;
       right: $selection-margin;
       border-radius: $selection-radius;
     }
   }
 
-  &__legend {
-    list-style-type: none;
-    margin: 20px 0;
-    padding: 0;
-    font-size: 14px;
-    line-height: 16px;
-    color: #52575e;
+  &__HalfDateStates {
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    right: -50px;
+    bottom: -50px;
+    transform: rotate(30deg);
   }
 
-  &__legendItem {
-    display: inline-block;
-    margin: 0 20px;
+  &__FullDateStates {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 
-  &__legendItemColor {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    margin-right: 6px;
-    vertical-align: text-bottom;
-
-    &--selection {
-      background-color: #ed5434;
-    }
+  &__DateLabel {
+    display: block;
+    z-index: 1;
+    width: 100%;
+    text-align: center;
+    position: relative;
   }
 }

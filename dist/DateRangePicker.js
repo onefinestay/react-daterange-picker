@@ -9,13 +9,15 @@ var moment = _interopRequire(require("moment"));
 
 var Immutable = _interopRequire(require("immutable"));
 
+var BemMixin = _interopRequire(require("./utils/BemMixin"));
+
 var Legend = _interopRequire(require("./Legend"));
 
-var Month = _interopRequire(require("./Month"));
+var CalendarMonth = _interopRequire(require("./calendar/CalendarMonth"));
 
-var SingleDate = _interopRequire(require("./SingleDate"));
+var CalendarDate = _interopRequire(require("./calendar/CalendarDate"));
 
-var RangeDate = _interopRequire(require("./RangeDate"));
+var PaginationArrow = _interopRequire(require("./PaginationArrow"));
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 
@@ -23,11 +25,13 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 function noop() {}
 
 
-var RangePicker = React.createClass({
-  displayName: "RangePicker",
-  mixins: [PureRenderMixin],
+var DateRangePicker = React.createClass({
+  displayName: "DateRangePicker",
+  mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {
+    bemNamespace: React.PropTypes.string,
+    bemBlock: React.PropTypes.string,
     numberOfCalendars: React.PropTypes.number,
     firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
     disableNavigation: React.PropTypes.bool,
@@ -44,7 +48,8 @@ var RangePicker = React.createClass({
     value: React.PropTypes.object, // range or single value
     initialFromValue: React.PropTypes.bool,
     showLegend: React.PropTypes.bool,
-    onSelect: React.PropTypes.func
+    onSelect: React.PropTypes.func,
+    paginationArrowComponent: React.PropTypes.func
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -52,6 +57,8 @@ var RangePicker = React.createClass({
     var initialDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
     return {
+      bemNamespace: null,
+      bemBlock: "DateRangePicker",
       numberOfCalendars: 1,
       firstOfWeek: 0,
       disableNavigation: false,
@@ -70,27 +77,33 @@ var RangePicker = React.createClass({
       defaultState: "__default",
       dateStates: [],
       showLegend: false,
-      onSelect: noop
+      onSelect: noop,
+      paginationArrowComponent: PaginationArrow
     };
   },
 
   getInitialState: function getInitialState() {
+    var initialYear = this.props.initialYear;
+    var initialMonth = this.props.initialMonth;
+    var initialFromValue = this.props.initialFromValue;
+    var selectionType = this.props.selectionType;
+    var value = this.props.value;
     var now = new Date();
     var year = now.getFullYear();
     var month = now.getMonth();
 
-    if (this.props.initialYear && this.props.initialMonth) {
-      year = this.props.initialYear;
-      month = this.props.initialMonth;
+    if (initialYear && initialMonth) {
+      year = initialYear;
+      month = initialMonth;
     }
 
-    if (this.props.initialFromValue && this.props.value) {
-      if (this.props.selectionType === "single") {
-        year = this.props.value.toDate().getFullYear();
-        month = this.props.value.toDate().getMonth();
+    if (initialFromValue && value) {
+      if (selectionType === "single") {
+        year = value.toDate().getFullYear();
+        month = value.toDate().getMonth();
       } else {
-        year = this.props.value.start.toDate().getFullYear();
-        month = this.props.value.start.toDate().getMonth();
+        year = value.start.toDate().getFullYear();
+        month = value.start.toDate().getMonth();
       }
     }
 
@@ -106,6 +119,7 @@ var RangePicker = React.createClass({
 
   getDateStates: function getDateStates() {
     var dateStates = this.props.dateStates;
+    var defaultState = this.props.defaultState;
     var actualStates = [];
     var minDate = new Date(-8640000000000000 / 2);
     var maxDate = new Date(8640000000000000 / 2);
@@ -115,17 +129,16 @@ var RangePicker = React.createClass({
       var r = s.range;
       if (!dateCursor.isSame(r.start)) {
         actualStates.push({
-          state: this.props.defaultState,
+          state: defaultState,
           range: moment().range(dateCursor, r.start)
         });
       }
-
       actualStates.push(s);
       dateCursor = r.end;
     }).bind(this));
 
     actualStates.push({
-      state: this.props.defaultState,
+      state: defaultState,
       range: moment().range(dateCursor, moment(maxDate))
     });
     return actualStates;
@@ -191,14 +204,16 @@ var RangePicker = React.createClass({
   },
 
   changeYear: function changeYear(year) {
+    var earliestDate = this.props.earliestDate;
+    var latestDate = this.props.latestDate;
     var month = this.state.month;
 
-    if (this.props.earliestDate && new Date(year, month, 1).getTime() < this.props.earliestDate.getTime()) {
-      month = this.props.earliestDate.getMonth();
+    if (earliestDate && new Date(year, month, 1).getTime() < earliestDate.getTime()) {
+      month = earliestDate.getMonth();
     }
 
-    if (this.props.latestDate && new Date(year, month + 1, 1).getTime() > this.props.latestDate.getTime()) {
-      month = this.props.latestDate.getMonth();
+    if (latestDate && new Date(year, month + 1, 1).getTime() > latestDate.getTime()) {
+      month = latestDate.getMonth();
     }
 
     this.setState({
@@ -214,6 +229,21 @@ var RangePicker = React.createClass({
   },
 
   renderCalendar: function renderCalendar(index) {
+    var bemBlock = this.props.bemBlock;
+    var bemNamespace = this.props.bemNamespace;
+    var earliestDate = this.props.earliestDate;
+    var firstOfWeek = this.props.firstOfWeek;
+    var latestDate = this.props.latestDate;
+    var numberOfCalendars = this.props.numberOfCalendars;
+    var selectionType = this.props.selectionType;
+    var stateDefinitions = this.props.stateDefinitions;
+    var value = this.props.value;
+    var highlightedDate = this.state.highlightedDate;
+    var highlightedRange = this.state.highlightedRange;
+    var highlightStartDate = this.state.highlightStartDate;
+    var selectedStartDate = this.state.selectedStartDate;
+
+
     var monthDate = this.getMonthDate();
     var year = monthDate.getFullYear();
     var month = monthDate.getMonth();
@@ -227,7 +257,7 @@ var RangePicker = React.createClass({
     dateStates = Immutable.List(this.getDateStates()).map((function (s) {
       var range = moment().range(s.range.start.startOf("day"), s.range.end.startOf("day"));
 
-      var def = this.props.stateDefinitions[s.state];
+      var def = stateDefinitions[s.state];
 
       return Immutable.Map({
         range: range,
@@ -238,54 +268,54 @@ var RangePicker = React.createClass({
     }).bind(this));
 
     props = {
+      bemBlock: bemBlock,
+      bemNamespace: bemNamespace,
+      dateStates: dateStates,
+      firstOfWeek: firstOfWeek,
+      highlightedDate: highlightedDate,
+      highlightedRange: highlightedRange,
+      highlightStartDate: highlightStartDate,
       index: index,
-      maxIndex: this.props.numberOfCalendars - 1,
-      minDate: this.props.earliestDate,
-      maxDate: this.props.latestDate,
+      key: key,
+      selectedStartDate: selectedStartDate,
+      selectionType: selectionType,
+      value: value,
+      maxIndex: numberOfCalendars - 1,
+      minDate: earliestDate,
+      maxDate: latestDate,
       firstOfMonth: monthDate,
-      firstOfWeek: this.props.firstOfWeek,
       onMonthChange: this.changeMonth,
       onYearChange: this.changeYear,
-      key: key,
-      value: this.props.value,
-      highlightStartDate: this.state.highlightStartDate,
-      selectionType: this.props.selectionType,
-      selectedStartDate: this.state.selectedStartDate,
-      highlightedDate: this.state.highlightedDate,
-      highlightedRange: this.state.highlightedRange,
       onHighlightRange: this.onHighlightRange,
       onHighlightDate: this.onHighlightDate,
       onUnHighlightDate: this.onUnHighlightDate,
       onSelect: this.onSelect,
       onStartSelection: this.onStartSelection,
       onCompleteSelection: this.onCompleteSelection,
-      dateComponent: this.props.selectionType == "range" ? RangeDate : SingleDate,
-      dateStates: dateStates
+      dateComponent: CalendarDate
     };
 
-    return React.createElement(Month, props);
+    return React.createElement(CalendarMonth, props);
   },
 
   render: function () {
-    var calendars = Immutable.Range(0, this.props.numberOfCalendars).map(this.renderCalendar);
+    var PaginationArrow = this.props.paginationArrowComponent;
+    var numberOfCalendars = this.props.numberOfCalendars;
+    var stateDefinitions = this.props.stateDefinitions;
+    var showLegend = this.props.showLegend;
+
+
+    var calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
 
     return React.createElement(
       "div",
-      { className: "reactDaterangePicker" },
-      React.createElement(
-        "div",
-        { className: "reactDaterangePicker__pagination reactDaterangePicker__pagination--previous", onClick: this.moveBack },
-        React.createElement("div", { className: "reactDaterangePicker__arrow reactDaterangePicker__arrow--previous" })
-      ),
+      { className: this.cx() },
+      React.createElement(PaginationArrow, { direction: "previous", onClick: this.moveBack }),
       calendars.toJS(),
-      React.createElement(
-        "div",
-        { className: "reactDaterangePicker__pagination reactDaterangePicker__pagination--next", onClick: this.moveForward },
-        React.createElement("div", { className: "reactDaterangePicker__arrow reactDaterangePicker__arrow--next" })
-      ),
-      this.props.showLegend ? React.createElement(Legend, { stateDefinitions: this.props.stateDefinitions }) : null
+      React.createElement(PaginationArrow, { direction: "next", onClick: this.moveForward }),
+      showLegend ? React.createElement(Legend, { stateDefinitions: stateDefinitions }) : null
     );
   }
 });
 
-module.exports = RangePicker;
+module.exports = DateRangePicker;

@@ -13,42 +13,37 @@ var CodeSnippet = require('./components/code-snippet.jsx');
 var Install = require('./components/install.jsx');
 var Features = require('./components/features.jsx');
 
+
 function processCodeSnippet(src) {
   var lines = src.split('\n');
   lines.splice(0, 3);
   return lines.join('\n');
 }
 
+
 var DatePickerRange = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {
-      start: this.props.start,
-      end: this.props.end,
+      value: this.props.value,
+      states: null
     };
   },
-  handleSelect: function(range) {
-    this.setState({
-      start: range.start,
-      end: range.end
-    });
+
+  handleSelect(value, states) {
+    this.setState({value, states});
   },
-  render: function() {
-    var range;
 
-    if (this.state.start && this.state.end) {
-      range = moment().range(this.state.start, this.state.end);
-    }
-
+  render() {
     return (
       <div>
-        <RangePicker {...this.props} onSelect={this.handleSelect} value={range} />
+        <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
         <div>
           <input type="text"
-            value={this.state.start ?  this.state.start.format('LL') : null}
+            value={this.state.value ?  this.state.value.start.format('LL') : null}
             readOnly={true}
             placeholder="Start date"/>
           <input type="text"
-            value={this.state.end ? this.state.end.format('LL') : null}
+            value={this.state.value ? this.state.value.end.format('LL') : null}
             readOnly={true}
             placeholder="End date" />
         </div>
@@ -57,18 +52,19 @@ var DatePickerRange = React.createClass({
   }
 });
 
+
 var DatePickerSingle = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {
       value: null,
     };
   },
-  handleSelect: function(value) {
+  handleSelect(value) {
     this.setState({
       value: value,
     });
   },
-  render: function() {
+  render() {
     return (
       <div>
         <RangePicker {...this.props} onSelect={this.handleSelect}
@@ -83,14 +79,16 @@ var DatePickerSingle = React.createClass({
   }
 });
 
+
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 
+
 var Index = React.createClass({
-  getDefaultProps: function() {
+  getDefaultProps() {
     return {};
   },
 
-  render: function() {
+  render() {
     var stateDefinitions = {
       available: {
         selectable: true,
@@ -136,6 +134,7 @@ var Index = React.createClass({
           <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/docco.min.css' rel='stylesheet' type='text/css'></link>
           <link href="css/react-calendar.css" rel="stylesheet"></link>
           <link href="css/example.css" rel="stylesheet"></link>
+          <script src="https://cdn.polyfill.io/v1/polyfill.min.js" />
         </head>
         <body>
           <Header />
@@ -151,9 +150,9 @@ var Index = React.createClass({
                 stateDefinitions={stateDefinitions}
                 dateStates={dateRanges}
                 defaultState="available"
-                start={initialStart}
+                value={moment().range(initialStart, initialEnd)}
                 showLegend={true}
-                end={initialEnd} />
+                />
               <CodeSnippet language="javascript">
                 {processCodeSnippet(mainCodeSnippet)}
               </CodeSnippet>
@@ -161,6 +160,26 @@ var Index = React.createClass({
 
             <Features />
             <Install />
+
+            <div className="examples">
+              <h2>Examples</h2>
+
+              <div className="example">
+                <h4>Range with no date states</h4>
+                <DatePickerRange
+                  numberOfCalendars={2}
+                  selectionType="range"
+                  earliestDate={new Date()} />
+              </div>
+
+              <div className="example">
+                <h4>Single with no date states</h4>
+                <DatePickerSingle
+                  numberOfCalendars={2}
+                  selectionType="single"
+                  earliestDate={new Date()} />
+              </div>
+            </div>
 
 
           </div>
@@ -178,23 +197,3 @@ var Index = React.createClass({
 
 module.exports = Index;
 
-            //
-            //<div className="examples">
-            //  <h2>Examples</h2>
-            //
-            //  <div className="example">
-            //    <h4>Range with no date states</h4>
-            //    <DatePickerRange
-            //      numberOfCalendars={2}
-            //      selectionType="range"
-            //      earliestDate={new Date()} />
-            //  </div>
-            //
-            //  <div className="example">
-            //    <h4>Single with no date states</h4>
-            //    <DatePickerSingle
-            //      numberOfCalendars={2}
-            //      selectionType="single"
-            //      earliestDate={new Date()} />
-            //  </div>
-            //</div>

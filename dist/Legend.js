@@ -5,33 +5,40 @@ var _interopRequire = function (obj) {
 
 var React = _interopRequire(require("react/addons"));
 
+var bemCx = _interopRequire(require("./utils/bemCx"));
+
+var BemMixin = _interopRequire(require("./utils/BemMixin"));
+
 var PureRenderMixin = React.addons.PureRenderMixin;
 var cx = React.addons.classSet;
 
 
 var Legend = React.createClass({
   displayName: "Legend",
-  mixins: [PureRenderMixin],
+  mixins: [BemMixin, PureRenderMixin],
 
   render: function render() {
+    var stateDefinitions = this.props.stateDefinitions;
+    var block = this.getBemBlock();
+    var namespace = this.getBemNamespace();
     var items = [];
     var name;
     var def;
     var style;
 
-    for (name in this.props.stateDefinitions) {
-      def = this.props.stateDefinitions[name];
+    for (name in stateDefinitions) {
+      def = stateDefinitions[name];
       if (def.label && def.color) {
         style = {
           backgroundColor: def.color
         };
         items.push(React.createElement(
           "li",
-          { className: "reactDaterangePicker__legendItem" },
-          React.createElement("span", { className: "reactDaterangePicker__legendItemColor", style: style }),
+          { className: this.cx({ element: "LegendItem" }), key: name },
+          React.createElement("span", { className: this.cx({ element: "LegendItemColor" }), style: style }),
           React.createElement(
             "span",
-            { className: "reactDaterangePicker__legendItemLabel" },
+            { className: this.cx({ element: "LegendItemLabel" }) },
             def.label
           )
         ));
@@ -40,14 +47,14 @@ var Legend = React.createClass({
 
     return React.createElement(
       "ul",
-      { className: "reactDaterangePicker__legend" },
+      { className: this.cx({ element: "Legend" }) },
       React.createElement(
         "li",
-        { className: "reactDaterangePicker__legendItem reactDaterangePicker__legendItem" },
-        React.createElement("span", { className: "reactDaterangePicker__legendItemColor reactDaterangePicker__legendItemColor--selection" }),
+        { className: this.cx({ element: "LegendItem" }) },
+        React.createElement("span", { className: this.cx({ element: "LegendItemColor", modifiers: { selection: true } }) }),
         React.createElement(
           "span",
-          { className: "reactDaterangePicker__legendItemLabel" },
+          { className: this.cx({ element: "LegendItemLabel" }) },
           "Your selected dates"
         )
       ),
