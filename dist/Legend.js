@@ -47,7 +47,7 @@ var Legend = React.createClass({
 
     return React.createElement(
       "ul",
-      { className: this.cx({ element: "Legend" }) },
+      { className: this.cx() },
       React.createElement(
         "li",
         { className: this.cx({ element: "LegendItem" }) },

@@ -145,20 +145,20 @@ var RangeDate = React.createClass({
     var range;
     var forwards;
 
-    if (selectionType === "range") {
-      if (selectedStartDate) {
-        datePair = Immutable.List.of(selectedStartDate, date).sortBy(function (d) {
-          return d.getTime();
-        });
-        range = moment().range(datePair.get(0), datePair.get(1));
-        forwards = range.start.toDate().getTime() === selectedStartDate.getTime();
-        range = this.sanitizeRange(range, forwards);
-        onHighlightRange(range);
+    if (!this.isDisabled(date)) {
+      if (selectionType === "range") {
+        if (selectedStartDate) {
+          datePair = Immutable.List.of(selectedStartDate, date).sortBy(function (d) {
+            return d.getTime();
+          });
+          range = moment().range(datePair.get(0), datePair.get(1));
+          forwards = range.start.toDate().getTime() === selectedStartDate.getTime();
+          range = this.sanitizeRange(range, forwards);
+          onHighlightRange(range);
+        } else {
+          onHighlightDate(date);
+        }
       } else {
-        onHighlightDate(date);
-      }
-    } else {
-      if (!this.isDisabled(date)) {
         onHighlightDate(date);
       }
     }

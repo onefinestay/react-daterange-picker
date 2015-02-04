@@ -54,9 +54,11 @@ var BemMixin = {
     return null;
   },
 
-  cx: function cx(options) {
+  cx: function cx() {
+    var options = arguments[0] === undefined ? {} : arguments[0];
     var opts = {
       namespace: this.getBemNamespace(),
+      element: this.constructor.displayName,
       block: this.getBemBlock() };
 
     Object.assign(opts, options);

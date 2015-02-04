@@ -9,7 +9,6 @@ var CalendarDatePeriod = React.createClass({
 
   render() {
     var {color, period} = this.props;
-    var element = 'CalendarDatePeriod';
     var modifiers = {[period]: true};
     var style;
 
@@ -18,7 +17,7 @@ var CalendarDatePeriod = React.createClass({
     }
 
     return (
-      <div style={style} className={this.cx({element, modifiers})} />
+      <div style={style} className={this.cx({modifiers})} />
     );
   }
 });

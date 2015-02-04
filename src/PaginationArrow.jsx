@@ -15,7 +15,6 @@ var PaginationArrow = React.createClass({
     var states = {disabled};
 
     var elementOpts = {
-      element: 'PaginationArrow',
       modifiers,
       states
     };

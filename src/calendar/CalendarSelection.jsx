@@ -11,14 +11,13 @@ var CalendarSelection = React.createClass({
 
   render() {
     var {modifier, inOtherMonth} = this.props;
-    var element = 'CalendarSelection';
     var modifiers = {[modifier]: true};
     var states = {
       inOtherMonth
     };
 
     return (
-      <div className={this.cx({element, states, modifiers})} />
+      <div className={this.cx({states, modifiers})} />
     );
   }
 });

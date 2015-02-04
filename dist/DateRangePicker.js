@@ -309,7 +309,7 @@ var DateRangePicker = React.createClass({
 
     return React.createElement(
       "div",
-      { className: this.cx() },
+      { className: this.cx({ element: null }) },
       React.createElement(PaginationArrow, { direction: "previous", onClick: this.moveBack }),
       calendars.toJS(),
       React.createElement(PaginationArrow, { direction: "next", onClick: this.moveForward }),

@@ -300,7 +300,7 @@ var DateRangePicker = React.createClass({
     var calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
 
     return (
-      <div className={this.cx()}>
+      <div className={this.cx({element: null})}>
         <PaginationArrow direction="previous" onClick={this.moveBack} />
         {calendars.toJS()}
         <PaginationArrow direction="next" onClick={this.moveForward} />

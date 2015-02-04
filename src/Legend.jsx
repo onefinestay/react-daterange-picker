@@ -36,7 +36,7 @@ var Legend = React.createClass({
     }
 
     return (
-      <ul className={this.cx({element: 'Legend'})}>
+      <ul className={this.cx()}>
         <li className={this.cx({element: 'LegendItem'})}>
           <span className={this.cx({element: 'LegendItemColor', modifiers: {'selection': true}})} />
           <span className={this.cx({element: 'LegendItemLabel'})}>Your selected dates</span>
