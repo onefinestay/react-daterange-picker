@@ -21,6 +21,9 @@ var PaginationArrow = _interopRequire(require("./PaginationArrow"));
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 
+var absoluteMinimum = moment(new Date(-8640000000000000 / 2)).startOf("day");
+var absoluteMaximum = moment(new Date(8640000000000000 / 2)).startOf("day");
+
 
 function noop() {}
 
@@ -39,8 +42,8 @@ var DateRangePicker = React.createClass({
     initialRange: React.PropTypes.object,
     initialMonth: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
     initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
-    earliestDate: React.PropTypes.instanceOf(Date),
-    latestDate: React.PropTypes.instanceOf(Date),
+    minimumDate: React.PropTypes.instanceOf(Date),
+    maximumDate: React.PropTypes.instanceOf(Date),
     selectionType: React.PropTypes.oneOf(["single", "range"]),
     stateDefinitions: React.PropTypes.object,
     dateStates: React.PropTypes.array, // an array of date ranges and their states
@@ -82,6 +85,13 @@ var DateRangePicker = React.createClass({
     };
   },
 
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    this.setState({
+      dateStates: this.getDateStates(nextProps),
+      enabledRange: this.getEnabledRange(nextProps)
+    });
+  },
+
   getInitialState: function getInitialState() {
     var initialYear = this.props.initialYear;
     var initialMonth = this.props.initialMonth;
@@ -99,11 +109,11 @@ var DateRangePicker = React.createClass({
 
     if (initialFromValue && value) {
       if (selectionType === "single") {
-        year = value.toDate().getFullYear();
-        month = value.toDate().getMonth();
+        year = value.year();
+        month = value.month();
       } else {
-        year = value.start.toDate().getFullYear();
-        month = value.start.toDate().getMonth();
+        year = value.start.year();
+        month = value.start.month();
       }
     }
 
@@ -113,17 +123,29 @@ var DateRangePicker = React.createClass({
       selectedStartDate: null,
       highlightStartDate: null,
       highlightedDate: null,
-      highlightRange: null
+      highlightRange: null,
+      enabledRange: this.getEnabledRange(this.props),
+      dateStates: this.getDateStates(this.props)
     };
   },
 
-  getDateStates: function getDateStates() {
-    var dateStates = this.props.dateStates;
-    var defaultState = this.props.defaultState;
+  getEnabledRange: function getEnabledRange(props) {
+    var min = props.minimumDate ? moment(props.minimumDate).startOf("day") : absoluteMinimum;
+    var max = props.maximumDate ? moment(props.maximumDate).startOf("day") : absoluteMaximum;
+
+    return moment().range(min, max);
+  },
+
+  getDateStates: function getDateStates(props) {
+    var dateStates = props.dateStates;
+    var defaultState = props.defaultState;
+    var stateDefinitions = props.stateDefinitions;
     var actualStates = [];
-    var minDate = new Date(-8640000000000000 / 2);
-    var maxDate = new Date(8640000000000000 / 2);
+    var minDate = absoluteMinimum;
+    var maxDate = absoluteMaximum;
     var dateCursor = moment(minDate).startOf("day");
+
+    var defs = Immutable.fromJS(stateDefinitions);
 
     dateStates.forEach((function (s) {
       var r = s.range;
@@ -142,9 +164,19 @@ var DateRangePicker = React.createClass({
 
     actualStates.push({
       state: defaultState,
-      range: moment().range(dateCursor, moment(maxDate).startOf("day"))
+      range: moment().range(dateCursor, maxDate)
     });
-    return actualStates;
+
+    // sanitize date states
+    return Immutable.List(actualStates).map((function (s) {
+      var def = defs.get(s.state);
+      return Immutable.Map({
+        range: s.range,
+        state: s.state,
+        selectable: def.get("selectable", true),
+        color: def.get("color")
+      });
+    }).bind(this));
   },
 
   onSelect: function onSelect(date) {
@@ -178,45 +210,67 @@ var DateRangePicker = React.createClass({
     });
   },
 
-  onUnHighlightDate: function onUnHighlightDate(date) {
+  onUnHighlightDate: function onUnHighlightDate() {
     this.setState({
       highlightedDate: null
     });
   },
 
   getMonthDate: function getMonthDate() {
-    return new Date(this.state.year, this.state.month, 1);
+    return moment(new Date(this.state.year, this.state.month, 1));
   },
 
-  moveForward: function moveForward() {
-    var monthDate = this.getMonthDate();
-    monthDate.setMonth(monthDate.getMonth() + 1);
-    this.setState({
-      year: monthDate.getFullYear(),
-      month: monthDate.getMonth()
-    });
+  canMoveBack: function canMoveBack() {
+    if (this.getMonthDate().subtract(1, "days").isBefore(this.state.enabledRange.start)) {
+      return false;
+    }
+    return true;
   },
 
   moveBack: function moveBack() {
-    var monthDate = this.getMonthDate();
-    monthDate.setMonth(monthDate.getMonth() - 1);
-    this.setState({
-      year: monthDate.getFullYear(),
-      month: monthDate.getMonth()
-    });
+    var monthDate;
+
+    if (this.canMoveBack()) {
+      monthDate = this.getMonthDate();
+      monthDate.subtract(1, "months");
+      this.setState({
+        year: monthDate.year(),
+        month: monthDate.month()
+      });
+    }
+  },
+
+  canMoveForward: function canMoveForward() {
+    if (this.getMonthDate().add(this.props.numberOfCalendars, "months").isAfter(this.state.enabledRange.end)) {
+      return false;
+    }
+    return true;
+  },
+
+  moveForward: function moveForward() {
+    var monthDate;
+
+    if (this.canMoveForward()) {
+      monthDate = this.getMonthDate();
+      monthDate.add(1, "months");
+      this.setState({
+        year: monthDate.year(),
+        month: monthDate.month()
+      });
+    }
   },
 
   changeYear: function changeYear(year) {
-    var earliestDate = this.props.earliestDate;
-    var latestDate = this.props.latestDate;
+    var enabledRange = this.state.enabledRange;
     var month = this.state.month;
 
-    if (earliestDate && new Date(year, month, 1).getTime() < earliestDate.getTime()) {
-      month = earliestDate.getMonth();
+
+    if (moment({ years: year, months: month, date: 1 }).unix() < enabledRange.start.unix()) {
+      month = enabledRange.start.month();
     }
 
-    if (latestDate && new Date(year, month + 1, 1).getTime() > latestDate.getTime()) {
-      month = latestDate.getMonth();
+    if (moment({ years: year, months: month + 1, date: 1 }).unix() > enabledRange.end.unix()) {
+      month = enabledRange.end.month();
     }
 
     this.setState({
@@ -234,13 +288,12 @@ var DateRangePicker = React.createClass({
   renderCalendar: function renderCalendar(index) {
     var bemBlock = this.props.bemBlock;
     var bemNamespace = this.props.bemNamespace;
-    var earliestDate = this.props.earliestDate;
     var firstOfWeek = this.props.firstOfWeek;
-    var latestDate = this.props.latestDate;
     var numberOfCalendars = this.props.numberOfCalendars;
     var selectionType = this.props.selectionType;
-    var stateDefinitions = this.props.stateDefinitions;
     var value = this.props.value;
+    var dateStates = this.state.dateStates;
+    var enabledRange = this.state.enabledRange;
     var highlightedDate = this.state.highlightedDate;
     var highlightedRange = this.state.highlightedRange;
     var highlightStartDate = this.state.highlightStartDate;
@@ -248,29 +301,18 @@ var DateRangePicker = React.createClass({
 
 
     var monthDate = this.getMonthDate();
-    var year = monthDate.getFullYear();
-    var month = monthDate.getMonth();
-    var key = index + "-" + year + "-" + month;
+    var year = monthDate.year();
+    var month = monthDate.month();
+    var key = "" + index + "-" + year + "-" + month;
     var props;
-    var dateStates;
 
-    monthDate = new Date(year, month + index, 1);
-
-    // sanitize date states
-    dateStates = Immutable.List(this.getDateStates()).map((function (s) {
-      var def = stateDefinitions[s.state];
-      return Immutable.Map({
-        range: s.range,
-        state: s.state,
-        selectable: def.selectable,
-        color: def.color
-      });
-    }).bind(this));
+    monthDate.add(index, "months");
 
     props = {
       bemBlock: bemBlock,
       bemNamespace: bemNamespace,
       dateStates: dateStates,
+      enabledRange: enabledRange,
       firstOfWeek: firstOfWeek,
       highlightedDate: highlightedDate,
       highlightedRange: highlightedRange,
@@ -281,8 +323,6 @@ var DateRangePicker = React.createClass({
       selectionType: selectionType,
       value: value,
       maxIndex: numberOfCalendars - 1,
-      minDate: earliestDate,
-      maxDate: latestDate,
       firstOfMonth: monthDate,
       onMonthChange: this.changeMonth,
       onYearChange: this.changeYear,
@@ -310,9 +350,9 @@ var DateRangePicker = React.createClass({
     return React.createElement(
       "div",
       { className: this.cx({ element: null }) },
-      React.createElement(PaginationArrow, { direction: "previous", onClick: this.moveBack }),
+      React.createElement(PaginationArrow, { direction: "previous", onClick: this.moveBack, disabled: !this.canMoveBack() }),
       calendars.toJS(),
-      React.createElement(PaginationArrow, { direction: "next", onClick: this.moveForward }),
+      React.createElement(PaginationArrow, { direction: "next", onClick: this.moveForward, disabled: !this.canMoveForward() }),
       showLegend ? React.createElement(Legend, { stateDefinitions: stateDefinitions }) : null
     );
   }

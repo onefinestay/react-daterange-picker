@@ -42,7 +42,7 @@ var CalendarMonth = React.createClass({
     var CalendarDate = this.props.dateComponent;
     var props = _objectWithoutProperties(this.props, ["dateComponent"]);
 
-    return React.createElement(CalendarDate, React.__spread({}, props, { date: date, key: i }));
+    return React.createElement(CalendarDate, React.__spread({}, props, { date: moment(date), key: i }));
   },
 
   renderWeek: function renderWeek(dates, i) {
@@ -83,15 +83,14 @@ var CalendarMonth = React.createClass({
   },
 
   renderYearChoice: function renderYearChoice(year) {
-    var minDate = this.props.minDate;
-    var maxDate = this.props.maxDate;
+    var enabledRange = this.props.enabledRange;
 
 
-    if (minDate && year < minDate.getFullYear()) {
+    if (year < enabledRange.start.year()) {
       return;
     }
 
-    if (maxDate && year > maxDate.getFullYear()) {
+    if (year > enabledRange.end.year()) {
       return;
     }
 
@@ -104,8 +103,7 @@ var CalendarMonth = React.createClass({
 
   renderHeaderYear: function renderHeaderYear() {
     var firstOfMonth = this.props.firstOfMonth;
-    var monthMoment = moment(firstOfMonth);
-    var y = firstOfMonth.getFullYear();
+    var y = firstOfMonth.year();
     var years = Immutable.Range(y - 5, y).concat(Immutable.Range(y, y + 10));
     var choices = years.map(this.renderYearChoice);
     var modifiers = { year: true };
@@ -113,7 +111,7 @@ var CalendarMonth = React.createClass({
     return React.createElement(
       "span",
       { className: this.cx({ element: "MonthHeaderLabel", modifiers: modifiers }) },
-      monthMoment.format("YYYY"),
+      firstOfMonth.format("YYYY"),
       this.props.disableNavigation ? null : React.createElement(
         "select",
         { className: this.cx({ element: "MonthHeaderSelect" }), value: y, onChange: this.handleYearChange },
@@ -128,16 +126,15 @@ var CalendarMonth = React.createClass({
 
   renderMonthChoice: function renderMonthChoice(month, i) {
     var firstOfMonth = this.props.firstOfMonth;
-    var minDate = this.props.minDate;
-    var maxDate = this.props.maxDate;
+    var enabledRange = this.props.enabledRange;
     var disabled = false;
-    var year = firstOfMonth.getFullYear();
+    var year = firstOfMonth.year();
 
-    if (minDate && new Date(year, i + 1, 1).getTime() < minDate.getTime()) {
+    if (moment({ years: year, months: i + 1, date: 1 }).unix() < enabledRange.start.unix()) {
       disabled = true;
     }
 
-    if (maxDate && new Date(year, i, 1).getTime() > maxDate.getTime()) {
+    if (moment({ years: year, months: i, date: 1 }).unix() > enabledRange.end.unix()) {
       disabled = true;
     }
 
@@ -150,20 +147,16 @@ var CalendarMonth = React.createClass({
 
   renderHeaderMonth: function renderHeaderMonth() {
     var firstOfMonth = this.props.firstOfMonth;
-    var month = this.props.month;
-
-
-    var monthMoment = moment(firstOfMonth);
     var choices = MONTHS.map(this.renderMonthChoice);
     var modifiers = { month: true };
 
     return React.createElement(
       "span",
       { className: this.cx({ element: "MonthHeaderLabel", modifiers: modifiers }) },
-      monthMoment.format("MMMM"),
+      firstOfMonth.format("MMMM"),
       this.props.disableNavigation ? null : React.createElement(
         "select",
-        { className: this.cx({ element: "MonthHeaderSelect" }), value: month, onChange: this.handleMonthChange },
+        { className: this.cx({ element: "MonthHeaderSelect" }), value: firstOfMonth.month(), onChange: this.handleMonthChange },
         choices.toJS()
       )
     );
@@ -185,7 +178,7 @@ var CalendarMonth = React.createClass({
 
 
     var cal = new calendar.Calendar(firstOfWeek);
-    var monthDates = Immutable.fromJS(cal.monthDates(firstOfMonth.getFullYear(), firstOfMonth.getMonth()));
+    var monthDates = Immutable.fromJS(cal.monthDates(firstOfMonth.year(), firstOfMonth.month()));
     var weeks = monthDates.map(this.renderWeek);
 
     return React.createElement(

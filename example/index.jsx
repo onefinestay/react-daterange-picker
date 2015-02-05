@@ -91,12 +91,10 @@ var Index = React.createClass({
   render() {
     var stateDefinitions = {
       available: {
-        selectable: true,
         color: null,
-        labe: 'Available'
+        label: 'Available'
       },
       enquire: {
-        selectable: true,
         color: '#ffd200',
         label: 'Enquire'
       },
@@ -146,7 +144,8 @@ var Index = React.createClass({
                 firstOfWeek={1}
                 numberOfCalendars={2}
                 selectionType='range'
-                earliestDate={new Date()}
+                minimumDate={new Date()}
+                maximumDate={moment().add(2, 'years').toDate()}
                 stateDefinitions={stateDefinitions}
                 dateStates={dateRanges}
                 defaultState="available"
@@ -169,7 +168,7 @@ var Index = React.createClass({
                 <DatePickerRange
                   numberOfCalendars={2}
                   selectionType="range"
-                  earliestDate={new Date()} />
+                  minimumDate={new Date()} />
               </div>
 
               <div className="example">
@@ -177,7 +176,7 @@ var Index = React.createClass({
                 <DatePickerSingle
                   numberOfCalendars={2}
                   selectionType="single"
-                  earliestDate={new Date()} />
+                  minimumDate={new Date()} />
               </div>
             </div>
 
