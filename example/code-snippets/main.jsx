@@ -6,12 +6,10 @@ var moment = require('moment-range');
 
 var stateDefinitions = {
   available: {
-    selectable: true,
     color: null,
     labe: 'Available'
   },
   enquire: {
-    selectable: true,
     color: '#ffd200',
     label: 'Enquire'
   },
