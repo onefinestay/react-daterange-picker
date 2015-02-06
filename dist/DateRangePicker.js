@@ -24,6 +24,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var absoluteMinimum = moment(new Date(-8640000000000000 / 2)).startOf("day");
 var absoluteMaximum = moment(new Date(8640000000000000 / 2)).startOf("day");
 
+React.initializeTouchEvents(true);
 
 function noop() {}
 
@@ -183,19 +184,47 @@ var DateRangePicker = React.createClass({
     this.props.onSelect(moment(date));
   },
 
-  onStartSelection: function onStartSelection(date) {
+  startRangeSelection: function startRangeSelection(date) {
     this.setState({
       selectedStartDate: date
     });
   },
 
-  onCompleteSelection: function onCompleteSelection(range, states) {
-    this.setState({
-      selectedStartDate: null,
-      highlightedRange: null,
-      highlightedDate: null
+  statesForRange: function statesForRange(range) {
+    if (range.start.isSame(range.end)) {
+      return this.state.dateStates.filter(function (d) {
+        return range.start.within(d.get("range"));
+      }).map(function (d) {
+        return d.get("state");
+      });
+    }
+    return this.state.dateStates.filter(function (d) {
+      return d.get("range").intersect(range);
+    }).map(function (d) {
+      return d.get("state");
     });
-    this.props.onSelect(range, states);
+  },
+
+  completeSelection: function completeSelection() {
+    var highlightedDate = this.state.highlightedDate;
+    if (highlightedDate) {
+      this.setState({
+        highlightedDate: null
+      });
+      this.props.onSelect(highlightedDate);
+    }
+  },
+
+  completeRangeSelection: function completeRangeSelection() {
+    var range = this.state.highlightedRange;
+    if (range && !range.start.isSame(range.end)) {
+      this.setState({
+        selectedStartDate: null,
+        highlightedRange: null,
+        highlightedDate: null
+      });
+      this.props.onSelect(range, this.statesForRange(range));
+    }
   },
 
   onHighlightDate: function onHighlightDate(date) {
@@ -240,6 +269,12 @@ var DateRangePicker = React.createClass({
     }
   },
 
+  moveBackIfSelecting: function moveBackIfSelecting() {
+    if (this.state.selectedStartDate) {
+      this.moveBack();
+    }
+  },
+
   canMoveForward: function canMoveForward() {
     if (this.getMonthDate().add(this.props.numberOfCalendars, "months").isAfter(this.state.enabledRange.end)) {
       return false;
@@ -257,6 +292,12 @@ var DateRangePicker = React.createClass({
         year: monthDate.year(),
         month: monthDate.month()
       });
+    }
+  },
+
+  moveForwardIfSelecting: function moveForwardIfSelecting() {
+    if (this.state.selectedStartDate) {
+      this.moveForward();
     }
   },
 
@@ -330,8 +371,9 @@ var DateRangePicker = React.createClass({
       onHighlightDate: this.onHighlightDate,
       onUnHighlightDate: this.onUnHighlightDate,
       onSelect: this.onSelect,
-      onStartSelection: this.onStartSelection,
-      onCompleteSelection: this.onCompleteSelection,
+      startRangeSelection: this.startRangeSelection,
+      completeSelection: this.completeSelection,
+      completeRangeSelection: this.completeRangeSelection,
       dateComponent: CalendarDate
     };
 
@@ -350,9 +392,9 @@ var DateRangePicker = React.createClass({
     return React.createElement(
       "div",
       { className: this.cx({ element: null }) },
-      React.createElement(PaginationArrow, { direction: "previous", onClick: this.moveBack, disabled: !this.canMoveBack() }),
+      React.createElement(PaginationArrow, { direction: "previous", onMouseEnter: this.moveBackIfSelecting, onClick: this.moveBack, disabled: !this.canMoveBack() }),
       calendars.toJS(),
-      React.createElement(PaginationArrow, { direction: "next", onClick: this.moveForward, disabled: !this.canMoveForward() }),
+      React.createElement(PaginationArrow, { direction: "next", onMouseEnter: this.moveForwardIfSelecting, onClick: this.moveForward, disabled: !this.canMoveForward() }),
       showLegend ? React.createElement(Legend, { stateDefinitions: stateDefinitions }) : null
     );
   }

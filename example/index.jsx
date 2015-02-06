@@ -132,6 +132,7 @@ var Index = React.createClass({
           <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/docco.min.css' rel='stylesheet' type='text/css'></link>
           <link href="css/react-calendar.css" rel="stylesheet"></link>
           <link href="css/example.css" rel="stylesheet"></link>
+          <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
           <script src="https://cdn.polyfill.io/v1/polyfill.min.js" />
         </head>
         <body>
@@ -179,8 +180,6 @@ var Index = React.createClass({
                   minimumDate={new Date()} />
               </div>
             </div>
-
-
           </div>
 
           <Footer />

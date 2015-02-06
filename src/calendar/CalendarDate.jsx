@@ -39,6 +39,12 @@ var CalendarDate = React.createClass({
     onCompleteSelection: React.PropTypes.func
   },
 
+  getInitialState() {
+    return {
+      mouseDown: false
+    };
+  },
+
   isDisabled(date) {
     return !this.props.enabledRange.contains(date);
   },
@@ -53,10 +59,6 @@ var CalendarDate = React.createClass({
 
   dateRangesForDate(date) {
     return this.props.dateStates.filter(d => d.get('range').contains(date));
-  },
-
-  statesForRange(range) {
-    return this.props.dateStates.filter(d => d.get('range').intersect(range)).map(d => d.get('state'));
   },
 
   sanitizeRange(range, forwards) {
@@ -92,6 +94,58 @@ var CalendarDate = React.createClass({
     return range;
   },
 
+  mouseUp() {
+    this.selectDate();
+
+    if (this.state.mouseDown) {
+      this.setState({
+        mouseDown: false
+      });
+    }
+    document.removeEventListener('mouseup', this.mouseUp);
+  },
+
+  mouseDown() {
+    this.setState({
+      mouseDown: true
+    });
+    document.addEventListener('mouseup', this.mouseUp);
+  },
+
+  touchEnd() {
+    this.selectDate();
+
+    if (this.state.mouseDown) {
+      this.setState({
+        mouseDown: false
+      });
+    }
+    document.removeEventListener('touchend', this.touchEnd);
+  },
+
+  touchStart(event) {
+    event.preventDefault();
+    this.setState({
+      mouseDown: true
+    });
+    document.addEventListener('touchend', this.touchEnd);
+  },
+
+  mouseEnter() {
+    this.highlightDate();
+  },
+
+  mouseLeave() {
+    if (this.state.mouseDown) {
+      this.selectDate();
+
+      this.setState({
+        mouseDown: false
+      });
+    }
+    this.unHighlightDate();
+  },
+
   highlightDate() {
     var {date, selectionType, selectedStartDate, onHighlightRange, onHighlightDate} = this.props;
     var datePair;
@@ -120,31 +174,18 @@ var CalendarDate = React.createClass({
   },
 
   selectDate() {
-    var {date, selectionType, selectedStartDate, onCompleteSelection, onStartSelection, onSelect} = this.props;
-    var datePair;
+    var {date, selectionType, selectedStartDate, completeRangeSelection, completeSelection, startRangeSelection} = this.props;
     var range;
-    var forwards;
-    var states;
 
     if (selectionType === 'range') {
       if (selectedStartDate) {
-        // We already have one end of the range
-        datePair = Immutable.List.of(selectedStartDate, date).sortBy(d  => d.unix());
-        range = moment().range(datePair.get(0), datePair.get(1));
-        forwards = range.start.unix() === selectedStartDate.unix();
-
-        range = this.sanitizeRange(range, forwards);
-
-        if (range && range.end.diff(range.start, 'days') > 0) {
-          states = this.statesForRange(range);
-          onCompleteSelection(range, states);
-        }
+        completeRangeSelection();
       } else if (!this.isDisabled(date) && this.isDateSelectable(date)) {
-        onStartSelection(date);
+        startRangeSelection(date);
       }
     } else {
       if (!this.isDisabled(date) && this.isDateSelectable(date)) {
-        onSelect(date);
+        completeSelection()
       }
     }
   },
@@ -209,7 +250,7 @@ var CalendarDate = React.createClass({
     var selectionModifier = null;
 
     if (value && value.start) {
-      if (value.start.isSame(value.end)) {
+      if (value.start.isSame(date) && value.start.isSame(value.end)) {
         selectionModifier = 'single';
       } else if (value.contains(date)) {
         if (date.isSame(value.start)) {
@@ -268,9 +309,11 @@ var CalendarDate = React.createClass({
     return (
       <td className={this.cx({element: 'Date', modifiers: bemModifiers, states: bemStates})}
         style={cellStyle}
-        onMouseEnter={this.highlightDate}
-        onMouseLeave={this.unHighlightDate}
-        onClick={this.selectDate}>
+        onTouchStart={this.touchStart}
+        onMouseOver={this.mouseOver}
+        onMouseEnter={this.mouseEnter}
+        onMouseLeave={this.mouseLeave}
+        onMouseDown={this.mouseDown}>
         {numStates > 1 &&
           <div className={this.cx({element: "HalfDateStates"})}>
             <CalendarDatePeriod period="am" color={amColor} />
