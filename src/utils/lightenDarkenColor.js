@@ -10,9 +10,6 @@ export default function lightenDarkenColor(col,amt) {
     usePound = true;
   }
 
-  //if (col.length === 3) {
-  //}
-
   num = parseInt(col, 16);
 
   r = (num >> 16) + amt;

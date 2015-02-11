@@ -40,11 +40,22 @@ var DateRangePicker = React.createClass({
     stateDefinitions: React.PropTypes.object,
     dateStates: React.PropTypes.array, // an array of date ranges and their states
     defaultState: React.PropTypes.string,
-    value: React.PropTypes.object, // range or single value
     initialFromValue: React.PropTypes.bool,
     showLegend: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
-    paginationArrowComponent: React.PropTypes.func
+    paginationArrowComponent: React.PropTypes.func,
+    value: function(props, propName, componentName) {
+      var val = props[propName];
+
+      if (!val) {
+        return
+      } else if(moment.isMoment(val)) {
+        return;
+      } else if (val.start && val.end && moment.isMoment(val.start) && moment.isMoment(val.end)) {
+        return;
+      }
+      return new Error('Value must be a moment or a moment range');
+    }
   },
 
   getDefaultProps() {
