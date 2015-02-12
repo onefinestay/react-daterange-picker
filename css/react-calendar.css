@@ -1,65 +1,90 @@
-.reactDaterangePicker {
+.DateRangePicker {
   display: inline-block;
   position: relative;
-  padding: 0 30px;
-  margin-bottom: 10px; }
-  .reactDaterangePicker__pagination {
+  padding: 0;
+  margin-bottom: 10px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
+  .DateRangePicker__Legend {
+    list-style-type: none;
+    margin: 20px 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 16px;
+    color: #52575e; }
+  .DateRangePicker__LegendItem {
+    display: inline-block;
+    margin: 0 20px; }
+  .DateRangePicker__LegendItemColor {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: text-bottom; }
+    .DateRangePicker__LegendItemColor--selection {
+      background-color: #ed5434; }
+  .DateRangePicker__PaginationArrow {
     display: block;
     cursor: pointer;
     position: absolute;
     outline: none;
     border: 0;
     padding: 0;
-    background-color: #E4E4E4;
     top: 0;
-    bottom: 0;
+    height: 35px;
     white-space: nowrap;
     overflow: hidden;
     text-align: center;
-    margin-bottom: 5px;
-    width: 30px; }
-    .reactDaterangePicker__pagination--previous {
-      left: 0; }
-    .reactDaterangePicker__pagination--next {
-      right: 0; }
-    .reactDaterangePicker__pagination:hover {
+    width: 35px;
+    z-index: 1; }
+    .DateRangePicker__PaginationArrow--previous {
+      left: 20px; }
+    .DateRangePicker__PaginationArrow--next {
+      right: 20px; }
+    .DateRangePicker__PaginationArrow:hover {
       background-color: #CCC; }
-  .reactDaterangePicker__arrow {
+  .DateRangePicker__PaginationArrowIcon {
     position: absolute;
-    top: 48%;
+    top: 10px;
     width: 0;
     height: 0;
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent; }
-    .reactDaterangePicker__arrow--previous {
+    .DateRangePicker__PaginationArrowIcon--is-disabled {
+      opacity: 0.25; }
+    .DateRangePicker__PaginationArrowIcon--previous {
       right: 11px;
       border-left: 8px solid transparent;
       border-right: 8px solid #AAAAAA; }
-    .reactDaterangePicker__arrow--next {
+    .DateRangePicker__PaginationArrowIcon--next {
       left: 11px;
       border-left: 8px solid #AAAAAA;
       border-right: 8px solid transparent; }
-  .reactDaterangePicker__month {
-    width: 230px;
+  .DateRangePicker__Month {
+    width: 275px;
     color: #333;
     position: relative;
     -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    margin: 0 5px 5px; }
-  .reactDaterangePicker__monthHeader {
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    margin: 0 20px;
+    display: inline-block; }
+  .DateRangePicker__MonthHeader {
     position: relative;
     text-align: center;
-    background: #e4e4e4;
-    font-size: 15px;
-    color: #737373;
+    font-weight: bold;
+    font-size: 14px;
+    color: #000;
     height: 35px;
     line-height: 35px; }
-  .reactDaterangePicker__monthHeaderLabel {
+  .DateRangePicker__MonthHeaderLabel {
     display: inline-block;
     position: relative; }
-  .reactDaterangePicker__monthHeaderSelect {
+  .DateRangePicker__MonthHeaderSelect {
     cursor: pointer;
     display: inline-block;
     position: absolute;
@@ -74,67 +99,129 @@
     opacity: 0;
     width: 100%;
     height: 100%; }
-  .reactDaterangePicker__monthDates {
+  .DateRangePicker__MonthDates {
     width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border: 0;
-    margin: 0; }
-  .reactDaterangePicker__weekdayHeading, .reactDaterangePicker__date {
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0 1px;
+    border-bottom: 1px solid #f4f5f6; }
+  .DateRangePicker__WeekdayHeading, .DateRangePicker__Date {
     width: 14.28571%;
-    padding: 0;
+    padding: 10px 0;
     text-align: center;
-    font-size: 11px;
-    line-height: 25px; }
-  .reactDaterangePicker__weekdayHeading {
-    color: #fff;
-    background: #4da3a2;
-    border: 1px solid #4da3a2;
-    font-weight: normal; }
-    .reactDaterangePicker__weekdayHeading abbr[title] {
+    font-size: 12px;
+    line-height: 1; }
+  .DateRangePicker__WeekdayHeading {
+    border-bottom: 1px solid #f4f5f6;
+    color: #000;
+    font-weight: bold; }
+    .DateRangePicker__WeekdayHeading abbr[title] {
       text-decoration: none;
-      color: #fff;
+      color: #000;
       font-size: inherit;
       cursor: pointer;
       border-bottom-width: 0; }
-  .reactDaterangePicker__date--is-blocked, .reactDaterangePicker__halfDay--is-blocked {
-    background-color: #AAAAAA; }
-  .reactDaterangePicker__date--is-unavailable, .reactDaterangePicker__halfDay--is-unavailable {
-    background-color: #AAAAAA; }
-  .reactDaterangePicker__date--is-available, .reactDaterangePicker__halfDay--is-available {
-    background-color: #D0E7DB; }
-  .reactDaterangePicker__date--is-enquire, .reactDaterangePicker__halfDay--is-enquire {
-    background-color: #FFFBCB; }
-  .reactDaterangePicker__date--is-selected, .reactDaterangePicker__halfDay--is-selected {
-    background-color: #ff2558; }
-  .reactDaterangePicker__date--is-highlighted, .reactDaterangePicker__halfDay--is-highlighted {
-    background-color: yellow; }
-  .reactDaterangePicker__date--is-disabled, .reactDaterangePicker__halfDay--is-disabled {
-    cursor: default;
-    color: #ccc;
-    background: #eee; }
-  .reactDaterangePicker__date--is-inOtherMonth, .reactDaterangePicker__halfDay--is-inOtherMonth {
-    color: #ccc;
-    background: #FFFFFF; }
-  .reactDaterangePicker__date {
-    border: 1px solid #ddd;
+  .DateRangePicker__Date {
+    border: 0 solid #f4f5f6;
+    border-right-width: 1px;
     cursor: pointer;
     position: relative;
     overflow: hidden; }
-  .reactDaterangePicker__halfDay {
+    .DateRangePicker__Date:first-child {
+      border-left-width: 1px; }
+    .DateRangePicker__Date--weekend {
+      background-color: #f6f7f9; }
+    .DateRangePicker__Date--otherMonth {
+      opacity: 0.25; }
+    .DateRangePicker__Date--is-disabled {
+      cursor: default;
+      color: #cdcdd1; }
+    .DateRangePicker__Date--is-selected {
+      color: #fff; }
+    .DateRangePicker__Date--is-highlighted {
+      color: #333; }
+  .DateRangePicker__CalendarDatePeriod {
+    position: absolute;
+    top: 0;
+    bottom: 0; }
+    .DateRangePicker__CalendarDatePeriod--am {
+      left: 0;
+      right: 50%; }
+    .DateRangePicker__CalendarDatePeriod--pm {
+      left: 50%;
+      right: 0; }
+  .DateRangePicker__CalendarSelection {
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    background-color: #ed5434;
+    border: 1px solid #eb401d; }
+    .DateRangePicker__CalendarSelection--inOtherMonth {
+      opacity: 0.5; }
+    .DateRangePicker__CalendarSelection--start {
+      left: 5px;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      border-right-width: 0; }
+    .DateRangePicker__CalendarSelection--end {
+      right: 5px;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border-left-width: 0; }
+    .DateRangePicker__CalendarSelection--segment {
+      border-left-width: 0;
+      border-right-width: 0; }
+    .DateRangePicker__CalendarSelection--single {
+      left: 5px;
+      right: 5px;
+      border-radius: 5px; }
+  .DateRangePicker__CalendarHighlight {
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.25); }
+    .DateRangePicker__CalendarHighlight--inOtherMonth {
+      opacity: 0.5; }
+    .DateRangePicker__CalendarHighlight--start {
+      left: 5px;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      border-right-width: 0; }
+    .DateRangePicker__CalendarHighlight--end {
+      right: 5px;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border-left-width: 0; }
+    .DateRangePicker__CalendarHighlight--segment {
+      border-left-width: 0;
+      border-right-width: 0; }
+    .DateRangePicker__CalendarHighlight--single {
+      background-color: #fff;
+      border: 1px solid #eb401d;
+      left: 5px;
+      right: 5px;
+      border-radius: 5px; }
+  .DateRangePicker__HalfDateStates {
     position: absolute;
     top: -50px;
-    bottom: -50px; }
-    .reactDaterangePicker__halfDay--am {
-      left: -50px;
-      right: -50px; }
-    .reactDaterangePicker__halfDay--pm {
-      left: 66%;
-      right: -50px;
-      -webkit-transform: rotate(30deg);
-          -ms-transform: rotate(30deg);
-              transform: rotate(30deg); }
-  .reactDaterangePicker__dateLabel {
+    left: -50px;
+    right: -50px;
+    bottom: -50px;
+    -webkit-transform: rotate(30deg);
+        -ms-transform: rotate(30deg);
+            transform: rotate(30deg); }
+  .DateRangePicker__FullDateStates {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; }
+  .DateRangePicker__DateLabel {
     display: block;
     z-index: 1;
     width: 100%;

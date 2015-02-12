@@ -1,34 +1,62 @@
 $arrow-size: 8px;
+$selection-radius: 5px;
+$selection-margin: 5px;
 
-.reactDaterangePicker {
+.DateRangePicker {
   display: inline-block;
   position: relative;
-  padding: 0 30px;
+  padding: 0;
   margin-bottom: 10px;
-  //user-select: none;
+  user-select: none;
 
-  &__pagination {
+  &__Legend {
+    list-style-type: none;
+    margin: 20px 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 16px;
+    color: #52575e;
+  }
+
+  &__LegendItem {
+    display: inline-block;
+    margin: 0 20px;
+  }
+
+  &__LegendItemColor {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: text-bottom;
+
+    &--selection {
+      background-color: #ed5434;
+    }
+  }
+
+  &__PaginationArrow {
     display: block;
     cursor: pointer;
     position: absolute;
     outline: none;
     border: 0;
     padding: 0;
-    background-color: #E4E4E4;
     top: 0;
-    bottom: 0;
+    height: 35px;
     white-space: nowrap;
     overflow: hidden;
     text-align: center;
-    margin-bottom: 5px;
-    width: 30px;
+    width: 35px;
+    z-index: 1;
 
     &--previous {
-      left: 0;
+      left: 20px;
     }
 
     &--next {
-      right: 0;
+      right: 20px;
     }
 
     &:hover {
@@ -36,13 +64,17 @@ $arrow-size: 8px;
     }
   }
 
-  &__arrow {
+  &__PaginationArrowIcon {
     position: absolute;
-    top: 48%;
+    top: 10px;
     width: 0;
     height: 0;
     border-top: $arrow-size solid transparent;
     border-bottom: $arrow-size solid transparent;
+
+    &--is-disabled {
+      opacity: 0.25;
+    }
 
     &--previous {
       right: 30px / 2 - ($arrow-size / 2);
@@ -57,33 +89,31 @@ $arrow-size: 8px;
     }
   }
 
-  &__month {
-    width: 230px;
+  &__Month {
+    width: 275px;
     color: #333;
     position: relative;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
-    margin: 0 5px 5px;
+    margin: 0 20px;
+    display: inline-block;
   }
 
-  &__monthHeader {
+  &__MonthHeader {
     position: relative;
     text-align: center;
-    background: #e4e4e4;
-    font-size: 15px;
-    color: #737373;
+    font-weight: bold;
+    font-size: 14px;
+    color: #000;
     height: 35px;
     line-height: 35px;
   }
 
-  &__monthHeaderLabel {
+  &__MonthHeaderLabel {
     display: inline-block;
     position: relative;
   }
 
-  &__monthHeaderSelect {
+  &__MonthHeaderSelect {
     cursor: pointer;
     display: inline-block;
     position: absolute;
@@ -100,101 +130,185 @@ $arrow-size: 8px;
     height: 100%;
   }
 
-  &__monthDates {
+  &__MonthDates {
     width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border: 0;
     margin: 0;
+    border-collapse: separate;
+    border-spacing: 0 1px;
+    border-bottom: 1px solid #f4f5f6;
   }
 
-  &__weekdayHeading,
-  &__date {
+ &__WeekdayHeading,
+ &__Date {
     width: 14.285714285714286%;
-    padding: 0;
+    padding: 10px 0;
     text-align: center;
-    font-size: 11px;
-    line-height: 25px;
+    font-size: 12px;
+    line-height: 1;
   }
 
-  &__weekdayHeading {
-    color: #fff;
-    background: #4da3a2;
-    border: 1px solid #4da3a2;
-    font-weight: normal;
+  &__WeekdayHeading {
+    border-bottom: 1px solid #f4f5f6;
+    color: #000;
+    font-weight: bold;
 
     abbr[title] {
       text-decoration: none;
-      color: #fff;
+      color: #000;
       font-size: inherit;
       cursor: pointer;
       border-bottom-width: 0;
     }
   }
 
-  &__date,
-  &__halfDay {
-    &--is-blocked {
-      background-color: #AAAAAA;
+  &__Date {
+    border: 0 solid #f4f5f6;
+    border-right-width: 1px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    &:first-child {
+      border-left-width: 1px;
     }
 
-    &--is-unavailable {
-      background-color: #AAAAAA;
+
+    &--weekend {
+      background-color: #f6f7f9;
     }
 
-    &--is-available {
-      background-color: #D0E7DB;
-    }
-
-    &--is-enquire {
-      background-color: #FFFBCB;
-    }
-
-    &--is-selected {
-      background-color: #ff2558;
-    }
-
-    &--is-highlighted {
-      background-color: yellow;
+    &--otherMonth {
+      opacity: 0.25;
     }
 
     &--is-disabled {
       cursor: default;
-      color: #ccc;
-      background: #eee;
+      color: #cdcdd1;
     }
 
-    &--is-inOtherMonth {
-      color: #ccc;
-      background: #FFFFFF;
+    &--is-selected {
+      color: #fff;
+    }
+
+    &--is-highlighted {
+      color: #333;
     }
   }
 
-  &__date {
-    border: 1px solid #ddd;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-
-  &__halfDay {
+  &__CalendarDatePeriod {
     position: absolute;
-    top: -50px;
-    bottom: -50px;
+    top: 0;
+    bottom: 0;
 
     &--am {
-      left: -50px;
-      right: -50px;
+      left: 0;
+      right: 50%;
     }
 
     &--pm {
-      left: 66%;
-      right: -50px;
-      transform: rotate(30deg);
+      left: 50%;
+      right: 0;
     }
   }
 
-  &__dateLabel {
+  &__CalendarSelection {
+    position: absolute;
+    top: $selection-margin;
+    bottom: $selection-margin;
+    left: 0;
+    right: 0;
+    background-color: #ed5434;
+    border: 1px solid darken(#ed5434, 5);
+
+    &--inOtherMonth {
+      opacity: 0.5;
+    }
+
+    &--start {
+      left: $selection-margin;
+      border-top-left-radius: $selection-radius;
+      border-bottom-left-radius: $selection-radius;
+      border-right-width: 0;
+    }
+
+    &--end {
+      right: $selection-margin;
+      border-top-right-radius: $selection-radius;
+      border-bottom-right-radius: $selection-radius;
+      border-left-width: 0;
+    }
+
+    &--segment {
+      border-left-width: 0;
+      border-right-width: 0;
+    }
+
+    &--single {
+      left: $selection-margin;
+      right: $selection-margin;
+      border-radius: $selection-radius;
+    }
+  }
+
+  &__CalendarHighlight {
+    position: absolute;
+    top: $selection-margin;
+    bottom: $selection-margin;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+
+    &--inOtherMonth {
+      opacity: 0.5;
+    }
+
+    &--start {
+      left: $selection-margin;
+      border-top-left-radius: $selection-radius;
+      border-bottom-left-radius: $selection-radius;
+      border-right-width: 0;
+    }
+
+    &--end {
+      right: $selection-margin;
+      border-top-right-radius: $selection-radius;
+      border-bottom-right-radius: $selection-radius;
+      border-left-width: 0;
+    }
+
+    &--segment {
+      border-left-width: 0;
+      border-right-width: 0;
+    }
+
+    &--single {
+      background-color: #fff;
+      border: 1px solid darken(#ed5434, 5);
+      left: $selection-margin;
+      right: $selection-margin;
+      border-radius: $selection-radius;
+    }
+  }
+
+  &__HalfDateStates {
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    right: -50px;
+    bottom: -50px;
+    transform: rotate(30deg);
+  }
+
+  &__FullDateStates {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &__DateLabel {
     display: block;
     z-index: 1;
     width: 100%;
