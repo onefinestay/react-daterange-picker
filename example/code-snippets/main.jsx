@@ -7,7 +7,7 @@ var moment = require('moment-range');
 var stateDefinitions = {
   available: {
     color: null,
-    labe: 'Available'
+    label: 'Available'
   },
   enquire: {
     color: '#ffd200',
@@ -46,17 +46,12 @@ var DatePicker = React.createClass({
   handleSelect: function(range, states) {
     // range is a moment-range object
     this.setState({
-      value: range
+      value: range,
       states: states,
     });
   },
 
   render: function() {
-    var defaultState = {
-      selectable: true,
-      state: 'available'
-    };
-
     return (
       <DateRangePicker
         firstOfWeek={1}

@@ -7,8 +7,10 @@ A React based date range picker.
 
 ## Features
 
-* Select a single date or a range of dates
-* Make dates non selectable
+* Select a date range in an intuitive way.
+* Define date ranges that are not available for selection.
+* Show any number of months at the same time.
+* Visually represent half day states.
 
 ## Contribute
 

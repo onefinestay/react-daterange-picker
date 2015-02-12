@@ -1,10 +1,22 @@
 {
   "name": "react-daterange-picker",
   "version": "0.5.0",
-  "description": "",
+  "description": "A React based date range picker",
   "author": "Jonathan Kim <jonathan.kim@onefinestay.com>",
+  "contributors": [{
+    "name": "Andrew Ingram",
+    "email": "andrew.ingram@onefinestay.com"
+  }],
   "license": "Apache 2.0",
   "main": "dist/DateRangePicker.js",
+  "keywords": [
+    "react",
+    "datepicker",
+    "calendar",
+    "date",
+    "range",
+    "react-component"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/onefinestay/react-daterange-picker"
