@@ -1,12 +1,13 @@
 $ofs-pink: #ff2558;
 $ofs-red: #d80033;
+$arrow-size: 6px;
 
 body {
   font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
   font-size: 16px;
+  margin: 0 auto;
   max-width: 700px;
   padding: 10px;
-  margin: 0 auto;
 }
 
 h1,
@@ -27,14 +28,14 @@ h2 {
   margin-top: 50px;
 
   &__logo {
-    width: 200px;
-    margin: 0 auto;
     display: block;
+    margin: 0 auto;
+    width: 200px;
   }
 
   &__title {
-    text-align: center;
     margin-bottom: 3rem;
+    text-align: center;
   }
 }
 
@@ -53,12 +54,11 @@ input {
 
 .code-snippet {
   margin-top: 1rem;
-  $arrow-size: 6px;
 
   &__arrow {
     display: inline-block;
-    width: 0;
     height: 0;
+    width: 0;
 
     &--right {
       border: $arrow-size solid transparent;
@@ -66,10 +66,10 @@ input {
     }
 
     &--up {
-      margin-right: 6px;
-      margin-bottom: 3px;
       border: $arrow-size solid transparent;
       border-bottom-color: #aaa;
+      margin-bottom: 3px;
+      margin-right: 6px;
     }
   }
 
@@ -84,19 +84,19 @@ input {
 }
 
 .footer {
+  border-top: 1px solid #ccc;
   margin: 20px 0;
   padding: 20px 0;
-  border-top: 1px solid #ccc;
 
   &__links {
     text-align: center;
   }
 
   &__link {
-    text-decoration: none;
+    color: $ofs-pink;
     display: inline-block;
     margin-right: 10px;
-    color: $ofs-pink;
+    text-decoration: none;
   }
 }
 
@@ -104,15 +104,15 @@ input {
   margin-bottom: 1rem;
 
   &__text {
-    text-align: center;
-    margin: 0 0 0.5rem;
     color: #999;
+    margin: 0 0 .5rem;
+    text-align: center;
   }
 
   &__logo {
     display: block;
-    width: 200px;
     margin: 0 auto;
+    width: 200px;
   }
 }
 
@@ -120,8 +120,8 @@ input {
   overflow: hidden;
 
   &__point {
-    margin-bottom: 0.5rem;
     font-weight: 200;
+    margin-bottom: .5rem;
   }
 }
 
@@ -134,8 +134,8 @@ input {
 }
 
 .example {
-  overflow: hidden;
   margin-bottom: 1rem;
+  overflow: hidden;
 
   h4 {
     margin-top: 0;

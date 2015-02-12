@@ -1,21 +1,22 @@
 $arrow-size: 8px;
 $selection-radius: 5px;
 $selection-margin: 5px;
+$ns: DateRangePicker;
 
-.DateRangePicker {
+.#{$ns} {
   display: inline-block;
-  position: relative;
-  padding: 0;
   margin-bottom: 10px;
+  padding: 0;
+  position: relative;
   user-select: none;
 
   &__Legend {
+    color: #52575e;
+    font-size: 14px;
+    line-height: 16px;
     list-style-type: none;
     margin: 20px 0;
     padding: 0;
-    font-size: 14px;
-    line-height: 16px;
-    color: #52575e;
   }
 
   &__LegendItem {
@@ -24,12 +25,12 @@ $selection-margin: 5px;
   }
 
   &__LegendItemColor {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
     border-radius: 50%;
+    display: inline-block;
+    height: 16px;
     margin-right: 6px;
     vertical-align: text-bottom;
+    width: 16px;
 
     &--selection {
       background-color: #ed5434;
@@ -37,17 +38,17 @@ $selection-margin: 5px;
   }
 
   &__PaginationArrow {
-    display: block;
-    cursor: pointer;
-    position: absolute;
-    outline: none;
     border: 0;
-    padding: 0;
-    top: 0;
+    cursor: pointer;
+    display: block;
     height: 35px;
-    white-space: nowrap;
+    outline: none;
     overflow: hidden;
+    padding: 0;
+    position: absolute;
     text-align: center;
+    top: 0;
+    white-space: nowrap;
     width: 35px;
     z-index: 1;
 
@@ -60,52 +61,52 @@ $selection-margin: 5px;
     }
 
     &:hover {
-      background-color: #CCC;
+      background-color: #ccc;
     }
   }
 
   &__PaginationArrowIcon {
+    border-bottom: $arrow-size solid transparent;
+    border-top: $arrow-size solid transparent;
+    height: 0;
     position: absolute;
     top: 10px;
     width: 0;
-    height: 0;
-    border-top: $arrow-size solid transparent;
-    border-bottom: $arrow-size solid transparent;
 
     &--is-disabled {
-      opacity: 0.25;
+      opacity: .25;
     }
 
     &--previous {
-      right: 30px / 2 - ($arrow-size / 2);
       border-left: $arrow-size solid transparent;
-      border-right: $arrow-size solid #AAAAAA;
+      border-right: $arrow-size solid #aaa;
+      right: 30px / 2 - ($arrow-size / 2);
     }
 
     &--next {
-      left: 30px / 2 - ($arrow-size / 2);
-      border-left: $arrow-size solid #AAAAAA;
+      border-left: $arrow-size solid #aaa;
       border-right: $arrow-size solid transparent;
+      left: 30px / 2 - ($arrow-size / 2);
     }
   }
 
   &__Month {
-    width: 275px;
     color: #333;
+    display: inline-block;
+    margin: 0 20px;
     position: relative;
     user-select: none;
-    margin: 0 20px;
-    display: inline-block;
+    width: 275px;
   }
 
   &__MonthHeader {
-    position: relative;
-    text-align: center;
-    font-weight: bold;
-    font-size: 14px;
     color: #000;
+    font-size: 14px;
+    font-weight: bold;
     height: 35px;
     line-height: 35px;
+    position: relative;
+    text-align: center;
   }
 
   &__MonthHeaderLabel {
@@ -114,37 +115,35 @@ $selection-margin: 5px;
   }
 
   &__MonthHeaderSelect {
-    cursor: pointer;
-    display: inline-block;
-    position: absolute;
-    z-index: 5;
-    margin: 0;
-    left: 0;
-    top: 0;
-    opacity: 0;
     background: #e4e4e4;
     border: 0;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    width: 100%;
+    cursor: pointer;
+    display: inline-block;
     height: 100%;
+    left: 0;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 5;
   }
 
   &__MonthDates {
-    width: 100%;
-    margin: 0;
+    border-bottom: 1px solid #f4f5f6;
     border-collapse: separate;
     border-spacing: 0 1px;
-    border-bottom: 1px solid #f4f5f6;
+    margin: 0;
+    width: 100%;
   }
 
- &__WeekdayHeading,
- &__Date {
-    width: 14.285714285714286%;
-    padding: 10px 0;
-    text-align: center;
+  &__WeekdayHeading,
+  &__Date {
     font-size: 12px;
     line-height: 1;
+    padding: 10px 0;
+    text-align: center;
+    width: 14.285714285714286%;
   }
 
   &__WeekdayHeading {
@@ -153,11 +152,11 @@ $selection-margin: 5px;
     font-weight: bold;
 
     abbr[title] {
-      text-decoration: none;
-      color: #000;
-      font-size: inherit;
-      cursor: pointer;
       border-bottom-width: 0;
+      color: #000;
+      cursor: pointer;
+      font-size: inherit;
+      text-decoration: none;
     }
   }
 
@@ -165,25 +164,24 @@ $selection-margin: 5px;
     border: 0 solid #f4f5f6;
     border-right-width: 1px;
     cursor: pointer;
-    position: relative;
     overflow: hidden;
+    position: relative;
 
     &:first-child {
       border-left-width: 1px;
     }
-
 
     &--weekend {
       background-color: #f6f7f9;
     }
 
     &--otherMonth {
-      opacity: 0.25;
+      opacity: .25;
     }
 
     &--is-disabled {
-      cursor: default;
       color: #cdcdd1;
+      cursor: default;
     }
 
     &--is-selected {
@@ -196,9 +194,9 @@ $selection-margin: 5px;
   }
 
   &__CalendarDatePeriod {
+    bottom: 0;
     position: absolute;
     top: 0;
-    bottom: 0;
 
     &--am {
       left: 0;
@@ -212,30 +210,30 @@ $selection-margin: 5px;
   }
 
   &__CalendarSelection {
-    position: absolute;
-    top: $selection-margin;
-    bottom: $selection-margin;
-    left: 0;
-    right: 0;
     background-color: #ed5434;
     border: 1px solid darken(#ed5434, 5);
+    bottom: $selection-margin;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: $selection-margin;
 
     &--inOtherMonth {
-      opacity: 0.5;
+      opacity: .5;
     }
 
     &--start {
-      left: $selection-margin;
-      border-top-left-radius: $selection-radius;
       border-bottom-left-radius: $selection-radius;
       border-right-width: 0;
+      border-top-left-radius: $selection-radius;
+      left: $selection-margin;
     }
 
     &--end {
-      right: $selection-margin;
-      border-top-right-radius: $selection-radius;
       border-bottom-right-radius: $selection-radius;
       border-left-width: 0;
+      border-top-right-radius: $selection-radius;
+      right: $selection-margin;
     }
 
     &--segment {
@@ -244,37 +242,37 @@ $selection-margin: 5px;
     }
 
     &--single {
+      border-radius: $selection-radius;
       left: $selection-margin;
       right: $selection-margin;
-      border-radius: $selection-radius;
     }
   }
 
   &__CalendarHighlight {
-    position: absolute;
-    top: $selection-margin;
+    background-color: rgba(255, 255, 255, .25);
+    border: 1px solid rgba(0, 0, 0, .25);
     bottom: $selection-margin;
     left: 0;
+    position: absolute;
     right: 0;
-    background-color: rgba(255, 255, 255, 0.25);
-    border: 1px solid rgba(0, 0, 0, 0.25);
+    top: $selection-margin;
 
     &--inOtherMonth {
-      opacity: 0.5;
+      opacity: .5;
     }
 
     &--start {
-      left: $selection-margin;
-      border-top-left-radius: $selection-radius;
       border-bottom-left-radius: $selection-radius;
       border-right-width: 0;
+      border-top-left-radius: $selection-radius;
+      left: $selection-margin;
     }
 
     &--end {
-      right: $selection-margin;
-      border-top-right-radius: $selection-radius;
       border-bottom-right-radius: $selection-radius;
       border-left-width: 0;
+      border-top-right-radius: $selection-radius;
+      right: $selection-margin;
     }
 
     &--segment {
@@ -285,34 +283,34 @@ $selection-margin: 5px;
     &--single {
       background-color: #fff;
       border: 1px solid darken(#ed5434, 5);
+      border-radius: $selection-radius;
       left: $selection-margin;
       right: $selection-margin;
-      border-radius: $selection-radius;
     }
   }
 
   &__HalfDateStates {
-    position: absolute;
-    top: -50px;
-    left: -50px;
-    right: -50px;
     bottom: -50px;
+    left: -50px;
+    position: absolute;
+    right: -50px;
+    top: -50px;
     transform: rotate(30deg);
   }
 
   &__FullDateStates {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
     bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 
   &__DateLabel {
     display: block;
-    z-index: 1;
-    width: 100%;
-    text-align: center;
     position: relative;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
   }
 }

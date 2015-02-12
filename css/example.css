@@ -1,9 +1,9 @@
 body {
   font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
   font-size: 16px;
+  margin: 0 auto;
   max-width: 700px;
-  padding: 10px;
-  margin: 0 auto; }
+  padding: 10px; }
 
 h1, h2, h3, h4 {
   font-weight: lighter;
@@ -16,12 +16,12 @@ h1, h2 {
 .header {
   margin-top: 50px; }
   .header__logo {
-    width: 200px;
+    display: block;
     margin: 0 auto;
-    display: block; }
+    width: 200px; }
   .header__title {
-    text-align: center;
-    margin-bottom: 3rem; }
+    margin-bottom: 3rem;
+    text-align: center; }
 
 input {
   padding: 5px 10px;
@@ -36,16 +36,16 @@ input {
   margin-top: 1rem; }
   .code-snippet__arrow {
     display: inline-block;
-    width: 0;
-    height: 0; }
+    height: 0;
+    width: 0; }
     .code-snippet__arrow--right {
       border: 6px solid transparent;
       border-left-color: #aaa; }
     .code-snippet__arrow--up {
-      margin-right: 6px;
-      margin-bottom: 3px;
       border: 6px solid transparent;
-      border-bottom-color: #aaa; }
+      border-bottom-color: #aaa;
+      margin-bottom: 3px;
+      margin-right: 6px; }
   .code-snippet__toggle-button {
     color: #ff2558;
     text-decoration: none; }
@@ -53,33 +53,33 @@ input {
       color: #d80033; }
 
 .footer {
+  border-top: 1px solid #ccc;
   margin: 20px 0;
-  padding: 20px 0;
-  border-top: 1px solid #ccc; }
+  padding: 20px 0; }
   .footer__links {
     text-align: center; }
   .footer__link {
-    text-decoration: none;
+    color: #ff2558;
     display: inline-block;
     margin-right: 10px;
-    color: #ff2558; }
+    text-decoration: none; }
 
 .ofs-credit {
   margin-bottom: 1rem; }
   .ofs-credit__text {
-    text-align: center;
-    margin: 0 0 0.5rem;
-    color: #999; }
+    color: #999;
+    margin: 0 0 .5rem;
+    text-align: center; }
   .ofs-credit__logo {
     display: block;
-    width: 200px;
-    margin: 0 auto; }
+    margin: 0 auto;
+    width: 200px; }
 
 .features {
   overflow: hidden; }
   .features__point {
-    margin-bottom: 0.5rem;
-    font-weight: 200; }
+    font-weight: 200;
+    margin-bottom: .5rem; }
 
 .install {
   overflow: hidden; }
@@ -88,7 +88,7 @@ input {
   overflow: hidden; }
 
 .example {
-  overflow: hidden;
-  margin-bottom: 1rem; }
+  margin-bottom: 1rem;
+  overflow: hidden; }
   .example h4 {
     margin-top: 0; }
