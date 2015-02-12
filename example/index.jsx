@@ -13,42 +13,37 @@ var CodeSnippet = require('./components/code-snippet.jsx');
 var Install = require('./components/install.jsx');
 var Features = require('./components/features.jsx');
 
+
 function processCodeSnippet(src) {
   var lines = src.split('\n');
   lines.splice(0, 3);
   return lines.join('\n');
 }
 
+
 var DatePickerRange = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {
-      start: this.props.start,
-      end: this.props.end,
+      value: this.props.value,
+      states: null
     };
   },
-  handleSelect: function(range) {
-    this.setState({
-      start: range.start,
-      end: range.end
-    });
+
+  handleSelect(value, states) {
+    this.setState({value, states});
   },
-  render: function() {
-    var range;
 
-    if (this.state.start && this.state.end) {
-      range = moment().range(this.state.start, this.state.end);
-    }
-
+  render() {
     return (
       <div>
-        <RangePicker {...this.props} onSelect={this.handleSelect} value={range} />
+        <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
         <div>
           <input type="text"
-            value={this.state.start ?  this.state.start.format('LL') : null}
+            value={this.state.value ?  this.state.value.start.format('LL') : null}
             readOnly={true}
             placeholder="Start date"/>
           <input type="text"
-            value={this.state.end ? this.state.end.format('LL') : null}
+            value={this.state.value ? this.state.value.end.format('LL') : null}
             readOnly={true}
             placeholder="End date" />
         </div>
@@ -57,18 +52,19 @@ var DatePickerRange = React.createClass({
   }
 });
 
+
 var DatePickerSingle = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {
       value: null,
     };
   },
-  handleSelect: function(value) {
+  handleSelect(value) {
     this.setState({
       value: value,
     });
   },
-  render: function() {
+  render() {
     return (
       <div>
         <RangePicker {...this.props} onSelect={this.handleSelect}
@@ -83,32 +79,51 @@ var DatePickerSingle = React.createClass({
   }
 });
 
+
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 
+
 var Index = React.createClass({
-  getDefaultProps: function() {
+  getDefaultProps() {
     return {};
   },
 
-  render: function() {
+  render() {
+    var stateDefinitions = {
+      available: {
+        color: null,
+        label: 'Available'
+      },
+      enquire: {
+        color: '#ffd200',
+        label: 'Enquire'
+      },
+      unavailable: {
+        selectable: false,
+        color: '#78818b',
+        label: 'Unavailable'
+      }
+    };
+
     var dateRanges = [
+      {
+        state: 'enquire',
+        range: moment().range(
+          moment().add(2, 'weeks').subtract(5, 'days'),
+          moment().add(2, 'weeks').add(6, 'days')
+        )
+      },
       {
         state: 'unavailable',
         range: moment().range(
           moment().add(3, 'weeks'),
           moment().add(3, 'weeks').add(5, 'days')
-        ),
-        selectable: false
+        )
       }
     ];
 
-    var defaultState = {
-      selectable: true,
-      state: 'available'
-    };
-
     var initialStart = moment().add(1, 'weeks').startOf('day');
-    var initialEnd = moment().add(2, 'weeks').startOf('day');
+    var initialEnd = moment().add(1, 'weeks').add(3, 'days').startOf('day');
 
     return (
       <html>
@@ -117,6 +132,8 @@ var Index = React.createClass({
           <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/docco.min.css' rel='stylesheet' type='text/css'></link>
           <link href="css/react-calendar.css" rel="stylesheet"></link>
           <link href="css/example.css" rel="stylesheet"></link>
+          <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+          <script src="https://cdn.polyfill.io/v1/polyfill.min.js" />
         </head>
         <body>
           <Header />
@@ -125,13 +142,17 @@ var Index = React.createClass({
           <div className="content">
             <div className="example">
               <DatePickerRange
+                firstOfWeek={1}
                 numberOfCalendars={2}
                 selectionType='range'
-                earliestDate={new Date()}
+                minimumDate={new Date()}
+                maximumDate={moment().add(2, 'years').toDate()}
+                stateDefinitions={stateDefinitions}
                 dateStates={dateRanges}
-                defaultState={defaultState}
-                start={initialStart}
-                end={initialEnd} />
+                defaultState="available"
+                value={moment().range(initialStart, initialEnd)}
+                showLegend={true}
+                />
               <CodeSnippet language="javascript">
                 {processCodeSnippet(mainCodeSnippet)}
               </CodeSnippet>
@@ -148,7 +169,7 @@ var Index = React.createClass({
                 <DatePickerRange
                   numberOfCalendars={2}
                   selectionType="range"
-                  earliestDate={new Date()} />
+                  minimumDate={new Date()} />
               </div>
 
               <div className="example">
@@ -156,7 +177,7 @@ var Index = React.createClass({
                 <DatePickerSingle
                   numberOfCalendars={2}
                   selectionType="single"
-                  earliestDate={new Date()} />
+                  minimumDate={new Date()} />
               </div>
             </div>
           </div>
@@ -173,3 +194,4 @@ var Index = React.createClass({
 });
 
 module.exports = Index;
+

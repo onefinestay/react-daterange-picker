@@ -1,5 +1,17 @@
 "use strict";
 
+var _objectWithoutProperties = function (obj, keys) {
+  var target = {};
+
+  for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;
+    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+    target[i] = obj[i];
+  }
+
+  return target;
+};
+
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
@@ -12,8 +24,9 @@ var calendar = _interopRequire(require("calendar"));
 
 var Immutable = _interopRequire(require("immutable"));
 
+var BemMixin = _interopRequire(require("../utils/BemMixin"));
+
 var PureRenderMixin = React.addons.PureRenderMixin;
-var cx = React.addons.classSet;
 
 var lang = moment().localeData();
 
@@ -21,44 +34,46 @@ var WEEKDAYS = Immutable.List(lang._weekdays).zip(Immutable.List(lang._weekdaysS
 var MONTHS = Immutable.List(lang._months);
 
 
-var Month = React.createClass({
-  displayName: "Month",
-  mixins: [PureRenderMixin],
+var CalendarMonth = React.createClass({
+  displayName: "CalendarMonth",
+  mixins: [BemMixin, PureRenderMixin],
 
   renderDay: function renderDay(date, i) {
-    var DateComponent = this.props.dateComponent;
+    var CalendarDate = this.props.dateComponent;
+    var props = _objectWithoutProperties(this.props, ["dateComponent"]);
 
-    return React.createElement(DateComponent, React.__spread({}, this.props, { date: date, key: i }));
+    return React.createElement(CalendarDate, React.__spread({}, props, { date: moment(date), key: i }));
   },
 
   renderWeek: function renderWeek(dates, i) {
     var days = dates.map(this.renderDay);
     return React.createElement(
       "tr",
-      { className: "reactDaterangePicker__week", key: i },
+      { className: this.cx({ element: "Week" }), key: i },
       days.toJS()
     );
   },
 
   renderDayHeaders: function renderDayHeaders() {
-    var indices = Immutable.Range(this.props.firstOfWeek, 7).concat(Immutable.Range(0, this.props.firstOfWeek));
+    var firstOfWeek = this.props.firstOfWeek;
+    var indices = Immutable.Range(firstOfWeek, 7).concat(Immutable.Range(0, firstOfWeek));
 
-    var headers = indices.map(function (index) {
+    var headers = indices.map((function (index) {
       var weekday = WEEKDAYS.get(index);
       return React.createElement(
         "th",
-        { className: "reactDaterangePicker__weekdayHeading", key: weekday, scope: "col" },
+        { className: this.cx({ element: "WeekdayHeading" }), key: weekday, scope: "col" },
         React.createElement(
           "abbr",
           { title: weekday[0] },
           weekday[1]
         )
       );
-    });
+    }).bind(this));
 
     return React.createElement(
       "tr",
-      { className: "reactDaterangePicker__weekdays" },
+      { className: this.cx({ element: "Weekdays" }) },
       headers.toJS()
     );
   },
@@ -67,12 +82,15 @@ var Month = React.createClass({
     this.props.onYearChange(parseInt(event.target.value, 10));
   },
 
-  renderYearChoice: function renderYearChoice(year, i) {
-    if (this.props.minDate && year < this.props.minDate.getFullYear()) {
+  renderYearChoice: function renderYearChoice(year) {
+    var enabledRange = this.props.enabledRange;
+
+
+    if (year < enabledRange.start.year()) {
       return;
     }
 
-    if (this.props.maxDate && year > this.props.maxDate.getFullYear()) {
+    if (year > enabledRange.end.year()) {
       return;
     }
 
@@ -84,18 +102,19 @@ var Month = React.createClass({
   },
 
   renderHeaderYear: function renderHeaderYear() {
-    var monthMoment = moment(this.props.firstOfMonth);
-    var y = this.props.firstOfMonth.getFullYear();
+    var firstOfMonth = this.props.firstOfMonth;
+    var y = firstOfMonth.year();
     var years = Immutable.Range(y - 5, y).concat(Immutable.Range(y, y + 10));
     var choices = years.map(this.renderYearChoice);
+    var modifiers = { year: true };
 
     return React.createElement(
       "span",
-      { className: "reactDaterangePicker__monthHeaderLabel reactDaterangePicker__monthHeaderLabel--year" },
-      monthMoment.format("YYYY"),
+      { className: this.cx({ element: "MonthHeaderLabel", modifiers: modifiers }) },
+      firstOfMonth.format("YYYY"),
       this.props.disableNavigation ? null : React.createElement(
         "select",
-        { className: "reactDaterangePicker__monthHeaderSelect", value: y, onChange: this.handleYearChange },
+        { className: this.cx({ element: "MonthHeaderSelect" }), value: y, onChange: this.handleYearChange },
         choices.toJS()
       )
     );
@@ -106,14 +125,16 @@ var Month = React.createClass({
   },
 
   renderMonthChoice: function renderMonthChoice(month, i) {
+    var firstOfMonth = this.props.firstOfMonth;
+    var enabledRange = this.props.enabledRange;
     var disabled = false;
-    var year = this.props.firstOfMonth.getFullYear();
+    var year = firstOfMonth.year();
 
-    if (this.props.minDate && new Date(year, i + 1, 1).getTime() < this.props.minDate.getTime()) {
+    if (moment({ years: year, months: i + 1, date: 1 }).unix() < enabledRange.start.unix()) {
       disabled = true;
     }
 
-    if (this.props.maxDate && new Date(year, i, 1).getTime() > this.props.maxDate.getTime()) {
+    if (moment({ years: year, months: i, date: 1 }).unix() > enabledRange.end.unix()) {
       disabled = true;
     }
 
@@ -125,17 +146,17 @@ var Month = React.createClass({
   },
 
   renderHeaderMonth: function renderHeaderMonth() {
-    var monthMoment = moment(this.props.firstOfMonth);
-
+    var firstOfMonth = this.props.firstOfMonth;
     var choices = MONTHS.map(this.renderMonthChoice);
+    var modifiers = { month: true };
 
     return React.createElement(
       "span",
-      { className: "reactDaterangePicker__monthHeaderLabel reactDaterangePicker__monthHeaderLabel--month" },
-      monthMoment.format("MMMM"),
+      { className: this.cx({ element: "MonthHeaderLabel", modifiers: modifiers }) },
+      firstOfMonth.format("MMMM"),
       this.props.disableNavigation ? null : React.createElement(
         "select",
-        { className: "reactDaterangePicker__monthHeaderSelect", value: this.props.month, onChange: this.handleMonthChange },
+        { className: this.cx({ element: "MonthHeaderSelect" }), value: firstOfMonth.month(), onChange: this.handleMonthChange },
         choices.toJS()
       )
     );
@@ -144,7 +165,7 @@ var Month = React.createClass({
   renderHeader: function renderHeader() {
     return React.createElement(
       "div",
-      { className: "reactDaterangePicker__monthHeader" },
+      { className: this.cx({ element: "MonthHeader" }) },
       this.renderHeaderMonth(),
       " ",
       this.renderHeaderYear()
@@ -152,17 +173,21 @@ var Month = React.createClass({
   },
 
   render: function render() {
-    var cal = new calendar.Calendar(this.props.firstOfWeek);
-    var monthDates = Immutable.fromJS(cal.monthDates(this.props.firstOfMonth.getFullYear(), this.props.firstOfMonth.getMonth()));
+    var firstOfWeek = this.props.firstOfWeek;
+    var firstOfMonth = this.props.firstOfMonth;
+
+
+    var cal = new calendar.Calendar(firstOfWeek);
+    var monthDates = Immutable.fromJS(cal.monthDates(firstOfMonth.year(), firstOfMonth.month()));
     var weeks = monthDates.map(this.renderWeek);
 
     return React.createElement(
       "div",
-      { className: "reactDaterangePicker__month" },
+      { className: this.cx({ element: "Month" }) },
       this.renderHeader(),
       React.createElement(
         "table",
-        { className: "reactDaterangePicker__monthDates" },
+        { className: this.cx({ element: "MonthDates" }) },
         React.createElement(
           "thead",
           null,
@@ -178,4 +203,4 @@ var Month = React.createClass({
   }
 });
 
-module.exports = Month;
+module.exports = CalendarMonth;
