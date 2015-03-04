@@ -45,6 +45,7 @@
     "gulp-sourcemaps": "^1.2.4",
     "gulp-util": "^3.0.1",
     "gulp-watch": "^1.1.0",
+    "timekeeper": "0.0.5",
     "transform-loader": "^0.2.1",
     "webpack": "^1.5.3"
   }
