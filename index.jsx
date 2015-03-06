@@ -3,6 +3,7 @@
 var React = require('react/addons');
 var moment = require('moment-range');
 var fs = require('fs');
+var timekeeper = require('timekeeper');
 var RangePicker = require('..');
 
 var Header = require('./components/header.jsx');
@@ -12,6 +13,8 @@ var CodeSnippet = require('./components/code-snippet.jsx');
 var Install = require('./components/install.jsx');
 var Features = require('./components/features.jsx');
 
+// freeze date to April 1st
+timekeeper.freeze(new Date('2015-04-01'));
 
 function processCodeSnippet(src) {
   var lines = src.split('\n');
