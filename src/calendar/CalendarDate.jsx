@@ -113,6 +113,7 @@ var CalendarDate = React.createClass({
   },
 
   touchEnd() {
+    this.highlightDate();
     this.selectDate();
 
     if (this.state.mouseDown) {
