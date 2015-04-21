@@ -12,7 +12,7 @@ var Legend = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   render() {
-    var {stateDefinitions} = this.props;
+    var {selectedLabel, stateDefinitions} = this.props;
     var block = this.getBemBlock();
     var namespace = this.getBemNamespace();
     var items = [];
@@ -39,7 +39,7 @@ var Legend = React.createClass({
       <ul className={this.cx()}>
         <li className={this.cx({element: 'LegendItem'})}>
           <span className={this.cx({element: 'LegendItemColor', modifiers: {'selection': true}})} />
-          <span className={this.cx({element: 'LegendItemLabel'})}>Your selected dates</span>
+          <span className={this.cx({element: 'LegendItemLabel'})}>{selectedLabel}</span>
         </li>
         {items}
       </ul>
