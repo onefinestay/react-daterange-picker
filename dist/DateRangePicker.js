@@ -47,6 +47,7 @@ var DateRangePicker = React.createClass({
     maximumDate: React.PropTypes.instanceOf(Date),
     selectionType: React.PropTypes.oneOf(["single", "range"]),
     stateDefinitions: React.PropTypes.object,
+    selectedLabel: React.PropTypes.string,
     dateStates: React.PropTypes.array, // an array of date ranges and their states
     defaultState: React.PropTypes.string,
     initialFromValue: React.PropTypes.bool,
@@ -89,6 +90,7 @@ var DateRangePicker = React.createClass({
           label: null
         }
       },
+      selectedLabel: "Your selected dates",
       defaultState: "__default",
       dateStates: [],
       showLegend: false,
@@ -395,6 +397,7 @@ var DateRangePicker = React.createClass({
     var PaginationArrow = this.props.paginationArrowComponent;
     var numberOfCalendars = this.props.numberOfCalendars;
     var stateDefinitions = this.props.stateDefinitions;
+    var selectedLabel = this.props.selectedLabel;
     var showLegend = this.props.showLegend;
 
 
@@ -406,7 +409,7 @@ var DateRangePicker = React.createClass({
       React.createElement(PaginationArrow, { direction: "previous", onMouseEnter: this.moveBackIfSelecting, onClick: this.moveBack, disabled: !this.canMoveBack() }),
       calendars.toJS(),
       React.createElement(PaginationArrow, { direction: "next", onMouseEnter: this.moveForwardIfSelecting, onClick: this.moveForward, disabled: !this.canMoveForward() }),
-      showLegend ? React.createElement(Legend, { stateDefinitions: stateDefinitions }) : null
+      showLegend ? React.createElement(Legend, { stateDefinitions: stateDefinitions, selectedLabel: selectedLabel }) : null
     );
   }
 });
