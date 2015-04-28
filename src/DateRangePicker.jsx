@@ -194,7 +194,7 @@ var DateRangePicker = React.createClass({
       selectedStartDate: date
     });
     if (typeof(this.props.onSelectStart) === 'function') { 
-      this.props.onSelectStart(moment().range(date, null));
+      this.props.onSelectStart(moment(date));
     }
   },
 
