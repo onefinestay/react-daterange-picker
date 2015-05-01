@@ -12,14 +12,14 @@ module.exports = {
         test: /\.jsx$/,
         exclude: /node_modules\//,
         loaders: [
-          '6to5-loader?experimental=true&runtime=true'
+          'babel-loader?stage=1'
         ]
       },
       {
         test: /\.js$/,
         exclude: /node_modules\//,
         loaders: [
-          '6to5-loader?experimental=true&react=false&runtime=true'
+          'babel-loader?stage=1'
         ]
       },
     ],
