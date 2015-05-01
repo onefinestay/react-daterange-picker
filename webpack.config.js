@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = {
   cache: true,
   context: __dirname,
@@ -31,5 +33,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
-  }
+  },
+  plugins: [
+    // Fix for moment including all locales
+    // Ref: http://stackoverflow.com/a/25426019
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+  ]
 };
