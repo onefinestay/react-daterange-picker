@@ -1,38 +1,43 @@
-"use strict";
-var _defineProperty = function (obj, key, value) {
-  return Object.defineProperty(obj, key, {
-    value: value,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  });
-};
+'use strict';
 
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var React = _interopRequire(require("react/addons"));
+var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var BemMixin = _interopRequire(require("../utils/BemMixin"));
+var _defineProperty = function (obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); };
 
-var PureRenderMixin = React.addons.PureRenderMixin;
+var _React = require('react/addons');
 
+var _React2 = _interopRequireDefault(_React);
 
-var CalendarHighlight = React.createClass({
-  displayName: "CalendarHighlight",
-  mixins: [BemMixin, PureRenderMixin],
+var _BemMixin = require('../utils/BemMixin');
+
+var _BemMixin2 = _interopRequireDefault(_BemMixin);
+
+'use strict';
+
+var PureRenderMixin = _React2['default'].addons.PureRenderMixin;
+
+var CalendarHighlight = _React2['default'].createClass({
+  displayName: 'CalendarHighlight',
+
+  mixins: [_BemMixin2['default'], PureRenderMixin],
 
   render: function render() {
-    var modifier = this.props.modifier;
-    var inOtherMonth = this.props.inOtherMonth;
+    var _props = this.props;
+    var modifier = _props.modifier;
+    var inOtherMonth = _props.inOtherMonth;
+
     var modifiers = _defineProperty({}, modifier, true);
     var states = {
       inOtherMonth: inOtherMonth
     };
 
-    return React.createElement("div", { className: this.cx({ states: states, modifiers: modifiers }) });
+    return _React2['default'].createElement('div', { className: this.cx({ states: states, modifiers: modifiers }) });
   }
 });
 
-module.exports = CalendarHighlight;
+exports['default'] = CalendarHighlight;
+module.exports = exports['default'];

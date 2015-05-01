@@ -1,54 +1,71 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var React = _interopRequire(require("react/addons"));
+var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var moment = _interopRequire(require("moment-range"));
+var _React = require('react/addons');
 
-var Immutable = _interopRequire(require("immutable"));
+var _React2 = _interopRequireDefault(_React);
 
-var BemMixin = _interopRequire(require("../utils/BemMixin"));
+var _moment = require('moment-range');
 
-var lightenDarkenColor = _interopRequire(require("../utils/lightenDarkenColor"));
+var _moment2 = _interopRequireDefault(_moment);
 
-var CalendarDatePeriod = _interopRequire(require("./CalendarDatePeriod"));
+var _Immutable = require('immutable');
 
-var CalendarHighlight = _interopRequire(require("./CalendarHighlight"));
+var _Immutable2 = _interopRequireDefault(_Immutable);
 
-var CalendarSelection = _interopRequire(require("./CalendarSelection"));
+var _BemMixin = require('../utils/BemMixin');
 
+var _BemMixin2 = _interopRequireDefault(_BemMixin);
 
+var _lightenDarkenColor = require('../utils/lightenDarkenColor');
 
+var _lightenDarkenColor2 = _interopRequireDefault(_lightenDarkenColor);
 
-var PureRenderMixin = React.addons.PureRenderMixin;
-var cx = React.addons.classSet;
+var _CalendarDatePeriod = require('./CalendarDatePeriod');
 
+var _CalendarDatePeriod2 = _interopRequireDefault(_CalendarDatePeriod);
 
-var CalendarDate = React.createClass({
-  displayName: "CalendarDate",
-  mixins: [BemMixin, PureRenderMixin],
+var _CalendarHighlight = require('./CalendarHighlight');
+
+var _CalendarHighlight2 = _interopRequireDefault(_CalendarHighlight);
+
+var _CalendarSelection = require('./CalendarSelection');
+
+var _CalendarSelection2 = _interopRequireDefault(_CalendarSelection);
+
+'use strict';
+
+var PureRenderMixin = _React2['default'].addons.PureRenderMixin;
+var cx = _React2['default'].addons.classSet;
+
+var CalendarDate = _React2['default'].createClass({
+  displayName: 'CalendarDate',
+
+  mixins: [_BemMixin2['default'], PureRenderMixin],
 
   propTypes: {
-    date: React.PropTypes.object.isRequired,
+    date: _React2['default'].PropTypes.object.isRequired,
 
-    firstOfMonth: React.PropTypes.object.isRequired,
-    index: React.PropTypes.number.isRequired,
-    maxIndex: React.PropTypes.number.isRequired,
-    selectionType: React.PropTypes.string.isRequired,
+    firstOfMonth: _React2['default'].PropTypes.object.isRequired,
+    index: _React2['default'].PropTypes.number.isRequired,
+    maxIndex: _React2['default'].PropTypes.number.isRequired,
+    selectionType: _React2['default'].PropTypes.string.isRequired,
 
-    value: React.PropTypes.object,
-    highlightedRange: React.PropTypes.object,
-    highlightedDate: React.PropTypes.object,
-    selectedStartDate: React.PropTypes.object,
-    dateStates: React.PropTypes.instanceOf(Immutable.List),
+    value: _React2['default'].PropTypes.object,
+    highlightedRange: _React2['default'].PropTypes.object,
+    highlightedDate: _React2['default'].PropTypes.object,
+    selectedStartDate: _React2['default'].PropTypes.object,
+    dateStates: _React2['default'].PropTypes.instanceOf(_Immutable2['default'].List),
 
-    onHighlightDate: React.PropTypes.func,
-    onUnHighlightDate: React.PropTypes.func,
-    onStartSelection: React.PropTypes.func,
-    onCompleteSelection: React.PropTypes.func
+    onHighlightDate: _React2['default'].PropTypes.func,
+    onUnHighlightDate: _React2['default'].PropTypes.func,
+    onStartSelection: _React2['default'].PropTypes.func,
+    onCompleteSelection: _React2['default'].PropTypes.func
   },
 
   getInitialState: function getInitialState() {
@@ -63,19 +80,19 @@ var CalendarDate = React.createClass({
 
   isDateSelectable: function isDateSelectable(date) {
     return this.dateRangesForDate(date).some(function (r) {
-      return r.get("selectable");
+      return r.get('selectable');
     });
   },
 
   nonSelectableStateRanges: function nonSelectableStateRanges() {
     return this.props.dateStates.filter(function (d) {
-      return !d.get("selectable");
+      return !d.get('selectable');
     });
   },
 
   dateRangesForDate: function dateRangesForDate(date) {
     return this.props.dateStates.filter(function (d) {
-      return d.get("range").contains(date);
+      return d.get('range').contains(date);
     });
   },
 
@@ -85,7 +102,7 @@ var CalendarDate = React.createClass({
      * which direction to work
      */
     var blockedRanges = this.nonSelectableStateRanges().map(function (r) {
-      return r.get("range");
+      return r.get('range');
     });
     var intersect;
 
@@ -94,7 +111,7 @@ var CalendarDate = React.createClass({
         return range.intersect(r);
       });
       if (intersect) {
-        return moment().range(range.start, intersect.start);
+        return _moment2['default']().range(range.start, intersect.start);
       }
     } else {
       intersect = blockedRanges.findLast(function (r) {
@@ -102,16 +119,16 @@ var CalendarDate = React.createClass({
       });
 
       if (intersect) {
-        return moment().range(intersect.end, range.end);
+        return _moment2['default']().range(intersect.end, range.end);
       }
     }
 
     if (range.start.isBefore(this.props.enabledRange.start)) {
-      return moment().range(this.props.enabledRange.start, range.end);
+      return _moment2['default']().range(this.props.enabledRange.start, range.end);
     }
 
     if (range.end.isAfter(this.props.enabledRange.end)) {
-      return moment().range(range.start, this.props.enabledRange.end);
+      return _moment2['default']().range(range.start, this.props.enabledRange.end);
     }
 
     return range;
@@ -125,14 +142,14 @@ var CalendarDate = React.createClass({
         mouseDown: false
       });
     }
-    document.removeEventListener("mouseup", this.mouseUp);
+    document.removeEventListener('mouseup', this.mouseUp);
   },
 
   mouseDown: function mouseDown() {
     this.setState({
       mouseDown: true
     });
-    document.addEventListener("mouseup", this.mouseUp);
+    document.addEventListener('mouseup', this.mouseUp);
   },
 
   touchEnd: function touchEnd() {
@@ -144,7 +161,7 @@ var CalendarDate = React.createClass({
         mouseDown: false
       });
     }
-    document.removeEventListener("touchend", this.touchEnd);
+    document.removeEventListener('touchend', this.touchEnd);
   },
 
   touchStart: function touchStart(event) {
@@ -152,7 +169,7 @@ var CalendarDate = React.createClass({
     this.setState({
       mouseDown: true
     });
-    document.addEventListener("touchend", this.touchEnd);
+    document.addEventListener('touchend', this.touchEnd);
   },
 
   mouseEnter: function mouseEnter() {
@@ -171,21 +188,23 @@ var CalendarDate = React.createClass({
   },
 
   highlightDate: function highlightDate() {
-    var date = this.props.date;
-    var selectionType = this.props.selectionType;
-    var selectedStartDate = this.props.selectedStartDate;
-    var onHighlightRange = this.props.onHighlightRange;
-    var onHighlightDate = this.props.onHighlightDate;
+    var _props = this.props;
+    var date = _props.date;
+    var selectionType = _props.selectionType;
+    var selectedStartDate = _props.selectedStartDate;
+    var onHighlightRange = _props.onHighlightRange;
+    var onHighlightDate = _props.onHighlightDate;
+
     var datePair;
     var range;
     var forwards;
 
-    if (selectionType === "range") {
+    if (selectionType === 'range') {
       if (selectedStartDate) {
-        datePair = Immutable.List.of(selectedStartDate, date).sortBy(function (d) {
+        datePair = _Immutable2['default'].List.of(selectedStartDate, date).sortBy(function (d) {
           return d.unix();
         });
-        range = moment().range(datePair.get(0), datePair.get(1));
+        range = _moment2['default']().range(datePair.get(0), datePair.get(1));
         forwards = range.start.unix() === selectedStartDate.unix();
         range = this.sanitizeRange(range, forwards);
         onHighlightRange(range);
@@ -204,15 +223,17 @@ var CalendarDate = React.createClass({
   },
 
   selectDate: function selectDate() {
-    var date = this.props.date;
-    var selectionType = this.props.selectionType;
-    var selectedStartDate = this.props.selectedStartDate;
-    var completeRangeSelection = this.props.completeRangeSelection;
-    var completeSelection = this.props.completeSelection;
-    var startRangeSelection = this.props.startRangeSelection;
+    var _props2 = this.props;
+    var date = _props2.date;
+    var selectionType = _props2.selectionType;
+    var selectedStartDate = _props2.selectedStartDate;
+    var completeRangeSelection = _props2.completeRangeSelection;
+    var completeSelection = _props2.completeSelection;
+    var startRangeSelection = _props2.startRangeSelection;
+
     var range;
 
-    if (selectionType === "range") {
+    if (selectionType === 'range') {
       if (selectedStartDate) {
         completeRangeSelection();
       } else if (!this.isDisabled(date) && this.isDateSelectable(date)) {
@@ -226,9 +247,9 @@ var CalendarDate = React.createClass({
   },
 
   getBemModifiers: function getBemModifiers() {
-    var date = this.props.date;
-    var firstOfMonth = this.props.firstOfMonth;
-
+    var _props3 = this.props;
+    var date = _props3.date;
+    var firstOfMonth = _props3.firstOfMonth;
 
     var otherMonth = false;
     var weekend = false;
@@ -245,10 +266,12 @@ var CalendarDate = React.createClass({
   },
 
   getBemStates: function getBemStates() {
-    var date = this.props.date;
-    var value = this.props.value;
-    var highlightedRange = this.props.highlightedRange;
-    var highlightedDate = this.props.highlightedDate;
+    var _props4 = this.props;
+    var date = _props4.date;
+    var value = _props4.value;
+    var highlightedRange = _props4.highlightedRange;
+    var highlightedDate = _props4.highlightedDate;
+
     var disabled = this.isDisabled(date);
     var highlighted = false;
     var selected = false;
@@ -273,12 +296,12 @@ var CalendarDate = React.createClass({
   },
 
   render: function render() {
-    var value = this.props.value;
-    var firstOfMonth = this.props.firstOfMonth;
-    var date = this.props.date;
-    var highlightedRange = this.props.highlightedRange;
-    var highlightedDate = this.props.highlightedDate;
-
+    var _props5 = this.props;
+    var value = _props5.value;
+    var firstOfMonth = _props5.firstOfMonth;
+    var date = _props5.date;
+    var highlightedRange = _props5.highlightedRange;
+    var highlightedDate = _props5.highlightedDate;
 
     var bemModifiers = this.getBemModifiers();
     var bemStates = this.getBemStates();
@@ -296,86 +319,88 @@ var CalendarDate = React.createClass({
 
     if (value && value.start) {
       if (value.start.isSame(date) && value.start.isSame(value.end)) {
-        selectionModifier = "single";
+        selectionModifier = 'single';
       } else if (value.contains(date)) {
         if (date.isSame(value.start)) {
-          selectionModifier = "start";
+          selectionModifier = 'start';
         } else if (date.isSame(value.end)) {
-          selectionModifier = "end";
+          selectionModifier = 'end';
         } else {
-          selectionModifier = "segment";
+          selectionModifier = 'segment';
         }
       }
     } else if (value && date.isSame(value)) {
-      selectionModifier = "single";
+      selectionModifier = 'single';
     }
 
     if (highlightedRange && highlightedRange.contains(date)) {
       if (date.isSame(highlightedRange.start)) {
-        highlightModifier = "start";
+        highlightModifier = 'start';
       } else if (date.isSame(highlightedRange.end)) {
-        highlightModifier = "end";
+        highlightModifier = 'end';
       } else {
-        highlightModifier = "segment";
+        highlightModifier = 'segment';
       }
     }
 
     if (highlightedDate && date.isSame(highlightedDate)) {
-      highlightModifier = "single";
+      highlightModifier = 'single';
     }
 
     if (numStates === 1) {
       // If there's only one state, it means we're not at a boundary
-      color = states.getIn([0, "color"]);
+      color = states.getIn([0, 'color']);
 
       if (color) {
+
         style = {
           backgroundColor: color
         };
         cellStyle = {
-          borderLeftColor: lightenDarkenColor(color, -10),
-          borderRightColor: lightenDarkenColor(color, -10)
+          borderLeftColor: _lightenDarkenColor2['default'](color, -10),
+          borderRightColor: _lightenDarkenColor2['default'](color, -10)
         };
       }
     } else {
-      amColor = states.getIn([0, "color"]);
-      pmColor = states.getIn([1, "color"]);
+      amColor = states.getIn([0, 'color']);
+      pmColor = states.getIn([1, 'color']);
 
       if (amColor) {
-        cellStyle.borderLeftColor = lightenDarkenColor(amColor, -10);
+        cellStyle.borderLeftColor = _lightenDarkenColor2['default'](amColor, -10);
       }
 
       if (pmColor) {
-        cellStyle.borderRightColor = lightenDarkenColor(pmColor, -10);
+        cellStyle.borderRightColor = _lightenDarkenColor2['default'](pmColor, -10);
       }
     }
 
-    return React.createElement(
-      "td",
-      { className: this.cx({ element: "Date", modifiers: bemModifiers, states: bemStates }),
+    return _React2['default'].createElement(
+      'td',
+      { className: this.cx({ element: 'Date', modifiers: bemModifiers, states: bemStates }),
         style: cellStyle,
         onTouchStart: this.touchStart,
         onMouseOver: this.mouseOver,
         onMouseEnter: this.mouseEnter,
         onMouseLeave: this.mouseLeave,
         onMouseDown: this.mouseDown },
-      numStates > 1 && React.createElement(
-        "div",
-        { className: this.cx({ element: "HalfDateStates" }) },
-        React.createElement(CalendarDatePeriod, { period: "am", color: amColor }),
-        React.createElement(CalendarDatePeriod, { period: "pm", color: pmColor })
+      numStates > 1 && _React2['default'].createElement(
+        'div',
+        { className: this.cx({ element: 'HalfDateStates' }) },
+        _React2['default'].createElement(_CalendarDatePeriod2['default'], { period: 'am', color: amColor }),
+        _React2['default'].createElement(_CalendarDatePeriod2['default'], { period: 'pm', color: pmColor })
       ),
-      numStates === 1 && React.createElement("div", { className: this.cx({ element: "FullDateStates" }), style: style }),
-      React.createElement(
-        "span",
-        { className: this.cx({ element: "DateLabel" }) },
-        date.format("D")
+      numStates === 1 && _React2['default'].createElement('div', { className: this.cx({ element: 'FullDateStates' }), style: style }),
+      _React2['default'].createElement(
+        'span',
+        { className: this.cx({ element: 'DateLabel' }) },
+        date.format('D')
       ),
-      selectionModifier && React.createElement(CalendarSelection, { modifier: selectionModifier }),
-      highlightModifier && React.createElement(CalendarHighlight, { modifier: highlightModifier })
+      selectionModifier && _React2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier }),
+      highlightModifier && _React2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier })
     );
   }
 
 });
 
-module.exports = CalendarDate;
+exports['default'] = CalendarDate;
+module.exports = exports['default'];

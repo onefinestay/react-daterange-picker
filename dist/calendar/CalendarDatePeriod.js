@@ -1,30 +1,35 @@
-"use strict";
-var _defineProperty = function (obj, key, value) {
-  return Object.defineProperty(obj, key, {
-    value: value,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  });
-};
+'use strict';
 
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var React = _interopRequire(require("react/addons"));
+var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var BemMixin = _interopRequire(require("../utils/BemMixin"));
+var _defineProperty = function (obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); };
 
-var PureRenderMixin = React.addons.PureRenderMixin;
+var _React = require('react/addons');
 
-var CalendarDatePeriod = React.createClass({
-  displayName: "CalendarDatePeriod",
-  mixins: [BemMixin, PureRenderMixin],
+var _React2 = _interopRequireDefault(_React);
+
+var _BemMixin = require('../utils/BemMixin');
+
+var _BemMixin2 = _interopRequireDefault(_BemMixin);
+
+'use strict';
+
+var PureRenderMixin = _React2['default'].addons.PureRenderMixin;
+
+var CalendarDatePeriod = _React2['default'].createClass({
+  displayName: 'CalendarDatePeriod',
+
+  mixins: [_BemMixin2['default'], PureRenderMixin],
 
   render: function render() {
-    var color = this.props.color;
-    var period = this.props.period;
+    var _props = this.props;
+    var color = _props.color;
+    var period = _props.period;
+
     var modifiers = _defineProperty({}, period, true);
     var style;
 
@@ -32,8 +37,9 @@ var CalendarDatePeriod = React.createClass({
       style = { backgroundColor: color };
     }
 
-    return React.createElement("div", { style: style, className: this.cx({ modifiers: modifiers }) });
+    return _React2['default'].createElement('div', { style: style, className: this.cx({ modifiers: modifiers }) });
   }
 });
 
-module.exports = CalendarDatePeriod;
+exports['default'] = CalendarDatePeriod;
+module.exports = exports['default'];
