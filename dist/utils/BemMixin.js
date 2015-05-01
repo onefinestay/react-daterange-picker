@@ -8,8 +8,7 @@ var React = _interopRequire(require("react"));
 
 var bemCx = _interopRequire(require("./bemCx"));
 
-
-
+var assign = _interopRequire(require("object.assign"));
 
 var BemMixin = {
   propTypes: {
@@ -61,7 +60,7 @@ var BemMixin = {
       element: this.constructor.displayName,
       block: this.getBemBlock() };
 
-    Object.assign(opts, options);
+    assign(opts, options);
     return bemCx(opts);
   }
 };
