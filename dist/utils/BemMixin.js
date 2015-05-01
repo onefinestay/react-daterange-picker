@@ -6,6 +6,8 @@ Object.defineProperty(exports, '__esModule', {
 
 var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _React = require('react');
 
 var _React2 = _interopRequireDefault(_React);
@@ -65,7 +67,7 @@ var BemMixin = {
       element: this.constructor.displayName,
       block: this.getBemBlock() };
 
-    Object.assign(opts, options);
+    _extends(opts, options);
     return _bemCx2['default'](opts);
   }
 };

@@ -15,7 +15,10 @@ var deploy = require('gulp-gh-pages');
 gulp.task('build-js', function() {
   // build javascript files
   return gulp.src('src/**/*.{js,jsx}')
-    .pipe(babel({stage: 1}))
+    .pipe(babel({
+      stage: 1,
+      plugins: ['object-assign']
+    }))
     .pipe(extReplace('.js'))
     .pipe(gulp.dest('dist'));
 });
@@ -29,7 +32,10 @@ gulp.task('watch-js', function() {
 
 gulp.task('build-example', ['build-js'], function() {
   return gulp.src('./example/index.jsx')
-    .pipe(babel({stage: 1}))
+    .pipe(babel({
+      stage: 1,
+      plugins: ['object-assign']
+    }))
     .pipe(render({
       template: '<!doctype html>' +
                 '<%=body%>'
