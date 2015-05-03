@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 /* global hljs */
 "use strict";
 
