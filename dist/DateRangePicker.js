@@ -53,6 +53,7 @@ var DateRangePicker = React.createClass({
     initialFromValue: React.PropTypes.bool,
     showLegend: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
+    onSelectStart: React.PropTypes.func,
     paginationArrowComponent: React.PropTypes.func,
     value: function (props, propName, componentName) {
       var val = props[propName];
@@ -201,6 +202,9 @@ var DateRangePicker = React.createClass({
     this.setState({
       selectedStartDate: date
     });
+    if (typeof this.props.onSelectStart === "function") {
+      this.props.onSelectStart(moment(date));
+    }
   },
 
   statesForRange: function statesForRange(range) {
