@@ -74,6 +74,7 @@ var DateRangePicker = _React2['default'].createClass({
     initialFromValue: _React2['default'].PropTypes.bool,
     showLegend: _React2['default'].PropTypes.bool,
     onSelect: _React2['default'].PropTypes.func,
+    onSelectStart: _React2['default'].PropTypes.func,
     paginationArrowComponent: _React2['default'].PropTypes.func,
     value: function value(props, propName, componentName) {
       var val = props[propName];
@@ -225,6 +226,9 @@ var DateRangePicker = _React2['default'].createClass({
     this.setState({
       selectedStartDate: date
     });
+    if (typeof this.props.onSelectStart === 'function') {
+      this.props.onSelectStart(_moment2['default'](date));
+    }
   },
 
   statesForRange: function statesForRange(range) {
