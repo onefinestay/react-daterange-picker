@@ -1,6 +1,10 @@
 "use strict";
 
-module.exports = lightenDarkenColor;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = lightenDarkenColor;
+
 function lightenDarkenColor(col, amt) {
   var usePound = false;
   var num;
@@ -41,3 +45,5 @@ function lightenDarkenColor(col, amt) {
 
   return (usePound ? "#" : "") + (g | b << 8 | r << 16).toString(16);
 }
+
+module.exports = exports["default"];

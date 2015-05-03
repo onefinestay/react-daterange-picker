@@ -30,15 +30,16 @@
     "calendar": "^0.1.0",
     "immutable": "^3.6.2",
     "moment": "^2.8.3",
-    "moment-range": "^1.0.5",
-    "object.assign": "^1.1.1"
+    "moment-range": "^1.0.5"
   },
   "devDependencies": {
-    "6to5-loader": "^2.0.0",
+    "babel-core": "^5.2.6",
+    "babel-loader": "^5.0.0",
+    "babel-plugin-object-assign": "^1.0.1",
     "brfs": "^1.2.0",
     "gulp": "^3.8.9",
-    "gulp-6to5": "^2.0.2",
     "gulp-autoprefixer": "^2.1.0",
+    "gulp-babel": "^5.1.0",
     "gulp-connect": "^2.2.0",
     "gulp-ext-replace": "^0.1.0",
     "gulp-gh-pages": "^0.4.0",
@@ -47,6 +48,7 @@
     "gulp-sourcemaps": "^1.2.4",
     "gulp-util": "^3.0.1",
     "gulp-watch": "^1.1.0",
+    "object.assign": "^1.1.1",
     "timekeeper": "0.0.5",
     "transform-loader": "^0.2.1",
     "webpack": "^1.5.3"

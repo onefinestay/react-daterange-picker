@@ -1,30 +1,35 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var React = _interopRequire(require("react"));
+var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var bemCx = _interopRequire(require("./bemCx"));
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _React = require('react');
 
+var _React2 = _interopRequireDefault(_React);
 
+var _bemCx = require('./bemCx');
+
+var _bemCx2 = _interopRequireDefault(_bemCx);
 
 var BemMixin = {
   propTypes: {
-    bemNamespace: React.PropTypes.string,
-    bemBlock: React.PropTypes.string
+    bemNamespace: _React2['default'].PropTypes.string,
+    bemBlock: _React2['default'].PropTypes.string
   },
 
   contextTypes: {
-    bemNamespace: React.PropTypes.string,
-    bemBlock: React.PropTypes.string
+    bemNamespace: _React2['default'].PropTypes.string,
+    bemBlock: _React2['default'].PropTypes.string
   },
 
   childContextTypes: {
-    bemNamespace: React.PropTypes.string,
-    bemBlock: React.PropTypes.string
+    bemNamespace: _React2['default'].PropTypes.string,
+    bemBlock: _React2['default'].PropTypes.string
   },
 
   getChildContext: function getChildContext() {
@@ -56,14 +61,16 @@ var BemMixin = {
 
   cx: function cx() {
     var options = arguments[0] === undefined ? {} : arguments[0];
+
     var opts = {
       namespace: this.getBemNamespace(),
       element: this.constructor.displayName,
       block: this.getBemBlock() };
 
-    Object.assign(opts, options);
-    return bemCx(opts);
+    _extends(opts, options);
+    return _bemCx2['default'](opts);
   }
 };
 
-module.exports = BemMixin;
+exports['default'] = BemMixin;
+module.exports = exports['default'];

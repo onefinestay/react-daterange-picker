@@ -1,44 +1,40 @@
-"use strict";
-var _objectWithoutProperties = function (obj, keys) {
-  var target = {};
+'use strict';
 
-  for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;
-    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
-    target[i] = obj[i];
-  }
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-  return target;
-};
+var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _defineProperty = function (obj, key, value) {
-  return Object.defineProperty(obj, key, {
-    value: value,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  });
-};
+var _objectWithoutProperties = function (obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; };
 
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
+var _defineProperty = function (obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); };
 
-var React = _interopRequire(require("react/addons"));
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var BemMixin = _interopRequire(require("./utils/BemMixin"));
+var _React = require('react/addons');
 
-var PureRenderMixin = React.addons.PureRenderMixin;
+var _React2 = _interopRequireDefault(_React);
 
+var _BemMixin = require('./utils/BemMixin');
 
-var PaginationArrow = React.createClass({
-  displayName: "PaginationArrow",
-  mixins: [BemMixin, PureRenderMixin],
+var _BemMixin2 = _interopRequireDefault(_BemMixin);
+
+'use strict';
+
+var PureRenderMixin = _React2['default'].addons.PureRenderMixin;
+
+var PaginationArrow = _React2['default'].createClass({
+  displayName: 'PaginationArrow',
+
+  mixins: [_BemMixin2['default'], PureRenderMixin],
 
   render: function render() {
-    var disabled = this.props.disabled;
-    var direction = this.props.direction;
-    var props = _objectWithoutProperties(this.props, ["disabled", "direction"]);
+    var _props = this.props;
+    var disabled = _props.disabled;
+    var direction = _props.direction;
+
+    var props = _objectWithoutProperties(_props, ['disabled', 'direction']);
 
     var modifiers = _defineProperty({}, direction, true);
     var states = { disabled: disabled };
@@ -49,17 +45,18 @@ var PaginationArrow = React.createClass({
     };
 
     var iconOpts = {
-      element: "PaginationArrowIcon",
+      element: 'PaginationArrowIcon',
       modifiers: modifiers,
       states: states
     };
 
-    return React.createElement(
-      "div",
-      React.__spread({ className: this.cx(elementOpts) }, props),
-      React.createElement("div", { className: this.cx(iconOpts) })
+    return _React2['default'].createElement(
+      'div',
+      _extends({ className: this.cx(elementOpts) }, props),
+      _React2['default'].createElement('div', { className: this.cx(iconOpts) })
     );
   }
 });
 
-module.exports = PaginationArrow;
+exports['default'] = PaginationArrow;
+module.exports = exports['default'];
