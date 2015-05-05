@@ -25,33 +25,35 @@ var DateRangePicker = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {
-    bemNamespace: React.PropTypes.string,
     bemBlock: React.PropTypes.string,
-    numberOfCalendars: React.PropTypes.number,
-    firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
-    disableNavigation: React.PropTypes.bool,
-    initialDate: React.PropTypes.instanceOf(Date),
-    initialRange: React.PropTypes.object,
-    initialMonth: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
-    initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
-    minimumDate: React.PropTypes.instanceOf(Date),
-    maximumDate: React.PropTypes.instanceOf(Date),
-    selectionType: React.PropTypes.oneOf(['single', 'range']),
-    stateDefinitions: React.PropTypes.object,
-    selectedLabel: React.PropTypes.string,
+    bemNamespace: React.PropTypes.string,
     dateStates: React.PropTypes.array, // an array of date ranges and their states
     defaultState: React.PropTypes.string,
+    disableNavigation: React.PropTypes.bool,
+    firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
+    initialDate: React.PropTypes.instanceOf(Date),
     initialFromValue: React.PropTypes.bool,
-    showLegend: React.PropTypes.bool,
-    onSelect: React.PropTypes.func,
-    onSelectStart: React.PropTypes.func,
+    initialMonth: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
+    initialRange: React.PropTypes.object,
+    initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
+    maximumDate: React.PropTypes.instanceOf(Date),
+    minimumDate: React.PropTypes.instanceOf(Date),
+    numberOfCalendars: React.PropTypes.number,
+    onHighlightDate: React.PropTypes.func, // triggered when a date is highlighted (hovered)
+    onHighlightRange: React.PropTypes.func, // triggered when a range is highlighted (hovered)    
+    onSelect: React.PropTypes.func, // triggered when a date or range is selectec
+    onSelectStart: React.PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: React.PropTypes.func,
+    selectedLabel: React.PropTypes.string,
+    selectionType: React.PropTypes.oneOf(['single', 'range']),
+    showLegend: React.PropTypes.bool,
+    stateDefinitions: React.PropTypes.object,
     value: function(props, propName, componentName) {
       var val = props[propName];
 
       if (!val) {
         return
-      } else if(moment.isMoment(val)) {
+      } else if (moment.isMoment(val)) {
         return;
       } else if (val.start && val.end && moment.isMoment(val.start) && moment.isMoment(val.end)) {
         return;
@@ -126,6 +128,7 @@ var DateRangePicker = React.createClass({
       highlightStartDate: null,
       highlightedDate: null,
       highlightRange: null,
+      hideSelection: false,
       enabledRange: this.getEnabledRange(this.props),
       dateStates: this.getDateStates(this.props)
     };
@@ -191,6 +194,7 @@ var DateRangePicker = React.createClass({
 
   startRangeSelection(date) {
     this.setState({
+      hideSelection: true,
       selectedStartDate: date
     });
     if (typeof(this.props.onSelectStart) === 'function') { 
@@ -209,6 +213,7 @@ var DateRangePicker = React.createClass({
     var highlightedDate = this.state.highlightedDate;
     if (highlightedDate) {
       this.setState({
+        hideSelection: false,
         highlightedDate: null
       });
       this.props.onSelect(highlightedDate);
@@ -221,7 +226,8 @@ var DateRangePicker = React.createClass({
       this.setState({
         selectedStartDate: null,
         highlightedRange: null,
-        highlightedDate: null
+        highlightedDate: null,
+        hideSelection: false
       });
       this.props.onSelect(range, this.statesForRange(range));
     }
@@ -231,6 +237,9 @@ var DateRangePicker = React.createClass({
     this.setState({
       highlightedDate: date,
     });
+    if (typeof(this.props.onHighlightDate) === 'function') { 
+      this.props.onHighlightDate(moment(date));
+    }
   },
 
   onHighlightRange(range) {
@@ -238,6 +247,9 @@ var DateRangePicker = React.createClass({
       highlightedRange: range,
       highlightedDate: null
     });
+    if (typeof(this.props.onHighlightRange) === 'function') { 
+      this.props.onHighlightRange(range);
+    }    
   },
 
   onUnHighlightDate() {
@@ -338,6 +350,7 @@ var DateRangePicker = React.createClass({
     var {
       dateStates,
       enabledRange,
+      hideSelection, 
       highlightedDate,
       highlightedRange,
       highlightStartDate,
@@ -358,6 +371,7 @@ var DateRangePicker = React.createClass({
       dateStates,
       enabledRange,
       firstOfWeek,
+      hideSelection,
       highlightedDate,
       highlightedRange,
       highlightStartDate,

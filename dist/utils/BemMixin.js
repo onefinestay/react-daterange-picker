@@ -4,13 +4,13 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _React = require('react');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _React2 = _interopRequireDefault(_React);
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 var _bemCx = require('./bemCx');
 
@@ -18,18 +18,18 @@ var _bemCx2 = _interopRequireDefault(_bemCx);
 
 var BemMixin = {
   propTypes: {
-    bemNamespace: _React2['default'].PropTypes.string,
-    bemBlock: _React2['default'].PropTypes.string
+    bemNamespace: _react2['default'].PropTypes.string,
+    bemBlock: _react2['default'].PropTypes.string
   },
 
   contextTypes: {
-    bemNamespace: _React2['default'].PropTypes.string,
-    bemBlock: _React2['default'].PropTypes.string
+    bemNamespace: _react2['default'].PropTypes.string,
+    bemBlock: _react2['default'].PropTypes.string
   },
 
   childContextTypes: {
-    bemNamespace: _React2['default'].PropTypes.string,
-    bemBlock: _React2['default'].PropTypes.string
+    bemNamespace: _react2['default'].PropTypes.string,
+    bemBlock: _react2['default'].PropTypes.string
   },
 
   getChildContext: function getChildContext() {

@@ -10,9 +10,10 @@ var CalendarSelection = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   render() {
-    var {modifier, inOtherMonth} = this.props;
+    var {modifier, inOtherMonth, newSelectionStarted} = this.props;
     var modifiers = {[modifier]: true};
     var states = {
+      newSelectionStarted,
       inOtherMonth
     };
 

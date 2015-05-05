@@ -28,6 +28,7 @@ var CalendarDate = React.createClass({
     selectionType: React.PropTypes.string.isRequired,
 
     value: React.PropTypes.object,
+    hideSelection: React.PropTypes.bool,
     highlightedRange: React.PropTypes.object,
     highlightedDate: React.PropTypes.object,
     selectedStartDate: React.PropTypes.object,
@@ -37,6 +38,12 @@ var CalendarDate = React.createClass({
     onUnHighlightDate: React.PropTypes.func,
     onStartSelection: React.PropTypes.func,
     onCompleteSelection: React.PropTypes.func
+  },
+
+  getDefaultProps() {
+    return {
+      hideSelection: false
+    };
   },
 
   getInitialState() {
@@ -209,12 +216,12 @@ var CalendarDate = React.createClass({
   },
 
   getBemStates() {
-    var {date, value, highlightedRange, highlightedDate} = this.props;
+    var {date, value, highlightedRange, highlightedDate, hideSelection} = this.props;
     var disabled = this.isDisabled(date);
     var highlighted = false;
     var selected = false;
 
-    if (value) {
+    if (value && !hideSelection) {
       if (!value.start && date.isSame(value)) {
         selected = true;
       } else if (value.start && value.start.isSame(value.end) && date.isSame(value.start)) {
@@ -234,7 +241,7 @@ var CalendarDate = React.createClass({
   },
 
   render() {
-    var {value, firstOfMonth, date, highlightedRange, highlightedDate} = this.props;
+    var {value, firstOfMonth, date, highlightedRange, highlightedDate, hideSelection} = this.props;
 
     var bemModifiers = this.getBemModifiers();
     var bemStates = this.getBemStates();
@@ -250,7 +257,7 @@ var CalendarDate = React.createClass({
     var highlightModifier = null;
     var selectionModifier = null;
 
-    if (value && value.start) {
+    if (value && !hideSelection && value.start) {
       if (value.start.isSame(date) && value.start.isSame(value.end)) {
         selectionModifier = 'single';
       } else if (value.contains(date)) {
@@ -262,7 +269,7 @@ var CalendarDate = React.createClass({
           selectionModifier = 'segment';
         }
       }
-    } else if (value && date.isSame(value)) {
+    } else if (value && !hideSelection && date.isSame(value)) {
       selectionModifier = 'single';
     }
 
