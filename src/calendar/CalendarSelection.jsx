@@ -18,8 +18,6 @@ const CalendarSelection = React.createClass({
       inOtherMonth
     };
 
-    console.log(states);
-
     return (
       <div className={this.cx({states, modifiers})} />
     );

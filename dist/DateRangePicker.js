@@ -234,13 +234,17 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     }
   },
 
+  statesForDate: function statesForDate(date) {
+    return this.state.dateStates.filter(function (d) {
+      return date.within(d.get('range'));
+    }).map(function (d) {
+      return d.get('state');
+    });
+  },
+
   statesForRange: function statesForRange(range) {
     if (range.start.isSame(range.end)) {
-      return this.state.dateStates.filter(function (d) {
-        return range.start.within(d.get('range'));
-      }).map(function (d) {
-        return d.get('state');
-      });
+      return this.statesForDate(range.start);
     }
     return this.state.dateStates.filter(function (d) {
       return d.get('range').intersect(range);
@@ -256,7 +260,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
         hideSelection: false,
         highlightedDate: null
       });
-      this.props.onSelect(highlightedDate);
+      this.props.onSelect(highlightedDate, this.statesForDate(highlightedDate));
     }
   },
 
@@ -278,7 +282,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
       highlightedDate: date
     });
     if (typeof this.props.onHighlightDate === 'function') {
-      this.props.onHighlightDate(_moment2['default'](date));
+      this.props.onHighlightDate(date, this.statesForDate(date));
     }
   },
 
@@ -288,7 +292,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
       highlightedDate: null
     });
     if (typeof this.props.onHighlightRange === 'function') {
-      this.props.onHighlightRange(range);
+      this.props.onHighlightRange(range, this.statesForRange(range));
     }
   },
 

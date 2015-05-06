@@ -201,12 +201,17 @@ const DateRangePicker = React.createClass({
     }
   },
 
+  statesForDate(date) {
+    return this.state.dateStates.filter(d => date.within(d.get('range'))).map(d => d.get('state'));
+  },
+
   statesForRange(range) {
     if (range.start.isSame(range.end)) {
-      return this.state.dateStates.filter(d => range.start.within(d.get('range'))).map(d => d.get('state'));
+      return this.statesForDate(range.start);
     }
     return this.state.dateStates.filter(d => d.get('range').intersect(range)).map(d => d.get('state'));
   },
+
 
   completeSelection() {
     let highlightedDate = this.state.highlightedDate;
@@ -215,7 +220,7 @@ const DateRangePicker = React.createClass({
         hideSelection: false,
         highlightedDate: null
       });
-      this.props.onSelect(highlightedDate);
+      this.props.onSelect(highlightedDate, this.statesForDate(highlightedDate));
     }
   },
 
@@ -237,7 +242,7 @@ const DateRangePicker = React.createClass({
       highlightedDate: date
     });
     if (typeof this.props.onHighlightDate === 'function') {
-      this.props.onHighlightDate(moment(date));
+      this.props.onHighlightDate(date, this.statesForDate(date));
     }
   },
 
@@ -247,7 +252,7 @@ const DateRangePicker = React.createClass({
       highlightedDate: null
     });
     if (typeof this.props.onHighlightRange === 'function') {
-      this.props.onHighlightRange(range);
+      this.props.onHighlightRange(range, this.statesForRange(range));
     }
   },
 

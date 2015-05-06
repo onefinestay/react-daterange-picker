@@ -39,8 +39,6 @@ var CalendarSelection = _reactAddons2['default'].createClass({
       inOtherMonth: inOtherMonth
     };
 
-    console.log(states);
-
     return _reactAddons2['default'].createElement('div', { className: this.cx({ states: states, modifiers: modifiers }) });
   }
 });
