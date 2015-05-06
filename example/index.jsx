@@ -41,7 +41,7 @@ var DatePickerRange = React.createClass({
         <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
         <div>
           <input type="text"
-            value={this.state.value ? this.state.value.start.format('LL') : null}
+            value={this.state.value ?  this.state.value.start.format('LL') : null}
             readOnly={true}
             placeholder="Start date"/>
           <input type="text"
@@ -95,7 +95,7 @@ var Index = React.createClass({
   render() {
     var stateDefinitions = {
       available: {
-        color: null,
+        color: '#ffffff',
         label: 'Available'
       },
       enquire: {
