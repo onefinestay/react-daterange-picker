@@ -41,7 +41,6 @@ var _PaginationArrow2 = _interopRequireDefault(_PaginationArrow);
 'use strict';
 
 var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
-
 var absoluteMinimum = _moment2['default'](new Date(-8640000000000000 / 2)).startOf('day');
 var absoluteMaximum = _moment2['default'](new Date(8640000000000000 / 2)).startOf('day');
 
@@ -131,6 +130,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
   },
 
   getInitialState: function getInitialState() {
+    var now = new Date();
     var _props = this.props;
     var initialYear = _props.initialYear;
     var initialMonth = _props.initialMonth;
@@ -138,7 +138,6 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     var selectionType = _props.selectionType;
     var value = _props.value;
 
-    var now = new Date();
     var year = now.getFullYear();
     var month = now.getMonth();
 
@@ -310,7 +309,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
   },
 
   moveBack: function moveBack() {
-    var monthDate;
+    var monthDate = undefined;
 
     if (this.canMoveBack()) {
       monthDate = this.getMonthDate();
@@ -336,7 +335,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
   },
 
   moveForward: function moveForward() {
-    var monthDate;
+    var monthDate = undefined;
 
     if (this.canMoveForward()) {
       monthDate = this.getMonthDate();
@@ -400,7 +399,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     var year = monthDate.year();
     var month = monthDate.month();
     var key = '' + index + '-' + year + '-' + month;
-    var props;
+    var props = undefined;
 
     monthDate.add(index, 'months');
 

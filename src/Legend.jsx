@@ -4,21 +4,21 @@ import React from 'react/addons';
 import bemCx from './utils/bemCx';
 import BemMixin from './utils/BemMixin';
 
-var PureRenderMixin = React.addons.PureRenderMixin;
-var cx = React.addons.classSet;
+const PureRenderMixin = React.addons.PureRenderMixin;
+const cx = React.addons.classSet;
 
 
-var Legend = React.createClass({
+const Legend = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   render() {
-    var {selectedLabel, stateDefinitions} = this.props;
-    var block = this.getBemBlock();
-    var namespace = this.getBemNamespace();
-    var items = [];
-    var name;
-    var def;
-    var style;
+    let {selectedLabel, stateDefinitions} = this.props;
+    let block = this.getBemBlock();
+    let namespace = this.getBemNamespace();
+    let items = [];
+    let name;
+    let def;
+    let style;
 
     for (name in stateDefinitions) {
       def = stateDefinitions[name];

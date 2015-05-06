@@ -12,11 +12,11 @@ import CalendarHighlight from './CalendarHighlight';
 import CalendarSelection from './CalendarSelection';
 
 
-var PureRenderMixin = React.addons.PureRenderMixin;
-var cx = React.addons.classSet;
+const PureRenderMixin = React.addons.PureRenderMixin;
+const cx = React.addons.classSet;
 
 
-var CalendarDate = React.createClass({
+const CalendarDate = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {
@@ -73,8 +73,8 @@ var CalendarDate = React.createClass({
      * with a non-selectable state. Using forwards to determine
      * which direction to work
      */
-    var blockedRanges = this.nonSelectableStateRanges().map(r => r.get('range'));
-    var intersect;
+    let blockedRanges = this.nonSelectableStateRanges().map(r => r.get('range'));
+    let intersect;
 
     if (forwards) {
       intersect = blockedRanges.find(r => range.intersect(r));
@@ -155,10 +155,10 @@ var CalendarDate = React.createClass({
   },
 
   highlightDate() {
-    var {date, selectionType, selectedStartDate, onHighlightRange, onHighlightDate} = this.props;
-    var datePair;
-    var range;
-    var forwards;
+    let {date, selectionType, selectedStartDate, onHighlightRange, onHighlightDate} = this.props;
+    let datePair;
+    let range;
+    let forwards;
 
     if (selectionType === 'range') {
       if (selectedStartDate) {
@@ -182,8 +182,8 @@ var CalendarDate = React.createClass({
   },
 
   selectDate() {
-    var {date, selectionType, selectedStartDate, completeRangeSelection, completeSelection, startRangeSelection} = this.props;
-    var range;
+    let {date, selectionType, selectedStartDate, completeRangeSelection, completeSelection, startRangeSelection} = this.props;
+    let range;
 
     if (selectionType === 'range') {
       if (selectedStartDate) {
@@ -199,10 +199,10 @@ var CalendarDate = React.createClass({
   },
 
   getBemModifiers() {
-    var {date, firstOfMonth} = this.props;
+    let {date, firstOfMonth} = this.props;
 
-    var otherMonth = false;
-    var weekend = false;
+    let otherMonth = false;
+    let weekend = false;
 
     if (date.month() !== firstOfMonth.month()) {
       otherMonth = true;
@@ -216,10 +216,10 @@ var CalendarDate = React.createClass({
   },
 
   getBemStates() {
-    var {date, value, highlightedRange, highlightedDate, hideSelection} = this.props;
-    var disabled = this.isDisabled(date);
-    var highlighted = false;
-    var selected = false;
+    let {date, value, highlightedRange, highlightedDate, hideSelection} = this.props;
+    let disabled = this.isDisabled(date);
+    let highlighted = false;
+    let selected = false;
 
     if (value && !hideSelection) {
       if (!value.start && date.isSame(value)) {
@@ -241,21 +241,21 @@ var CalendarDate = React.createClass({
   },
 
   render() {
-    var {value, firstOfMonth, date, highlightedRange, highlightedDate, hideSelection} = this.props;
+    let {value, firstOfMonth, date, highlightedRange, highlightedDate, hideSelection} = this.props;
 
-    var bemModifiers = this.getBemModifiers();
-    var bemStates = this.getBemStates();
+    let bemModifiers = this.getBemModifiers();
+    let bemStates = this.getBemStates();
 
-    var color;
-    var amColor;
-    var pmColor;
-    var states = this.dateRangesForDate(date);
-    var numStates = states.count();
-    var cellStyle = {};
-    var style = {};
+    let color;
+    let amColor;
+    let pmColor;
+    let states = this.dateRangesForDate(date);
+    let numStates = states.count();
+    let cellStyle = {};
+    let style = {};
 
-    var highlightModifier = null;
-    var selectionModifier = null;
+    let highlightModifier = null;
+    let selectionModifier = null;
 
     if (value && !hideSelection && value.start) {
       if (value.start.isSame(date) && value.start.isSame(value.end)) {

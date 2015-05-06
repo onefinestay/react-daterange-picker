@@ -31,7 +31,7 @@ var CalendarDatePeriod = _reactAddons2['default'].createClass({
     var period = _props.period;
 
     var modifiers = _defineProperty({}, period, true);
-    var style;
+    var style = undefined;
 
     if (color) {
       style = { backgroundColor: color };

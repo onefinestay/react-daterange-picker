@@ -111,7 +111,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var blockedRanges = this.nonSelectableStateRanges().map(function (r) {
       return r.get('range');
     });
-    var intersect;
+    var intersect = undefined;
 
     if (forwards) {
       intersect = blockedRanges.find(function (r) {
@@ -202,9 +202,9 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var onHighlightRange = _props.onHighlightRange;
     var onHighlightDate = _props.onHighlightDate;
 
-    var datePair;
-    var range;
-    var forwards;
+    var datePair = undefined;
+    var range = undefined;
+    var forwards = undefined;
 
     if (selectionType === 'range') {
       if (selectedStartDate) {
@@ -238,7 +238,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var completeSelection = _props2.completeSelection;
     var startRangeSelection = _props2.startRangeSelection;
 
-    var range;
+    var range = undefined;
 
     if (selectionType === 'range') {
       if (selectedStartDate) {
@@ -315,9 +315,9 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var bemModifiers = this.getBemModifiers();
     var bemStates = this.getBemStates();
 
-    var color;
-    var amColor;
-    var pmColor;
+    var color = undefined;
+    var amColor = undefined;
+    var pmColor = undefined;
     var states = this.dateRangesForDate(date);
     var numStates = states.count();
     var cellStyle = {};

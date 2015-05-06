@@ -36,9 +36,9 @@ var Legend = _reactAddons2['default'].createClass({
     var block = this.getBemBlock();
     var namespace = this.getBemNamespace();
     var items = [];
-    var name;
-    var def;
-    var style;
+    var name = undefined;
+    var def = undefined;
+    var style = undefined;
 
     for (name in stateDefinitions) {
       def = stateDefinitions[name];

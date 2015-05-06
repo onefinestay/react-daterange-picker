@@ -14,7 +14,7 @@ function bemCx() {
   var states = options.states;
 
   var bemClasses = [];
-  var baseClassName;
+  var baseClassName = undefined;
 
   if (element) {
     if (namespace) {
