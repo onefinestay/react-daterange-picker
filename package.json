@@ -33,6 +33,7 @@
     "moment-range": "^1.0.5"
   },
   "devDependencies": {
+    "babel": "^5.2.16",
     "babel-core": "^5.2.6",
     "babel-loader": "^5.0.0",
     "babel-plugin-object-assign": "^1.0.1",
@@ -43,12 +44,12 @@
     "gulp-connect": "^2.2.0",
     "gulp-ext-replace": "^0.1.0",
     "gulp-gh-pages": "^0.4.0",
-    "gulp-render": "0.1.1",
     "gulp-sass": "^1.2.0",
     "gulp-sourcemaps": "^1.2.4",
-    "gulp-util": "^3.0.1",
+    "gulp-util": "^3.0.4",
     "gulp-watch": "^1.1.0",
     "object.assign": "^1.1.1",
+    "through2": "^0.6.5",
     "timekeeper": "0.0.5",
     "transform-loader": "^0.2.1",
     "webpack": "^1.5.3"

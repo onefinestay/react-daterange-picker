@@ -3,14 +3,63 @@
 Object.assign = require('object.assign');
 
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var autoprefixer = require('gulp-autoprefixer');
 var extReplace = require('gulp-ext-replace');
 var watch = require('gulp-watch');
 var babel = require('gulp-babel');
-var render = require('gulp-render');
 var connect = require('gulp-connect');
 var sass = require('gulp-sass');
 var deploy = require('gulp-gh-pages');
+var through = require('through2');
+var React = require('react');
+var Module = module.constructor;
+
+function staticRender() {
+  // setup babel hook
+  require("babel/register");
+
+  // Creates a stream through which each file will pass
+  var stream = through.obj(function(file, enc, cb) {
+    if (!file.isNull()) {
+      if (file.isStream()) {
+        this.emit('error', new gutil.PluginError('static-render', 'Streams are not supported!'));
+        return cb();
+      }
+
+      if (file.isBuffer()) {
+        try {
+          var contents = file.contents.toString('utf8');
+
+          var m = new Module();
+          m.id = file.path;
+          m.filename = file.path;
+          m.paths = module.paths;
+          m._compile(contents, file.path);
+          var Component = React.createFactory(m.exports);
+          var markup = React.renderToString(Component());
+
+          markup = '<!document html>' + markup;
+
+          file.contents = new Buffer(markup);
+          var filename = gutil.replaceExtension(file.path, '.html');
+          file.path = filename;
+        } catch (err) {
+          this.emit('error', new gutil.PluginError('static-render', err));
+          return cb();
+        }
+      }
+    }
+
+    // Make sure the file goes through the next gulp plugin
+    this.push(file);
+    // Tell the stream engine that we are done with this file
+    return cb();
+  });
+
+  // Return the file stream
+  return stream;
+}
 
 gulp.task('build-js', function() {
   // build javascript files
@@ -36,10 +85,7 @@ gulp.task('build-example', ['build-js'], function() {
       stage: 1,
       plugins: ['object-assign']
     }))
-    .pipe(render({
-      template: '<!doctype html>' +
-                '<%=body%>'
-      }))
+    .pipe(staticRender())
     .pipe(gulp.dest('./example'));
 });
 
