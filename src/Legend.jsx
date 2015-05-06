@@ -1,20 +1,21 @@
 'use strict';
 import React from 'react/addons';
 
-import bemCx from './utils/bemCx';
 import BemMixin from './utils/BemMixin';
 
 const PureRenderMixin = React.addons.PureRenderMixin;
-const cx = React.addons.classSet;
 
 
 const Legend = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
+  propTypes: {
+    selectedLabel: React.PropTypes.string.isRequired,
+    stateDefinitions: React.PropTypes.object.isRequired
+  },
+
   render() {
     let {selectedLabel, stateDefinitions} = this.props;
-    let block = this.getBemBlock();
-    let namespace = this.getBemNamespace();
     let items = [];
     let name;
     let def;

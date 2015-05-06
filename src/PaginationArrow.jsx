@@ -9,6 +9,17 @@ const PureRenderMixin = React.addons.PureRenderMixin;
 const PaginationArrow = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
+  propTypes: {
+    disabled: React.propTypes.bool,
+    direction: React.propTypes.oneOf(['next', 'previous'])
+  },
+
+  getDefaultProps() {
+    return {
+      disabled: false
+    };
+  },
+
   render() {
     let {disabled, direction, ...props} = this.props;
     let modifiers = {[direction]: true};

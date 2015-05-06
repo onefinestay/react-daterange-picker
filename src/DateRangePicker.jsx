@@ -17,7 +17,7 @@ const absoluteMaximum = moment(new Date(8640000000000000 / 2)).startOf('day');
 
 React.initializeTouchEvents(true);
 
-function noop () {}
+function noop() {}
 
 
 const DateRangePicker = React.createClass({
@@ -39,7 +39,7 @@ const DateRangePicker = React.createClass({
     minimumDate: React.PropTypes.instanceOf(Date),
     numberOfCalendars: React.PropTypes.number,
     onHighlightDate: React.PropTypes.func, // triggered when a date is highlighted (hovered)
-    onHighlightRange: React.PropTypes.func, // triggered when a range is highlighted (hovered)    
+    onHighlightRange: React.PropTypes.func, // triggered when a range is highlighted (hovered)
     onSelect: React.PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: React.PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: React.PropTypes.func,
@@ -47,15 +47,15 @@ const DateRangePicker = React.createClass({
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
-    value(props, propName, componentName) {
+    value(props, propName) {
       let val = props[propName];
 
       if (!val) {
-        return
+        return null;
       } else if (moment.isMoment(val)) {
-        return;
+        return null;
       } else if (val.start && val.end && moment.isMoment(val.start) && moment.isMoment(val.end)) {
-        return;
+        return null;
       }
       return new Error('Value must be a moment or a moment range');
     }
@@ -135,7 +135,7 @@ const DateRangePicker = React.createClass({
 
   getEnabledRange(props) {
     let min = props.minimumDate ? moment(props.minimumDate).startOf('day') : absoluteMinimum;
-    let max = props.maximumDate  ? moment(props.maximumDate).startOf('day') : absoluteMaximum;
+    let max = props.maximumDate ? moment(props.maximumDate).startOf('day') : absoluteMaximum;
 
     return moment().range(min, max);
   },
@@ -165,7 +165,7 @@ const DateRangePicker = React.createClass({
       }
       actualStates.push(s);
       dateCursor = end;
-    }.bind(this));
+    });
 
     actualStates.push({
       state: defaultState,
@@ -184,7 +184,7 @@ const DateRangePicker = React.createClass({
         selectable: def.get('selectable', true),
         color: def.get('color')
       });
-    }.bind(this));
+    });
   },
 
   onSelect(date) {
@@ -196,7 +196,7 @@ const DateRangePicker = React.createClass({
       hideSelection: true,
       selectedStartDate: date
     });
-    if (typeof(this.props.onSelectStart) === 'function') { 
+    if (typeof this.props.onSelectStart === 'function') {
       this.props.onSelectStart(moment(date));
     }
   },
@@ -234,9 +234,9 @@ const DateRangePicker = React.createClass({
 
   onHighlightDate(date) {
     this.setState({
-      highlightedDate: date,
+      highlightedDate: date
     });
-    if (typeof(this.props.onHighlightDate) === 'function') { 
+    if (typeof this.props.onHighlightDate === 'function') {
       this.props.onHighlightDate(moment(date));
     }
   },
@@ -246,9 +246,9 @@ const DateRangePicker = React.createClass({
       highlightedRange: range,
       highlightedDate: null
     });
-    if (typeof(this.props.onHighlightRange) === 'function') { 
+    if (typeof this.props.onHighlightRange === 'function') {
       this.props.onHighlightRange(range);
-    }    
+    }
   },
 
   onUnHighlightDate() {
@@ -349,7 +349,7 @@ const DateRangePicker = React.createClass({
     let {
       dateStates,
       enabledRange,
-      hideSelection, 
+      hideSelection,
       highlightedDate,
       highlightedRange,
       highlightStartDate,
@@ -397,15 +397,15 @@ const DateRangePicker = React.createClass({
   },
 
   render: function() {
-    let {paginationArrowComponent: PaginationArrow, numberOfCalendars, stateDefinitions, selectedLabel, showLegend} = this.props;
+    let {paginationArrowComponent: PaginationArrowComponent, numberOfCalendars, stateDefinitions, selectedLabel, showLegend} = this.props;
 
     let calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
 
     return (
       <div className={this.cx({element: null})}>
-        <PaginationArrow direction="previous" onMouseEnter={this.moveBackIfSelecting} onClick={this.moveBack} disabled={!this.canMoveBack()} />
+        <PaginationArrowComponent direction="previous" onMouseEnter={this.moveBackIfSelecting} onClick={this.moveBack} disabled={!this.canMoveBack()} />
         {calendars.toJS()}
-        <PaginationArrow direction="next" onMouseEnter={this.moveForwardIfSelecting} onClick={this.moveForward} disabled={!this.canMoveForward()} />
+        <PaginationArrowComponent direction="next" onMouseEnter={this.moveForwardIfSelecting} onClick={this.moveForward} disabled={!this.canMoveForward()} />
         {showLegend ? <Legend stateDefinitions={stateDefinitions} selectedLabel={selectedLabel} /> : null}
       </div>
     );
