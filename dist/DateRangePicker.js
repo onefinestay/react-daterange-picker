@@ -69,7 +69,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     minimumDate: _reactAddons2['default'].PropTypes.instanceOf(Date),
     numberOfCalendars: _reactAddons2['default'].PropTypes.number,
     onHighlightDate: _reactAddons2['default'].PropTypes.func, // triggered when a date is highlighted (hovered)
-    onHighlightRange: _reactAddons2['default'].PropTypes.func, // triggered when a range is highlighted (hovered)   
+    onHighlightRange: _reactAddons2['default'].PropTypes.func, // triggered when a range is highlighted (hovered)
     onSelect: _reactAddons2['default'].PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: _reactAddons2['default'].PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: _reactAddons2['default'].PropTypes.func,
@@ -77,15 +77,15 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     selectionType: _reactAddons2['default'].PropTypes.oneOf(['single', 'range']),
     showLegend: _reactAddons2['default'].PropTypes.bool,
     stateDefinitions: _reactAddons2['default'].PropTypes.object,
-    value: function value(props, propName, componentName) {
+    value: function value(props, propName) {
       var val = props[propName];
 
       if (!val) {
-        return;
+        return null;
       } else if (_moment2['default'].isMoment(val)) {
-        return;
+        return null;
       } else if (val.start && val.end && _moment2['default'].isMoment(val.start) && _moment2['default'].isMoment(val.end)) {
-        return;
+        return null;
       }
       return new Error('Value must be a moment or a moment range');
     }
@@ -188,7 +188,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
 
     var defs = _immutable2['default'].fromJS(stateDefinitions);
 
-    dateStates.forEach((function (s) {
+    dateStates.forEach(function (s) {
       var r = s.range;
       var start = r.start.startOf('day');
       var end = r.end.startOf('day');
@@ -201,7 +201,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
       }
       actualStates.push(s);
       dateCursor = end;
-    }).bind(this));
+    });
 
     actualStates.push({
       state: defaultState,
@@ -209,7 +209,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     });
 
     // sanitize date states
-    return _immutable2['default'].List(actualStates).map((function (s) {
+    return _immutable2['default'].List(actualStates).map(function (s) {
       var def = defs.get(s.state);
       return _immutable2['default'].Map({
         range: s.range,
@@ -217,7 +217,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
         selectable: def.get('selectable', true),
         color: def.get('color')
       });
-    }).bind(this));
+    });
   },
 
   onSelect: function onSelect(date) {
@@ -275,7 +275,8 @@ var DateRangePicker = _reactAddons2['default'].createClass({
 
   onHighlightDate: function onHighlightDate(date) {
     this.setState({
-      highlightedDate: date });
+      highlightedDate: date
+    });
     if (typeof this.props.onHighlightDate === 'function') {
       this.props.onHighlightDate(_moment2['default'](date));
     }
@@ -437,7 +438,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
 
   render: function render() {
     var _props3 = this.props;
-    var PaginationArrow = _props3.paginationArrowComponent;
+    var PaginationArrowComponent = _props3.paginationArrowComponent;
     var numberOfCalendars = _props3.numberOfCalendars;
     var stateDefinitions = _props3.stateDefinitions;
     var selectedLabel = _props3.selectedLabel;
@@ -448,9 +449,9 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     return _reactAddons2['default'].createElement(
       'div',
       { className: this.cx({ element: null }) },
-      _reactAddons2['default'].createElement(PaginationArrow, { direction: 'previous', onMouseEnter: this.moveBackIfSelecting, onClick: this.moveBack, disabled: !this.canMoveBack() }),
+      _reactAddons2['default'].createElement(PaginationArrowComponent, { direction: 'previous', onMouseEnter: this.moveBackIfSelecting, onClick: this.moveBack, disabled: !this.canMoveBack() }),
       calendars.toJS(),
-      _reactAddons2['default'].createElement(PaginationArrow, { direction: 'next', onMouseEnter: this.moveForwardIfSelecting, onClick: this.moveForward, disabled: !this.canMoveForward() }),
+      _reactAddons2['default'].createElement(PaginationArrowComponent, { direction: 'next', onMouseEnter: this.moveForwardIfSelecting, onClick: this.moveForward, disabled: !this.canMoveForward() }),
       showLegend ? _reactAddons2['default'].createElement(_Legend2['default'], { stateDefinitions: stateDefinitions, selectedLabel: selectedLabel }) : null
     );
   }

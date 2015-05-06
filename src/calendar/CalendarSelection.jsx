@@ -10,12 +10,15 @@ const CalendarSelection = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   render() {
-    let {modifier, inOtherMonth, newSelectionStarted} = this.props;
+    let {modifier, inOtherMonth, newSelectionStarted, pending} = this.props;
     let modifiers = {[modifier]: true};
     let states = {
+      pending,
       newSelectionStarted,
       inOtherMonth
     };
+
+    console.log(states);
 
     return (
       <div className={this.cx({states, modifiers})} />

@@ -10,8 +10,8 @@ const PaginationArrow = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {
-    disabled: React.propTypes.bool,
-    direction: React.propTypes.oneOf(['next', 'previous'])
+    disabled: React.PropTypes.bool,
+    direction: React.PropTypes.oneOf(['next', 'previous'])
   },
 
   getDefaultProps() {

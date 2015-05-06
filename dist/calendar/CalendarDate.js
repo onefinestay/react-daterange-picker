@@ -41,7 +41,6 @@ var _CalendarSelection2 = _interopRequireDefault(_CalendarSelection);
 'use strict';
 
 var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
-var cx = _reactAddons2['default'].addons.classSet;
 
 var CalendarDate = _reactAddons2['default'].createClass({
   displayName: 'CalendarDate',
@@ -238,8 +237,6 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var completeSelection = _props2.completeSelection;
     var startRangeSelection = _props2.startRangeSelection;
 
-    var range = undefined;
-
     if (selectionType === 'range') {
       if (selectedStartDate) {
         completeRangeSelection();
@@ -295,7 +292,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
     }
 
     if (highlightedRange && highlightedRange.contains(date)) {
-      highlighted = true;
+      selected = true;
     } else if (highlightedDate && date.isSame(highlightedDate)) {
       highlighted = true;
     }
@@ -306,7 +303,6 @@ var CalendarDate = _reactAddons2['default'].createClass({
   render: function render() {
     var _props5 = this.props;
     var value = _props5.value;
-    var firstOfMonth = _props5.firstOfMonth;
     var date = _props5.date;
     var highlightedRange = _props5.highlightedRange;
     var highlightedDate = _props5.highlightedDate;
@@ -314,6 +310,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
 
     var bemModifiers = this.getBemModifiers();
     var bemStates = this.getBemStates();
+    var pending = false;
 
     var color = undefined;
     var amColor = undefined;
@@ -343,12 +340,14 @@ var CalendarDate = _reactAddons2['default'].createClass({
     }
 
     if (highlightedRange && highlightedRange.contains(date)) {
+      pending = true;
+
       if (date.isSame(highlightedRange.start)) {
-        highlightModifier = 'start';
+        selectionModifier = 'start';
       } else if (date.isSame(highlightedRange.end)) {
-        highlightModifier = 'end';
+        selectionModifier = 'end';
       } else {
-        highlightModifier = 'segment';
+        selectionModifier = 'segment';
       }
     }
 
@@ -375,11 +374,11 @@ var CalendarDate = _reactAddons2['default'].createClass({
       pmColor = states.getIn([1, 'color']);
 
       if (amColor) {
-        cellStyle['borderLeftColor'] = _utilsLightenDarkenColor2['default'](amColor, -10);
+        cellStyle.borderLeftColor = _utilsLightenDarkenColor2['default'](amColor, -10);
       }
 
       if (pmColor) {
-        cellStyle['borderRightColor'] = _utilsLightenDarkenColor2['default'](pmColor, -10);
+        cellStyle.borderRightColor = _utilsLightenDarkenColor2['default'](pmColor, -10);
       }
     }
 
@@ -404,7 +403,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
         { className: this.cx({ element: 'DateLabel' }) },
         date.format('D')
       ),
-      selectionModifier && _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier }),
+      selectionModifier && _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }),
       highlightModifier && _reactAddons2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier })
     );
   }

@@ -246,6 +246,11 @@ $ns: DateRangePicker;
       left: $selection-margin;
       right: $selection-margin;
     }
+
+    &--is-pending {
+      background-color: rgba(#ed5434, .75);
+      border-width: 0;
+    }
   }
 
   &__CalendarHighlight {

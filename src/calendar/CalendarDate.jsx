@@ -11,9 +11,7 @@ import CalendarDatePeriod from './CalendarDatePeriod';
 import CalendarHighlight from './CalendarHighlight';
 import CalendarSelection from './CalendarSelection';
 
-
 const PureRenderMixin = React.addons.PureRenderMixin;
-const cx = React.addons.classSet;
 
 
 const CalendarDate = React.createClass({
@@ -162,7 +160,7 @@ const CalendarDate = React.createClass({
 
     if (selectionType === 'range') {
       if (selectedStartDate) {
-        datePair = Immutable.List.of(selectedStartDate, date).sortBy(d  => d.unix());
+        datePair = Immutable.List.of(selectedStartDate, date).sortBy(d => d.unix());
         range = moment().range(datePair.get(0), datePair.get(1));
         forwards = (range.start.unix() === selectedStartDate.unix());
         range = this.sanitizeRange(range, forwards);
@@ -183,7 +181,6 @@ const CalendarDate = React.createClass({
 
   selectDate() {
     let {date, selectionType, selectedStartDate, completeRangeSelection, completeSelection, startRangeSelection} = this.props;
-    let range;
 
     if (selectionType === 'range') {
       if (selectedStartDate) {
@@ -193,7 +190,7 @@ const CalendarDate = React.createClass({
       }
     } else {
       if (!this.isDisabled(date) && this.isDateSelectable(date)) {
-        completeSelection()
+        completeSelection();
       }
     }
   },
@@ -232,7 +229,7 @@ const CalendarDate = React.createClass({
     }
 
     if (highlightedRange && highlightedRange.contains(date)) {
-      highlighted = true;
+      selected = true;
     } else if (highlightedDate && date.isSame(highlightedDate)) {
       highlighted = true;
     }
@@ -241,10 +238,11 @@ const CalendarDate = React.createClass({
   },
 
   render() {
-    let {value, firstOfMonth, date, highlightedRange, highlightedDate, hideSelection} = this.props;
+    let {value, date, highlightedRange, highlightedDate, hideSelection} = this.props;
 
     let bemModifiers = this.getBemModifiers();
     let bemStates = this.getBemStates();
+    let pending = false;
 
     let color;
     let amColor;
@@ -274,12 +272,14 @@ const CalendarDate = React.createClass({
     }
 
     if (highlightedRange && highlightedRange.contains(date)) {
+      pending = true;
+
       if (date.isSame(highlightedRange.start)) {
-        highlightModifier = 'start';
+        selectionModifier = 'start';
       } else if (date.isSame(highlightedRange.end)) {
-        highlightModifier = 'end';
+        selectionModifier = 'end';
       } else {
-        highlightModifier = 'segment';
+        selectionModifier = 'segment';
       }
     }
 
@@ -306,11 +306,11 @@ const CalendarDate = React.createClass({
       pmColor = states.getIn([1, 'color']);
 
       if (amColor) {
-        cellStyle['borderLeftColor'] = lightenDarkenColor(amColor, -10);
+        cellStyle.borderLeftColor = lightenDarkenColor(amColor, -10);
       }
 
       if (pmColor) {
-        cellStyle['borderRightColor'] = lightenDarkenColor(pmColor, -10);
+        cellStyle.borderRightColor = lightenDarkenColor(pmColor, -10);
       }
     }
 
@@ -330,7 +330,7 @@ const CalendarDate = React.createClass({
         {numStates === 1 &&
           <div className={this.cx({element: "FullDateStates"})} style={style} />}
         <span className={this.cx({element: "DateLabel"})}>{date.format('D')}</span>
-        {selectionModifier && <CalendarSelection modifier={selectionModifier} />}
+        {selectionModifier && <CalendarSelection modifier={selectionModifier} pending={pending} />}
         {highlightModifier && <CalendarHighlight modifier={highlightModifier} />}
       </td>
     );
