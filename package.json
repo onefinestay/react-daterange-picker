@@ -49,7 +49,6 @@
     "gulp-util": "^3.0.4",
     "gulp-watch": "^1.1.0",
     "object.assign": "^1.1.1",
-    "through2": "^0.6.5",
     "timekeeper": "0.0.5",
     "transform-loader": "^0.2.1",
     "webpack": "^1.5.3"
