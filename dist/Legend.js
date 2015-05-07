@@ -4,29 +4,29 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _React = require('react/addons');
+var _reactAddons = require('react/addons');
 
-var _React2 = _interopRequireDefault(_React);
+var _reactAddons2 = _interopRequireDefault(_reactAddons);
 
-var _bemCx = require('./utils/bemCx');
+var _utilsBemCx = require('./utils/bemCx');
 
-var _bemCx2 = _interopRequireDefault(_bemCx);
+var _utilsBemCx2 = _interopRequireDefault(_utilsBemCx);
 
-var _BemMixin = require('./utils/BemMixin');
+var _utilsBemMixin = require('./utils/BemMixin');
 
-var _BemMixin2 = _interopRequireDefault(_BemMixin);
+var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
 'use strict';
 
-var PureRenderMixin = _React2['default'].addons.PureRenderMixin;
-var cx = _React2['default'].addons.classSet;
+var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
+var cx = _reactAddons2['default'].addons.classSet;
 
-var Legend = _React2['default'].createClass({
+var Legend = _reactAddons2['default'].createClass({
   displayName: 'Legend',
 
-  mixins: [_BemMixin2['default'], PureRenderMixin],
+  mixins: [_utilsBemMixin2['default'], PureRenderMixin],
 
   render: function render() {
     var _props = this.props;
@@ -46,11 +46,11 @@ var Legend = _React2['default'].createClass({
         style = {
           backgroundColor: def.color
         };
-        items.push(_React2['default'].createElement(
+        items.push(_reactAddons2['default'].createElement(
           'li',
           { className: this.cx({ element: 'LegendItem' }), key: name },
-          _React2['default'].createElement('span', { className: this.cx({ element: 'LegendItemColor' }), style: style }),
-          _React2['default'].createElement(
+          _reactAddons2['default'].createElement('span', { className: this.cx({ element: 'LegendItemColor' }), style: style }),
+          _reactAddons2['default'].createElement(
             'span',
             { className: this.cx({ element: 'LegendItemLabel' }) },
             def.label
@@ -59,14 +59,14 @@ var Legend = _React2['default'].createClass({
       }
     }
 
-    return _React2['default'].createElement(
+    return _reactAddons2['default'].createElement(
       'ul',
       { className: this.cx() },
-      _React2['default'].createElement(
+      _reactAddons2['default'].createElement(
         'li',
         { className: this.cx({ element: 'LegendItem' }) },
-        _React2['default'].createElement('span', { className: this.cx({ element: 'LegendItemColor', modifiers: { selection: true } }) }),
-        _React2['default'].createElement(
+        _reactAddons2['default'].createElement('span', { className: this.cx({ element: 'LegendItemColor', modifiers: { 'selection': true } }) }),
+        _reactAddons2['default'].createElement(
           'span',
           { className: this.cx({ element: 'LegendItemLabel' }) },
           selectedLabel

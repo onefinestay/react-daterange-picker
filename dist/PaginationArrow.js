@@ -4,30 +4,30 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-var _objectWithoutProperties = function (obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; };
-
-var _defineProperty = function (obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); };
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _React = require('react/addons');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _React2 = _interopRequireDefault(_React);
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-var _BemMixin = require('./utils/BemMixin');
+function _defineProperty(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); }
 
-var _BemMixin2 = _interopRequireDefault(_BemMixin);
+var _reactAddons = require('react/addons');
+
+var _reactAddons2 = _interopRequireDefault(_reactAddons);
+
+var _utilsBemMixin = require('./utils/BemMixin');
+
+var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
 'use strict';
 
-var PureRenderMixin = _React2['default'].addons.PureRenderMixin;
+var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
 
-var PaginationArrow = _React2['default'].createClass({
+var PaginationArrow = _reactAddons2['default'].createClass({
   displayName: 'PaginationArrow',
 
-  mixins: [_BemMixin2['default'], PureRenderMixin],
+  mixins: [_utilsBemMixin2['default'], PureRenderMixin],
 
   render: function render() {
     var _props = this.props;
@@ -50,10 +50,10 @@ var PaginationArrow = _React2['default'].createClass({
       states: states
     };
 
-    return _React2['default'].createElement(
+    return _reactAddons2['default'].createElement(
       'div',
       _extends({ className: this.cx(elementOpts) }, props),
-      _React2['default'].createElement('div', { className: this.cx(iconOpts) })
+      _reactAddons2['default'].createElement('div', { className: this.cx(iconOpts) })
     );
   }
 });
