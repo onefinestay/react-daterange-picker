@@ -6,6 +6,7 @@ import calendar from 'calendar';
 import Immutable from 'immutable';
 
 import BemMixin from '../utils/BemMixin';
+import isMomentRange from '../utils/isMomentRange';
 
 const PureRenderMixin = React.addons.PureRenderMixin;
 
@@ -19,9 +20,27 @@ const CalendarMonth = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   renderDay(date, i) {
-    let {dateComponent: CalendarDate, ...props} = this.props;
+    let {dateComponent: CalendarDate, value: actualValue, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
+    let d = moment(date);
+    let value;
 
-    return <CalendarDate {...props} date={moment(date)} key={i} />;
+    if (!hideSelection && actualValue && moment.isMoment(actualValue) && actualValue.isSame(d)) {
+      value = actualValue;
+    } else if (!hideSelection && actualValue && isMomentRange(actualValue) && actualValue.contains(d)) {
+      value = actualValue;
+    }
+
+    return (
+      <CalendarDate
+        key={i}
+        enabledRange={enabledRange}
+        isDisabled={enabledRange.contains(d)}
+        highlightedDate={highlightedDate && highlightedDate.isSame(d) ? highlightedDate : null}
+        highlightedRange={highlightedRange && highlightedRange.contains(d) ? highlightedRange : null}
+        value={value}
+        date={d}
+        {...props} />
+    );
   },
 
   renderWeek(dates, i) {

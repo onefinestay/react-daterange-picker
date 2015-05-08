@@ -30,6 +30,10 @@ var _utilsBemMixin = require('../utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
+var _utilsIsMomentRange = require('../utils/isMomentRange');
+
+var _utilsIsMomentRange2 = _interopRequireDefault(_utilsIsMomentRange);
+
 'use strict';
 
 var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
@@ -47,10 +51,32 @@ var CalendarMonth = _reactAddons2['default'].createClass({
   renderDay: function renderDay(date, i) {
     var _props = this.props;
     var CalendarDate = _props.dateComponent;
+    var actualValue = _props.value;
+    var highlightedDate = _props.highlightedDate;
+    var highlightedRange = _props.highlightedRange;
+    var hideSelection = _props.hideSelection;
+    var enabledRange = _props.enabledRange;
 
-    var props = _objectWithoutProperties(_props, ['dateComponent']);
+    var props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
-    return _reactAddons2['default'].createElement(CalendarDate, _extends({}, props, { date: _moment2['default'](date), key: i }));
+    var d = _moment2['default'](date);
+    var value = undefined;
+
+    if (!hideSelection && actualValue && _moment2['default'].isMoment(actualValue) && actualValue.isSame(d)) {
+      value = actualValue;
+    } else if (!hideSelection && actualValue && _utilsIsMomentRange2['default'](actualValue) && actualValue.contains(d)) {
+      value = actualValue;
+    }
+
+    return _reactAddons2['default'].createElement(CalendarDate, _extends({
+      key: i,
+      enabledRange: enabledRange,
+      isDisabled: enabledRange.contains(d),
+      highlightedDate: highlightedDate && highlightedDate.isSame(d) ? highlightedDate : null,
+      highlightedRange: highlightedRange && highlightedRange.contains(d) ? highlightedRange : null,
+      value: value,
+      date: d
+    }, props));
   },
 
   renderWeek: function renderWeek(dates, i) {

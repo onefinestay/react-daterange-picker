@@ -93,9 +93,12 @@ const DateRangePicker = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    var nextDateStates = this.getDateStates(nextProps);
+    var nextEnabledRange = this.getEnabledRange(nextProps);
+
     this.setState({
-      dateStates: this.getDateStates(nextProps),
-      enabledRange: this.getEnabledRange(nextProps)
+      dateStates: this.state.dateStates && Immutable.is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
+      enabledRange: this.state.enabledRange && Immutable.is(this.state.enabledRange, nextEnabledRange) ? this.state.enabledRange : nextEnabledRange
     });
   },
 
@@ -187,6 +190,51 @@ const DateRangePicker = React.createClass({
     });
   },
 
+  isDateSelectable(date) {
+    return this.dateRangesForDate(date).some(r => r.get('selectable'));
+  },
+
+  nonSelectableStateRanges() {
+    return this.state.dateStates.filter(d => !d.get('selectable'));
+  },
+
+  dateRangesForDate(date) {
+    return this.state.dateStates.filter(d => d.get('range').contains(date));
+  },
+
+  sanitizeRange(range, forwards) {
+    /* Truncates the provided range at the first intersection
+     * with a non-selectable state. Using forwards to determine
+     * which direction to work
+     */
+    let blockedRanges = this.nonSelectableStateRanges().map(r => r.get('range'));
+    let intersect;
+
+    if (forwards) {
+      intersect = blockedRanges.find(r => range.intersect(r));
+      if (intersect) {
+        return moment().range(range.start, intersect.start);
+      }
+
+    } else {
+      intersect = blockedRanges.findLast(r => range.intersect(r));
+
+      if (intersect) {
+        return moment().range(intersect.end, range.end);
+      }
+    }
+
+    if (range.start.isBefore(this.state.enabledRange.start)) {
+      return moment().range(this.state.enabledRange.start, range.end);
+    }
+
+    if (range.end.isAfter(this.state.enabledRange.end)) {
+      return moment().range(range.start, this.state.enabledRange.end);
+    }
+
+    return range;
+  },
+
   onSelect(date) {
     this.props.onSelect(moment(date));
   },
@@ -211,7 +259,6 @@ const DateRangePicker = React.createClass({
     }
     return this.state.dateStates.filter(d => d.get('range').intersect(range)).map(d => d.get('state'));
   },
-
 
   completeSelection() {
     let highlightedDate = this.state.highlightedDate;

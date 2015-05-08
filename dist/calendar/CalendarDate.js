@@ -38,14 +38,16 @@ var _CalendarSelection = require('./CalendarSelection');
 
 var _CalendarSelection2 = _interopRequireDefault(_CalendarSelection);
 
-'use strict';
+var _utilsShallowEqual = require('../utils/shallowEqual');
 
-var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
+var _utilsShallowEqual2 = _interopRequireDefault(_utilsShallowEqual);
+
+'use strict';
 
 var CalendarDate = _reactAddons2['default'].createClass({
   displayName: 'CalendarDate',
 
-  mixins: [_utilsBemMixin2['default'], PureRenderMixin],
+  mixins: [_utilsBemMixin2['default']],
 
   propTypes: {
     date: _reactAddons2['default'].PropTypes.object.isRequired,
@@ -56,7 +58,6 @@ var CalendarDate = _reactAddons2['default'].createClass({
     selectionType: _reactAddons2['default'].PropTypes.string.isRequired,
 
     value: _reactAddons2['default'].PropTypes.object,
-    hideSelection: _reactAddons2['default'].PropTypes.bool,
     highlightedRange: _reactAddons2['default'].PropTypes.object,
     highlightedDate: _reactAddons2['default'].PropTypes.object,
     selectedStartDate: _reactAddons2['default'].PropTypes.object,
@@ -68,20 +69,14 @@ var CalendarDate = _reactAddons2['default'].createClass({
     onCompleteSelection: _reactAddons2['default'].PropTypes.func
   },
 
-  getDefaultProps: function getDefaultProps() {
-    return {
-      hideSelection: false
-    };
-  },
-
   getInitialState: function getInitialState() {
     return {
       mouseDown: false
     };
   },
 
-  isDisabled: function isDisabled(date) {
-    return !this.props.enabledRange.contains(date);
+  shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
+    return !_utilsShallowEqual2['default'](this.props, nextProps) || !_utilsShallowEqual2['default'](this.state, nextState);
   },
 
   isDateSelectable: function isDateSelectable(date) {
@@ -200,6 +195,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var selectedStartDate = _props.selectedStartDate;
     var onHighlightRange = _props.onHighlightRange;
     var onHighlightDate = _props.onHighlightDate;
+    var isDisabled = _props.isDisabled;
 
     var datePair = undefined;
     var range = undefined;
@@ -214,11 +210,11 @@ var CalendarDate = _reactAddons2['default'].createClass({
         forwards = range.start.unix() === selectedStartDate.unix();
         range = this.sanitizeRange(range, forwards);
         onHighlightRange(range);
-      } else if (!this.isDisabled(date) && this.isDateSelectable(date)) {
+      } else if (!isDisabled && this.isDateSelectable(date)) {
         onHighlightDate(date);
       }
     } else {
-      if (!this.isDisabled(date) && this.isDateSelectable(date)) {
+      if (!isDisabled && this.isDateSelectable(date)) {
         onHighlightDate(date);
       }
     }
@@ -236,15 +232,16 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var completeRangeSelection = _props2.completeRangeSelection;
     var completeSelection = _props2.completeSelection;
     var startRangeSelection = _props2.startRangeSelection;
+    var isDisabled = _props2.isDisabled;
 
     if (selectionType === 'range') {
       if (selectedStartDate) {
         completeRangeSelection();
-      } else if (!this.isDisabled(date) && this.isDateSelectable(date)) {
+      } else if (!isDisabled && this.isDateSelectable(date)) {
         startRangeSelection(date);
       }
     } else {
-      if (!this.isDisabled(date) && this.isDateSelectable(date)) {
+      if (!isDisabled && this.isDateSelectable(date)) {
         completeSelection();
       }
     }
@@ -275,25 +272,24 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var value = _props4.value;
     var highlightedRange = _props4.highlightedRange;
     var highlightedDate = _props4.highlightedDate;
-    var hideSelection = _props4.hideSelection;
+    var disabled = _props4.isDisabled;
 
-    var disabled = this.isDisabled(date);
     var highlighted = false;
     var selected = false;
 
-    if (value && !hideSelection) {
-      if (!value.start && date.isSame(value)) {
+    if (value) {
+      if (!value.start) {
         selected = true;
       } else if (value.start && value.start.isSame(value.end) && date.isSame(value.start)) {
         selected = true;
-      } else if (value.start && value.contains(date)) {
+      } else if (value.start) {
         selected = true;
       }
     }
 
-    if (highlightedRange && highlightedRange.contains(date)) {
+    if (highlightedRange) {
       selected = true;
-    } else if (highlightedDate && date.isSame(highlightedDate)) {
+    } else if (highlightedDate) {
       highlighted = true;
     }
 
@@ -306,7 +302,6 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var date = _props5.date;
     var highlightedRange = _props5.highlightedRange;
     var highlightedDate = _props5.highlightedDate;
-    var hideSelection = _props5.hideSelection;
 
     var bemModifiers = this.getBemModifiers();
     var bemStates = this.getBemStates();
@@ -323,10 +318,10 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var highlightModifier = null;
     var selectionModifier = null;
 
-    if (value && !hideSelection && value.start) {
+    if (value && value.start) {
       if (value.start.isSame(date) && value.start.isSame(value.end)) {
         selectionModifier = 'single';
-      } else if (value.contains(date)) {
+      } else {
         if (date.isSame(value.start)) {
           selectionModifier = 'start';
         } else if (date.isSame(value.end)) {
@@ -335,11 +330,11 @@ var CalendarDate = _reactAddons2['default'].createClass({
           selectionModifier = 'segment';
         }
       }
-    } else if (value && !hideSelection && date.isSame(value)) {
+    } else if (value) {
       selectionModifier = 'single';
     }
 
-    if (highlightedRange && highlightedRange.contains(date)) {
+    if (highlightedRange) {
       pending = true;
 
       if (date.isSame(highlightedRange.start)) {
@@ -351,7 +346,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
       }
     }
 
-    if (highlightedDate && date.isSame(highlightedDate)) {
+    if (highlightedDate) {
       highlightModifier = 'single';
     }
 

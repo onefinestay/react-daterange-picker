@@ -123,9 +123,12 @@ var DateRangePicker = _reactAddons2['default'].createClass({
   },
 
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    var nextDateStates = this.getDateStates(nextProps);
+    var nextEnabledRange = this.getEnabledRange(nextProps);
+
     this.setState({
-      dateStates: this.getDateStates(nextProps),
-      enabledRange: this.getEnabledRange(nextProps)
+      dateStates: this.state.dateStates && _immutable2['default'].is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
+      enabledRange: this.state.enabledRange && _immutable2['default'].is(this.state.enabledRange, nextEnabledRange) ? this.state.enabledRange : nextEnabledRange
     });
   },
 
@@ -218,6 +221,62 @@ var DateRangePicker = _reactAddons2['default'].createClass({
         color: def.get('color')
       });
     });
+  },
+
+  isDateSelectable: function isDateSelectable(date) {
+    return this.dateRangesForDate(date).some(function (r) {
+      return r.get('selectable');
+    });
+  },
+
+  nonSelectableStateRanges: function nonSelectableStateRanges() {
+    return this.state.dateStates.filter(function (d) {
+      return !d.get('selectable');
+    });
+  },
+
+  dateRangesForDate: function dateRangesForDate(date) {
+    return this.state.dateStates.filter(function (d) {
+      return d.get('range').contains(date);
+    });
+  },
+
+  sanitizeRange: function sanitizeRange(range, forwards) {
+    /* Truncates the provided range at the first intersection
+     * with a non-selectable state. Using forwards to determine
+     * which direction to work
+     */
+    var blockedRanges = this.nonSelectableStateRanges().map(function (r) {
+      return r.get('range');
+    });
+    var intersect = undefined;
+
+    if (forwards) {
+      intersect = blockedRanges.find(function (r) {
+        return range.intersect(r);
+      });
+      if (intersect) {
+        return _moment2['default']().range(range.start, intersect.start);
+      }
+    } else {
+      intersect = blockedRanges.findLast(function (r) {
+        return range.intersect(r);
+      });
+
+      if (intersect) {
+        return _moment2['default']().range(intersect.end, range.end);
+      }
+    }
+
+    if (range.start.isBefore(this.state.enabledRange.start)) {
+      return _moment2['default']().range(this.state.enabledRange.start, range.end);
+    }
+
+    if (range.end.isAfter(this.state.enabledRange.end)) {
+      return _moment2['default']().range(range.start, this.state.enabledRange.end);
+    }
+
+    return range;
   },
 
   onSelect: function onSelect(date) {
