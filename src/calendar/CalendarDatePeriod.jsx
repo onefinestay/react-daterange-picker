@@ -1,8 +1,9 @@
 'use strict';
 import React from 'react/addons';
-import BemMixin from '../utils/BemMixin';
 
-const PureRenderMixin = React.addons.PureRenderMixin;
+import BemMixin from '../utils/BemMixin';
+import PureRenderMixin from '../utils/PureRenderMixin';
+
 
 const CalendarDatePeriod = React.createClass({
   mixins: [BemMixin, PureRenderMixin],

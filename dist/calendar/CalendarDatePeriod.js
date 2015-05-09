@@ -16,14 +16,16 @@ var _utilsBemMixin = require('../utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
-'use strict';
+var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
 
-var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
+var _utilsPureRenderMixin2 = _interopRequireDefault(_utilsPureRenderMixin);
+
+'use strict';
 
 var CalendarDatePeriod = _reactAddons2['default'].createClass({
   displayName: 'CalendarDatePeriod',
 
-  mixins: [_utilsBemMixin2['default'], PureRenderMixin],
+  mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
   render: function render() {
     var _props = this.props;

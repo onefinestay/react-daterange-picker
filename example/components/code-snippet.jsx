@@ -1,10 +1,10 @@
 /* global hljs */
-"use strict";
+'use strict';
 
-var React = require('react/addons');
-var cx = React.addons.classSet;
+import React from 'react/addons';
+import cx from 'classnames';
 
-var CodeSnippet = React.createClass({
+const CodeSnippet = React.createClass({
   propTypes: {
     language: React.PropTypes.string.isRequired,
     toggle: React.PropTypes.bool,
@@ -72,4 +72,4 @@ var CodeSnippet = React.createClass({
   }
 });
 
-module.exports = CodeSnippet;
+export default CodeSnippet;

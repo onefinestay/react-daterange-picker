@@ -34,9 +34,11 @@ var _utilsIsMomentRange = require('../utils/isMomentRange');
 
 var _utilsIsMomentRange2 = _interopRequireDefault(_utilsIsMomentRange);
 
-'use strict';
+var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
 
-var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
+var _utilsPureRenderMixin2 = _interopRequireDefault(_utilsPureRenderMixin);
+
+'use strict';
 
 var lang = _moment2['default']().localeData();
 
@@ -46,12 +48,12 @@ var MONTHS = _immutable2['default'].List(lang._months);
 var CalendarMonth = _reactAddons2['default'].createClass({
   displayName: 'CalendarMonth',
 
-  mixins: [_utilsBemMixin2['default'], PureRenderMixin],
+  mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
   renderDay: function renderDay(date, i) {
     var _props = this.props;
     var CalendarDate = _props.dateComponent;
-    var actualValue = _props.value;
+    var value = _props.value;
     var highlightedDate = _props.highlightedDate;
     var highlightedRange = _props.highlightedRange;
     var hideSelection = _props.hideSelection;
@@ -60,21 +62,35 @@ var CalendarMonth = _reactAddons2['default'].createClass({
     var props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
     var d = _moment2['default'](date);
-    var value = undefined;
 
-    if (!hideSelection && actualValue && _moment2['default'].isMoment(actualValue) && actualValue.isSame(d)) {
-      value = actualValue;
-    } else if (!hideSelection && actualValue && _utilsIsMomentRange2['default'](actualValue) && actualValue.contains(d)) {
-      value = actualValue;
+    var isInSelectedRange = undefined;
+    var isSelectedDate = undefined;
+    var isSelectedRangeStart = undefined;
+    var isSelectedRangeEnd = undefined;
+
+    if (!hideSelection && value && _moment2['default'].isMoment(value) && value.isSame(d)) {
+      isSelectedDate = true;
+    } else if (!hideSelection && value && _utilsIsMomentRange2['default'](value) && value.contains(d)) {
+      isInSelectedRange = true;
+
+      if (value.start.isSame(d)) {
+        isSelectedRangeStart = true;
+      } else if (value.end.isSame(d)) {
+        isSelectedRangeEnd = true;
+      }
     }
 
     return _reactAddons2['default'].createElement(CalendarDate, _extends({
       key: i,
-      enabledRange: enabledRange,
-      isDisabled: enabledRange.contains(d),
-      highlightedDate: highlightedDate && highlightedDate.isSame(d) ? highlightedDate : null,
-      highlightedRange: highlightedRange && highlightedRange.contains(d) ? highlightedRange : null,
-      value: value,
+      isDisabled: !enabledRange.contains(d),
+      isHighlightedDate: !!(highlightedDate && highlightedDate.isSame(d)),
+      isHighlightedRangeStart: !!(highlightedRange && highlightedRange.start.isSame(d)),
+      isHighlightedRangeEnd: !!(highlightedRange && highlightedRange.end.isSame(d)),
+      isInHighlightedRange: !!(highlightedRange && highlightedRange.contains(d)),
+      isSelectedDate: isSelectedDate,
+      isSelectedRangeStart: isSelectedRangeStart,
+      isSelectedRangeEnd: isSelectedRangeEnd,
+      isInSelectedRange: isInSelectedRange,
       date: d
     }, props));
   },

@@ -223,6 +223,10 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     });
   },
 
+  isDateDisabled: function isDateDisabled(date) {
+    return !this.state.enabledRange.contains(date);
+  },
+
   isDateSelectable: function isDateSelectable(date) {
     return this.dateRangesForDate(date).some(function (r) {
       return r.get('selectable');
@@ -279,8 +283,64 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     return range;
   },
 
-  onSelect: function onSelect(date) {
-    this.props.onSelect(_moment2['default'](date));
+  highlightRange: function highlightRange(range) {
+    this.setState({
+      highlightedRange: range,
+      highlightedDate: null
+    });
+    if (typeof this.props.onHighlightRange === 'function') {
+      this.props.onHighlightRange(range, this.statesForRange(range));
+    }
+  },
+
+  onUnHighlightDate: function onUnHighlightDate(date) {
+    this.setState({
+      highlightedDate: null
+    });
+  },
+
+  onSelectDate: function onSelectDate(date) {
+    var selectionType = this.props.selectionType;
+    var selectedStartDate = this.state.selectedStartDate;
+
+    if (selectionType === 'range') {
+      if (selectedStartDate) {
+        this.completeRangeSelection();
+      } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.startRangeSelection(date);
+      }
+    } else {
+      if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.completeSelection();
+      }
+    }
+  },
+
+  onHighlightDate: function onHighlightDate(date) {
+    var selectionType = this.props.selectionType;
+    var selectedStartDate = this.state.selectedStartDate;
+
+    var datePair = undefined;
+    var range = undefined;
+    var forwards = undefined;
+
+    if (selectionType === 'range') {
+      if (selectedStartDate) {
+        datePair = _immutable2['default'].List.of(selectedStartDate, date).sortBy(function (d) {
+          return d.unix();
+        });
+        range = _moment2['default']().range(datePair.get(0), datePair.get(1));
+        forwards = range.start.unix() === selectedStartDate.unix();
+        range = this.sanitizeRange(range, forwards);
+        this.highlightRange(range);
+      } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.highlightDate(date);
+      }
+    } else {
+      if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.highlightDate(date);
+      }
+    }
   },
 
   startRangeSelection: function startRangeSelection(date) {
@@ -336,29 +396,13 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     }
   },
 
-  onHighlightDate: function onHighlightDate(date) {
+  highlightDate: function highlightDate(date) {
     this.setState({
       highlightedDate: date
     });
     if (typeof this.props.onHighlightDate === 'function') {
       this.props.onHighlightDate(date, this.statesForDate(date));
     }
-  },
-
-  onHighlightRange: function onHighlightRange(range) {
-    this.setState({
-      highlightedRange: range,
-      highlightedDate: null
-    });
-    if (typeof this.props.onHighlightRange === 'function') {
-      this.props.onHighlightRange(range, this.statesForRange(range));
-    }
-  },
-
-  onUnHighlightDate: function onUnHighlightDate() {
-    this.setState({
-      highlightedDate: null
-    });
   },
 
   getMonthDate: function getMonthDate() {
@@ -457,7 +501,6 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     var highlightedDate = _state2.highlightedDate;
     var highlightedRange = _state2.highlightedRange;
     var highlightStartDate = _state2.highlightStartDate;
-    var selectedStartDate = _state2.selectedStartDate;
 
     var monthDate = this.getMonthDate();
     var year = monthDate.year();
@@ -479,20 +522,16 @@ var DateRangePicker = _reactAddons2['default'].createClass({
       highlightStartDate: highlightStartDate,
       index: index,
       key: key,
-      selectedStartDate: selectedStartDate,
       selectionType: selectionType,
       value: value,
       maxIndex: numberOfCalendars - 1,
       firstOfMonth: monthDate,
       onMonthChange: this.changeMonth,
       onYearChange: this.changeYear,
-      onHighlightRange: this.onHighlightRange,
+      onSelectDate: this.onSelectDate,
       onHighlightDate: this.onHighlightDate,
       onUnHighlightDate: this.onUnHighlightDate,
-      onSelect: this.onSelect,
-      startRangeSelection: this.startRangeSelection,
-      completeSelection: this.completeSelection,
-      completeRangeSelection: this.completeRangeSelection,
+      dateRangesForDate: this.dateRangesForDate,
       dateComponent: _calendarCalendarDate2['default']
     };
 

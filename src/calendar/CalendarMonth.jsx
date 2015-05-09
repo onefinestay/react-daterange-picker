@@ -7,8 +7,7 @@ import Immutable from 'immutable';
 
 import BemMixin from '../utils/BemMixin';
 import isMomentRange from '../utils/isMomentRange';
-
-const PureRenderMixin = React.addons.PureRenderMixin;
+import PureRenderMixin from '../utils/PureRenderMixin';
 
 const lang = moment().localeData();
 
@@ -20,24 +19,38 @@ const CalendarMonth = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   renderDay(date, i) {
-    let {dateComponent: CalendarDate, value: actualValue, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
+    let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
     let d = moment(date);
-    let value;
 
-    if (!hideSelection && actualValue && moment.isMoment(actualValue) && actualValue.isSame(d)) {
-      value = actualValue;
-    } else if (!hideSelection && actualValue && isMomentRange(actualValue) && actualValue.contains(d)) {
-      value = actualValue;
+    let isInSelectedRange;
+    let isSelectedDate;
+    let isSelectedRangeStart;
+    let isSelectedRangeEnd;
+
+    if (!hideSelection && value && moment.isMoment(value) && value.isSame(d)) {
+      isSelectedDate = true;
+    } else if (!hideSelection && value && isMomentRange(value) && value.contains(d)) {
+      isInSelectedRange = true;
+
+      if (value.start.isSame(d)) {
+        isSelectedRangeStart = true;
+      } else if (value.end.isSame(d)) {
+        isSelectedRangeEnd = true;
+      }
     }
 
     return (
       <CalendarDate
         key={i}
-        enabledRange={enabledRange}
-        isDisabled={enabledRange.contains(d)}
-        highlightedDate={highlightedDate && highlightedDate.isSame(d) ? highlightedDate : null}
-        highlightedRange={highlightedRange && highlightedRange.contains(d) ? highlightedRange : null}
-        value={value}
+        isDisabled={!enabledRange.contains(d)}
+        isHighlightedDate={!!(highlightedDate && highlightedDate.isSame(d))}
+        isHighlightedRangeStart={!!(highlightedRange && highlightedRange.start.isSame(d))}
+        isHighlightedRangeEnd={!!(highlightedRange && highlightedRange.end.isSame(d))}
+        isInHighlightedRange={!!(highlightedRange && highlightedRange.contains(d))}
+        isSelectedDate={isSelectedDate}
+        isSelectedRangeStart={isSelectedRangeStart}
+        isSelectedRangeEnd={isSelectedRangeEnd}
+        isInSelectedRange={isInSelectedRange}
         date={d}
         {...props} />
     );

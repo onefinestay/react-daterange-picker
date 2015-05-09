@@ -190,6 +190,10 @@ const DateRangePicker = React.createClass({
     });
   },
 
+  isDateDisabled(date) {
+    return !this.state.enabledRange.contains(date);
+  },
+
   isDateSelectable(date) {
     return this.dateRangesForDate(date).some(r => r.get('selectable'));
   },
@@ -235,9 +239,63 @@ const DateRangePicker = React.createClass({
     return range;
   },
 
-  onSelect(date) {
-    this.props.onSelect(moment(date));
+  highlightRange(range) {
+    this.setState({
+      highlightedRange: range,
+      highlightedDate: null
+    });
+    if (typeof this.props.onHighlightRange === 'function') {
+      this.props.onHighlightRange(range, this.statesForRange(range));
+    }
   },
+
+  onUnHighlightDate(date) {
+    this.setState({
+      highlightedDate: null
+    });
+  },  
+
+  onSelectDate(date) {
+    let {selectionType} = this.props;
+    let {selectedStartDate} = this.state;
+
+    if (selectionType === 'range') {
+      if (selectedStartDate) {
+        this.completeRangeSelection();
+      } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.startRangeSelection(date);
+      }
+    } else {
+      if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.completeSelection();
+      }
+    }
+  },
+
+  onHighlightDate(date) {
+    let {selectionType} = this.props;
+    let {selectedStartDate} = this.state;
+
+    let datePair;
+    let range;
+    let forwards;
+
+    if (selectionType === 'range') {
+      if (selectedStartDate) {
+        datePair = Immutable.List.of(selectedStartDate, date).sortBy(d => d.unix());
+        range = moment().range(datePair.get(0), datePair.get(1));
+        forwards = (range.start.unix() === selectedStartDate.unix());
+        range = this.sanitizeRange(range, forwards);
+        this.highlightRange(range);
+      } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.highlightDate(date);
+      }
+    } else {
+      if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.highlightDate(date);
+      }
+    }
+  },  
 
   startRangeSelection(date) {
     this.setState({
@@ -284,29 +342,13 @@ const DateRangePicker = React.createClass({
     }
   },
 
-  onHighlightDate(date) {
+  highlightDate(date) {
     this.setState({
       highlightedDate: date
     });
     if (typeof this.props.onHighlightDate === 'function') {
       this.props.onHighlightDate(date, this.statesForDate(date));
     }
-  },
-
-  onHighlightRange(range) {
-    this.setState({
-      highlightedRange: range,
-      highlightedDate: null
-    });
-    if (typeof this.props.onHighlightRange === 'function') {
-      this.props.onHighlightRange(range, this.statesForRange(range));
-    }
-  },
-
-  onUnHighlightDate() {
-    this.setState({
-      highlightedDate: null
-    });
   },
 
   getMonthDate() {
@@ -404,8 +446,7 @@ const DateRangePicker = React.createClass({
       hideSelection,
       highlightedDate,
       highlightedRange,
-      highlightStartDate,
-      selectedStartDate
+      highlightStartDate
     } = this.state;
 
     let monthDate = this.getMonthDate();
@@ -428,20 +469,16 @@ const DateRangePicker = React.createClass({
       highlightStartDate,
       index,
       key,
-      selectedStartDate,
       selectionType,
       value,
       maxIndex: numberOfCalendars - 1,
       firstOfMonth: monthDate,
       onMonthChange: this.changeMonth,
       onYearChange: this.changeYear,
-      onHighlightRange: this.onHighlightRange,
+      onSelectDate: this.onSelectDate,
       onHighlightDate: this.onHighlightDate,
       onUnHighlightDate: this.onUnHighlightDate,
-      onSelect: this.onSelect,
-      startRangeSelection: this.startRangeSelection,
-      completeSelection: this.completeSelection,
-      completeRangeSelection: this.completeRangeSelection,
+      dateRangesForDate: this.dateRangesForDate,
       dateComponent: CalendarDate
     };
 
