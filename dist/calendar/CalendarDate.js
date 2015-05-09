@@ -62,11 +62,18 @@ var CalendarDate = _reactAddons2['default'].createClass({
     highlightedDate: _reactAddons2['default'].PropTypes.object,
     selectedStartDate: _reactAddons2['default'].PropTypes.object,
     dateStates: _reactAddons2['default'].PropTypes.instanceOf(_immutable2['default'].List),
+    isDisabled: _reactAddons2['default'].PropTypes.bool,
 
     onHighlightDate: _reactAddons2['default'].PropTypes.func,
     onUnHighlightDate: _reactAddons2['default'].PropTypes.func,
     onStartSelection: _reactAddons2['default'].PropTypes.func,
     onCompleteSelection: _reactAddons2['default'].PropTypes.func
+  },
+
+  getDefaultProps: function getDefaultProps() {
+    return {
+      isDisabled: false
+    };
   },
 
   getInitialState: function getInitialState() {
