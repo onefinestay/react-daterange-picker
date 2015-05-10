@@ -1,7 +1,7 @@
 export default function bemCx(options={}) {
-  var {block, element, namespace, modifiers, states} = options;
-  var bemClasses = [];
-  var baseClassName;
+  let {block, element, namespace, modifiers, states} = options;
+  let bemClasses = [];
+  let baseClassName;
 
   if (element) {
     if (namespace) {

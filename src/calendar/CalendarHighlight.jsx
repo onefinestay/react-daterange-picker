@@ -2,19 +2,16 @@
 import React from 'react/addons';
 
 import BemMixin from '../utils/BemMixin';
+import PureRenderMixin from '../utils/PureRenderMixin';
 
-var PureRenderMixin = React.addons.PureRenderMixin;
 
-
-var CalendarHighlight = React.createClass({
+const CalendarHighlight = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   render() {
-    var {modifier, inOtherMonth} = this.props;
-    var modifiers = {[modifier]: true};
-    var states = {
-      inOtherMonth
-    };
+    let {modifier} = this.props;
+    let modifiers = {[modifier]: true};
+    let states = {};
 
     return (
       <div className={this.cx({states, modifiers})} />

@@ -1,9 +1,9 @@
 export default function lightenDarkenColor(col,amt) {
-  var usePound = false;
-  var num;
-  var r;
-  var b;
-  var g;
+  let usePound = false;
+  let num;
+  let r;
+  let b;
+  let g;
 
   if (col[0] === "#") {
     col = col.slice(1);

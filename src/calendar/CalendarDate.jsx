@@ -1,10 +1,12 @@
 'use strict';
 
 import React from 'react/addons';
+
 import moment from 'moment-range';
 import Immutable from 'immutable';
 
 import BemMixin from '../utils/BemMixin';
+import PureRenderMixin from '../utils/PureRenderMixin';
 import lightenDarkenColor from '../utils/lightenDarkenColor';
 
 import CalendarDatePeriod from './CalendarDatePeriod';
@@ -12,31 +14,32 @@ import CalendarHighlight from './CalendarHighlight';
 import CalendarSelection from './CalendarSelection';
 
 
-var PureRenderMixin = React.addons.PureRenderMixin;
-var cx = React.addons.classSet;
-
-
-var CalendarDate = React.createClass({
+const CalendarDate = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {
     date: React.PropTypes.object.isRequired,
 
     firstOfMonth: React.PropTypes.object.isRequired,
-    index: React.PropTypes.number.isRequired,
-    maxIndex: React.PropTypes.number.isRequired,
-    selectionType: React.PropTypes.string.isRequired,
 
-    value: React.PropTypes.object,
-    highlightedRange: React.PropTypes.object,
+    isSelectedDate: React.PropTypes.bool,
+    isSelectedRangeStart: React.PropTypes.bool,
+    isSelectedRangeEnd: React.PropTypes.bool,
+    isInSelectedRange: React.PropTypes.bool,
+
+    isHighlightedDate: React.PropTypes.bool,
+    isHighlightedRangeStart: React.PropTypes.bool,
+    isHighlightedRangeEnd: React.PropTypes.bool,
+    isInHighlightedRange: React.PropTypes.bool,
+
     highlightedDate: React.PropTypes.object,
-    selectedStartDate: React.PropTypes.object,
     dateStates: React.PropTypes.instanceOf(Immutable.List),
+    isDisabled: React.PropTypes.bool,
 
+    dateRangesForDate: React.PropTypes.func,
     onHighlightDate: React.PropTypes.func,
     onUnHighlightDate: React.PropTypes.func,
-    onStartSelection: React.PropTypes.func,
-    onCompleteSelection: React.PropTypes.func
+    onSelectDate: React.PropTypes.func
   },
 
   getInitialState() {
@@ -45,57 +48,8 @@ var CalendarDate = React.createClass({
     };
   },
 
-  isDisabled(date) {
-    return !this.props.enabledRange.contains(date);
-  },
-
-  isDateSelectable(date) {
-    return this.dateRangesForDate(date).some(r => r.get('selectable'));
-  },
-
-  nonSelectableStateRanges() {
-    return this.props.dateStates.filter(d => !d.get('selectable'));
-  },
-
-  dateRangesForDate(date) {
-    return this.props.dateStates.filter(d => d.get('range').contains(date));
-  },
-
-  sanitizeRange(range, forwards) {
-    /* Truncates the provided range at the first intersection
-     * with a non-selectable state. Using forwards to determine
-     * which direction to work
-     */
-    var blockedRanges = this.nonSelectableStateRanges().map(r => r.get('range'));
-    var intersect;
-
-    if (forwards) {
-      intersect = blockedRanges.find(r => range.intersect(r));
-      if (intersect) {
-        return moment().range(range.start, intersect.start);
-      }
-
-    } else {
-      intersect = blockedRanges.findLast(r => range.intersect(r));
-
-      if (intersect) {
-        return moment().range(intersect.end, range.end);
-      }
-    }
-
-    if (range.start.isBefore(this.props.enabledRange.start)) {
-      return moment().range(this.props.enabledRange.start, range.end);
-    }
-
-    if (range.end.isAfter(this.props.enabledRange.end)) {
-      return moment().range(range.start, this.props.enabledRange.end);
-    }
-
-    return range;
-  },
-
   mouseUp() {
-    this.selectDate();
+    this.props.onSelectDate(this.props.date);
 
     if (this.state.mouseDown) {
       this.setState({
@@ -113,8 +67,8 @@ var CalendarDate = React.createClass({
   },
 
   touchEnd() {
-    this.highlightDate();
-    this.selectDate();
+    this.props.onHighlightDate(this.props.date);
+    this.props.onSelectDate(this.props.date);
 
     if (this.state.mouseDown) {
       this.setState({
@@ -133,69 +87,25 @@ var CalendarDate = React.createClass({
   },
 
   mouseEnter() {
-    this.highlightDate();
+    this.props.onHighlightDate(this.props.date);
   },
 
   mouseLeave() {
     if (this.state.mouseDown) {
-      this.selectDate();
+      this.props.onSelectDate(this.props.date);
 
       this.setState({
         mouseDown: false
       });
     }
-    this.unHighlightDate();
-  },
-
-  highlightDate() {
-    var {date, selectionType, selectedStartDate, onHighlightRange, onHighlightDate} = this.props;
-    var datePair;
-    var range;
-    var forwards;
-
-    if (selectionType === 'range') {
-      if (selectedStartDate) {
-        datePair = Immutable.List.of(selectedStartDate, date).sortBy(d  => d.unix());
-        range = moment().range(datePair.get(0), datePair.get(1));
-        forwards = (range.start.unix() === selectedStartDate.unix());
-        range = this.sanitizeRange(range, forwards);
-        onHighlightRange(range);
-      } else if (!this.isDisabled(date) && this.isDateSelectable(date)) {
-        onHighlightDate(date);
-      }
-    } else {
-      if (!this.isDisabled(date) && this.isDateSelectable(date)) {
-        onHighlightDate(date);
-      }
-    }
-  },
-
-  unHighlightDate() {
     this.props.onUnHighlightDate(this.props.date);
   },
 
-  selectDate() {
-    var {date, selectionType, selectedStartDate, completeRangeSelection, completeSelection, startRangeSelection} = this.props;
-    var range;
-
-    if (selectionType === 'range') {
-      if (selectedStartDate) {
-        completeRangeSelection();
-      } else if (!this.isDisabled(date) && this.isDateSelectable(date)) {
-        startRangeSelection(date);
-      }
-    } else {
-      if (!this.isDisabled(date) && this.isDateSelectable(date)) {
-        completeSelection()
-      }
-    }
-  },
-
   getBemModifiers() {
-    var {date, firstOfMonth} = this.props;
+    let {date, firstOfMonth} = this.props;
 
-    var otherMonth = false;
-    var weekend = false;
+    let otherMonth = false;
+    let weekend = false;
 
     if (date.month() !== firstOfMonth.month()) {
       otherMonth = true;
@@ -209,74 +119,59 @@ var CalendarDate = React.createClass({
   },
 
   getBemStates() {
-    var {date, value, highlightedRange, highlightedDate} = this.props;
-    var disabled = this.isDisabled(date);
-    var highlighted = false;
-    var selected = false;
+    let {
+      isSelectedDate,
+      isInSelectedRange,
+      isInHighlightedRange,
+      isHighlightedDate: highlighted,      
+      isDisabled: disabled
+    } = this.props;
 
-    if (value) {
-      if (!value.start && date.isSame(value)) {
-        selected = true;
-      } else if (value.start && value.start.isSame(value.end) && date.isSame(value.start)) {
-        selected = true;
-      } else if (value.start && value.contains(date)) {
-        selected = true;
-      }
-    }
-
-    if (highlightedRange && highlightedRange.contains(date)) {
-      highlighted = true;
-    } else if (highlightedDate && date.isSame(highlightedDate)) {
-      highlighted = true;
-    }
+    let selected = isSelectedDate || isInSelectedRange || isInHighlightedRange;
 
     return {disabled, highlighted, selected};
   },
 
   render() {
-    var {value, firstOfMonth, date, highlightedRange, highlightedDate} = this.props;
+    let {
+      date, 
+      dateRangesForDate,
+      isSelectedDate,
+      isSelectedRangeStart,
+      isSelectedRangeEnd,
+      isInSelectedRange,
+      isHighlightedDate,
+      isHighlightedRangeStart,
+      isHighlightedRangeEnd,
+      isInHighlightedRange
+    } = this.props;
 
-    var bemModifiers = this.getBemModifiers();
-    var bemStates = this.getBemStates();
+    let bemModifiers = this.getBemModifiers();
+    let bemStates = this.getBemStates();
+    let pending = isInHighlightedRange;
 
-    var color;
-    var amColor;
-    var pmColor;
-    var states = this.dateRangesForDate(date);
-    var numStates = states.count();
-    var cellStyle = {};
-    var style = {};
+    let color;
+    let amColor;
+    let pmColor;
+    let states = dateRangesForDate(date);
+    let numStates = states.count();
+    let cellStyle = {};
+    let style = {};
 
-    var highlightModifier = null;
-    var selectionModifier = null;
+    let highlightModifier;
+    let selectionModifier;
 
-    if (value && value.start) {
-      if (value.start.isSame(date) && value.start.isSame(value.end)) {
-        selectionModifier = 'single';
-      } else if (value.contains(date)) {
-        if (date.isSame(value.start)) {
-          selectionModifier = 'start';
-        } else if (date.isSame(value.end)) {
-          selectionModifier = 'end';
-        } else {
-          selectionModifier = 'segment';
-        }
-      }
-    } else if (value && date.isSame(value)) {
+    if (isSelectedDate || (isSelectedRangeStart && isSelectedRangeEnd)) {
       selectionModifier = 'single';
+    } else if (isSelectedRangeStart || isHighlightedRangeStart) {
+      selectionModifier = 'start';
+    } else if (isSelectedRangeEnd || isHighlightedRangeEnd) {
+      selectionModifier = 'end';
+    } else if (isInSelectedRange || isInHighlightedRange) {
+      selectionModifier = 'segment';
     }
 
-    if (highlightedRange && highlightedRange.contains(date)) {
-      if (date.isSame(highlightedRange.start)) {
-        highlightModifier = 'start';
-      } else if (date.isSame(highlightedRange.end)) {
-        highlightModifier = 'end';
-      } else {
-        highlightModifier = 'segment';
-      }
-    }
-
-    if (highlightedDate && date.isSame(highlightedDate)) {
+    if (isHighlightedDate) {
       highlightModifier = 'single';
     }
 
@@ -299,11 +194,11 @@ var CalendarDate = React.createClass({
       pmColor = states.getIn([1, 'color']);
 
       if (amColor) {
-        cellStyle['borderLeftColor'] = lightenDarkenColor(amColor, -10);
+        cellStyle.borderLeftColor = lightenDarkenColor(amColor, -10);
       }
 
       if (pmColor) {
-        cellStyle['borderRightColor'] = lightenDarkenColor(pmColor, -10);
+        cellStyle.borderRightColor = lightenDarkenColor(pmColor, -10);
       }
     }
 
@@ -311,7 +206,6 @@ var CalendarDate = React.createClass({
       <td className={this.cx({element: 'Date', modifiers: bemModifiers, states: bemStates})}
         style={cellStyle}
         onTouchStart={this.touchStart}
-        onMouseOver={this.mouseOver}
         onMouseEnter={this.mouseEnter}
         onMouseLeave={this.mouseLeave}
         onMouseDown={this.mouseDown}>
@@ -323,8 +217,8 @@ var CalendarDate = React.createClass({
         {numStates === 1 &&
           <div className={this.cx({element: "FullDateStates"})} style={style} />}
         <span className={this.cx({element: "DateLabel"})}>{date.format('D')}</span>
-        {selectionModifier && <CalendarSelection modifier={selectionModifier} />}
-        {highlightModifier && <CalendarHighlight modifier={highlightModifier} />}
+        {selectionModifier ? <CalendarSelection modifier={selectionModifier} pending={pending} /> : null}
+        {highlightModifier ? <CalendarHighlight modifier={highlightModifier} /> : null}
       </td>
     );
   }

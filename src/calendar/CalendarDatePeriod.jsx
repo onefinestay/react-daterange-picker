@@ -1,16 +1,17 @@
 'use strict';
 import React from 'react/addons';
+
 import BemMixin from '../utils/BemMixin';
+import PureRenderMixin from '../utils/PureRenderMixin';
 
-var PureRenderMixin = React.addons.PureRenderMixin;
 
-var CalendarDatePeriod = React.createClass({
+const CalendarDatePeriod = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   render() {
-    var {color, period} = this.props;
-    var modifiers = {[period]: true};
-    var style;
+    let {color, period} = this.props;
+    let modifiers = {[period]: true};
+    let style;
 
     if (color) {
       style= {backgroundColor: color};

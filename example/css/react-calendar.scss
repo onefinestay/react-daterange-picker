@@ -27,10 +27,11 @@ $ns: DateRangePicker;
   &__LegendItemColor {
     border-radius: 50%;
     display: inline-block;
-    height: 16px;
+    height: 14px;
     margin-right: 6px;
     vertical-align: text-bottom;
-    width: 16px;
+    width: 14px;
+    border: 1px solid rgba(#000, .25);
 
     &--selection {
       background-color: #ed5434;
@@ -245,6 +246,11 @@ $ns: DateRangePicker;
       border-radius: $selection-radius;
       left: $selection-margin;
       right: $selection-margin;
+    }
+
+    &--is-pending {
+      background-color: rgba(#ed5434, .75);
+      border-width: 0;
     }
   }
 

@@ -30,9 +30,15 @@ var _utilsBemMixin = require('../utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
-'use strict';
+var _utilsIsMomentRange = require('../utils/isMomentRange');
 
-var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
+var _utilsIsMomentRange2 = _interopRequireDefault(_utilsIsMomentRange);
+
+var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
+
+var _utilsPureRenderMixin2 = _interopRequireDefault(_utilsPureRenderMixin);
+
+'use strict';
 
 var lang = _moment2['default']().localeData();
 
@@ -42,15 +48,51 @@ var MONTHS = _immutable2['default'].List(lang._months);
 var CalendarMonth = _reactAddons2['default'].createClass({
   displayName: 'CalendarMonth',
 
-  mixins: [_utilsBemMixin2['default'], PureRenderMixin],
+  mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
   renderDay: function renderDay(date, i) {
     var _props = this.props;
     var CalendarDate = _props.dateComponent;
+    var value = _props.value;
+    var highlightedDate = _props.highlightedDate;
+    var highlightedRange = _props.highlightedRange;
+    var hideSelection = _props.hideSelection;
+    var enabledRange = _props.enabledRange;
 
-    var props = _objectWithoutProperties(_props, ['dateComponent']);
+    var props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
-    return _reactAddons2['default'].createElement(CalendarDate, _extends({}, props, { date: _moment2['default'](date), key: i }));
+    var d = _moment2['default'](date);
+
+    var isInSelectedRange = undefined;
+    var isSelectedDate = undefined;
+    var isSelectedRangeStart = undefined;
+    var isSelectedRangeEnd = undefined;
+
+    if (!hideSelection && value && _moment2['default'].isMoment(value) && value.isSame(d)) {
+      isSelectedDate = true;
+    } else if (!hideSelection && value && _utilsIsMomentRange2['default'](value) && value.contains(d)) {
+      isInSelectedRange = true;
+
+      if (value.start.isSame(d)) {
+        isSelectedRangeStart = true;
+      } else if (value.end.isSame(d)) {
+        isSelectedRangeEnd = true;
+      }
+    }
+
+    return _reactAddons2['default'].createElement(CalendarDate, _extends({
+      key: i,
+      isDisabled: !enabledRange.contains(d),
+      isHighlightedDate: !!(highlightedDate && highlightedDate.isSame(d)),
+      isHighlightedRangeStart: !!(highlightedRange && highlightedRange.start.isSame(d)),
+      isHighlightedRangeEnd: !!(highlightedRange && highlightedRange.end.isSame(d)),
+      isInHighlightedRange: !!(highlightedRange && highlightedRange.contains(d)),
+      isSelectedDate: isSelectedDate,
+      isSelectedRangeStart: isSelectedRangeStart,
+      isSelectedRangeEnd: isSelectedRangeEnd,
+      isInSelectedRange: isInSelectedRange,
+      date: d
+    }, props));
   },
 
   renderWeek: function renderWeek(dates, i) {

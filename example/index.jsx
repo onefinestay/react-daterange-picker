@@ -58,14 +58,16 @@ var DatePickerRange = React.createClass({
 var DatePickerSingle = React.createClass({
   getInitialState() {
     return {
-      value: null,
+      value: null
     };
   },
+
   handleSelect(value) {
     this.setState({
-      value: value,
+      value: value
     });
   },
+
   render() {
     return (
       <div>
@@ -73,7 +75,7 @@ var DatePickerSingle = React.createClass({
           value={this.state.value} />
         <div>
           <input type="text"
-            value={this.state.value ?  this.state.value.format('LL') : null}
+            value={this.state.value ? this.state.value.format('LL') : null}
             readOnly={true} />
         </div>
       </div>
@@ -93,7 +95,7 @@ var Index = React.createClass({
   render() {
     var stateDefinitions = {
       available: {
-        color: null,
+        color: '#ffffff',
         label: 'Available'
       },
       enquire: {

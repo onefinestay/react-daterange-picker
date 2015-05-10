@@ -7,10 +7,10 @@ exports["default"] = lightenDarkenColor;
 
 function lightenDarkenColor(col, amt) {
   var usePound = false;
-  var num;
-  var r;
-  var b;
-  var g;
+  var num = undefined;
+  var r = undefined;
+  var b = undefined;
+  var g = undefined;
 
   if (col[0] === "#") {
     col = col.slice(1);

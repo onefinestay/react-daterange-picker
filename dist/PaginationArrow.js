@@ -29,6 +29,17 @@ var PaginationArrow = _reactAddons2['default'].createClass({
 
   mixins: [_utilsBemMixin2['default'], PureRenderMixin],
 
+  propTypes: {
+    disabled: _reactAddons2['default'].PropTypes.bool,
+    direction: _reactAddons2['default'].PropTypes.oneOf(['next', 'previous'])
+  },
+
+  getDefaultProps: function getDefaultProps() {
+    return {
+      disabled: false
+    };
+  },
+
   render: function render() {
     var _props = this.props;
     var disabled = _props.disabled;
