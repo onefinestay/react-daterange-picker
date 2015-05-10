@@ -158,8 +158,8 @@ const CalendarDate = React.createClass({
     let cellStyle = {};
     let style = {};
 
-    let highlightModifier = null;
-    let selectionModifier = null;
+    let highlightModifier;
+    let selectionModifier;
 
     if (isSelectedDate || (isSelectedRangeStart && isSelectedRangeEnd)) {
       selectionModifier = 'single';
@@ -217,8 +217,8 @@ const CalendarDate = React.createClass({
         {numStates === 1 &&
           <div className={this.cx({element: "FullDateStates"})} style={style} />}
         <span className={this.cx({element: "DateLabel"})}>{date.format('D')}</span>
-        {selectionModifier && <CalendarSelection modifier={selectionModifier} pending={pending} />}
-        {highlightModifier && <CalendarHighlight modifier={highlightModifier} />}
+        {selectionModifier ? <CalendarSelection modifier={selectionModifier} pending={pending} /> : null}
+        {highlightModifier ? <CalendarHighlight modifier={highlightModifier} /> : null}
       </td>
     );
   }

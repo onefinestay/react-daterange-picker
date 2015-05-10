@@ -28,14 +28,10 @@ var CalendarHighlight = _reactAddons2['default'].createClass({
   mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
   render: function render() {
-    var _props = this.props;
-    var modifier = _props.modifier;
-    var inOtherMonth = _props.inOtherMonth;
+    var modifier = this.props.modifier;
 
     var modifiers = _defineProperty({}, modifier, true);
-    var states = {
-      inOtherMonth: inOtherMonth
-    };
+    var states = {};
 
     return _reactAddons2['default'].createElement('div', { className: this.cx({ states: states, modifiers: modifiers }) });
   }

@@ -1,7 +1,8 @@
 'use strict';
 import React from 'react/addons';
-import moment from 'moment';
+import moment from 'moment-range';
 import Immutable from 'immutable';
+import calendar from 'calendar';
 
 import BemMixin from './utils/BemMixin';
 import Legend from './Legend';
@@ -10,6 +11,8 @@ import CalendarMonth from './calendar/CalendarMonth';
 import CalendarDate from './calendar/CalendarDate';
 
 import PaginationArrow from './PaginationArrow';
+
+import isMomentRange from './utils/isMomentRange';
 
 const PureRenderMixin = React.addons.PureRenderMixin;
 const absoluteMinimum = moment(new Date(-8640000000000000 / 2)).startOf('day');
@@ -457,6 +460,30 @@ const DateRangePicker = React.createClass({
 
     monthDate.add(index, 'months');
 
+    let cal = new calendar.Calendar(firstOfWeek);
+    let monthDates = Immutable.fromJS(cal.monthDates(monthDate.year(), monthDate.month()));
+    let monthStart = monthDates.first().first();
+    let monthEnd = monthDates.last().last();
+    let monthRange = moment().range(monthStart, monthEnd);
+
+    if (moment.isMoment(value)) {
+      if (!monthRange.contains(value)) {
+        value = null;
+      }
+    } else if (isMomentRange(value)) {
+      if (!monthRange.overlaps(value)) {
+        value = null;
+      }      
+    }
+
+    if (!moment.isMoment(highlightedDate) || !monthRange.contains(highlightedDate)) {
+      highlightedDate = null;
+    }
+
+    if (!isMomentRange(highlightedRange) || !monthRange.overlaps(highlightedRange)) {
+      highlightedRange = null;
+    }    
+
     props = {
       bemBlock,
       bemNamespace,
@@ -466,7 +493,6 @@ const DateRangePicker = React.createClass({
       hideSelection,
       highlightedDate,
       highlightedRange,
-      highlightStartDate,
       index,
       key,
       selectionType,

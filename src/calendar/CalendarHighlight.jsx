@@ -9,11 +9,9 @@ const CalendarHighlight = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   render() {
-    let {modifier, inOtherMonth} = this.props;
+    let {modifier} = this.props;
     let modifiers = {[modifier]: true};
-    let states = {
-      inOtherMonth
-    };
+    let states = {};
 
     return (
       <div className={this.cx({states, modifiers})} />

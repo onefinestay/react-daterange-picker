@@ -190,8 +190,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var cellStyle = {};
     var style = {};
 
-    var highlightModifier = null;
-    var selectionModifier = null;
+    var highlightModifier = undefined;
+    var selectionModifier = undefined;
 
     if (isSelectedDate || isSelectedRangeStart && isSelectedRangeEnd) {
       selectionModifier = 'single';
@@ -254,8 +254,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
         { className: this.cx({ element: 'DateLabel' }) },
         date.format('D')
       ),
-      selectionModifier && _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }),
-      highlightModifier && _reactAddons2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier })
+      selectionModifier ? _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }) : null,
+      highlightModifier ? _reactAddons2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier }) : null
     );
   }
 
