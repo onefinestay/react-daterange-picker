@@ -123,7 +123,7 @@ const CalendarDate = React.createClass({
       isSelectedDate,
       isInSelectedRange,
       isInHighlightedRange,
-      isHighlightedDate: highlighted,      
+      isHighlightedDate: highlighted,
       isDisabled: disabled
     } = this.props;
 
@@ -134,7 +134,7 @@ const CalendarDate = React.createClass({
 
   render() {
     let {
-      date, 
+      date,
       dateRangesForDate,
       isSelectedDate,
       isSelectedRangeStart,
