@@ -2,7 +2,7 @@ import React from 'react';
 import bemCx from './bemCx';
 
 
-var BemMixin = {
+const BemMixin = {
   propTypes: {
     bemNamespace: React.PropTypes.string,
     bemBlock: React.PropTypes.string
@@ -46,7 +46,7 @@ var BemMixin = {
   },
 
   cx(options={}) {
-    var opts = {
+    let opts = {
       namespace: this.getBemNamespace(),
       element: this.constructor.displayName,
       block: this.getBemBlock(),

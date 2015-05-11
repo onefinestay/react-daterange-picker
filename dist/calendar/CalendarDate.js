@@ -41,7 +41,6 @@ var _CalendarSelection2 = _interopRequireDefault(_CalendarSelection);
 'use strict';
 
 var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
-var cx = _reactAddons2['default'].addons.classSet;
 
 var CalendarDate = _reactAddons2['default'].createClass({
   displayName: 'CalendarDate',
@@ -57,6 +56,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
     selectionType: _reactAddons2['default'].PropTypes.string.isRequired,
 
     value: _reactAddons2['default'].PropTypes.object,
+    hideSelection: _reactAddons2['default'].PropTypes.bool,
     highlightedRange: _reactAddons2['default'].PropTypes.object,
     highlightedDate: _reactAddons2['default'].PropTypes.object,
     selectedStartDate: _reactAddons2['default'].PropTypes.object,
@@ -66,6 +66,12 @@ var CalendarDate = _reactAddons2['default'].createClass({
     onUnHighlightDate: _reactAddons2['default'].PropTypes.func,
     onStartSelection: _reactAddons2['default'].PropTypes.func,
     onCompleteSelection: _reactAddons2['default'].PropTypes.func
+  },
+
+  getDefaultProps: function getDefaultProps() {
+    return {
+      hideSelection: false
+    };
   },
 
   getInitialState: function getInitialState() {
@@ -104,7 +110,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var blockedRanges = this.nonSelectableStateRanges().map(function (r) {
       return r.get('range');
     });
-    var intersect;
+    var intersect = undefined;
 
     if (forwards) {
       intersect = blockedRanges.find(function (r) {
@@ -195,9 +201,9 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var onHighlightRange = _props.onHighlightRange;
     var onHighlightDate = _props.onHighlightDate;
 
-    var datePair;
-    var range;
-    var forwards;
+    var datePair = undefined;
+    var range = undefined;
+    var forwards = undefined;
 
     if (selectionType === 'range') {
       if (selectedStartDate) {
@@ -230,8 +236,6 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var completeRangeSelection = _props2.completeRangeSelection;
     var completeSelection = _props2.completeSelection;
     var startRangeSelection = _props2.startRangeSelection;
-
-    var range;
 
     if (selectionType === 'range') {
       if (selectedStartDate) {
@@ -271,12 +275,13 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var value = _props4.value;
     var highlightedRange = _props4.highlightedRange;
     var highlightedDate = _props4.highlightedDate;
+    var hideSelection = _props4.hideSelection;
 
     var disabled = this.isDisabled(date);
     var highlighted = false;
     var selected = false;
 
-    if (value) {
+    if (value && !hideSelection) {
       if (!value.start && date.isSame(value)) {
         selected = true;
       } else if (value.start && value.start.isSame(value.end) && date.isSame(value.start)) {
@@ -287,7 +292,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
     }
 
     if (highlightedRange && highlightedRange.contains(date)) {
-      highlighted = true;
+      selected = true;
     } else if (highlightedDate && date.isSame(highlightedDate)) {
       highlighted = true;
     }
@@ -298,17 +303,18 @@ var CalendarDate = _reactAddons2['default'].createClass({
   render: function render() {
     var _props5 = this.props;
     var value = _props5.value;
-    var firstOfMonth = _props5.firstOfMonth;
     var date = _props5.date;
     var highlightedRange = _props5.highlightedRange;
     var highlightedDate = _props5.highlightedDate;
+    var hideSelection = _props5.hideSelection;
 
     var bemModifiers = this.getBemModifiers();
     var bemStates = this.getBemStates();
+    var pending = false;
 
-    var color;
-    var amColor;
-    var pmColor;
+    var color = undefined;
+    var amColor = undefined;
+    var pmColor = undefined;
     var states = this.dateRangesForDate(date);
     var numStates = states.count();
     var cellStyle = {};
@@ -317,7 +323,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var highlightModifier = null;
     var selectionModifier = null;
 
-    if (value && value.start) {
+    if (value && !hideSelection && value.start) {
       if (value.start.isSame(date) && value.start.isSame(value.end)) {
         selectionModifier = 'single';
       } else if (value.contains(date)) {
@@ -329,17 +335,19 @@ var CalendarDate = _reactAddons2['default'].createClass({
           selectionModifier = 'segment';
         }
       }
-    } else if (value && date.isSame(value)) {
+    } else if (value && !hideSelection && date.isSame(value)) {
       selectionModifier = 'single';
     }
 
     if (highlightedRange && highlightedRange.contains(date)) {
+      pending = true;
+
       if (date.isSame(highlightedRange.start)) {
-        highlightModifier = 'start';
+        selectionModifier = 'start';
       } else if (date.isSame(highlightedRange.end)) {
-        highlightModifier = 'end';
+        selectionModifier = 'end';
       } else {
-        highlightModifier = 'segment';
+        selectionModifier = 'segment';
       }
     }
 
@@ -366,11 +374,11 @@ var CalendarDate = _reactAddons2['default'].createClass({
       pmColor = states.getIn([1, 'color']);
 
       if (amColor) {
-        cellStyle['borderLeftColor'] = _utilsLightenDarkenColor2['default'](amColor, -10);
+        cellStyle.borderLeftColor = _utilsLightenDarkenColor2['default'](amColor, -10);
       }
 
       if (pmColor) {
-        cellStyle['borderRightColor'] = _utilsLightenDarkenColor2['default'](pmColor, -10);
+        cellStyle.borderRightColor = _utilsLightenDarkenColor2['default'](pmColor, -10);
       }
     }
 
@@ -395,7 +403,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
         { className: this.cx({ element: 'DateLabel' }) },
         date.format('D')
       ),
-      selectionModifier && _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier }),
+      selectionModifier && _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }),
       highlightModifier && _reactAddons2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier })
     );
   }

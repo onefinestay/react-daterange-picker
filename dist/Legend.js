@@ -10,10 +10,6 @@ var _reactAddons = require('react/addons');
 
 var _reactAddons2 = _interopRequireDefault(_reactAddons);
 
-var _utilsBemCx = require('./utils/bemCx');
-
-var _utilsBemCx2 = _interopRequireDefault(_utilsBemCx);
-
 var _utilsBemMixin = require('./utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
@@ -21,24 +17,26 @@ var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 'use strict';
 
 var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
-var cx = _reactAddons2['default'].addons.classSet;
 
 var Legend = _reactAddons2['default'].createClass({
   displayName: 'Legend',
 
   mixins: [_utilsBemMixin2['default'], PureRenderMixin],
 
+  propTypes: {
+    selectedLabel: _reactAddons2['default'].PropTypes.string.isRequired,
+    stateDefinitions: _reactAddons2['default'].PropTypes.object.isRequired
+  },
+
   render: function render() {
     var _props = this.props;
     var selectedLabel = _props.selectedLabel;
     var stateDefinitions = _props.stateDefinitions;
 
-    var block = this.getBemBlock();
-    var namespace = this.getBemNamespace();
     var items = [];
-    var name;
-    var def;
-    var style;
+    var name = undefined;
+    var def = undefined;
+    var style = undefined;
 
     for (name in stateDefinitions) {
       def = stateDefinitions[name];

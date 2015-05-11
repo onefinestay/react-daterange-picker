@@ -3,23 +3,34 @@ import React from 'react/addons';
 
 import BemMixin from './utils/BemMixin';
 
-var PureRenderMixin = React.addons.PureRenderMixin;
+const PureRenderMixin = React.addons.PureRenderMixin;
 
 
-var PaginationArrow = React.createClass({
+const PaginationArrow = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
-  render() {
-    var {disabled, direction, ...props} = this.props;
-    var modifiers = {[direction]: true};
-    var states = {disabled};
+  propTypes: {
+    disabled: React.PropTypes.bool,
+    direction: React.PropTypes.oneOf(['next', 'previous'])
+  },
 
-    var elementOpts = {
+  getDefaultProps() {
+    return {
+      disabled: false
+    };
+  },
+
+  render() {
+    let {disabled, direction, ...props} = this.props;
+    let modifiers = {[direction]: true};
+    let states = {disabled};
+
+    let elementOpts = {
       modifiers,
       states
     };
 
-    var iconOpts = {
+    let iconOpts = {
       element: 'PaginationArrowIcon',
       modifiers,
       states

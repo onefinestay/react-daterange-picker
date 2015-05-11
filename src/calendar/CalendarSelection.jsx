@@ -3,16 +3,18 @@ import React from 'react/addons';
 
 import BemMixin from '../utils/BemMixin';
 
-var PureRenderMixin = React.addons.PureRenderMixin;
+const PureRenderMixin = React.addons.PureRenderMixin;
 
 
-var CalendarSelection = React.createClass({
+const CalendarSelection = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   render() {
-    var {modifier, inOtherMonth} = this.props;
-    var modifiers = {[modifier]: true};
-    var states = {
+    let {modifier, inOtherMonth, newSelectionStarted, pending} = this.props;
+    let modifiers = {[modifier]: true};
+    let states = {
+      pending,
+      newSelectionStarted,
       inOtherMonth
     };
 
