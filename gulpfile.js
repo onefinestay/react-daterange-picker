@@ -16,9 +16,32 @@ var React = require('react');
 var webpack = require('webpack');
 var gulpWebpack = require('gulp-webpack');
 
-var compiler = gulpWebpack({
+var PRODUCTION = (process.env.NODE_ENV === 'production');
+
+var gulpPlugins = [
+  // Fix for moment including all locales
+  // Ref: http://stackoverflow.com/a/25426019
+  new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+];
+
+if (PRODUCTION) {
+  gulpPlugins.push(new webpack.DefinePlugin({
+    "process.env": {
+      NODE_ENV: JSON.stringify("production")
+    }
+  }));
+  gulpPlugins.push(new webpack.optimize.DedupePlugin());
+  gulpPlugins.push(new webpack.optimize.UglifyJsPlugin({
+    compress: true,
+    mangle: true,
+    sourceMap: true
+  }));
+}
+
+var webpackConfig = {
   cache: true,
-  watch: true,
+  debug: !PRODUCTION,
+  devtool: PRODUCTION ? 'source-map' : 'eval-source-map',
   context: __dirname,
   output: {
     path: path.resolve('./example/build/'),
@@ -43,14 +66,10 @@ var compiler = gulpWebpack({
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
-  plugins: [
-    // Fix for moment including all locales
-    // Ref: http://stackoverflow.com/a/25426019
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-  ]
-}, webpack);
+  plugins: gulpPlugins
+};
 
-gulp.task('build-js', function() {
+gulp.task('build-dist-js', function() {
   // build javascript files
   return gulp.src('src/**/*.{js,jsx}')
     .pipe(babel({
@@ -61,14 +80,16 @@ gulp.task('build-js', function() {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('watch-js', function() {
-  // watch js files
-  watch('./src/*{js,jsx}', function(files, cb) {
-    gulp.start('build-js', cb);
-  });
+gulp.task('build-example-js', function() {
+  var compiler = gulpWebpack(webpackConfig, webpack);
+
+  return gulp.src('./example/js/index.js')
+    .pipe(compiler)
+    .pipe(gulp.dest('./example/build'));
 });
 
 gulp.task('watch-example-js', function() {
+  var compiler = gulpWebpack(Object.assign({}, {watch: true}, webpackConfig), webpack);
   return gulp.src('./example/js/index.js')
     .pipe(compiler)
     .pipe(gulp.dest('./example/build'));
@@ -108,10 +129,7 @@ gulp.task('example-server', function() {
   });
 });
 
-gulp.task('build', ['build-js', 'build-example', 'build-example-scss']);
-
-gulp.task('develop-example', ['build-example', 'build-example-scss', 'watch-example', 'watch-example-scss', 'example-server']);
-
+gulp.task('build', ['build-dist-js', 'build-example', 'build-example-js', 'build-example-scss']);
 gulp.task('develop', ['build-example', 'watch-example-js', 'watch-example-scss', 'example-server']);
 
 gulp.task('deploy-example', ['build'], function() {
