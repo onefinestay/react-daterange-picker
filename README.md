@@ -28,3 +28,4 @@ gulp develop
 
 This will start a local server at `http://localhost:9989` where you can see the
 example page. It will also watch for any files changes and rebuild.
+To update the compiled files in dist run `gulp build-dist-js`.
