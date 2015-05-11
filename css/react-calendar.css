@@ -20,10 +20,11 @@
   .DateRangePicker__LegendItemColor {
     border-radius: 50%;
     display: inline-block;
-    height: 16px;
+    height: 14px;
     margin-right: 6px;
     vertical-align: text-bottom;
-    width: 16px; }
+    width: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.25); }
     .DateRangePicker__LegendItemColor--selection {
       background-color: #ed5434; }
   .DateRangePicker__PaginationArrow {
@@ -175,6 +176,9 @@
       border-radius: 5px;
       left: 5px;
       right: 5px; }
+    .DateRangePicker__CalendarSelection--is-pending {
+      background-color: rgba(237, 84, 52, 0.75);
+      border-width: 0; }
   .DateRangePicker__CalendarHighlight {
     background-color: rgba(255, 255, 255, 0.25);
     border: 1px solid rgba(0, 0, 0, 0.25);
