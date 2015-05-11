@@ -2,15 +2,16 @@
 
 Object.assign = require('object.assign');
 
+var fs = require('fs');
 var gulp = require('gulp');
 var autoprefixer = require('gulp-autoprefixer');
 var extReplace = require('gulp-ext-replace');
 var watch = require('gulp-watch');
 var babel = require('gulp-babel');
-var render = require('gulp-render');
 var connect = require('gulp-connect');
 var sass = require('gulp-sass');
 var deploy = require('gulp-gh-pages');
+var React = require('react');
 
 gulp.task('build-js', function() {
   // build javascript files
@@ -31,16 +32,17 @@ gulp.task('watch-js', function() {
 });
 
 gulp.task('build-example', ['build-js'], function() {
-  return gulp.src('./example/index.jsx')
-    .pipe(babel({
-      stage: 1,
-      plugins: ['object-assign']
-    }))
-    .pipe(render({
-      template: '<!doctype html>' +
-                '<%=body%>'
-      }))
-    .pipe(gulp.dest('./example'));
+  // setup babel hook
+  require("babel/register")({
+    stage: 1,
+    plugins: ['object-assign']
+  });
+
+  var Index = React.createFactory(require('./example/index.jsx'));
+  var markup = '<!document html>' + React.renderToString(Index());
+
+  // write file
+  fs.writeFileSync('./example/index.html', markup);
 });
 
 gulp.task('build-example-scss', function() {
