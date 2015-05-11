@@ -1,4 +1,3 @@
-/* global hljs */
 "use strict";
 
 var React = require('react/addons');
@@ -8,5 +7,5 @@ window.React = React;
 
 React.render(
   Index(),
-  document
+  document.getElementById('app')
 );
