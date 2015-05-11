@@ -3,6 +3,7 @@
 Object.assign = require('object.assign');
 
 var fs = require('fs');
+var path = require('path');
 var gulp = require('gulp');
 var autoprefixer = require('gulp-autoprefixer');
 var extReplace = require('gulp-ext-replace');
@@ -12,6 +13,42 @@ var connect = require('gulp-connect');
 var sass = require('gulp-sass');
 var deploy = require('gulp-gh-pages');
 var React = require('react');
+var webpack = require('webpack');
+var gulpWebpack = require('gulp-webpack');
+
+var compiler = gulpWebpack({
+  cache: true,
+  watch: true,
+  context: __dirname,
+  output: {
+    path: path.resolve('./example/build/'),
+    filename: 'index.js'
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.jsx|.js$/,
+        exclude: /node_modules\//,
+        loaders: [
+          'babel-loader?stage=1&plugins[]=object-assign'
+        ]
+      },
+    ],
+    postLoaders: [
+      {
+        loader: "transform/cacheable?brfs"
+      }
+    ]
+  },
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
+  plugins: [
+    // Fix for moment including all locales
+    // Ref: http://stackoverflow.com/a/25426019
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+  ]
+}, webpack);
 
 gulp.task('build-js', function() {
   // build javascript files
@@ -31,14 +68,20 @@ gulp.task('watch-js', function() {
   });
 });
 
-gulp.task('build-example', ['build-js'], function() {
+gulp.task('watch-example-js', function() {
+  return gulp.src('./example/js/index.js')
+    .pipe(compiler)
+    .pipe(gulp.dest('./example/build'));
+});
+
+gulp.task('build-example', function() {
   // setup babel hook
   require("babel/register")({
     stage: 1,
     plugins: ['object-assign']
   });
 
-  var Index = React.createFactory(require('./example/index.jsx'));
+  var Index = React.createFactory(require('./example/base.jsx'));
   var markup = '<!document html>' + React.renderToString(Index());
 
   // write file
@@ -50,22 +93,6 @@ gulp.task('build-example-scss', function() {
     .pipe(sass())
     .pipe(autoprefixer())
     .pipe(gulp.dest('./example/css'));
-});
-
-gulp.task('watch-example', ['build-js', 'build-example'], function() {
-  watch(
-    ['./example/**/*.{js,jsx}', './src/*.{js,jsx}', '!./example/build/*.js', '!./example/js/*.js'],
-    function(files, cb) {
-      // delete all files in require cache
-      for (var i in require.cache) {
-        if (!i.match(/node_modules/) && !i.match(/gulpfile/)) {
-          delete require.cache[i];
-        }
-      }
-
-      gulp.start('build-example', cb);
-    }
-  );
 });
 
 gulp.task('watch-example-scss', ['build-example-scss'], function() {
@@ -85,7 +112,7 @@ gulp.task('build', ['build-js', 'build-example', 'build-example-scss']);
 
 gulp.task('develop-example', ['build-example', 'build-example-scss', 'watch-example', 'watch-example-scss', 'example-server']);
 
-gulp.task('develop', ['watch-js', 'watch-example', 'watch-example-scss', 'example-server']);
+gulp.task('develop', ['build-example', 'watch-example-js', 'watch-example-scss', 'example-server']);
 
 gulp.task('deploy-example', ['build'], function() {
   return gulp.src('./example/**/*')
