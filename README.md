@@ -23,9 +23,9 @@ Once you have the repository cloned run the following commands to get started:
 
 ```shell
 npm install
-npm install -g webpack // we use webpack to build the js for the example page
+gulp develop
 ```
 
-Then in one shell run `gulp develop` and in another `webpack -w --colors --progress`.
 This will start a local server at `http://localhost:9989` where you can see the
 example page. It will also watch for any files changes and rebuild.
+To update the compiled files in dist run `gulp build-dist-js`.

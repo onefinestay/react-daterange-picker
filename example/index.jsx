@@ -4,7 +4,7 @@ var React = require('react/addons');
 var moment = require('moment-range');
 var fs = require('fs');
 var timekeeper = require('timekeeper');
-var RangePicker = require('..');
+var RangePicker = require('../src');
 
 var Header = require('./components/header.jsx');
 var Footer = require('./components/footer.jsx');
@@ -41,7 +41,7 @@ var DatePickerRange = React.createClass({
         <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
         <div>
           <input type="text"
-            value={this.state.value ?  this.state.value.start.format('LL') : null}
+            value={this.state.value ? this.state.value.start.format('LL') : null}
             readOnly={true}
             placeholder="Start date"/>
           <input type="text"
@@ -130,72 +130,57 @@ var Index = React.createClass({
     var initialEnd = moment().add(1, 'weeks').add(3, 'days').startOf('day');
 
     return (
-      <html>
-        <head>
-          <title>React Daterange Picker Demo</title>
-          <link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/docco.min.css' rel='stylesheet' type='text/css'></link>
-          <link href="css/react-calendar.css" rel="stylesheet"></link>
-          <link href="css/example.css" rel="stylesheet"></link>
-          <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-          <script src="https://cdn.polyfill.io/v1/polyfill.min.js" />
-        </head>
-        <body>
-          <Header />
-          <GithubRibbon />
+      <main>
+        <Header />
+        <GithubRibbon />
 
-          <div className="content">
-            <div className="example">
-              <DatePickerRange
-                firstOfWeek={1}
-                numberOfCalendars={2}
-                selectionType='range'
-                minimumDate={new Date()}
-                maximumDate={moment().add(2, 'years').toDate()}
-                stateDefinitions={stateDefinitions}
-                dateStates={dateRanges}
-                defaultState="available"
-                value={moment().range(initialStart, initialEnd)}
-                showLegend={true}
-                />
-              <CodeSnippet language="javascript">
-                {processCodeSnippet(mainCodeSnippet)}
-              </CodeSnippet>
-            </div>
-
-            <Features />
-            <Install />
-
-            <div className="examples">
-              <h2>Examples</h2>
-
-              <div className="example">
-                <h4>Range with no date states</h4>
-                <DatePickerRange
-                  numberOfCalendars={2}
-                  selectionType="range"
-                  minimumDate={new Date()} />
-              </div>
-
-              <div className="example">
-                <h4>Single with no date states</h4>
-                <DatePickerSingle
-                  numberOfCalendars={2}
-                  selectionType="single"
-                  minimumDate={new Date()} />
-              </div>
-            </div>
+        <div className="content">
+          <div className="example">
+            <DatePickerRange
+              firstOfWeek={1}
+              numberOfCalendars={2}
+              selectionType='range'
+              minimumDate={new Date()}
+              maximumDate={moment().add(2, 'years').toDate()}
+              stateDefinitions={stateDefinitions}
+              dateStates={dateRanges}
+              defaultState="available"
+              value={moment().range(initialStart, initialEnd)}
+              showLegend={true}
+              />
+            <CodeSnippet language="javascript">
+              {processCodeSnippet(mainCodeSnippet)}
+            </CodeSnippet>
           </div>
 
-          <Footer />
+          <Features />
+          <Install />
 
-          <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js" charSet="utf-8"></script>
-          <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/languages/javascript.min.js" charSet="utf-8"></script>
-          <script src="build/index.js"></script>
-        </body>
-      </html>
+          <div className="examples">
+            <h2>Examples</h2>
+
+            <div className="example">
+              <h4>Range with no date states</h4>
+              <DatePickerRange
+                numberOfCalendars={2}
+                selectionType="range"
+                minimumDate={new Date()} />
+            </div>
+
+            <div className="example">
+              <h4>Single with no date states</h4>
+              <DatePickerSingle
+                numberOfCalendars={2}
+                selectionType="single"
+                minimumDate={new Date()} />
+            </div>
+          </div>
+        </div>
+
+        <Footer />
+      </main>
     );
   }
 });
 
 module.exports = Index;
-
