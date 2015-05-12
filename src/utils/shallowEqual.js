@@ -13,14 +13,12 @@ function shallowEqual(objA, objB) {
   for (key in objA) {
     if (objA.hasOwnProperty(key)) {
       if (!objB.hasOwnProperty(key)) {
-        //console.log(key);
         return false;
       } else if (
         moment.isMoment(objA[key]) &&
         moment.isMoment(objB[key])
       ) {
         if (!objA[key].isSame(objB[key])) {
-          //console.log(key);
           return false;
         }
       } else if (
@@ -28,10 +26,8 @@ function shallowEqual(objA, objB) {
         isMomentRange(objB[key]) &&
         !areMomentRangesEqual(objA[key], objB[key])
       ) {
-        //console.log(key);
         return false;
       } else if (objA[key] !== objB[key]) {
-        //console.log(key);
         return false;
       }
     }
@@ -39,7 +35,6 @@ function shallowEqual(objA, objB) {
   // Test for B's keys missing from A.
   for (key in objB) {
     if (objB.hasOwnProperty(key) && !objA.hasOwnProperty(key)) {
-      //console.log(key);
       return false;
     }
   }
