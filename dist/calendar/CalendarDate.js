@@ -22,6 +22,10 @@ var _utilsBemMixin = require('../utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
+var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
+
+var _utilsPureRenderMixin2 = _interopRequireDefault(_utilsPureRenderMixin);
+
 var _utilsLightenDarkenColor = require('../utils/lightenDarkenColor');
 
 var _utilsLightenDarkenColor2 = _interopRequireDefault(_utilsLightenDarkenColor);
@@ -40,38 +44,34 @@ var _CalendarSelection2 = _interopRequireDefault(_CalendarSelection);
 
 'use strict';
 
-var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
-
 var CalendarDate = _reactAddons2['default'].createClass({
   displayName: 'CalendarDate',
 
-  mixins: [_utilsBemMixin2['default'], PureRenderMixin],
+  mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
   propTypes: {
     date: _reactAddons2['default'].PropTypes.object.isRequired,
 
     firstOfMonth: _reactAddons2['default'].PropTypes.object.isRequired,
-    index: _reactAddons2['default'].PropTypes.number.isRequired,
-    maxIndex: _reactAddons2['default'].PropTypes.number.isRequired,
-    selectionType: _reactAddons2['default'].PropTypes.string.isRequired,
 
-    value: _reactAddons2['default'].PropTypes.object,
-    hideSelection: _reactAddons2['default'].PropTypes.bool,
-    highlightedRange: _reactAddons2['default'].PropTypes.object,
+    isSelectedDate: _reactAddons2['default'].PropTypes.bool,
+    isSelectedRangeStart: _reactAddons2['default'].PropTypes.bool,
+    isSelectedRangeEnd: _reactAddons2['default'].PropTypes.bool,
+    isInSelectedRange: _reactAddons2['default'].PropTypes.bool,
+
+    isHighlightedDate: _reactAddons2['default'].PropTypes.bool,
+    isHighlightedRangeStart: _reactAddons2['default'].PropTypes.bool,
+    isHighlightedRangeEnd: _reactAddons2['default'].PropTypes.bool,
+    isInHighlightedRange: _reactAddons2['default'].PropTypes.bool,
+
     highlightedDate: _reactAddons2['default'].PropTypes.object,
-    selectedStartDate: _reactAddons2['default'].PropTypes.object,
     dateStates: _reactAddons2['default'].PropTypes.instanceOf(_immutable2['default'].List),
+    isDisabled: _reactAddons2['default'].PropTypes.bool,
 
+    dateRangesForDate: _reactAddons2['default'].PropTypes.func,
     onHighlightDate: _reactAddons2['default'].PropTypes.func,
     onUnHighlightDate: _reactAddons2['default'].PropTypes.func,
-    onStartSelection: _reactAddons2['default'].PropTypes.func,
-    onCompleteSelection: _reactAddons2['default'].PropTypes.func
-  },
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      hideSelection: false
-    };
+    onSelectDate: _reactAddons2['default'].PropTypes.func
   },
 
   getInitialState: function getInitialState() {
@@ -80,68 +80,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
     };
   },
 
-  isDisabled: function isDisabled(date) {
-    return !this.props.enabledRange.contains(date);
-  },
-
-  isDateSelectable: function isDateSelectable(date) {
-    return this.dateRangesForDate(date).some(function (r) {
-      return r.get('selectable');
-    });
-  },
-
-  nonSelectableStateRanges: function nonSelectableStateRanges() {
-    return this.props.dateStates.filter(function (d) {
-      return !d.get('selectable');
-    });
-  },
-
-  dateRangesForDate: function dateRangesForDate(date) {
-    return this.props.dateStates.filter(function (d) {
-      return d.get('range').contains(date);
-    });
-  },
-
-  sanitizeRange: function sanitizeRange(range, forwards) {
-    /* Truncates the provided range at the first intersection
-     * with a non-selectable state. Using forwards to determine
-     * which direction to work
-     */
-    var blockedRanges = this.nonSelectableStateRanges().map(function (r) {
-      return r.get('range');
-    });
-    var intersect = undefined;
-
-    if (forwards) {
-      intersect = blockedRanges.find(function (r) {
-        return range.intersect(r);
-      });
-      if (intersect) {
-        return _momentRange2['default']().range(range.start, intersect.start);
-      }
-    } else {
-      intersect = blockedRanges.findLast(function (r) {
-        return range.intersect(r);
-      });
-
-      if (intersect) {
-        return _momentRange2['default']().range(intersect.end, range.end);
-      }
-    }
-
-    if (range.start.isBefore(this.props.enabledRange.start)) {
-      return _momentRange2['default']().range(this.props.enabledRange.start, range.end);
-    }
-
-    if (range.end.isAfter(this.props.enabledRange.end)) {
-      return _momentRange2['default']().range(range.start, this.props.enabledRange.end);
-    }
-
-    return range;
-  },
-
   mouseUp: function mouseUp() {
-    this.selectDate();
+    this.props.onSelectDate(this.props.date);
 
     if (this.state.mouseDown) {
       this.setState({
@@ -159,8 +99,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
   },
 
   touchEnd: function touchEnd() {
-    this.highlightDate();
-    this.selectDate();
+    this.props.onHighlightDate(this.props.date);
+    this.props.onSelectDate(this.props.date);
 
     if (this.state.mouseDown) {
       this.setState({
@@ -179,81 +119,24 @@ var CalendarDate = _reactAddons2['default'].createClass({
   },
 
   mouseEnter: function mouseEnter() {
-    this.highlightDate();
+    this.props.onHighlightDate(this.props.date);
   },
 
   mouseLeave: function mouseLeave() {
     if (this.state.mouseDown) {
-      this.selectDate();
+      this.props.onSelectDate(this.props.date);
 
       this.setState({
         mouseDown: false
       });
     }
-    this.unHighlightDate();
-  },
-
-  highlightDate: function highlightDate() {
-    var _props = this.props;
-    var date = _props.date;
-    var selectionType = _props.selectionType;
-    var selectedStartDate = _props.selectedStartDate;
-    var onHighlightRange = _props.onHighlightRange;
-    var onHighlightDate = _props.onHighlightDate;
-
-    var datePair = undefined;
-    var range = undefined;
-    var forwards = undefined;
-
-    if (selectionType === 'range') {
-      if (selectedStartDate) {
-        datePair = _immutable2['default'].List.of(selectedStartDate, date).sortBy(function (d) {
-          return d.unix();
-        });
-        range = _momentRange2['default']().range(datePair.get(0), datePair.get(1));
-        forwards = range.start.unix() === selectedStartDate.unix();
-        range = this.sanitizeRange(range, forwards);
-        onHighlightRange(range);
-      } else if (!this.isDisabled(date) && this.isDateSelectable(date)) {
-        onHighlightDate(date);
-      }
-    } else {
-      if (!this.isDisabled(date) && this.isDateSelectable(date)) {
-        onHighlightDate(date);
-      }
-    }
-  },
-
-  unHighlightDate: function unHighlightDate() {
     this.props.onUnHighlightDate(this.props.date);
   },
 
-  selectDate: function selectDate() {
-    var _props2 = this.props;
-    var date = _props2.date;
-    var selectionType = _props2.selectionType;
-    var selectedStartDate = _props2.selectedStartDate;
-    var completeRangeSelection = _props2.completeRangeSelection;
-    var completeSelection = _props2.completeSelection;
-    var startRangeSelection = _props2.startRangeSelection;
-
-    if (selectionType === 'range') {
-      if (selectedStartDate) {
-        completeRangeSelection();
-      } else if (!this.isDisabled(date) && this.isDateSelectable(date)) {
-        startRangeSelection(date);
-      }
-    } else {
-      if (!this.isDisabled(date) && this.isDateSelectable(date)) {
-        completeSelection();
-      }
-    }
-  },
-
   getBemModifiers: function getBemModifiers() {
-    var _props3 = this.props;
-    var date = _props3.date;
-    var firstOfMonth = _props3.firstOfMonth;
+    var _props = this.props;
+    var date = _props.date;
+    var firstOfMonth = _props.firstOfMonth;
 
     var otherMonth = false;
     var weekend = false;
@@ -270,88 +153,57 @@ var CalendarDate = _reactAddons2['default'].createClass({
   },
 
   getBemStates: function getBemStates() {
-    var _props4 = this.props;
-    var date = _props4.date;
-    var value = _props4.value;
-    var highlightedRange = _props4.highlightedRange;
-    var highlightedDate = _props4.highlightedDate;
-    var hideSelection = _props4.hideSelection;
+    var _props2 = this.props;
+    var isSelectedDate = _props2.isSelectedDate;
+    var isInSelectedRange = _props2.isInSelectedRange;
+    var isInHighlightedRange = _props2.isInHighlightedRange;
+    var highlighted = _props2.isHighlightedDate;
+    var disabled = _props2.isDisabled;
 
-    var disabled = this.isDisabled(date);
-    var highlighted = false;
-    var selected = false;
-
-    if (value && !hideSelection) {
-      if (!value.start && date.isSame(value)) {
-        selected = true;
-      } else if (value.start && value.start.isSame(value.end) && date.isSame(value.start)) {
-        selected = true;
-      } else if (value.start && value.contains(date)) {
-        selected = true;
-      }
-    }
-
-    if (highlightedRange && highlightedRange.contains(date)) {
-      selected = true;
-    } else if (highlightedDate && date.isSame(highlightedDate)) {
-      highlighted = true;
-    }
+    var selected = isSelectedDate || isInSelectedRange || isInHighlightedRange;
 
     return { disabled: disabled, highlighted: highlighted, selected: selected };
   },
 
   render: function render() {
-    var _props5 = this.props;
-    var value = _props5.value;
-    var date = _props5.date;
-    var highlightedRange = _props5.highlightedRange;
-    var highlightedDate = _props5.highlightedDate;
-    var hideSelection = _props5.hideSelection;
+    var _props3 = this.props;
+    var date = _props3.date;
+    var dateRangesForDate = _props3.dateRangesForDate;
+    var isSelectedDate = _props3.isSelectedDate;
+    var isSelectedRangeStart = _props3.isSelectedRangeStart;
+    var isSelectedRangeEnd = _props3.isSelectedRangeEnd;
+    var isInSelectedRange = _props3.isInSelectedRange;
+    var isHighlightedDate = _props3.isHighlightedDate;
+    var isHighlightedRangeStart = _props3.isHighlightedRangeStart;
+    var isHighlightedRangeEnd = _props3.isHighlightedRangeEnd;
+    var isInHighlightedRange = _props3.isInHighlightedRange;
 
     var bemModifiers = this.getBemModifiers();
     var bemStates = this.getBemStates();
-    var pending = false;
+    var pending = isInHighlightedRange;
 
     var color = undefined;
     var amColor = undefined;
     var pmColor = undefined;
-    var states = this.dateRangesForDate(date);
+    var states = dateRangesForDate(date);
     var numStates = states.count();
     var cellStyle = {};
     var style = {};
 
-    var highlightModifier = null;
-    var selectionModifier = null;
+    var highlightModifier = undefined;
+    var selectionModifier = undefined;
 
-    if (value && !hideSelection && value.start) {
-      if (value.start.isSame(date) && value.start.isSame(value.end)) {
-        selectionModifier = 'single';
-      } else if (value.contains(date)) {
-        if (date.isSame(value.start)) {
-          selectionModifier = 'start';
-        } else if (date.isSame(value.end)) {
-          selectionModifier = 'end';
-        } else {
-          selectionModifier = 'segment';
-        }
-      }
-    } else if (value && !hideSelection && date.isSame(value)) {
+    if (isSelectedDate || isSelectedRangeStart && isSelectedRangeEnd) {
       selectionModifier = 'single';
+    } else if (isSelectedRangeStart || isHighlightedRangeStart) {
+      selectionModifier = 'start';
+    } else if (isSelectedRangeEnd || isHighlightedRangeEnd) {
+      selectionModifier = 'end';
+    } else if (isInSelectedRange || isInHighlightedRange) {
+      selectionModifier = 'segment';
     }
 
-    if (highlightedRange && highlightedRange.contains(date)) {
-      pending = true;
-
-      if (date.isSame(highlightedRange.start)) {
-        selectionModifier = 'start';
-      } else if (date.isSame(highlightedRange.end)) {
-        selectionModifier = 'end';
-      } else {
-        selectionModifier = 'segment';
-      }
-    }
-
-    if (highlightedDate && date.isSame(highlightedDate)) {
+    if (isHighlightedDate) {
       highlightModifier = 'single';
     }
 
@@ -387,7 +239,6 @@ var CalendarDate = _reactAddons2['default'].createClass({
       { className: this.cx({ element: 'Date', modifiers: bemModifiers, states: bemStates }),
         style: cellStyle,
         onTouchStart: this.touchStart,
-        onMouseOver: this.mouseOver,
         onMouseEnter: this.mouseEnter,
         onMouseLeave: this.mouseLeave,
         onMouseDown: this.mouseDown },
@@ -403,8 +254,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
         { className: this.cx({ element: 'DateLabel' }) },
         date.format('D')
       ),
-      selectionModifier && _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }),
-      highlightModifier && _reactAddons2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier })
+      selectionModifier ? _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }) : null,
+      highlightModifier ? _reactAddons2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier }) : null
     );
   }
 

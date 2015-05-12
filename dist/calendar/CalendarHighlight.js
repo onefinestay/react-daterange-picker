@@ -16,24 +16,22 @@ var _utilsBemMixin = require('../utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
-'use strict';
+var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
 
-var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
+var _utilsPureRenderMixin2 = _interopRequireDefault(_utilsPureRenderMixin);
+
+'use strict';
 
 var CalendarHighlight = _reactAddons2['default'].createClass({
   displayName: 'CalendarHighlight',
 
-  mixins: [_utilsBemMixin2['default'], PureRenderMixin],
+  mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
   render: function render() {
-    var _props = this.props;
-    var modifier = _props.modifier;
-    var inOtherMonth = _props.inOtherMonth;
+    var modifier = this.props.modifier;
 
     var modifiers = _defineProperty({}, modifier, true);
-    var states = {
-      inOtherMonth: inOtherMonth
-    };
+    var states = {};
 
     return _reactAddons2['default'].createElement('div', { className: this.cx({ states: states, modifiers: modifiers }) });
   }

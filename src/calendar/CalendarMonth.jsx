@@ -6,8 +6,8 @@ import calendar from 'calendar';
 import Immutable from 'immutable';
 
 import BemMixin from '../utils/BemMixin';
-
-const PureRenderMixin = React.addons.PureRenderMixin;
+import isMomentRange from '../utils/isMomentRange';
+import PureRenderMixin from '../utils/PureRenderMixin';
 
 const lang = moment().localeData();
 
@@ -19,9 +19,41 @@ const CalendarMonth = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   renderDay(date, i) {
-    let {dateComponent: CalendarDate, ...props} = this.props;
+    let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
+    let d = moment(date);
 
-    return <CalendarDate {...props} date={moment(date)} key={i} />;
+    let isInSelectedRange;
+    let isSelectedDate;
+    let isSelectedRangeStart;
+    let isSelectedRangeEnd;
+
+    if (!hideSelection && value && moment.isMoment(value) && value.isSame(d)) {
+      isSelectedDate = true;
+    } else if (!hideSelection && value && isMomentRange(value) && value.contains(d)) {
+      isInSelectedRange = true;
+
+      if (value.start.isSame(d)) {
+        isSelectedRangeStart = true;
+      } else if (value.end.isSame(d)) {
+        isSelectedRangeEnd = true;
+      }
+    }
+
+    return (
+      <CalendarDate
+        key={i}
+        isDisabled={!enabledRange.contains(d)}
+        isHighlightedDate={!!(highlightedDate && highlightedDate.isSame(d))}
+        isHighlightedRangeStart={!!(highlightedRange && highlightedRange.start.isSame(d))}
+        isHighlightedRangeEnd={!!(highlightedRange && highlightedRange.end.isSame(d))}
+        isInHighlightedRange={!!(highlightedRange && highlightedRange.contains(d))}
+        isSelectedDate={isSelectedDate}
+        isSelectedRangeStart={isSelectedRangeStart}
+        isSelectedRangeEnd={isSelectedRangeEnd}
+        isInSelectedRange={isInSelectedRange}
+        date={d}
+        {...props} />
+    );
   },
 
   renderWeek(dates, i) {
