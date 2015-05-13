@@ -27,6 +27,11 @@ var CalendarSelection = _reactAddons2['default'].createClass({
 
   mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
+  propTypes: {
+    modifier: _reactAddons2['default'].PropTypes.string,
+    pending: _reactAddons2['default'].PropTypes.bool.isRequired
+  },
+
   render: function render() {
     var _props = this.props;
     var modifier = _props.modifier;

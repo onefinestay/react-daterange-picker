@@ -2,10 +2,10 @@
 
 import React from 'react/addons';
 
-import moment from 'moment-range';
 import Immutable from 'immutable';
 
 import BemMixin from '../utils/BemMixin';
+import CustomPropTypes from '../utils/CustomPropTypes';
 import PureRenderMixin from '../utils/PureRenderMixin';
 import lightenDarkenColor from '../utils/lightenDarkenColor';
 
@@ -18,7 +18,7 @@ const CalendarDate = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {
-    date: React.PropTypes.object.isRequired,
+    date: CustomPropTypes.moment,
 
     firstOfMonth: React.PropTypes.object.isRequired,
 

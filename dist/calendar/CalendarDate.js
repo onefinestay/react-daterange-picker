@@ -10,10 +10,6 @@ var _reactAddons = require('react/addons');
 
 var _reactAddons2 = _interopRequireDefault(_reactAddons);
 
-var _momentRange = require('moment-range');
-
-var _momentRange2 = _interopRequireDefault(_momentRange);
-
 var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);

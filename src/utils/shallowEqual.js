@@ -9,6 +9,7 @@ function shallowEqual(objA, objB) {
     return true;
   }
   var key;
+
   // Test for A's keys different from B.
   for (key in objA) {
     if (objA.hasOwnProperty(key)) {
@@ -32,6 +33,7 @@ function shallowEqual(objA, objB) {
       }
     }
   }
+
   // Test for B's keys missing from A.
   for (key in objB) {
     if (objB.hasOwnProperty(key) && !objA.hasOwnProperty(key)) {
@@ -41,4 +43,4 @@ function shallowEqual(objA, objB) {
   return true;
 }
 
-module.exports = shallowEqual;
+export default shallowEqual;
