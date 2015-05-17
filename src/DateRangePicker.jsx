@@ -256,7 +256,7 @@ const DateRangePicker = React.createClass({
     this.setState({
       highlightedDate: null
     });
-  },  
+  },
 
   onSelectDate(date) {
     let {selectionType} = this.props;
@@ -267,7 +267,9 @@ const DateRangePicker = React.createClass({
         this.completeRangeSelection();
       } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.startRangeSelection(date);
+        this.highlightRange(moment().range(date, date));
       }
+
     } else {
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.completeSelection();
@@ -298,7 +300,7 @@ const DateRangePicker = React.createClass({
         this.highlightDate(date);
       }
     }
-  },  
+  },
 
   startRangeSelection(date) {
     this.setState({
@@ -334,7 +336,8 @@ const DateRangePicker = React.createClass({
 
   completeRangeSelection() {
     let range = this.state.highlightedRange;
-    if (range && !range.start.isSame(range.end)) {
+
+    if (range) {
       this.setState({
         selectedStartDate: null,
         highlightedRange: null,
@@ -473,7 +476,7 @@ const DateRangePicker = React.createClass({
     } else if (isMomentRange(value)) {
       if (!monthRange.overlaps(value)) {
         value = null;
-      }      
+      }
     }
 
     if (!moment.isMoment(highlightedDate) || !monthRange.contains(highlightedDate)) {
@@ -482,7 +485,7 @@ const DateRangePicker = React.createClass({
 
     if (!isMomentRange(highlightedRange) || !monthRange.overlaps(highlightedRange)) {
       highlightedRange = null;
-    }    
+    }
 
     props = {
       bemBlock,

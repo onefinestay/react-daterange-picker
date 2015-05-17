@@ -32,11 +32,8 @@ const CalendarMonth = React.createClass({
     } else if (!hideSelection && value && isMomentRange(value) && value.contains(d)) {
       isInSelectedRange = true;
 
-      if (value.start.isSame(d)) {
-        isSelectedRangeStart = true;
-      } else if (value.end.isSame(d)) {
-        isSelectedRangeEnd = true;
-      }
+      isSelectedRangeStart = value.start.isSame(d);
+      isSelectedRangeEnd = value.end.isSame(d);
     }
 
     return (
