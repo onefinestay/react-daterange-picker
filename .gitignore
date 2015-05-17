@@ -6,3 +6,4 @@ example/build/
 example/css/*.css
 .idea
 .DS_Store
+*.sublime-
