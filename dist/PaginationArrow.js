@@ -1,5 +1,4 @@
 'use strict';
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
@@ -19,8 +18,6 @@ var _reactAddons2 = _interopRequireDefault(_reactAddons);
 var _utilsBemMixin = require('./utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
-
-'use strict';
 
 var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
 

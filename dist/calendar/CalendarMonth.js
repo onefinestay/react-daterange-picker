@@ -38,9 +38,7 @@ var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
 
 var _utilsPureRenderMixin2 = _interopRequireDefault(_utilsPureRenderMixin);
 
-'use strict';
-
-var lang = _moment2['default']().localeData();
+var lang = (0, _moment2['default'])().localeData();
 
 var WEEKDAYS = _immutable2['default'].List(lang._weekdays).zip(_immutable2['default'].List(lang._weekdaysShort));
 var MONTHS = _immutable2['default'].List(lang._months);
@@ -61,7 +59,7 @@ var CalendarMonth = _reactAddons2['default'].createClass({
 
     var props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
-    var d = _moment2['default'](date);
+    var d = (0, _moment2['default'])(date);
 
     var isInSelectedRange = undefined;
     var isSelectedDate = undefined;
@@ -70,14 +68,11 @@ var CalendarMonth = _reactAddons2['default'].createClass({
 
     if (!hideSelection && value && _moment2['default'].isMoment(value) && value.isSame(d)) {
       isSelectedDate = true;
-    } else if (!hideSelection && value && _utilsIsMomentRange2['default'](value) && value.contains(d)) {
+    } else if (!hideSelection && value && (0, _utilsIsMomentRange2['default'])(value) && value.contains(d)) {
       isInSelectedRange = true;
 
-      if (value.start.isSame(d)) {
-        isSelectedRangeStart = true;
-      } else if (value.end.isSame(d)) {
-        isSelectedRangeEnd = true;
-      }
+      isSelectedRangeStart = value.start.isSame(d);
+      isSelectedRangeEnd = value.end.isSame(d);
     }
 
     return _reactAddons2['default'].createElement(CalendarDate, _extends({
@@ -183,11 +178,11 @@ var CalendarMonth = _reactAddons2['default'].createClass({
     var disabled = false;
     var year = firstOfMonth.year();
 
-    if (_moment2['default']({ years: year, months: i + 1, date: 1 }).unix() < enabledRange.start.unix()) {
+    if ((0, _moment2['default'])({ years: year, months: i + 1, date: 1 }).unix() < enabledRange.start.unix()) {
       disabled = true;
     }
 
-    if (_moment2['default']({ years: year, months: i, date: 1 }).unix() > enabledRange.end.unix()) {
+    if ((0, _moment2['default'])({ years: year, months: i, date: 1 }).unix() > enabledRange.end.unix()) {
       disabled = true;
     }
 
