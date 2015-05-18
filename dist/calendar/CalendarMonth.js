@@ -56,11 +56,15 @@ var CalendarMonth = _reactAddons2['default'].createClass({
 
   propTypes: {
     dateComponent: _reactAddons2['default'].PropTypes.func,
+    disableNavigation: _reactAddons2['default'].PropTypes.bool,
     enabledRange: _utilsCustomPropTypes2['default'].momentRange,
+    firstOfMonth: _utilsCustomPropTypes2['default'].moment,
     firstOfWeek: _reactAddons2['default'].PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
     hideSelection: _reactAddons2['default'].PropTypes.bool,
     highlightedDate: _reactAddons2['default'].PropTypes.object,
     highlightedRange: _reactAddons2['default'].PropTypes.object,
+    onMonthChange: _reactAddons2['default'].PropTypes.func,
+    onYearChange: _reactAddons2['default'].PropTypes.func,
     value: _utilsCustomPropTypes2['default'].momentOrMomentRange
   },
 

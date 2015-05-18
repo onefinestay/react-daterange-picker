@@ -28,6 +28,17 @@ exports['default'] = {
     return new Error('Value must be a moment or a moment range');
   },
 
+  moment: function moment(props, propName) {
+    var val = props[propName];
+
+    if (!val) {
+      return null;
+    } else if (_momentRange2['default'].isMoment(val)) {
+      return null;
+    }
+    return new Error('Value must be a moment');
+  },
+
   momentRange: function momentRange(props, propName) {
     var val = props[propName];
 
