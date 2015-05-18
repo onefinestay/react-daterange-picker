@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _momentRange = require('moment-range');
@@ -19,6 +23,7 @@ function shallowEqual(objA, objB) {
     return true;
   }
   var key;
+
   // Test for A's keys different from B.
   for (key in objA) {
     if (objA.hasOwnProperty(key)) {
@@ -35,6 +40,7 @@ function shallowEqual(objA, objB) {
       }
     }
   }
+
   // Test for B's keys missing from A.
   for (key in objB) {
     if (objB.hasOwnProperty(key) && !objA.hasOwnProperty(key)) {
@@ -44,4 +50,5 @@ function shallowEqual(objA, objB) {
   return true;
 }
 
-module.exports = shallowEqual;
+exports['default'] = shallowEqual;
+module.exports = exports['default'];

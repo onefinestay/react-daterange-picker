@@ -27,6 +27,11 @@ var CalendarDatePeriod = _reactAddons2['default'].createClass({
 
   mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
+  propTypes: {
+    color: _reactAddons2['default'].PropTypes.string,
+    period: _reactAddons2['default'].PropTypes.string
+  },
+
   render: function render() {
     var _props = this.props;
     var color = _props.color;

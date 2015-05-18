@@ -33,7 +33,7 @@ function bemCx() {
   bemClasses.push(baseClassName);
 
   if (states) {
-    if (typeof states == 'object') {
+    if (typeof states === 'object') {
       states = Object.keys(states).filter(function (s) {
         return states[s];
       });
@@ -45,7 +45,7 @@ function bemCx() {
   }
 
   if (modifiers) {
-    if (typeof modifiers == 'object') {
+    if (typeof modifiers === 'object') {
       modifiers = Object.keys(modifiers).filter(function (m) {
         return modifiers[m];
       });

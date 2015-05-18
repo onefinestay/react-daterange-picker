@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import calendar from 'calendar';
 
 import BemMixin from './utils/BemMixin';
+import CustomPropTypes from './utils/CustomPropTypes';
 import Legend from './Legend';
 
 import CalendarMonth from './calendar/CalendarMonth';
@@ -50,18 +51,7 @@ const DateRangePicker = React.createClass({
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
-    value(props, propName) {
-      let val = props[propName];
-
-      if (!val) {
-        return null;
-      } else if (moment.isMoment(val)) {
-        return null;
-      } else if (val.start && val.end && moment.isMoment(val.start) && moment.isMoment(val.end)) {
-        return null;
-      }
-      return new Error('Value must be a moment or a moment range');
-    }
+    value: CustomPropTypes.momentOrMomentRange
   },
 
   getDefaultProps() {
@@ -252,11 +242,11 @@ const DateRangePicker = React.createClass({
     }
   },
 
-  onUnHighlightDate(date) {
+  onUnHighlightDate() {
     this.setState({
       highlightedDate: null
     });
-  },  
+  },
 
   onSelectDate(date) {
     let {selectionType} = this.props;
@@ -298,7 +288,7 @@ const DateRangePicker = React.createClass({
         this.highlightDate(date);
       }
     }
-  },  
+  },
 
   startRangeSelection(date) {
     this.setState({
@@ -448,8 +438,7 @@ const DateRangePicker = React.createClass({
       enabledRange,
       hideSelection,
       highlightedDate,
-      highlightedRange,
-      highlightStartDate
+      highlightedRange
     } = this.state;
 
     let monthDate = this.getMonthDate();
@@ -473,7 +462,7 @@ const DateRangePicker = React.createClass({
     } else if (isMomentRange(value)) {
       if (!monthRange.overlaps(value)) {
         value = null;
-      }      
+      }
     }
 
     if (!moment.isMoment(highlightedDate) || !monthRange.contains(highlightedDate)) {
@@ -482,7 +471,7 @@ const DateRangePicker = React.createClass({
 
     if (!isMomentRange(highlightedRange) || !monthRange.overlaps(highlightedRange)) {
       highlightedRange = null;
-    }    
+    }
 
     props = {
       bemBlock,

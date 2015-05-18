@@ -20,7 +20,7 @@ export default function bemCx(options={}) {
   bemClasses.push(baseClassName);
 
   if (states) {
-    if (typeof states == 'object') {
+    if (typeof states === 'object') {
       states = Object.keys(states).filter(s => states[s]);
     }
 
@@ -30,7 +30,7 @@ export default function bemCx(options={}) {
   }
 
   if (modifiers) {
-    if (typeof modifiers == 'object') {
+    if (typeof modifiers === 'object') {
       modifiers = Object.keys(modifiers).filter(m => modifiers[m]);
     }
 

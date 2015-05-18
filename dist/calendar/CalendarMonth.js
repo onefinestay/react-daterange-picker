@@ -30,6 +30,10 @@ var _utilsBemMixin = require('../utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
+var _utilsCustomPropTypes = require('../utils/CustomPropTypes');
+
+var _utilsCustomPropTypes2 = _interopRequireDefault(_utilsCustomPropTypes);
+
 var _utilsIsMomentRange = require('../utils/isMomentRange');
 
 var _utilsIsMomentRange2 = _interopRequireDefault(_utilsIsMomentRange);
@@ -49,6 +53,16 @@ var CalendarMonth = _reactAddons2['default'].createClass({
   displayName: 'CalendarMonth',
 
   mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
+
+  propTypes: {
+    dateComponent: _reactAddons2['default'].PropTypes.func,
+    enabledRange: _utilsCustomPropTypes2['default'].momentRange,
+    firstOfWeek: _reactAddons2['default'].PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
+    hideSelection: _reactAddons2['default'].PropTypes.bool,
+    highlightedDate: _reactAddons2['default'].PropTypes.object,
+    highlightedRange: _reactAddons2['default'].PropTypes.object,
+    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
+  },
 
   renderDay: function renderDay(date, i) {
     var _props = this.props;
@@ -137,11 +151,11 @@ var CalendarMonth = _reactAddons2['default'].createClass({
     var enabledRange = this.props.enabledRange;
 
     if (year < enabledRange.start.year()) {
-      return;
+      return null;
     }
 
     if (year > enabledRange.end.year()) {
-      return;
+      return null;
     }
 
     return _reactAddons2['default'].createElement(
