@@ -1,4 +1,4 @@
-export default function lightenDarkenColor(col,amt) {
+export default function lightenDarkenColor(col, amt) {
   let usePound = false;
   let num;
   let r;

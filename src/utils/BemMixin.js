@@ -49,7 +49,7 @@ const BemMixin = {
     let opts = {
       namespace: this.getBemNamespace(),
       element: this.constructor.displayName,
-      block: this.getBemBlock(),
+      block: this.getBemBlock()
     };
 
     Object.assign(opts, options);

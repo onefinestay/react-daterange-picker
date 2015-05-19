@@ -6,6 +6,7 @@ import calendar from 'calendar';
 import Immutable from 'immutable';
 
 import BemMixin from '../utils/BemMixin';
+import CustomPropTypes from '../utils/CustomPropTypes';
 import isMomentRange from '../utils/isMomentRange';
 import PureRenderMixin from '../utils/PureRenderMixin';
 
@@ -17,6 +18,20 @@ const MONTHS = Immutable.List(lang._months);
 
 const CalendarMonth = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
+
+  propTypes: {
+    dateComponent: React.PropTypes.func,
+    disableNavigation: React.PropTypes.bool,
+    enabledRange: CustomPropTypes.momentRange,
+    firstOfMonth: CustomPropTypes.moment,
+    firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
+    hideSelection: React.PropTypes.bool,
+    highlightedDate: React.PropTypes.object,
+    highlightedRange: React.PropTypes.object,
+    onMonthChange: React.PropTypes.func,
+    onYearChange: React.PropTypes.func,
+    value: CustomPropTypes.momentOrMomentRange
+  },
 
   renderDay(date, i) {
     let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
@@ -83,12 +98,12 @@ const CalendarMonth = React.createClass({
   renderYearChoice(year) {
     let {enabledRange} = this.props;
 
-     if (year < enabledRange.start.year()) {
-      return;
+    if (year < enabledRange.start.year()) {
+      return null;
     }
 
     if (year > enabledRange.end.year()) {
-      return;
+      return null;
     }
 
     return (
@@ -115,7 +130,7 @@ const CalendarMonth = React.createClass({
     this.props.onMonthChange(parseInt(event.target.value, 10));
   },
 
-  renderMonthChoice(month , i) {
+  renderMonthChoice(month, i) {
     let {firstOfMonth, enabledRange} = this.props;
     let disabled = false;
     let year = firstOfMonth.year();

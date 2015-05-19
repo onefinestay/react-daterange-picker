@@ -24,6 +24,10 @@ var CalendarHighlight = _reactAddons2['default'].createClass({
 
   mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
+  propTypes: {
+    modifier: _reactAddons2['default'].PropTypes.string
+  },
+
   render: function render() {
     var modifier = this.props.modifier;
 

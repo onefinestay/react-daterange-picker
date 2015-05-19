@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import calendar from 'calendar';
 
 import BemMixin from './utils/BemMixin';
+import CustomPropTypes from './utils/CustomPropTypes';
 import Legend from './Legend';
 
 import CalendarMonth from './calendar/CalendarMonth';
@@ -51,18 +52,7 @@ const DateRangePicker = React.createClass({
     singleDateRange: React.PropTypes.bool,
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
-    value(props, propName) {
-      let val = props[propName];
-
-      if (!val) {
-        return null;
-      } else if (moment.isMoment(val)) {
-        return null;
-      } else if (val.start && val.end && moment.isMoment(val.start) && moment.isMoment(val.end)) {
-        return null;
-      }
-      return new Error('Value must be a moment or a moment range');
-    }
+    value: CustomPropTypes.momentOrMomentRange
   },
 
   getDefaultProps() {
@@ -254,7 +244,7 @@ const DateRangePicker = React.createClass({
     }
   },
 
-  onUnHighlightDate(date) {
+  onUnHighlightDate() {
     this.setState({
       highlightedDate: null
     });
@@ -455,8 +445,7 @@ const DateRangePicker = React.createClass({
       enabledRange,
       hideSelection,
       highlightedDate,
-      highlightedRange,
-      highlightStartDate
+      highlightedRange
     } = this.state;
 
     let monthDate = this.getMonthDate();

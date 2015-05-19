@@ -65,7 +65,8 @@ var BemMixin = {
     var opts = {
       namespace: this.getBemNamespace(),
       element: this.constructor.displayName,
-      block: this.getBemBlock() };
+      block: this.getBemBlock()
+    };
 
     _extends(opts, options);
     return (0, _bemCx2['default'])(opts);

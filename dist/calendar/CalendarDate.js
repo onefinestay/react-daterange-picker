@@ -10,10 +10,6 @@ var _reactAddons = require('react/addons');
 
 var _reactAddons2 = _interopRequireDefault(_reactAddons);
 
-var _momentRange = require('moment-range');
-
-var _momentRange2 = _interopRequireDefault(_momentRange);
-
 var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
@@ -21,6 +17,10 @@ var _immutable2 = _interopRequireDefault(_immutable);
 var _utilsBemMixin = require('../utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
+
+var _utilsCustomPropTypes = require('../utils/CustomPropTypes');
+
+var _utilsCustomPropTypes2 = _interopRequireDefault(_utilsCustomPropTypes);
 
 var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
 
@@ -48,7 +48,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
   mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
   propTypes: {
-    date: _reactAddons2['default'].PropTypes.object.isRequired,
+    date: _utilsCustomPropTypes2['default'].moment,
 
     firstOfMonth: _reactAddons2['default'].PropTypes.object.isRequired,
 

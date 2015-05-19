@@ -25,6 +25,10 @@ var _utilsBemMixin = require('./utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
+var _utilsCustomPropTypes = require('./utils/CustomPropTypes');
+
+var _utilsCustomPropTypes2 = _interopRequireDefault(_utilsCustomPropTypes);
+
 var _Legend = require('./Legend');
 
 var _Legend2 = _interopRequireDefault(_Legend);
@@ -82,18 +86,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     selectionType: _reactAddons2['default'].PropTypes.oneOf(['single', 'range']),
     showLegend: _reactAddons2['default'].PropTypes.bool,
     stateDefinitions: _reactAddons2['default'].PropTypes.object,
-    value: function value(props, propName) {
-      var val = props[propName];
-
-      if (!val) {
-        return null;
-      } else if (_momentRange2['default'].isMoment(val)) {
-        return null;
-      } else if (val.start && val.end && _momentRange2['default'].isMoment(val.start) && _momentRange2['default'].isMoment(val.end)) {
-        return null;
-      }
-      return new Error('Value must be a moment or a moment range');
-    }
+    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -298,7 +291,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     }
   },
 
-  onUnHighlightDate: function onUnHighlightDate(date) {
+  onUnHighlightDate: function onUnHighlightDate() {
     this.setState({
       highlightedDate: null
     });
@@ -507,7 +500,6 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     var hideSelection = _state2.hideSelection;
     var highlightedDate = _state2.highlightedDate;
     var highlightedRange = _state2.highlightedRange;
-    var highlightStartDate = _state2.highlightStartDate;
 
     var monthDate = this.getMonthDate();
     var year = monthDate.year();
