@@ -84,6 +84,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     paginationArrowComponent: _reactAddons2['default'].PropTypes.func,
     selectedLabel: _reactAddons2['default'].PropTypes.string,
     selectionType: _reactAddons2['default'].PropTypes.oneOf(['single', 'range']),
+    singleDateRange: _reactAddons2['default'].PropTypes.bool,
     showLegend: _reactAddons2['default'].PropTypes.bool,
     stateDefinitions: _reactAddons2['default'].PropTypes.object,
     value: _utilsCustomPropTypes2['default'].momentOrMomentRange
@@ -104,6 +105,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
       initialDate: initialDate,
       initialFromValue: true,
       selectionType: 'range',
+      singleDateRange: false,
       stateDefinitions: {
         '__default': {
           color: null,
@@ -306,7 +308,9 @@ var DateRangePicker = _reactAddons2['default'].createClass({
         this.completeRangeSelection();
       } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.startRangeSelection(date);
-        this.highlightRange((0, _momentRange2['default'])().range(date, date));
+        if (this.props.singleDateRange) {
+          this.highlightRange((0, _momentRange2['default'])().range(date, date));
+        }
       }
     } else {
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
@@ -385,7 +389,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
   completeRangeSelection: function completeRangeSelection() {
     var range = this.state.highlightedRange;
 
-    if (range) {
+    if (range && (!range.start.isSame(range.end) || this.props.singleDateRange)) {
       this.setState({
         selectedStartDate: null,
         highlightedRange: null,
