@@ -69,7 +69,7 @@ var BemMixin = {
     };
 
     _extends(opts, options);
-    return _bemCx2['default'](opts);
+    return (0, _bemCx2['default'])(opts);
   }
 };
 

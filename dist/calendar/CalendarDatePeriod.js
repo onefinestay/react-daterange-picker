@@ -1,5 +1,4 @@
 'use strict';
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
@@ -19,8 +18,6 @@ var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
 
 var _utilsPureRenderMixin2 = _interopRequireDefault(_utilsPureRenderMixin);
-
-'use strict';
 
 var CalendarDatePeriod = _reactAddons2['default'].createClass({
   displayName: 'CalendarDatePeriod',

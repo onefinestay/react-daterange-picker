@@ -12,7 +12,7 @@ var _utilsShallowEqual2 = _interopRequireDefault(_utilsShallowEqual);
 
 var PureRenderMixin = {
   shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
-    return !_utilsShallowEqual2['default'](this.props, nextProps) || !_utilsShallowEqual2['default'](this.state, nextState);
+    return !(0, _utilsShallowEqual2['default'])(this.props, nextProps) || !(0, _utilsShallowEqual2['default'])(this.state, nextState);
   }
 };
 

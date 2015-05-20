@@ -42,8 +42,6 @@ var _CalendarSelection = require('./CalendarSelection');
 
 var _CalendarSelection2 = _interopRequireDefault(_CalendarSelection);
 
-'use strict';
-
 var CalendarDate = _reactAddons2['default'].createClass({
   displayName: 'CalendarDate',
 
@@ -193,7 +191,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var highlightModifier = undefined;
     var selectionModifier = undefined;
 
-    if (isSelectedDate || isSelectedRangeStart && isSelectedRangeEnd) {
+    if (isSelectedDate || isSelectedRangeStart && isSelectedRangeEnd || isHighlightedRangeStart && isHighlightedRangeEnd) {
       selectionModifier = 'single';
     } else if (isSelectedRangeStart || isHighlightedRangeStart) {
       selectionModifier = 'start';
@@ -217,8 +215,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
           backgroundColor: color
         };
         cellStyle = {
-          borderLeftColor: _utilsLightenDarkenColor2['default'](color, -10),
-          borderRightColor: _utilsLightenDarkenColor2['default'](color, -10)
+          borderLeftColor: (0, _utilsLightenDarkenColor2['default'])(color, -10),
+          borderRightColor: (0, _utilsLightenDarkenColor2['default'])(color, -10)
         };
       }
     } else {
@@ -226,11 +224,11 @@ var CalendarDate = _reactAddons2['default'].createClass({
       pmColor = states.getIn([1, 'color']);
 
       if (amColor) {
-        cellStyle.borderLeftColor = _utilsLightenDarkenColor2['default'](amColor, -10);
+        cellStyle.borderLeftColor = (0, _utilsLightenDarkenColor2['default'])(amColor, -10);
       }
 
       if (pmColor) {
-        cellStyle.borderRightColor = _utilsLightenDarkenColor2['default'](pmColor, -10);
+        cellStyle.borderRightColor = (0, _utilsLightenDarkenColor2['default'])(pmColor, -10);
       }
     }
 

@@ -161,7 +161,8 @@ const CalendarDate = React.createClass({
     let highlightModifier;
     let selectionModifier;
 
-    if (isSelectedDate || (isSelectedRangeStart && isSelectedRangeEnd)) {
+    if (isSelectedDate || (isSelectedRangeStart && isSelectedRangeEnd)
+        || (isHighlightedRangeStart && isHighlightedRangeEnd)) {
       selectionModifier = 'single';
     } else if (isSelectedRangeStart || isHighlightedRangeStart) {
       selectionModifier = 'start';
