@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
-import moment from 'moment';
+import moment from 'moment-range';
 import calendar from 'calendar';
 import Immutable from 'immutable';
 
