@@ -18,6 +18,10 @@ var _utilsBemMixin = require('../utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
+var _utilsCustomPropTypes = require('../utils/CustomPropTypes');
+
+var _utilsCustomPropTypes2 = _interopRequireDefault(_utilsCustomPropTypes);
+
 var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
 
 var _utilsPureRenderMixin2 = _interopRequireDefault(_utilsPureRenderMixin);
@@ -38,15 +42,13 @@ var _CalendarSelection = require('./CalendarSelection');
 
 var _CalendarSelection2 = _interopRequireDefault(_CalendarSelection);
 
-'use strict';
-
 var CalendarDate = _reactAddons2['default'].createClass({
   displayName: 'CalendarDate',
 
   mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
   propTypes: {
-    date: _reactAddons2['default'].PropTypes.object.isRequired,
+    date: _utilsCustomPropTypes2['default'].moment,
 
     firstOfMonth: _reactAddons2['default'].PropTypes.object.isRequired,
 
@@ -67,13 +69,11 @@ var CalendarDate = _reactAddons2['default'].createClass({
     dateRangesForDate: _reactAddons2['default'].PropTypes.func,
     onHighlightDate: _reactAddons2['default'].PropTypes.func,
     onUnHighlightDate: _reactAddons2['default'].PropTypes.func,
-    onSelectDate: _reactAddons2['default'].PropTypes.func
-  },
+    onSelectDate: _reactAddons2['default'].PropTypes.func },
 
   getInitialState: function getInitialState() {
     return {
-      mouseDown: false
-    };
+      mouseDown: false };
   },
 
   mouseUp: function mouseUp() {
@@ -81,16 +81,14 @@ var CalendarDate = _reactAddons2['default'].createClass({
 
     if (this.state.mouseDown) {
       this.setState({
-        mouseDown: false
-      });
+        mouseDown: false });
     }
     document.removeEventListener('mouseup', this.mouseUp);
   },
 
   mouseDown: function mouseDown() {
     this.setState({
-      mouseDown: true
-    });
+      mouseDown: true });
     document.addEventListener('mouseup', this.mouseUp);
   },
 
@@ -100,8 +98,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
 
     if (this.state.mouseDown) {
       this.setState({
-        mouseDown: false
-      });
+        mouseDown: false });
     }
     document.removeEventListener('touchend', this.touchEnd);
   },
@@ -109,8 +106,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
   touchStart: function touchStart(event) {
     event.preventDefault();
     this.setState({
-      mouseDown: true
-    });
+      mouseDown: true });
     document.addEventListener('touchend', this.touchEnd);
   },
 
@@ -123,8 +119,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
       this.props.onSelectDate(this.props.date);
 
       this.setState({
-        mouseDown: false
-      });
+        mouseDown: false });
     }
     this.props.onUnHighlightDate(this.props.date);
   },
@@ -210,23 +205,21 @@ var CalendarDate = _reactAddons2['default'].createClass({
       if (color) {
 
         style = {
-          backgroundColor: color
-        };
+          backgroundColor: color };
         cellStyle = {
-          borderLeftColor: _utilsLightenDarkenColor2['default'](color, -10),
-          borderRightColor: _utilsLightenDarkenColor2['default'](color, -10)
-        };
+          borderLeftColor: (0, _utilsLightenDarkenColor2['default'])(color, -10),
+          borderRightColor: (0, _utilsLightenDarkenColor2['default'])(color, -10) };
       }
     } else {
       amColor = states.getIn([0, 'color']);
       pmColor = states.getIn([1, 'color']);
 
       if (amColor) {
-        cellStyle.borderLeftColor = _utilsLightenDarkenColor2['default'](amColor, -10);
+        cellStyle.borderLeftColor = (0, _utilsLightenDarkenColor2['default'])(amColor, -10);
       }
 
       if (pmColor) {
-        cellStyle.borderRightColor = _utilsLightenDarkenColor2['default'](pmColor, -10);
+        cellStyle.borderRightColor = (0, _utilsLightenDarkenColor2['default'])(pmColor, -10);
       }
     }
 
@@ -253,9 +246,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
       selectionModifier ? _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }) : null,
       highlightModifier ? _reactAddons2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier }) : null
     );
-  }
-
-});
+  } });
 
 exports['default'] = CalendarDate;
 module.exports = exports['default'];

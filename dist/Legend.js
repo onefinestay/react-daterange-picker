@@ -14,8 +14,6 @@ var _utilsBemMixin = require('./utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
-'use strict';
-
 var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
 
 var Legend = _reactAddons2['default'].createClass({
@@ -25,8 +23,7 @@ var Legend = _reactAddons2['default'].createClass({
 
   propTypes: {
     selectedLabel: _reactAddons2['default'].PropTypes.string.isRequired,
-    stateDefinitions: _reactAddons2['default'].PropTypes.object.isRequired
-  },
+    stateDefinitions: _reactAddons2['default'].PropTypes.object.isRequired },
 
   render: function render() {
     var _props = this.props;
@@ -42,8 +39,7 @@ var Legend = _reactAddons2['default'].createClass({
       def = stateDefinitions[name];
       if (def.label && def.color) {
         style = {
-          backgroundColor: def.color
-        };
+          backgroundColor: def.color };
         items.push(_reactAddons2['default'].createElement(
           'li',
           { className: this.cx({ element: 'LegendItem' }), key: name },
@@ -72,8 +68,7 @@ var Legend = _reactAddons2['default'].createClass({
       ),
       items
     );
-  }
-});
+  } });
 
 exports['default'] = Legend;
 module.exports = exports['default'];

@@ -42,9 +42,7 @@ var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
 
 var _utilsPureRenderMixin2 = _interopRequireDefault(_utilsPureRenderMixin);
 
-'use strict';
-
-var lang = _moment2['default']().localeData();
+var lang = (0, _moment2['default'])().localeData();
 
 var WEEKDAYS = _immutable2['default'].List(lang._weekdays).zip(_immutable2['default'].List(lang._weekdaysShort));
 var MONTHS = _immutable2['default'].List(lang._months);
@@ -56,13 +54,16 @@ var CalendarMonth = _reactAddons2['default'].createClass({
 
   propTypes: {
     dateComponent: _reactAddons2['default'].PropTypes.func,
+    disableNavigation: _reactAddons2['default'].PropTypes.bool,
     enabledRange: _utilsCustomPropTypes2['default'].momentRange,
+    firstOfMonth: _utilsCustomPropTypes2['default'].moment,
     firstOfWeek: _reactAddons2['default'].PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
     hideSelection: _reactAddons2['default'].PropTypes.bool,
     highlightedDate: _reactAddons2['default'].PropTypes.object,
     highlightedRange: _reactAddons2['default'].PropTypes.object,
-    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
-  },
+    onMonthChange: _reactAddons2['default'].PropTypes.func,
+    onYearChange: _reactAddons2['default'].PropTypes.func,
+    value: _utilsCustomPropTypes2['default'].momentOrMomentRange },
 
   renderDay: function renderDay(date, i) {
     var _props = this.props;
@@ -75,7 +76,7 @@ var CalendarMonth = _reactAddons2['default'].createClass({
 
     var props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
-    var d = _moment2['default'](date);
+    var d = (0, _moment2['default'])(date);
 
     var isInSelectedRange = undefined;
     var isSelectedDate = undefined;
@@ -84,7 +85,7 @@ var CalendarMonth = _reactAddons2['default'].createClass({
 
     if (!hideSelection && value && _moment2['default'].isMoment(value) && value.isSame(d)) {
       isSelectedDate = true;
-    } else if (!hideSelection && value && _utilsIsMomentRange2['default'](value) && value.contains(d)) {
+    } else if (!hideSelection && value && (0, _utilsIsMomentRange2['default'])(value) && value.contains(d)) {
       isInSelectedRange = true;
 
       if (value.start.isSame(d)) {
@@ -197,11 +198,11 @@ var CalendarMonth = _reactAddons2['default'].createClass({
     var disabled = false;
     var year = firstOfMonth.year();
 
-    if (_moment2['default']({ years: year, months: i + 1, date: 1 }).unix() < enabledRange.start.unix()) {
+    if ((0, _moment2['default'])({ years: year, months: i + 1, date: 1 }).unix() < enabledRange.start.unix()) {
       disabled = true;
     }
 
-    if (_moment2['default']({ years: year, months: i, date: 1 }).unix() > enabledRange.end.unix()) {
+    if ((0, _moment2['default'])({ years: year, months: i, date: 1 }).unix() > enabledRange.end.unix()) {
       disabled = true;
     }
 
@@ -268,8 +269,7 @@ var CalendarMonth = _reactAddons2['default'].createClass({
         )
       )
     );
-  }
-});
+  } });
 
 exports['default'] = CalendarMonth;
 module.exports = exports['default'];

@@ -37,5 +37,5 @@ export default {
       return null;
     }
     return new Error('Value must be a moment range');
-  }
+  },
 };

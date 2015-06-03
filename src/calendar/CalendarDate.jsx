@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react/addons';
 
 import Immutable from 'immutable';
@@ -39,12 +37,12 @@ const CalendarDate = React.createClass({
     dateRangesForDate: React.PropTypes.func,
     onHighlightDate: React.PropTypes.func,
     onUnHighlightDate: React.PropTypes.func,
-    onSelectDate: React.PropTypes.func
+    onSelectDate: React.PropTypes.func,
   },
 
   getInitialState() {
     return {
-      mouseDown: false
+      mouseDown: false,
     };
   },
 
@@ -53,7 +51,7 @@ const CalendarDate = React.createClass({
 
     if (this.state.mouseDown) {
       this.setState({
-        mouseDown: false
+        mouseDown: false,
       });
     }
     document.removeEventListener('mouseup', this.mouseUp);
@@ -61,7 +59,7 @@ const CalendarDate = React.createClass({
 
   mouseDown() {
     this.setState({
-      mouseDown: true
+      mouseDown: true,
     });
     document.addEventListener('mouseup', this.mouseUp);
   },
@@ -72,7 +70,7 @@ const CalendarDate = React.createClass({
 
     if (this.state.mouseDown) {
       this.setState({
-        mouseDown: false
+        mouseDown: false,
       });
     }
     document.removeEventListener('touchend', this.touchEnd);
@@ -81,7 +79,7 @@ const CalendarDate = React.createClass({
   touchStart(event) {
     event.preventDefault();
     this.setState({
-      mouseDown: true
+      mouseDown: true,
     });
     document.addEventListener('touchend', this.touchEnd);
   },
@@ -95,7 +93,7 @@ const CalendarDate = React.createClass({
       this.props.onSelectDate(this.props.date);
 
       this.setState({
-        mouseDown: false
+        mouseDown: false,
       });
     }
     this.props.onUnHighlightDate(this.props.date);
@@ -124,7 +122,7 @@ const CalendarDate = React.createClass({
       isInSelectedRange,
       isInHighlightedRange,
       isHighlightedDate: highlighted,
-      isDisabled: disabled
+      isDisabled: disabled,
     } = this.props;
 
     let selected = isSelectedDate || isInSelectedRange || isInHighlightedRange;
@@ -143,7 +141,7 @@ const CalendarDate = React.createClass({
       isHighlightedDate,
       isHighlightedRangeStart,
       isHighlightedRangeEnd,
-      isInHighlightedRange
+      isInHighlightedRange,
     } = this.props;
 
     let bemModifiers = this.getBemModifiers();
@@ -182,11 +180,11 @@ const CalendarDate = React.createClass({
       if (color) {
 
         style = {
-          backgroundColor: color
+          backgroundColor: color,
         };
         cellStyle = {
           borderLeftColor: lightenDarkenColor(color, -10),
-          borderRightColor: lightenDarkenColor(color, -10)
+          borderRightColor: lightenDarkenColor(color, -10),
         };
       }
     } else {
@@ -221,8 +219,7 @@ const CalendarDate = React.createClass({
         {highlightModifier ? <CalendarHighlight modifier={highlightModifier} /> : null}
       </td>
     );
-  }
-
+  },
 });
 
 export default CalendarDate;

@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react/addons';
 
 import BemMixin from './utils/BemMixin';
@@ -11,12 +10,12 @@ const PaginationArrow = React.createClass({
 
   propTypes: {
     disabled: React.PropTypes.bool,
-    direction: React.PropTypes.oneOf(['next', 'previous'])
+    direction: React.PropTypes.oneOf(['next', 'previous']),
   },
 
   getDefaultProps() {
     return {
-      disabled: false
+      disabled: false,
     };
   },
 
@@ -27,13 +26,13 @@ const PaginationArrow = React.createClass({
 
     let elementOpts = {
       modifiers,
-      states
+      states,
     };
 
     let iconOpts = {
       element: 'PaginationArrowIcon',
       modifiers,
-      states
+      states,
     };
 
     return (
@@ -41,7 +40,7 @@ const PaginationArrow = React.createClass({
         <div className={this.cx(iconOpts)} />
       </div>
     );
-  }
+  },
 });
 
 export default PaginationArrow;

@@ -33,7 +33,7 @@ function shallowEqual(objA, objB) {
         if (!objA[key].isSame(objB[key])) {
           return false;
         }
-      } else if (_isMomentRange2['default'](objA[key]) && _isMomentRange2['default'](objB[key]) && !_areMomentRangesEqual2['default'](objA[key], objB[key])) {
+      } else if ((0, _isMomentRange2['default'])(objA[key]) && (0, _isMomentRange2['default'])(objB[key]) && !(0, _areMomentRangesEqual2['default'])(objA[key], objB[key])) {
         return false;
       } else if (objA[key] !== objB[key]) {
         return false;

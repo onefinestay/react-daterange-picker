@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react/addons';
 import moment from 'moment';
 import calendar from 'calendar';
@@ -30,7 +28,7 @@ const CalendarMonth = React.createClass({
     highlightedRange: React.PropTypes.object,
     onMonthChange: React.PropTypes.func,
     onYearChange: React.PropTypes.func,
-    value: CustomPropTypes.momentOrMomentRange
+    value: CustomPropTypes.momentOrMomentRange,
   },
 
   renderDay(date, i) {
@@ -192,7 +190,7 @@ const CalendarMonth = React.createClass({
         </table>
       </div>
     );
-  }
+  },
 });
 
 export default CalendarMonth;

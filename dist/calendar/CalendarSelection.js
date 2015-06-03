@@ -20,8 +20,6 @@ var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
 
 var _utilsPureRenderMixin2 = _interopRequireDefault(_utilsPureRenderMixin);
 
-'use strict';
-
 var CalendarSelection = _reactAddons2['default'].createClass({
   displayName: 'CalendarSelection',
 
@@ -29,8 +27,7 @@ var CalendarSelection = _reactAddons2['default'].createClass({
 
   propTypes: {
     modifier: _reactAddons2['default'].PropTypes.string,
-    pending: _reactAddons2['default'].PropTypes.bool.isRequired
-  },
+    pending: _reactAddons2['default'].PropTypes.bool.isRequired },
 
   render: function render() {
     var _props = this.props;
@@ -39,12 +36,10 @@ var CalendarSelection = _reactAddons2['default'].createClass({
 
     var modifiers = _defineProperty({}, modifier, true);
     var states = {
-      pending: pending
-    };
+      pending: pending };
 
     return _reactAddons2['default'].createElement('div', { className: this.cx({ states: states, modifiers: modifiers }) });
-  }
-});
+  } });
 
 exports['default'] = CalendarSelection;
 module.exports = exports['default'];

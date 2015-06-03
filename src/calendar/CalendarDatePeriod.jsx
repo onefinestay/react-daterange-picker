@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react/addons';
 
 import BemMixin from '../utils/BemMixin';
@@ -10,7 +9,7 @@ const CalendarDatePeriod = React.createClass({
 
   propTypes: {
     color: React.PropTypes.string,
-    period: React.PropTypes.string
+    period: React.PropTypes.string,
   },
 
   render() {
@@ -25,7 +24,7 @@ const CalendarDatePeriod = React.createClass({
     return (
       <div style={style} className={this.cx({modifiers})} />
     );
-  }
+  },
 });
 
 export default CalendarDatePeriod;

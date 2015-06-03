@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react/addons';
 import moment from 'moment-range';
 import Immutable from 'immutable';
@@ -51,7 +50,7 @@ const DateRangePicker = React.createClass({
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
-    value: CustomPropTypes.momentOrMomentRange
+    value: CustomPropTypes.momentOrMomentRange,
   },
 
   getDefaultProps() {
@@ -73,15 +72,15 @@ const DateRangePicker = React.createClass({
         '__default': {
           color: null,
           selectable: true,
-          label: null
-        }
+          label: null,
+        },
       },
       selectedLabel: "Your selected dates",
       defaultState: '__default',
       dateStates: [],
       showLegend: false,
       onSelect: noop,
-      paginationArrowComponent: PaginationArrow
+      paginationArrowComponent: PaginationArrow,
     };
   },
 
@@ -91,7 +90,7 @@ const DateRangePicker = React.createClass({
 
     this.setState({
       dateStates: this.state.dateStates && Immutable.is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
-      enabledRange: this.state.enabledRange && Immutable.is(this.state.enabledRange, nextEnabledRange) ? this.state.enabledRange : nextEnabledRange
+      enabledRange: this.state.enabledRange && Immutable.is(this.state.enabledRange, nextEnabledRange) ? this.state.enabledRange : nextEnabledRange,
     });
   },
 
@@ -125,7 +124,7 @@ const DateRangePicker = React.createClass({
       highlightRange: null,
       hideSelection: false,
       enabledRange: this.getEnabledRange(this.props),
-      dateStates: this.getDateStates(this.props)
+      dateStates: this.getDateStates(this.props),
     };
   },
 
@@ -156,7 +155,7 @@ const DateRangePicker = React.createClass({
           range: moment().range(
             dateCursor,
             start
-          )
+          ),
         });
       }
       actualStates.push(s);
@@ -168,7 +167,7 @@ const DateRangePicker = React.createClass({
       range: moment().range(
         dateCursor,
         maxDate
-      )
+      ),
     });
 
     // sanitize date states
@@ -178,7 +177,7 @@ const DateRangePicker = React.createClass({
         range: s.range,
         state: s.state,
         selectable: def.get('selectable', true),
-        color: def.get('color')
+        color: def.get('color'),
       });
     });
   },
@@ -235,7 +234,7 @@ const DateRangePicker = React.createClass({
   highlightRange(range) {
     this.setState({
       highlightedRange: range,
-      highlightedDate: null
+      highlightedDate: null,
     });
     if (typeof this.props.onHighlightRange === 'function') {
       this.props.onHighlightRange(range, this.statesForRange(range));
@@ -244,7 +243,7 @@ const DateRangePicker = React.createClass({
 
   onUnHighlightDate() {
     this.setState({
-      highlightedDate: null
+      highlightedDate: null,
     });
   },
 
@@ -293,7 +292,7 @@ const DateRangePicker = React.createClass({
   startRangeSelection(date) {
     this.setState({
       hideSelection: true,
-      selectedStartDate: date
+      selectedStartDate: date,
     });
     if (typeof this.props.onSelectStart === 'function') {
       this.props.onSelectStart(moment(date));
@@ -316,7 +315,7 @@ const DateRangePicker = React.createClass({
     if (highlightedDate) {
       this.setState({
         hideSelection: false,
-        highlightedDate: null
+        highlightedDate: null,
       });
       this.props.onSelect(highlightedDate, this.statesForDate(highlightedDate));
     }
@@ -329,7 +328,7 @@ const DateRangePicker = React.createClass({
         selectedStartDate: null,
         highlightedRange: null,
         highlightedDate: null,
-        hideSelection: false
+        hideSelection: false,
       });
       this.props.onSelect(range, this.statesForRange(range));
     }
@@ -337,7 +336,7 @@ const DateRangePicker = React.createClass({
 
   highlightDate(date) {
     this.setState({
-      highlightedDate: date
+      highlightedDate: date,
     });
     if (typeof this.props.onHighlightDate === 'function') {
       this.props.onHighlightDate(date, this.statesForDate(date));
@@ -363,7 +362,7 @@ const DateRangePicker = React.createClass({
       monthDate.subtract(1, 'months');
       this.setState({
         year: monthDate.year(),
-        month: monthDate.month()
+        month: monthDate.month(),
       });
     }
   },
@@ -389,7 +388,7 @@ const DateRangePicker = React.createClass({
       monthDate.add(1, 'months');
       this.setState({
         year: monthDate.year(),
-        month: monthDate.month()
+        month: monthDate.month(),
       });
     }
   },
@@ -413,13 +412,13 @@ const DateRangePicker = React.createClass({
 
     this.setState({
       year: year,
-      month: month
+      month: month,
     });
   },
 
   changeMonth(date) {
     this.setState({
-      month: date
+      month: date,
     });
   },
 
@@ -494,7 +493,7 @@ const DateRangePicker = React.createClass({
       onHighlightDate: this.onHighlightDate,
       onUnHighlightDate: this.onUnHighlightDate,
       dateRangesForDate: this.dateRangesForDate,
-      dateComponent: CalendarDate
+      dateComponent: CalendarDate,
     };
 
     return <CalendarMonth {...props} />;
@@ -513,7 +512,7 @@ const DateRangePicker = React.createClass({
         {showLegend ? <Legend stateDefinitions={stateDefinitions} selectedLabel={selectedLabel} /> : null}
       </div>
     );
-  }
+  },
 });
 
 export default DateRangePicker;
