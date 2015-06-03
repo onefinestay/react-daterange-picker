@@ -1,17 +1,16 @@
-"use strict";
-
-var React = require('react/addons');
-var moment = require('moment-range');
+import React from 'react/addons';
+import moment from 'moment-range';
 var fs = require('fs');
-var timekeeper = require('timekeeper');
-var RangePicker = require('../src');
+import timekeeper from 'timekeeper';
+import RangePicker from '../src';
 
-var Header = require('./components/header.jsx');
-var Footer = require('./components/footer.jsx');
-var GithubRibbon = require('./components/github-ribbon.jsx');
-var CodeSnippet = require('./components/code-snippet.jsx');
-var Install = require('./components/install.jsx');
-var Features = require('./components/features.jsx');
+import Header from './components/header';
+import Footer from './components/footer';
+import GithubRibbon from './components/github-ribbon';
+import CodeSnippet from './components/code-snippet';
+import Install from './components/install';
+import Features from './components/features';
+
 
 // freeze date to April 1st
 timekeeper.freeze(new Date('2015-04-01'));
@@ -23,11 +22,11 @@ function processCodeSnippet(src) {
 }
 
 
-var DatePickerRange = React.createClass({
+const DatePickerRange = React.createClass({
   getInitialState() {
     return {
       value: this.props.value,
-      states: null
+      states: null,
     };
   },
 
@@ -51,20 +50,20 @@ var DatePickerRange = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });
 
 
-var DatePickerSingle = React.createClass({
+const DatePickerSingle = React.createClass({
   getInitialState() {
     return {
-      value: null
+      value: null,
     };
   },
 
   handleSelect(value) {
     this.setState({
-      value: value
+      value: value,
     });
   },
 
@@ -80,54 +79,54 @@ var DatePickerSingle = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });
 
 
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 
 
-var Index = React.createClass({
+const Index = React.createClass({
   getDefaultProps() {
     return {};
   },
 
   render() {
-    var stateDefinitions = {
+    const stateDefinitions = {
       available: {
         color: '#ffffff',
-        label: 'Available'
+        label: 'Available',
       },
       enquire: {
         color: '#ffd200',
-        label: 'Enquire'
+        label: 'Enquire',
       },
       unavailable: {
         selectable: false,
         color: '#78818b',
-        label: 'Unavailable'
-      }
+        label: 'Unavailable',
+      },
     };
 
-    var dateRanges = [
+    const dateRanges = [
       {
         state: 'enquire',
-        range: moment().range(
+        range: moment.range(
           moment().add(2, 'weeks').subtract(5, 'days'),
           moment().add(2, 'weeks').add(6, 'days')
-        )
+        ),
       },
       {
         state: 'unavailable',
-        range: moment().range(
+        range: moment.range(
           moment().add(3, 'weeks'),
           moment().add(3, 'weeks').add(5, 'days')
-        )
-      }
+        ),
+      },
     ];
 
-    var initialStart = moment().add(1, 'weeks').startOf('day');
-    var initialEnd = moment().add(1, 'weeks').add(3, 'days').startOf('day');
+    const initialStart = moment().add(1, 'weeks').startOf('day');
+    const initialEnd = moment().add(1, 'weeks').add(3, 'days').startOf('day');
 
     return (
       <main>
@@ -145,7 +144,7 @@ var Index = React.createClass({
               stateDefinitions={stateDefinitions}
               dateStates={dateRanges}
               defaultState="available"
-              value={moment().range(initialStart, initialEnd)}
+              value={moment.range(initialStart, initialEnd)}
               showLegend={true}
               />
             <CodeSnippet language="javascript">
@@ -189,7 +188,7 @@ var Index = React.createClass({
         <Footer />
       </main>
     );
-  }
+  },
 });
 
-module.exports = Index;
+export default Index;

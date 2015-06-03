@@ -1,49 +1,48 @@
-/* global React */
-"use strict";
+import React from 'react/addons';
 
-var DateRangePicker = require('react-daterange-picker');
-var moment = require('moment-range');
+import DateRangePicker from 'react-daterange-picker';
+import moment from 'moment-range';
 
-var stateDefinitions = {
+const stateDefinitions = {
   available: {
     color: null,
-    label: 'Available'
+    label: 'Available',
   },
   enquire: {
     color: '#ffd200',
-    label: 'Enquire'
+    label: 'Enquire',
   },
   unavailable: {
     selectable: false,
     color: '#78818b',
-    label: 'Unavailable'
-  }
+    label: 'Unavailable',
+  },
 };
 
-var dateRanges = [
+const dateRanges = [
   {
     state: 'enquire',
-    range: moment().range(
+    range: moment.range(
       moment().add(2, 'weeks').subtract(5, 'days'),
       moment().add(2, 'weeks').add(6, 'days')
-    )
+    ),
   },
   {
     state: 'unavailable',
-    range: moment().range(
+    range: moment.range(
       moment().add(3, 'weeks'),
       moment().add(3, 'weeks').add(5, 'days')
-    )
-  }
+    ),
+  },
 ];
 
 var DatePicker = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {
-        value: null
+        value: null,
     };
   },
-  handleSelect: function(range, states) {
+  handleSelect(range, states) {
     // range is a moment-range object
     this.setState({
       value: range,
@@ -51,7 +50,7 @@ var DatePicker = React.createClass({
     });
   },
 
-  render: function() {
+  render() {
     return (
       <DateRangePicker
         firstOfWeek={1}
@@ -65,5 +64,5 @@ var DatePicker = React.createClass({
         value={this.state.value}
         onSelect={this.handleSelect} />
     );
-  }
+  },
 });

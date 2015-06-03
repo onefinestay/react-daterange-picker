@@ -33,6 +33,7 @@ const CalendarDate = React.createClass({
     highlightedDate: React.PropTypes.object,
     dateStates: React.PropTypes.instanceOf(Immutable.List),
     isDisabled: React.PropTypes.bool,
+    isToday: React.PropTypes.bool,
 
     dateRangesForDate: React.PropTypes.func,
     onHighlightDate: React.PropTypes.func,
@@ -100,7 +101,7 @@ const CalendarDate = React.createClass({
   },
 
   getBemModifiers() {
-    let {date, firstOfMonth} = this.props;
+    let {date, firstOfMonth, isToday: today} = this.props;
 
     let otherMonth = false;
     let weekend = false;
@@ -113,7 +114,7 @@ const CalendarDate = React.createClass({
       weekend = true;
     }
 
-    return {weekend, otherMonth};
+    return {today, weekend, otherMonth};
   },
 
   getBemStates() {

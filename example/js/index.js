@@ -1,11 +1,11 @@
-"use strict";
+import React from 'react/addons';
+import Index from '../index';
 
-var React = require('react/addons');
-var Index = React.createFactory(require('../index.jsx'));
+const IndexFactory = React.createFactory(Index);
 
 window.React = React;
 
 React.render(
-  Index(),
+  IndexFactory(),
   document.getElementById('app')
 );

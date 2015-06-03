@@ -134,7 +134,7 @@ const DateRangePicker = React.createClass({
     let min = props.minimumDate ? moment(props.minimumDate).startOf('day') : absoluteMinimum;
     let max = props.maximumDate ? moment(props.maximumDate).startOf('day') : absoluteMaximum;
 
-    return moment().range(min, max);
+    return moment.range(min, max);
   },
 
   getDateStates(props) {
@@ -154,7 +154,7 @@ const DateRangePicker = React.createClass({
       if (!dateCursor.isSame(start)) {
         actualStates.push({
           state: defaultState,
-          range: moment().range(
+          range: moment.range(
             dateCursor,
             start
           ),
@@ -166,7 +166,7 @@ const DateRangePicker = React.createClass({
 
     actualStates.push({
       state: defaultState,
-      range: moment().range(
+      range: moment.range(
         dateCursor,
         maxDate
       ),
@@ -211,23 +211,23 @@ const DateRangePicker = React.createClass({
     if (forwards) {
       intersect = blockedRanges.find(r => range.intersect(r));
       if (intersect) {
-        return moment().range(range.start, intersect.start);
+        return moment.range(range.start, intersect.start);
       }
 
     } else {
       intersect = blockedRanges.findLast(r => range.intersect(r));
 
       if (intersect) {
-        return moment().range(intersect.end, range.end);
+        return moment.range(intersect.end, range.end);
       }
     }
 
     if (range.start.isBefore(this.state.enabledRange.start)) {
-      return moment().range(this.state.enabledRange.start, range.end);
+      return moment.range(this.state.enabledRange.start, range.end);
     }
 
     if (range.end.isAfter(this.state.enabledRange.end)) {
-      return moment().range(range.start, this.state.enabledRange.end);
+      return moment.range(range.start, this.state.enabledRange.end);
     }
 
     return range;
@@ -259,7 +259,7 @@ const DateRangePicker = React.createClass({
       } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.startRangeSelection(date);
         if (this.props.singleDateRange) {
-          this.highlightRange(moment().range(date, date));
+          this.highlightRange(moment.range(date, date));
         }
       }
 
@@ -281,7 +281,7 @@ const DateRangePicker = React.createClass({
     if (selectionType === 'range') {
       if (selectedStartDate) {
         datePair = Immutable.List.of(selectedStartDate, date).sortBy(d => d.unix());
-        range = moment().range(datePair.get(0), datePair.get(1));
+        range = moment.range(datePair.get(0), datePair.get(1));
         forwards = (range.start.unix() === selectedStartDate.unix());
         range = this.sanitizeRange(range, forwards);
         this.highlightRange(range);
@@ -459,7 +459,7 @@ const DateRangePicker = React.createClass({
     let monthDates = Immutable.fromJS(cal.monthDates(monthDate.year(), monthDate.month()));
     let monthStart = monthDates.first().first();
     let monthEnd = monthDates.last().last();
-    let monthRange = moment().range(monthStart, monthEnd);
+    let monthRange = moment.range(monthStart, monthEnd);
 
     if (moment.isMoment(value)) {
       if (!monthRange.contains(value)) {
