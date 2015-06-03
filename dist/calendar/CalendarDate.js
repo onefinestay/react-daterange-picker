@@ -184,7 +184,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var highlightModifier = undefined;
     var selectionModifier = undefined;
 
-    if (isSelectedDate || isSelectedRangeStart && isSelectedRangeEnd) {
+    if (isSelectedDate || isSelectedRangeStart && isSelectedRangeEnd || isHighlightedRangeStart && isHighlightedRangeEnd) {
       selectionModifier = 'single';
     } else if (isSelectedRangeStart || isHighlightedRangeStart) {
       selectionModifier = 'start';

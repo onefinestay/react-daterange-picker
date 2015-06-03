@@ -168,6 +168,15 @@ var Index = React.createClass({
             </div>
 
             <div className="example">
+              <h4>Range with day-long ranges allowed</h4>
+              <DatePickerRange
+                numberOfCalendars={2}
+                selectionType="range"
+                singleDateRange={true}
+                minimumDate={new Date()} />
+            </div>
+
+            <div className="example">
               <h4>Single with no date states</h4>
               <DatePickerSingle
                 numberOfCalendars={2}

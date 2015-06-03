@@ -48,6 +48,7 @@ const DateRangePicker = React.createClass({
     paginationArrowComponent: React.PropTypes.func,
     selectedLabel: React.PropTypes.string,
     selectionType: React.PropTypes.oneOf(['single', 'range']),
+    singleDateRange: React.PropTypes.bool,
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
     value: CustomPropTypes.momentOrMomentRange,
@@ -68,6 +69,7 @@ const DateRangePicker = React.createClass({
       initialDate: initialDate,
       initialFromValue: true,
       selectionType: 'range',
+      singleDateRange: false,
       stateDefinitions: {
         '__default': {
           color: null,
@@ -256,7 +258,11 @@ const DateRangePicker = React.createClass({
         this.completeRangeSelection();
       } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.startRangeSelection(date);
+        if (this.props.singleDateRange) {
+          this.highlightRange(moment().range(date, date));
+        }
       }
+
     } else {
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.completeSelection();
@@ -323,7 +329,8 @@ const DateRangePicker = React.createClass({
 
   completeRangeSelection() {
     let range = this.state.highlightedRange;
-    if (range && !range.start.isSame(range.end)) {
+
+    if (range && (!range.start.isSame(range.end) || this.props.singleDateRange)) {
       this.setState({
         selectedStartDate: null,
         highlightedRange: null,
