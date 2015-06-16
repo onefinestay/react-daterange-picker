@@ -1,6 +1,4 @@
 /* global hljs */
-'use strict';
-
 import React from 'react/addons';
 import cx from 'classnames';
 
@@ -11,27 +9,27 @@ const CodeSnippet = React.createClass({
     visible: React.PropTypes.bool
   },
 
-  getDefaultProps: function() {
+  getDefaultProps() {
     return {
       toggle: true,
-      visible: false
+      visible: false,
     };
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
-      visible: this.props.visible || !this.props.toggle
+      visible: this.props.visible || !this.props.toggle,
     };
   },
 
-  handleClick: function(event) {
+  handleClick(event) {
     event.preventDefault();
     var value = !this.state.visible;
 
     var self = this;
 
     this.setState({
-      visible: value
+      visible: value,
     }, function() {
       if (value) {
         var el = self.refs.codeBlock.getDOMNode();
@@ -69,7 +67,7 @@ const CodeSnippet = React.createClass({
           </pre> : null}
       </div>
     );
-  }
+  },
 });
 
 export default CodeSnippet;

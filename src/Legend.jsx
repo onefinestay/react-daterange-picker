@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react/addons';
 
 import BemMixin from './utils/BemMixin';
@@ -11,7 +10,7 @@ const Legend = React.createClass({
 
   propTypes: {
     selectedLabel: React.PropTypes.string.isRequired,
-    stateDefinitions: React.PropTypes.object.isRequired
+    stateDefinitions: React.PropTypes.object.isRequired,
   },
 
   render() {
@@ -25,7 +24,7 @@ const Legend = React.createClass({
       def = stateDefinitions[name];
       if (def.label && def.color) {
         style = {
-          backgroundColor: def.color
+          backgroundColor: def.color,
         };
         items.push(
           <li className={this.cx({element: 'LegendItem'})} key={name}>
@@ -45,7 +44,7 @@ const Legend = React.createClass({
         {items}
       </ul>
     );
-  }
+  },
 });
 
 export default Legend;

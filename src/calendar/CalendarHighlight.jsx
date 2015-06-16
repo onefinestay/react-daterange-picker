@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react/addons';
 
 import BemMixin from '../utils/BemMixin';
@@ -9,7 +8,7 @@ const CalendarHighlight = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {
-    modifier: React.PropTypes.string
+    modifier: React.PropTypes.string,
   },
 
   render() {
@@ -20,7 +19,7 @@ const CalendarHighlight = React.createClass({
     return (
       <div className={this.cx({states, modifiers})} />
     );
-  }
+  },
 });
 
 export default CalendarHighlight;

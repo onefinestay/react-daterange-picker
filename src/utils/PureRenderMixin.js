@@ -7,7 +7,7 @@ const PureRenderMixin = {
       !shallowEqual(this.props, nextProps) ||
       !shallowEqual(this.state, nextState)
     );
-  }
+  },
 };
 
 export default PureRenderMixin;

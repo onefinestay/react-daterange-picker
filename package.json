@@ -31,7 +31,7 @@
     "classnames": "^2.1.1",
     "immutable": "^3.7.2",
     "moment": "^2.8.3",
-    "moment-range": "^1.0.5"
+    "moment-range": "^1.2.0"
   },
   "devDependencies": {
     "babel": "^5.2.16",

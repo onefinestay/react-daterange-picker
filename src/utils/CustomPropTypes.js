@@ -14,7 +14,7 @@ export default {
     } else if (isMomentRange(val)) {
       return null;
     }
-    return new Error('Value must be a moment or a moment range');
+    return new Error(`'${propName}' must be a moment or a moment range`);
   },
 
   moment(props, propName) {
@@ -25,7 +25,7 @@ export default {
     } else if (moment.isMoment(val)) {
       return null;
     }
-    return new Error('Value must be a moment');
+    return new Error(`'${propName}' must be a moment`);
   },
 
   momentRange(props, propName) {
@@ -36,6 +36,6 @@ export default {
     } else if (isMomentRange(val)) {
       return null;
     }
-    return new Error('Value must be a moment range');
-  }
+    return new Error(`'${propName}' must be a moment range`);
+  },
 };
