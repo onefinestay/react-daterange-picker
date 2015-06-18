@@ -1,6 +1,6 @@
 {
   "name": "react-daterange-picker",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "A React based date range picker",
   "author": "Jonathan Kim <jonathan.kim@onefinestay.com>",
   "contributors": [
@@ -54,5 +54,6 @@
     "timekeeper": "0.0.5",
     "transform-loader": "^0.2.1",
     "webpack": "^1.5.3"
-  }
+  },
+  "scripts": {}
 }
