@@ -27,7 +27,8 @@ var CalendarDatePeriod = _reactAddons2['default'].createClass({
 
   propTypes: {
     color: _reactAddons2['default'].PropTypes.string,
-    period: _reactAddons2['default'].PropTypes.string },
+    period: _reactAddons2['default'].PropTypes.string
+  },
 
   render: function render() {
     var _props = this.props;
@@ -42,7 +43,8 @@ var CalendarDatePeriod = _reactAddons2['default'].createClass({
     }
 
     return _reactAddons2['default'].createElement('div', { style: style, className: this.cx({ modifiers: modifiers }) });
-  } });
+  }
+});
 
 exports['default'] = CalendarDatePeriod;
 module.exports = exports['default'];

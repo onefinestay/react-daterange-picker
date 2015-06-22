@@ -26,7 +26,8 @@ var CalendarHighlight = _reactAddons2['default'].createClass({
   mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
 
   propTypes: {
-    modifier: _reactAddons2['default'].PropTypes.string },
+    modifier: _reactAddons2['default'].PropTypes.string
+  },
 
   render: function render() {
     var modifier = this.props.modifier;
@@ -35,7 +36,8 @@ var CalendarHighlight = _reactAddons2['default'].createClass({
     var states = {};
 
     return _reactAddons2['default'].createElement('div', { className: this.cx({ states: states, modifiers: modifiers }) });
-  } });
+  }
+});
 
 exports['default'] = CalendarHighlight;
 module.exports = exports['default'];

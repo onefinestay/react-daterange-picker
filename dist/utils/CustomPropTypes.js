@@ -25,7 +25,7 @@ exports['default'] = {
     } else if ((0, _isMomentRange2['default'])(val)) {
       return null;
     }
-    return new Error('Value must be a moment or a moment range');
+    return new Error('\'' + propName + '\' must be a moment or a moment range');
   },
 
   moment: function moment(props, propName) {
@@ -36,7 +36,7 @@ exports['default'] = {
     } else if (_momentRange2['default'].isMoment(val)) {
       return null;
     }
-    return new Error('Value must be a moment');
+    return new Error('\'' + propName + '\' must be a moment');
   },
 
   momentRange: function momentRange(props, propName) {
@@ -47,6 +47,7 @@ exports['default'] = {
     } else if ((0, _isMomentRange2['default'])(val)) {
       return null;
     }
-    return new Error('Value must be a moment range');
-  } };
+    return new Error('\'' + propName + '\' must be a moment range');
+  }
+};
 module.exports = exports['default'];

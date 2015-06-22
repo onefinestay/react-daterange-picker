@@ -65,15 +65,18 @@ var CalendarDate = _reactAddons2['default'].createClass({
     highlightedDate: _reactAddons2['default'].PropTypes.object,
     dateStates: _reactAddons2['default'].PropTypes.instanceOf(_immutable2['default'].List),
     isDisabled: _reactAddons2['default'].PropTypes.bool,
+    isToday: _reactAddons2['default'].PropTypes.bool,
 
     dateRangesForDate: _reactAddons2['default'].PropTypes.func,
     onHighlightDate: _reactAddons2['default'].PropTypes.func,
     onUnHighlightDate: _reactAddons2['default'].PropTypes.func,
-    onSelectDate: _reactAddons2['default'].PropTypes.func },
+    onSelectDate: _reactAddons2['default'].PropTypes.func
+  },
 
   getInitialState: function getInitialState() {
     return {
-      mouseDown: false };
+      mouseDown: false
+    };
   },
 
   mouseUp: function mouseUp() {
@@ -81,14 +84,16 @@ var CalendarDate = _reactAddons2['default'].createClass({
 
     if (this.state.mouseDown) {
       this.setState({
-        mouseDown: false });
+        mouseDown: false
+      });
     }
     document.removeEventListener('mouseup', this.mouseUp);
   },
 
   mouseDown: function mouseDown() {
     this.setState({
-      mouseDown: true });
+      mouseDown: true
+    });
     document.addEventListener('mouseup', this.mouseUp);
   },
 
@@ -98,7 +103,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
 
     if (this.state.mouseDown) {
       this.setState({
-        mouseDown: false });
+        mouseDown: false
+      });
     }
     document.removeEventListener('touchend', this.touchEnd);
   },
@@ -106,7 +112,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
   touchStart: function touchStart(event) {
     event.preventDefault();
     this.setState({
-      mouseDown: true });
+      mouseDown: true
+    });
     document.addEventListener('touchend', this.touchEnd);
   },
 
@@ -119,7 +126,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
       this.props.onSelectDate(this.props.date);
 
       this.setState({
-        mouseDown: false });
+        mouseDown: false
+      });
     }
     this.props.onUnHighlightDate(this.props.date);
   },
@@ -128,6 +136,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
     var _props = this.props;
     var date = _props.date;
     var firstOfMonth = _props.firstOfMonth;
+    var today = _props.isToday;
 
     var otherMonth = false;
     var weekend = false;
@@ -140,7 +149,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
       weekend = true;
     }
 
-    return { weekend: weekend, otherMonth: otherMonth };
+    return { today: today, weekend: weekend, otherMonth: otherMonth };
   },
 
   getBemStates: function getBemStates() {
@@ -205,10 +214,12 @@ var CalendarDate = _reactAddons2['default'].createClass({
       if (color) {
 
         style = {
-          backgroundColor: color };
+          backgroundColor: color
+        };
         cellStyle = {
           borderLeftColor: (0, _utilsLightenDarkenColor2['default'])(color, -10),
-          borderRightColor: (0, _utilsLightenDarkenColor2['default'])(color, -10) };
+          borderRightColor: (0, _utilsLightenDarkenColor2['default'])(color, -10)
+        };
       }
     } else {
       amColor = states.getIn([0, 'color']);
@@ -246,7 +257,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
       selectionModifier ? _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }) : null,
       highlightModifier ? _reactAddons2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier }) : null
     );
-  } });
+  }
+});
 
 exports['default'] = CalendarDate;
 module.exports = exports['default'];

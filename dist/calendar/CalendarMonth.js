@@ -63,7 +63,8 @@ var CalendarMonth = _reactAddons2['default'].createClass({
     highlightedRange: _reactAddons2['default'].PropTypes.object,
     onMonthChange: _reactAddons2['default'].PropTypes.func,
     onYearChange: _reactAddons2['default'].PropTypes.func,
-    value: _utilsCustomPropTypes2['default'].momentOrMomentRange },
+    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
+  },
 
   renderDay: function renderDay(date, i) {
     var _props = this.props;
@@ -94,6 +95,7 @@ var CalendarMonth = _reactAddons2['default'].createClass({
 
     return _reactAddons2['default'].createElement(CalendarDate, _extends({
       key: i,
+      isToday: d.isSame((0, _momentRange2['default'])(), 'day'),
       isDisabled: !enabledRange.contains(d),
       isHighlightedDate: !!(highlightedDate && highlightedDate.isSame(d)),
       isHighlightedRangeStart: !!(highlightedRange && highlightedRange.start.isSame(d)),
@@ -266,7 +268,8 @@ var CalendarMonth = _reactAddons2['default'].createClass({
         )
       )
     );
-  } });
+  }
+});
 
 exports['default'] = CalendarMonth;
 module.exports = exports['default'];
