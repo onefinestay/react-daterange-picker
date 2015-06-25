@@ -151,7 +151,7 @@ const DateRangePicker = React.createClass({
       let start = r.start.startOf('day');
       let end = r.end.startOf('day');
 
-      if (!dateCursor.isSame(start)) {
+      if (!dateCursor.isSame(start, 'day')) {
         actualStates.push({
           state: defaultState,
           range: moment.range(
@@ -310,7 +310,7 @@ const DateRangePicker = React.createClass({
   },
 
   statesForRange(range) {
-    if (range.start.isSame(range.end)) {
+    if (range.start.isSame(range.end, 'day')) {
       return this.statesForDate(range.start);
     }
     return this.state.dateStates.filter(d => d.get('range').intersect(range)).map(d => d.get('state'));
@@ -330,7 +330,7 @@ const DateRangePicker = React.createClass({
   completeRangeSelection() {
     let range = this.state.highlightedRange;
 
-    if (range && (!range.start.isSame(range.end) || this.props.singleDateRange)) {
+    if (range && (!range.start.isSame(range.end, 'day') || this.props.singleDateRange)) {
       this.setState({
         selectedStartDate: null,
         highlightedRange: null,

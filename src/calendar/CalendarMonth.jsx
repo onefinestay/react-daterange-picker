@@ -40,13 +40,13 @@ const CalendarMonth = React.createClass({
     let isSelectedRangeStart;
     let isSelectedRangeEnd;
 
-    if (!hideSelection && value && moment.isMoment(value) && value.isSame(d)) {
+    if (!hideSelection && value && moment.isMoment(value) && value.isSame(d, 'day')) {
       isSelectedDate = true;
     } else if (!hideSelection && value && isMomentRange(value) && value.contains(d)) {
       isInSelectedRange = true;
 
-      isSelectedRangeStart = value.start.isSame(d);
-      isSelectedRangeEnd = value.end.isSame(d);
+      isSelectedRangeStart = value.start.isSame(d, 'day');
+      isSelectedRangeEnd = value.end.isSame(d, 'day');
     }
 
     return (
@@ -54,9 +54,9 @@ const CalendarMonth = React.createClass({
         key={i}
         isToday={d.isSame(moment(), 'day')}
         isDisabled={!enabledRange.contains(d)}
-        isHighlightedDate={!!(highlightedDate && highlightedDate.isSame(d))}
-        isHighlightedRangeStart={!!(highlightedRange && highlightedRange.start.isSame(d))}
-        isHighlightedRangeEnd={!!(highlightedRange && highlightedRange.end.isSame(d))}
+        isHighlightedDate={!!(highlightedDate && highlightedDate.isSame(d, 'day'))}
+        isHighlightedRangeStart={!!(highlightedRange && highlightedRange.start.isSame(d, 'day'))}
+        isHighlightedRangeEnd={!!(highlightedRange && highlightedRange.end.isSame(d, 'day'))}
         isInHighlightedRange={!!(highlightedRange && highlightedRange.contains(d))}
         isSelectedDate={isSelectedDate}
         isSelectedRangeStart={isSelectedRangeStart}
