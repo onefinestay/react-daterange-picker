@@ -19,7 +19,7 @@ function shallowEqual(objA, objB) {
         moment.isMoment(objA[key]) &&
         moment.isMoment(objB[key])
       ) {
-        if (!objA[key].isSame(objB[key])) {
+        if (!objA[key].isSame(objB[key], 'day')) {
           return false;
         }
       } else if (
