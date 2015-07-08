@@ -63,8 +63,7 @@ var CalendarMonth = _reactAddons2['default'].createClass({
     highlightedRange: _reactAddons2['default'].PropTypes.object,
     onMonthChange: _reactAddons2['default'].PropTypes.func,
     onYearChange: _reactAddons2['default'].PropTypes.func,
-    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
-  },
+    value: _utilsCustomPropTypes2['default'].momentOrMomentRange },
 
   renderDay: function renderDay(date, i) {
     var _props = this.props;
@@ -84,22 +83,22 @@ var CalendarMonth = _reactAddons2['default'].createClass({
     var isSelectedRangeStart = undefined;
     var isSelectedRangeEnd = undefined;
 
-    if (!hideSelection && value && _momentRange2['default'].isMoment(value) && value.isSame(d)) {
+    if (!hideSelection && value && _momentRange2['default'].isMoment(value) && value.isSame(d, 'day')) {
       isSelectedDate = true;
     } else if (!hideSelection && value && (0, _utilsIsMomentRange2['default'])(value) && value.contains(d)) {
       isInSelectedRange = true;
 
-      isSelectedRangeStart = value.start.isSame(d);
-      isSelectedRangeEnd = value.end.isSame(d);
+      isSelectedRangeStart = value.start.isSame(d, 'day');
+      isSelectedRangeEnd = value.end.isSame(d, 'day');
     }
 
     return _reactAddons2['default'].createElement(CalendarDate, _extends({
       key: i,
       isToday: d.isSame((0, _momentRange2['default'])(), 'day'),
       isDisabled: !enabledRange.contains(d),
-      isHighlightedDate: !!(highlightedDate && highlightedDate.isSame(d)),
-      isHighlightedRangeStart: !!(highlightedRange && highlightedRange.start.isSame(d)),
-      isHighlightedRangeEnd: !!(highlightedRange && highlightedRange.end.isSame(d)),
+      isHighlightedDate: !!(highlightedDate && highlightedDate.isSame(d, 'day')),
+      isHighlightedRangeStart: !!(highlightedRange && highlightedRange.start.isSame(d, 'day')),
+      isHighlightedRangeEnd: !!(highlightedRange && highlightedRange.end.isSame(d, 'day')),
       isInHighlightedRange: !!(highlightedRange && highlightedRange.contains(d)),
       isSelectedDate: isSelectedDate,
       isSelectedRangeStart: isSelectedRangeStart,
@@ -268,8 +267,7 @@ var CalendarMonth = _reactAddons2['default'].createClass({
         )
       )
     );
-  }
-});
+  } });
 
 exports['default'] = CalendarMonth;
 module.exports = exports['default'];

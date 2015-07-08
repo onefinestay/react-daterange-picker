@@ -27,7 +27,7 @@ function lightenDarkenColor(col, amt) {
     r = 0;
   }
 
-  b = (num >> 8 & 0x00FF) + amt;
+  b = (num >> 8 & 255) + amt;
 
   if (b > 255) {
     b = 255;
@@ -35,7 +35,7 @@ function lightenDarkenColor(col, amt) {
     b = 0;
   }
 
-  g = (num & 0x0000FF) + amt;
+  g = (num & 255) + amt;
 
   if (g > 255) {
     g = 255;

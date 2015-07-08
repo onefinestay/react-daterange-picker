@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports["default"] = areMomentRangesEqual;
+exports['default'] = areMomentRangesEqual;
 
 function areMomentRangesEqual(r1, r2) {
-  return r1.start.isSame(r2.start) && r1.end.isSame(r2.end);
+  return r1.start.isSame(r2.start, 'day') && r1.end.isSame(r2.end, 'day');
 }
 
-module.exports = exports["default"];
+module.exports = exports['default'];

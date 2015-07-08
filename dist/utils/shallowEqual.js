@@ -30,7 +30,7 @@ function shallowEqual(objA, objB) {
       if (!objB.hasOwnProperty(key)) {
         return false;
       } else if (_momentRange2['default'].isMoment(objA[key]) && _momentRange2['default'].isMoment(objB[key])) {
-        if (!objA[key].isSame(objB[key])) {
+        if (!objA[key].isSame(objB[key], 'day')) {
           return false;
         }
       } else if ((0, _isMomentRange2['default'])(objA[key]) && (0, _isMomentRange2['default'])(objB[key]) && !(0, _areMomentRangesEqual2['default'])(objA[key], objB[key])) {
