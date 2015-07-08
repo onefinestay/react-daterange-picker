@@ -33,6 +33,7 @@ const DateRangePicker = React.createClass({
     defaultState: React.PropTypes.string,
     disableNavigation: React.PropTypes.bool,
     firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
+    helpMessage: React.PropTypes.string,
     initialDate: React.PropTypes.instanceOf(Date),
     initialFromValue: React.PropTypes.bool,
     initialMonth: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
@@ -507,7 +508,7 @@ const DateRangePicker = React.createClass({
   },
 
   render: function() {
-    let {paginationArrowComponent: PaginationArrowComponent, numberOfCalendars, stateDefinitions, selectedLabel, showLegend} = this.props;
+    let {paginationArrowComponent: PaginationArrowComponent, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage} = this.props;
 
     let calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
 
@@ -516,6 +517,7 @@ const DateRangePicker = React.createClass({
         <PaginationArrowComponent direction="previous" onMouseEnter={this.moveBackIfSelecting} onClick={this.moveBack} disabled={!this.canMoveBack()} />
         {calendars.toJS()}
         <PaginationArrowComponent direction="next" onMouseEnter={this.moveForwardIfSelecting} onClick={this.moveForward} disabled={!this.canMoveForward()} />
+        {helpMessage ? <span className={this.cx({element: 'HelpMessage'})}>{helpMessage}</span> : null}
         {showLegend ? <Legend stateDefinitions={stateDefinitions} selectedLabel={selectedLabel} /> : null}
       </div>
     );
