@@ -93,7 +93,7 @@ const DateRangePicker = React.createClass({
 
     this.setState({
       dateStates: this.state.dateStates && Immutable.is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
-      enabledRange: this.state.enabledRange && Immutable.is(this.state.enabledRange, nextEnabledRange) ? this.state.enabledRange : nextEnabledRange,
+      enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange,
     });
   },
 
