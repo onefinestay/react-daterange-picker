@@ -167,6 +167,15 @@ const Index = React.createClass({
             </div>
 
             <div className="example">
+              <h4>Range without pagination hovering</h4>
+              <DatePickerRange
+                numberOfCalendars={2}
+                movePaginationOnMouseEnter={false}
+                selectionType="range"
+                minimumDate={new Date()} />
+            </div>
+
+            <div className="example">
               <h4>Range with day-long ranges allowed</h4>
               <DatePickerRange
                 numberOfCalendars={2}
