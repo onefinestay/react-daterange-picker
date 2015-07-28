@@ -41,6 +41,7 @@ const DateRangePicker = React.createClass({
     initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
     maximumDate: React.PropTypes.instanceOf(Date),
     minimumDate: React.PropTypes.instanceOf(Date),
+    movePaginationOnMouseEnter: React.PropTypes.bool,
     numberOfCalendars: React.PropTypes.number,
     onHighlightDate: React.PropTypes.func, // triggered when a date is highlighted (hovered)
     onHighlightRange: React.PropTypes.func, // triggered when a range is highlighted (hovered)
@@ -83,6 +84,7 @@ const DateRangePicker = React.createClass({
       dateStates: [],
       showLegend: false,
       onSelect: noop,
+      movePaginationOnMouseEnter: true,
       paginationArrowComponent: PaginationArrow,
     };
   },
@@ -355,6 +357,10 @@ const DateRangePicker = React.createClass({
     return moment(new Date(this.state.year, this.state.month, 1));
   },
 
+  canMovePaginationOnMouseEnter() {
+    return this.state.selectedStartDate && this.props.movePaginationOnMouseEnter;
+  },
+
   canMoveBack() {
     if (this.getMonthDate().subtract(1, 'days').isBefore(this.state.enabledRange.start)) {
       return false;
@@ -376,7 +382,7 @@ const DateRangePicker = React.createClass({
   },
 
   moveBackIfSelecting() {
-    if (this.state.selectedStartDate) {
+    if (this.canMovePaginationOnMouseEnter()) {
       this.moveBack();
     }
   },
@@ -402,7 +408,7 @@ const DateRangePicker = React.createClass({
   },
 
   moveForwardIfSelecting() {
-    if (this.state.selectedStartDate) {
+    if (this.canMovePaginationOnMouseEnter()) {
       this.moveForward();
     }
   },
