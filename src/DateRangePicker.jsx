@@ -375,12 +375,6 @@ const DateRangePicker = React.createClass({
     }
   },
 
-  moveBackIfSelecting() {
-    if (this.state.selectedStartDate) {
-      this.moveBack();
-    }
-  },
-
   canMoveForward() {
     if (this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
       return false;
@@ -398,12 +392,6 @@ const DateRangePicker = React.createClass({
         year: monthDate.year(),
         month: monthDate.month(),
       });
-    }
-  },
-
-  moveForwardIfSelecting() {
-    if (this.state.selectedStartDate) {
-      this.moveForward();
     }
   },
 
@@ -514,9 +502,9 @@ const DateRangePicker = React.createClass({
 
     return (
       <div className={this.cx({element: null})}>
-        <PaginationArrowComponent direction="previous" onMouseEnter={this.moveBackIfSelecting} onClick={this.moveBack} disabled={!this.canMoveBack()} />
+        <PaginationArrowComponent direction="previous" onClick={this.moveBack} disabled={!this.canMoveBack()} />
         {calendars.toJS()}
-        <PaginationArrowComponent direction="next" onMouseEnter={this.moveForwardIfSelecting} onClick={this.moveForward} disabled={!this.canMoveForward()} />
+        <PaginationArrowComponent direction="next" onClick={this.moveForward} disabled={!this.canMoveForward()} />
         {helpMessage ? <span className={this.cx({element: 'HelpMessage'})}>{helpMessage}</span> : null}
         {showLegend ? <Legend stateDefinitions={stateDefinitions} selectedLabel={selectedLabel} /> : null}
       </div>
