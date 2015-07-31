@@ -1,9 +1,22 @@
-"use strict";
+import React from 'react/addons';
 
-var React = require('react/addons');
 
-var Footer = React.createClass({
-  render: function() {
+const OFSCredit = React.createClass({
+  render() {
+    return (
+      <div className="ofs-credit">
+        <p className="ofs-credit__text">Built by</p>
+        <a href="http://www.onefinestay.com/" className="ofs-credit__logo">
+          <img src="img/logo.png"/>
+        </a>
+      </div>
+    );
+  },
+});
+
+
+const Footer = React.createClass({
+  render() {
     return (
       <footer className="footer">
         <OFSCredit />
@@ -14,20 +27,8 @@ var Footer = React.createClass({
         </div>
       </footer>
     );
-  }
+  },
 });
 
-var OFSCredit = React.createClass({
-  render: function() {
-    return (
-      <div className="ofs-credit">
-        <p className="ofs-credit__text">Built by</p>
-        <a href="http://www.onefinestay.com/" className="ofs-credit__logo">
-          <img src="img/logo.png"/>
-        </a>
-      </div>
-    );
-  }
-});
 
-module.exports = Footer;
+export default Footer;

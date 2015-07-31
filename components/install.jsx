@@ -1,10 +1,10 @@
-"use strict";
+import React from 'react/addons';
 
-var React = require('react/addons');
-var CodeSnippet = require('./code-snippet');
+import CodeSnippet from './code-snippet';
 
-var Install = React.createClass({
-  render: function() {
+
+const Install = React.createClass({
+  render() {
     return (
       <div className="install">
         <h2>Install</h2>
@@ -13,7 +13,7 @@ var Install = React.createClass({
         </CodeSnippet>
       </div>
     );
-  }
+  },
 });
 
-module.exports = Install;
+export default Install;

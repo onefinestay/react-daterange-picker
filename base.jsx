@@ -1,6 +1,7 @@
 import React from 'react/addons';
 
-export default class Base extends React.Component {
+
+class Base extends React.Component {
   render() {
     return (
       <html>
@@ -21,3 +22,5 @@ export default class Base extends React.Component {
     );
   }
 }
+
+export default Base;

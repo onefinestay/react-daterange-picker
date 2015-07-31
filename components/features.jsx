@@ -1,9 +1,7 @@
-"use strict";
+import React from 'react/addons';
 
-var React = require('react/addons');
-
-var Features = React.createClass({
-  render: function() {
+const Features = React.createClass({
+  render() {
     return (
       <div className="features">
         <h2>Features</h2>
@@ -23,7 +21,7 @@ var Features = React.createClass({
         </ul>
       </div>
     );
-  }
+  },
 });
 
-module.exports = Features;
+export default Features;
