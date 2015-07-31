@@ -126,7 +126,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
 
     this.setState({
       dateStates: this.state.dateStates && _immutable2['default'].is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
-      enabledRange: this.state.enabledRange && _immutable2['default'].is(this.state.enabledRange, nextEnabledRange) ? this.state.enabledRange : nextEnabledRange });
+      enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange });
   },
 
   getInitialState: function getInitialState() {
@@ -419,12 +419,6 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     }
   },
 
-  moveBackIfSelecting: function moveBackIfSelecting() {
-    if (this.state.selectedStartDate) {
-      this.moveBack();
-    }
-  },
-
   canMoveForward: function canMoveForward() {
     if (this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
       return false;
@@ -441,12 +435,6 @@ var DateRangePicker = _reactAddons2['default'].createClass({
       this.setState({
         year: monthDate.year(),
         month: monthDate.month() });
-    }
-  },
-
-  moveForwardIfSelecting: function moveForwardIfSelecting() {
-    if (this.state.selectedStartDate) {
-      this.moveForward();
     }
   },
 
@@ -560,9 +548,9 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     return _reactAddons2['default'].createElement(
       'div',
       { className: this.cx({ element: null }) },
-      _reactAddons2['default'].createElement(PaginationArrowComponent, { direction: 'previous', onMouseEnter: this.moveBackIfSelecting, onClick: this.moveBack, disabled: !this.canMoveBack() }),
+      _reactAddons2['default'].createElement(PaginationArrowComponent, { direction: 'previous', onTrigger: this.moveBack, disabled: !this.canMoveBack() }),
       calendars.toJS(),
-      _reactAddons2['default'].createElement(PaginationArrowComponent, { direction: 'next', onMouseEnter: this.moveForwardIfSelecting, onClick: this.moveForward, disabled: !this.canMoveForward() }),
+      _reactAddons2['default'].createElement(PaginationArrowComponent, { direction: 'next', onTrigger: this.moveForward, disabled: !this.canMoveForward() }),
       helpMessage ? _reactAddons2['default'].createElement(
         'span',
         { className: this.cx({ element: 'HelpMessage' }) },

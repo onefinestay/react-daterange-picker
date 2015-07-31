@@ -29,6 +29,7 @@ var PaginationArrow = _reactAddons2['default'].createClass({
 
   propTypes: {
     disabled: _reactAddons2['default'].PropTypes.bool,
+    onTrigger: _reactAddons2['default'].PropTypes.func,
     direction: _reactAddons2['default'].PropTypes.oneOf(['next', 'previous']) },
 
   getDefaultProps: function getDefaultProps() {
@@ -40,8 +41,9 @@ var PaginationArrow = _reactAddons2['default'].createClass({
     var _props = this.props;
     var disabled = _props.disabled;
     var direction = _props.direction;
+    var onTrigger = _props.onTrigger;
 
-    var props = _objectWithoutProperties(_props, ['disabled', 'direction']);
+    var props = _objectWithoutProperties(_props, ['disabled', 'direction', 'onTrigger']);
 
     var modifiers = _defineProperty({}, direction, true);
     var states = { disabled: disabled };
@@ -57,7 +59,7 @@ var PaginationArrow = _reactAddons2['default'].createClass({
 
     return _reactAddons2['default'].createElement(
       'div',
-      _extends({ className: this.cx(elementOpts) }, props),
+      _extends({ className: this.cx(elementOpts) }, props, { onClick: onTrigger }),
       _reactAddons2['default'].createElement('div', { className: this.cx(iconOpts) })
     );
   } });

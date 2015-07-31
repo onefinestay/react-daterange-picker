@@ -10,6 +10,7 @@ const PaginationArrow = React.createClass({
 
   propTypes: {
     disabled: React.PropTypes.bool,
+    onTrigger: React.PropTypes.func,
     direction: React.PropTypes.oneOf(['next', 'previous']),
   },
 
@@ -20,7 +21,7 @@ const PaginationArrow = React.createClass({
   },
 
   render() {
-    let {disabled, direction, ...props} = this.props;
+    let {disabled, direction, onTrigger, ...props} = this.props;
     let modifiers = {[direction]: true};
     let states = {disabled};
 
@@ -36,7 +37,7 @@ const PaginationArrow = React.createClass({
     };
 
     return (
-      <div className={this.cx(elementOpts)} {...props}>
+      <div className={this.cx(elementOpts)} {...props} onClick={onTrigger}>
         <div className={this.cx(iconOpts)} />
       </div>
     );
