@@ -61,6 +61,7 @@ var DatePicker = React.createClass({
         dateStates={dateRanges}
         defaultState="available"
         showLegend={true}
+        locale="en",
         value={this.state.value}
         onSelect={this.handleSelect} />
     );
