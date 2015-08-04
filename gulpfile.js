@@ -14,7 +14,7 @@ var sass = require('gulp-sass');
 var deploy = require('gulp-gh-pages');
 var React = require('react');
 var webpack = require('webpack');
-var gulpWebpack = require('gulp-webpack');
+var gulpWebpack = require('webpack-stream');
 
 var PRODUCTION = (process.env.NODE_ENV === 'production');
 

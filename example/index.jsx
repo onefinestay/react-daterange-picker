@@ -182,6 +182,15 @@ const Index = React.createClass({
                 selectionType="single"
                 minimumDate={new Date()} />
             </div>
+
+            <div className="example">
+              <h4>Range with custom weekdays</h4>
+              <DatePickerSingle
+                numberOfCalendars={2}
+                selectionType="range"
+                weekdayNames={["M", "T", "W", "T", "F", "S", "S"]}
+                minimumDate={new Date()} />
+            </div>
           </div>
         </div>
 
