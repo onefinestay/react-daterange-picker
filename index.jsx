@@ -1,5 +1,6 @@
 import React from 'react/addons';
-import moment from 'moment-range';
+import moment from 'moment';
+import {} from 'moment-range';
 var fs = require('fs');
 import timekeeper from 'timekeeper';
 import RangePicker from '../src';
