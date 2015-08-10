@@ -6,7 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-function _defineProperty(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _reactAddons = require('react/addons');
 
@@ -27,7 +27,8 @@ var CalendarSelection = _reactAddons2['default'].createClass({
 
   propTypes: {
     modifier: _reactAddons2['default'].PropTypes.string,
-    pending: _reactAddons2['default'].PropTypes.bool.isRequired },
+    pending: _reactAddons2['default'].PropTypes.bool.isRequired
+  },
 
   render: function render() {
     var _props = this.props;
@@ -36,10 +37,12 @@ var CalendarSelection = _reactAddons2['default'].createClass({
 
     var modifiers = _defineProperty({}, modifier, true);
     var states = {
-      pending: pending };
+      pending: pending
+    };
 
     return _reactAddons2['default'].createElement('div', { className: this.cx({ states: states, modifiers: modifiers }) });
-  } });
+  }
+});
 
 exports['default'] = CalendarSelection;
 module.exports = exports['default'];

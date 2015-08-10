@@ -6,9 +6,11 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _momentRange = require('moment-range');
+var _moment = require('moment');
 
-var _momentRange2 = _interopRequireDefault(_momentRange);
+var _moment2 = _interopRequireDefault(_moment);
+
+require('moment-range');
 
 var _areMomentRangesEqual = require('./areMomentRangesEqual');
 
@@ -29,7 +31,7 @@ function shallowEqual(objA, objB) {
     if (objA.hasOwnProperty(key)) {
       if (!objB.hasOwnProperty(key)) {
         return false;
-      } else if (_momentRange2['default'].isMoment(objA[key]) && _momentRange2['default'].isMoment(objB[key])) {
+      } else if (_moment2['default'].isMoment(objA[key]) && _moment2['default'].isMoment(objB[key])) {
         if (!objA[key].isSame(objB[key], 'day')) {
           return false;
         }
