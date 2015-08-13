@@ -91,8 +91,15 @@ const DateRangePicker = React.createClass({
   componentWillReceiveProps(nextProps) {
     var nextDateStates = this.getDateStates(nextProps);
     var nextEnabledRange = this.getEnabledRange(nextProps);
+    var selectionType = nextProps.selectionType;
+    var nextMoment = {
+      range: nextProps.value.start,
+      single: nextProps.value
+    };
 
     this.setState({
+      year: nextMoment[selectionType].year(),
+      month: nextMoment[selectionType].month(),
       dateStates: this.state.dateStates && Immutable.is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange,
     });
