@@ -4,20 +4,26 @@ import moment from 'moment';
 import CalendarDate from '../CalendarDate';
 
 import CalendarDatePeriod from '../CalendarDatePeriod';
+import CalendarHighlight from '../CalendarHighlight';
 import BemMixin from '../../utils/BemMixin';
 
 const TestUtils = React.addons.TestUtils;
 
 describe('The CalendarDate Component', function () {
 
-    const getCalendarDate = function (count) {
+    const getCalendarDate = function (props) {
+
+        if (!props) {
+            props = {};
+        }
+
         return <CalendarDate
             date={this.date}
             firstOfMonth={this.firstOfMonth}
             dateRangesForDate={function () {
                 return {
                     count: function () {
-                        return count || 1;
+                        return props.count || 1;
                     },
                     getIn: function (data) {
                         if(data[0] === 0) {
@@ -30,18 +36,21 @@ describe('The CalendarDate Component', function () {
             onSelectDate={this.selectDateSpy}
             onHighlightDate={this.highlightDateSpy}
             onUnHighlightDate={this.unHighlightDateSpy}
-        />
+            isHighlightedDate={props.isHighlightedDate || false }
+            />
     }.bind(this);
 
-    const useShallowRenderer = function (count) {
+    const useShallowRenderer = function (props) {
         this.shallowRenderer = TestUtils.createRenderer();
-        this.shallowRenderer.render(getCalendarDate(count));
+        this.shallowRenderer.render(getCalendarDate(props));
         this.renderedComponent = this.shallowRenderer.getRenderOutput();
     }.bind(this);
 
-    const useDocumentRenderer = function (count) {
-        const renderedTable = TestUtils.renderIntoDocument(<table><tbody>{getCalendarDate(count)}</tbody></table>);
-        this.renderedComponent =  TestUtils.findRenderedDOMComponentWithTag(renderedTable, 'td');
+    const useDocumentRenderer = function (props) {
+        const renderedTable = TestUtils.renderIntoDocument(<table>
+            <tbody>{getCalendarDate(props)}</tbody>
+        </table>);
+        this.renderedComponent = TestUtils.findRenderedDOMComponentWithTag(renderedTable, 'td');
     }.bind(this);
 
     beforeEach(() => {
@@ -78,7 +87,7 @@ describe('The CalendarDate Component', function () {
         });
 
         it('when numStyles is 2', () => {
-            useShallowRenderer(2);
+            useShallowRenderer({count: 2});
             expect(this.renderedComponent.props.style.borderLeftColor).toEqual('#29');
             expect(this.renderedComponent.props.style.borderRightColor).toEqual('#3a');
         });
@@ -88,7 +97,7 @@ describe('The CalendarDate Component', function () {
 
     describe('handles touch events', () => {
 
-        beforeEach( () => {
+        beforeEach(() => {
             useDocumentRenderer();
             TestUtils.Simulate.touchStart(this.renderedComponent);
             var evt = document.createEvent('CustomEvent');
@@ -113,7 +122,7 @@ describe('The CalendarDate Component', function () {
         //Workaround as suggested from https://github.com/facebook/react/issues/1297
 
 
-        beforeEach( () => {
+        beforeEach(() => {
             useDocumentRenderer();
         });
 
@@ -146,7 +155,7 @@ describe('The CalendarDate Component', function () {
     describe('handles half days', () => {
 
         it('by creating calendar date period when there is more than one period', () => {
-            useShallowRenderer(2);
+            useShallowRenderer({count: 2});
             expect(this.renderedComponent.props.children[0]).toEqual(
                 <div className='my-class'>
                     <CalendarDatePeriod period='am' color='#333'/>
@@ -156,7 +165,7 @@ describe('The CalendarDate Component', function () {
         });
 
         it('by creating a simple div when there is only one period', () => {
-            useShallowRenderer(1);
+            useShallowRenderer();
             const bg = {
                 backgroundColor: '#333'
             };
@@ -179,53 +188,16 @@ describe('The CalendarDate Component', function () {
 
     describe('has a highlight modifier', () => {
         it('which shows when props.isHighlightedDate is true', () => {
-
+            useShallowRenderer({isHighlightedDate: true});
+            expect(this.renderedComponent.props.children[4]).toEqual(
+                <CalendarHighlight modifier='single'/>
+            );
         });
 
         it('which does not show otherwise', () => {
-
+            useShallowRenderer({isHighlightedDate: false});
+            expect(this.renderedComponent.props.children[4]).toEqual(null);
         });
     });
-
-
-    //describe('#getInitialState', () => {
-    //    it('returns the expected state', () => {
-    //        expect(this.componentInstance.getInitialState()).toEqual({
-    //            mouseDown: false
-    //        });
-    //    });
-    //});
-    //
-    //describe('#mouseUp', () => {
-    //    it('calls props.onSelectDate', () => {
-    //        this.componentInstance.mouseUp();
-    //        expect(this.selectDateSpy).toHaveBeenCalled();
-    //    });
-    //
-    //    it('unsets the mouse down state', () => {
-    //        this.componentInstance.setState({
-    //            mouseDown: true
-    //        });
-    //        this.componentInstance.mouseUp();
-    //        expect(this.componentInstance.state.mouseDown).toBe(false);
-    //    });
-    //
-    //});
-    //
-    //describe('#render', () => {
-    //    //it('should render the right element', () => {
-    //    //    expect(this.renderedComponent.type).toBe('div');
-    //    //    expect(this.spyCx).toHaveBeenCalledWith({
-    //    //        modifiers: {
-    //    //            month: true
-    //    //        }
-    //    //    });
-    //    //    expect(this.renderedComponent.props.className).toEqual('my-class');
-    //    //    expect(this.renderedComponent.props.style).toEqual({ backgroundColor: 'pink' });
-    //    //});
-    //
-    //});
-
-
 
 });
