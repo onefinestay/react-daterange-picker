@@ -96,8 +96,7 @@ var CalendarMonth = _reactAddons2['default'].createClass({
     if (!hideSelection && value && _moment2['default'].isMoment(value) && value.isSame(d, 'day')) {
       isSelectedDate = true;
     } else if (!hideSelection && value && (0, _utilsIsMomentRange2['default'])(value)) {
-      if (value.contains(d))
-      {
+      if (value.contains(d)) {
         checkRange();
       } else if (value.start.isSame(d, 'day')) {
         checkRange();
