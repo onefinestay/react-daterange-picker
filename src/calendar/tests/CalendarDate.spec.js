@@ -13,9 +13,7 @@ describe('The CalendarDate Component', function () {
 
   const getCalendarDate = (props) => {
 
-    if (!props) {
-      props = {};
-    }
+    props = props || {};
 
     return (<CalendarDate
       date={props.date || moment()}
@@ -63,7 +61,9 @@ describe('The CalendarDate Component', function () {
   };
 
   beforeEach(() => {
-    this.spyCx = spyOn(CalendarDate.prototype.__reactAutoBindMap, 'cx').and.returnValue('my-class');
+    this.spyCx = spyOn(CalendarDate.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
+      return data.element || 'my-class';
+    });
     this.selectDateSpy = jasmine.createSpy();
     this.highlightDateSpy = jasmine.createSpy();
     this.unHighlightDateSpy = jasmine.createSpy();
@@ -76,9 +76,9 @@ describe('The CalendarDate Component', function () {
 
   describe('sets the correct class', () => {
 
-    it('by defininig the expected classing', () => {
+    it('by defininig the expected class', () => {
       useShallowRenderer();
-      expect(this.renderedComponent.props.className).toEqual('my-class');
+      expect(this.renderedComponent.props.className).toEqual('Date');
     });
 
     it('by calling cx with a Date element', () => {
@@ -347,7 +347,7 @@ describe('The CalendarDate Component', function () {
     it('by creating calendar date period when there is more than one period', () => {
       useShallowRenderer({count: 2});
       expect(this.renderedComponent.props.children[0]).toEqual(
-        <div className='my-class'>
+        <div className='HalfDateStates'>
           <CalendarDatePeriod period='am' color='#333'/>
           <CalendarDatePeriod period='pm' color='#444'/>
         </div>
@@ -360,7 +360,7 @@ describe('The CalendarDate Component', function () {
         backgroundColor: '#333',
       };
       expect(this.renderedComponent.props.children[1]).toEqual(
-        <div className='my-class' style={bg}>
+        <div className='FullDateStates' style={bg}>
         </div>
       );
     });
