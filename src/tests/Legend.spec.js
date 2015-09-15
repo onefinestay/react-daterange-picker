@@ -12,7 +12,7 @@ describe('The Legend component', function () {
       selectedLabel={props.selectedLabel || 'test'}
       stateDefinitions={props.stateDefinitions || {}}
     />);
-  }
+  };
 
   const useShallowRenderer = (props) => {
     this.shallowRenderer = TestUtils.createRenderer();

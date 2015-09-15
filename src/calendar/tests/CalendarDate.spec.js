@@ -1,11 +1,11 @@
 import React from 'react/addons';
 import moment from 'moment';
 
-import CalendarDate from '../CalendarDate';
+import CalendarDate from '../CalendarDate.jsx';
 
-import CalendarDatePeriod from '../CalendarDatePeriod';
-import CalendarHighlight from '../CalendarHighlight';
-import CalendarSelection from '../CalendarSelection';
+import CalendarDatePeriod from '../CalendarDatePeriod.jsx';
+import CalendarHighlight from '../CalendarHighlight.jsx';
+import CalendarSelection from '../CalendarSelection.jsx';
 
 const TestUtils = React.addons.TestUtils;
 

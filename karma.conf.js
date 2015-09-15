@@ -5,28 +5,27 @@ module.exports = function (config) {
 
         frameworks: ['jasmine'],
 
-        files: [
-            'node_modules/babel-core/browser-polyfill.js',
-            'src/**/*.spec.js'
-        ],
+        files: ['node_modules/babel-core/browser-polyfill.js', {
+            pattern: './src/tests.webpack.js', watched: false
+        }],
 
         preprocessors: {
-            'src/**/*.spec.js': ['webpack', 'sourcemap']
+            'src/tests.webpack.js': ['webpack']
         },
 
         webpack: {
-            resolve: {
-                extensions: ['', '.js', '.jsx']
-            },
-            module: {
-                loaders: [
-                    {test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader'}
-                ]
-            },
-            stats: {
-                colors: true
-            },
-            devtool: 'inline-source-map'
+          resolve: {
+            extensions: ['', '.js', '.jsx']
+          },
+          module: {
+              loaders: [
+                {test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader'}
+              ]
+          },
+          stats: {
+            colors: true
+          },
+          devtool: 'inline-source-map'
         },
 
         webpackMiddleware: {
