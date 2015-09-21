@@ -79,7 +79,7 @@ var CalendarMonth = _reactAddons2['default'].createClass({
 
     var props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
-    var d = (0, _moment2['default'])(date);
+    var d = (0, _moment2['default'])(date).minutes(1);
 
     var isInSelectedRange = undefined;
     var isSelectedDate = undefined;
