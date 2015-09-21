@@ -34,7 +34,7 @@ const CalendarMonth = React.createClass({
 
   renderDay(date, i) {
     let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
-    let d = moment(date);
+    let d = moment(date).minutes(1);
 
     let isInSelectedRange;
     let isSelectedDate;
