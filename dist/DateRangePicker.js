@@ -516,7 +516,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
         value = null;
       }
     } else if ((0, _utilsIsMomentRange2['default'])(value)) {
-      if (!monthRange.overlaps(value)) {
+      if (!monthRange.overlaps(value) && !monthRange.end.isSame(value.start) && !monthRange.start.isSame(value.end)) {
         value = null;
       }
     }
