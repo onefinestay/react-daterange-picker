@@ -1,10 +1,10 @@
 import React from 'react/addons';
 
-import BemMixin from '../BemMixin.js';
+import BemMixin from '../BemMixin';
 
 describe('BemMixin', function () {
 
-  beforeEach(() => {
+  beforeEach(function () {
     this.types = {
       bemNamespace: React.PropTypes.string,
       bemBlock: React.PropTypes.string,
@@ -14,19 +14,19 @@ describe('BemMixin', function () {
     BemMixin.constructor = {};
   });
 
-  it('defines a propTypes object', () => {
+  it('defines a propTypes object', function () {
     expect(BemMixin.propTypes).toEqual(this.types);
   });
 
-  it('defines a contextTypes object', () => {
+  it('defines a contextTypes object', function () {
     expect(BemMixin.contextTypes).toEqual(this.types);
   });
 
-  it('defines a childContextTypes object', () => {
+  it('defines a childContextTypes object', function () {
     expect(BemMixin.childContextTypes).toEqual(this.types);
   });
 
-  it('#getChildContext returns the bem namespace and block', () => {
+  it('#getChildContext returns the bem namespace and block', function() {
     spyOn(BemMixin, 'getChildContext').and.returnValue({
       bemNamespace: 'ns',
       bemBlock: 'block',
@@ -38,9 +38,9 @@ describe('BemMixin', function () {
 
   });
 
-  describe('#getBemNamespace', () => {
+  describe('#getBemNamespace', function () {
 
-    it('returns the props bem namespace if available', () => {
+    it('returns the props bem namespace if available', function () {
       BemMixin.props = {
         bemNamespace: 'ns-props',
       };
@@ -50,22 +50,22 @@ describe('BemMixin', function () {
       expect(BemMixin.getBemNamespace()).toBe('ns-props');
     });
 
-    it('returns the context bem namespace if available and if the props bem namespace is not available', () => {
+    it('returns the context bem namespace if available and if the props bem namespace is not available', function () {
       BemMixin.context = {
         bemNamespace: 'ns-context',
       };
       expect(BemMixin.getBemNamespace()).toBe('ns-context');
     });
 
-    it('returns null otherwise', () => {
+    it('returns null otherwise', function () {
       expect(BemMixin.getBemNamespace()).toBe(null);
     });
 
   });
 
-  describe('#getBemBlock', () => {
+  describe('#getBemBlock', function () {
 
-    it('returns the props bem block if available', () => {
+    it('returns the props bem block if available', function () {
       BemMixin.props = {
         bemBlock: 'block-props',
       };
@@ -75,32 +75,32 @@ describe('BemMixin', function () {
       expect(BemMixin.getBemBlock()).toBe('block-props');
     });
 
-    it('returns the context bem block if available and if the props bem block is not available', () => {
+    it('returns the context bem block if available and if the props bem block is not available', function () {
       BemMixin.context = {
         bemBlock: 'block-context',
       };
       expect(BemMixin.getBemBlock()).toBe('block-context');
     });
 
-    it('returns null otherwise', () => {
+    it('returns null otherwise', function () {
       expect(BemMixin.getBemBlock()).toBe(null);
     });
 
   });
 
-  describe('#cx generates the expected class names', () => {
+  describe('#cx generates the expected class names', function () {
 
-    beforeEach(() => {
+    beforeEach(function () {
       spyOn(BemMixin, 'getBemNamespace').and.returnValue('ns');
       spyOn(BemMixin, 'getBemBlock').and.returnValue('block');
       BemMixin.constructor.displayName = 'elem';
     });
 
-    it('using default values if no values are provided', () => {
+    it('using default values if no values are provided', function () {
       expect(BemMixin.cx()).toBe('ns-block__elem');
     });
 
-    it('adds options when passed in', () => {
+    it('adds options when passed in', function () {
       expect(BemMixin.cx({modifiers: {mod: true}})).toBe('ns-block__elem ns-block__elem--mod');
     });
 

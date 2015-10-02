@@ -6,12 +6,12 @@ import calendar from 'calendar';
 
 import BemMixin from './utils/BemMixin';
 import CustomPropTypes from './utils/CustomPropTypes';
-import Legend from './Legend.jsx';
+import Legend from './Legend';
 
-import CalendarMonth from './calendar/CalendarMonth.jsx';
-import CalendarDate from './calendar/CalendarDate.jsx';
+import CalendarMonth from './calendar/CalendarMonth';
+import CalendarDate from './calendar/CalendarDate';
 
-import PaginationArrow from './PaginationArrow.jsx';
+import PaginationArrow from './PaginationArrow';
 
 import isMomentRange from './utils/isMomentRange';
 

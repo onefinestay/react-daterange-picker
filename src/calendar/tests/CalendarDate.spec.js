@@ -1,67 +1,70 @@
 import React from 'react/addons';
 import moment from 'moment';
+import _ from 'underscore';
 
-import CalendarDate from '../CalendarDate.jsx';
+import CalendarDate from '../CalendarDate';
 
-import CalendarDatePeriod from '../CalendarDatePeriod.jsx';
-import CalendarHighlight from '../CalendarHighlight.jsx';
-import CalendarSelection from '../CalendarSelection.jsx';
+import CalendarDatePeriod from '../CalendarDatePeriod';
+import CalendarHighlight from '../CalendarHighlight';
+import CalendarSelection from '../CalendarSelection';
 
 const TestUtils = React.addons.TestUtils;
 
 describe('The CalendarDate Component', function () {
 
-  const getCalendarDate = (props) => {
+  beforeEach(function () {
 
-    props = props || {};
+    const getCalendarDate = (props) => {
 
-    return (<CalendarDate
-      date={props.date || moment()}
-      firstOfMonth={props.firstOfMonth || moment()}
-      dateRangesForDate={function () {
-        return {
-          count: function () {
-            return props.count || 1;
-          },
-          getIn: function (data) {
-            if (data[0] === 0) {
-              return '#333';
-            }
-            return '#444';
-          },
-        };
-      }}
-      onSelectDate={this.selectDateSpy}
-      onHighlightDate={this.highlightDateSpy}
-      onUnHighlightDate={this.unHighlightDateSpy}
-      isHighlightedDate={props.isHighlightedDate || false }
-      isSelectedDate={props.isSelectedDate || false }
-      isSelectedRangeStart={props.isSelectedRangeStart || false }
-      isSelectedRangeEnd={props.isSelectedRangeEnd || false }
-      isHighlightedRangeStart={props.isHighlightedRangeStart || false }
-      isHighlightedRangeEnd={props.isHighlightedRangeEnd || false }
-      isInSelectedRange={props.isInSelectedRange || false }
-      isInHighlightedRange={props.isInHighlightedRange || false }
-      isToday={props.isToday || false }
-      isDisabled={props.isDisabled || false }
-      />);
-  };
+      props = _.extend({
+        date: moment(),
+        firstOfMonth: moment(),
+        dateRangesForDate: function () {
+          return {
+            count: function () {
+              return props.count || 1;
+            },
+            getIn: function (immutableListIndex) {
+              if (immutableListIndex[0] === 0) {
+                return '#333';
+              }
+              return '#444';
+            },
+          };
+        },
+        onSelectDate: this.selectDateSpy,
+        onHighlightDate: this.highlightDateSpy,
+        onUnHighlightDate: this.unHighlightDateSpy,
+        isHighlightedDate: false,
+        isSelectedDate: false,
+        isSelectedRangeStart: false,
+        isSelectedRangeEnd: false,
+        isHighlightedRangeStart: false,
+        isHighlightedRangeEnd: false,
+        isInSelectedRange: false,
+        isInHighlightedRange: false,
+        isToday: false,
+        isDisabled: false,
+      }, props);
 
-  const useShallowRenderer = (props) => {
-    this.shallowRenderer = TestUtils.createRenderer();
-    this.shallowRenderer.render(getCalendarDate(props));
-    this.renderedComponent = this.shallowRenderer.getRenderOutput();
-  };
 
-  const useDocumentRenderer = (props) => {
-    const renderedTable = TestUtils.renderIntoDocument(<table>
-      <tbody>{getCalendarDate(props)}</tbody>
-    </table>);
-    this.renderedComponent = TestUtils.findRenderedDOMComponentWithTag(renderedTable, 'td');
-  };
+      return (<CalendarDate {...props} />);
+    };
 
-  beforeEach(() => {
-    this.spyCx = spyOn(CalendarDate.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
+    this.useShallowRenderer = (props) => {
+      this.shallowRenderer = TestUtils.createRenderer();
+      this.shallowRenderer.render(getCalendarDate(props));
+      this.renderedComponent = this.shallowRenderer.getRenderOutput();
+    };
+
+    this.useDocumentRenderer = (props) => {
+      const renderedTable = TestUtils.renderIntoDocument(<table>
+        <tbody>{getCalendarDate(props)}</tbody>
+      </table>);
+      this.renderedComponent = TestUtils.findRenderedDOMComponentWithTag(renderedTable, 'td');
+    };
+
+    this.spyCx = spyOn(CalendarDate.prototype.__reactAutoBindMap, 'cx').and.callFake((data) => {
       return data.element || 'my-class';
     });
     this.selectDateSpy = jasmine.createSpy();
@@ -69,20 +72,20 @@ describe('The CalendarDate Component', function () {
     this.unHighlightDateSpy = jasmine.createSpy();
   });
 
-  it('creates the right element', () => {
-    useShallowRenderer();
+  it('creates the right element', function () {
+    this.useShallowRenderer();
     expect(this.renderedComponent.type).toBe('td');
   });
 
-  describe('sets the correct class', () => {
+  describe('sets the correct class', function () {
 
-    it('by defininig the expected class', () => {
-      useShallowRenderer();
+    it('by defininig the expected class name', function () {
+      this.useShallowRenderer();
       expect(this.renderedComponent.props.className).toEqual('Date');
     });
 
-    it('by calling cx with a Date element', () => {
-      useShallowRenderer();
+    it('by calling cx with a Date element', function () {
+      this.useShallowRenderer();
       expect(this.spyCx).toHaveBeenCalledWith({
         element: 'Date',
         modifiers: jasmine.any(Object),
@@ -90,10 +93,10 @@ describe('The CalendarDate Component', function () {
       });
     });
 
-    describe('by setting the expected bem modifiers', () => {
+    describe('by setting the expected bem modifiers', function () {
 
-      it('when the provided date is today', () => {
-        useShallowRenderer({
+      it('when the provided date is today', function () {
+        this.useShallowRenderer({
           isToday: true,
         });
         expect(this.spyCx).toHaveBeenCalledWith({
@@ -104,8 +107,8 @@ describe('The CalendarDate Component', function () {
       });
 
 
-      it('when the provided date is not today', () => {
-        useShallowRenderer({
+      it('when the provided date is not today', function () {
+        this.useShallowRenderer({
           isToday: false,
         });
         expect(this.spyCx).toHaveBeenCalledWith({
@@ -115,9 +118,9 @@ describe('The CalendarDate Component', function () {
         });
       });
 
-      it('when the provided date is over the weekend', () => {
+      it('when the provided date is over the weekend', function () {
         var nextSunday = moment().day(7);
-        useShallowRenderer({
+        this.useShallowRenderer({
           date: nextSunday,
         });
         expect(this.spyCx).toHaveBeenCalledWith({
@@ -128,9 +131,9 @@ describe('The CalendarDate Component', function () {
       });
 
 
-      it('when the provided date is not over the weekend', () => {
+      it('when the provided date is not over the weekend', function () {
         let nextMonday = moment().day(8);
-        useShallowRenderer({
+        this.useShallowRenderer({
           date: nextMonday,
         });
         expect(this.spyCx).toHaveBeenCalledWith({
@@ -140,10 +143,10 @@ describe('The CalendarDate Component', function () {
         });
       });
 
-      it('when the provided date is during the same month', () => {
+      it('when the provided date is during the same month', function () {
         let date = moment().date(8).month(3),
           firstOfMonth = moment().date(1).month(3);
-        useShallowRenderer({
+        this.useShallowRenderer({
           date: date,
           firstOfMonth: firstOfMonth,
         });
@@ -155,10 +158,10 @@ describe('The CalendarDate Component', function () {
       });
 
 
-      it('when the provided date is not during the same month', () => {
+      it('when the provided date is not during the same month', function () {
         let date = moment().date(8).month(3),
           firstOfMonth = moment().date(1).month(43);
-        useShallowRenderer({
+        this.useShallowRenderer({
           date: date,
           firstOfMonth: firstOfMonth,
         });
@@ -170,10 +173,10 @@ describe('The CalendarDate Component', function () {
       });
     });
 
-    describe('by setting the expected bem states', () => {
+    describe('by setting the expected bem states', function () {
 
-      it('when the isDisabled prop is passed in', () => {
-        useShallowRenderer({
+      it('when the isDisabled prop is passed in', function () {
+        this.useShallowRenderer({
           isDisabled: true,
         });
         expect(this.spyCx).toHaveBeenCalledWith({
@@ -183,8 +186,8 @@ describe('The CalendarDate Component', function () {
         });
       });
 
-      it('when the isDisabled prop is not passed in', () => {
-        useShallowRenderer({
+      it('when the isDisabled prop is not passed in', function () {
+        this.useShallowRenderer({
           isDisabled: false,
         });
         expect(this.spyCx).toHaveBeenCalledWith({
@@ -194,8 +197,8 @@ describe('The CalendarDate Component', function () {
         });
       });
 
-      it('when the isHighlightedDate prop is passed in', () => {
-        useShallowRenderer({
+      it('when the isHighlightedDate prop is passed in', function () {
+        this.useShallowRenderer({
           isHighlightedDate: true,
         });
         expect(this.spyCx).toHaveBeenCalledWith({
@@ -205,8 +208,8 @@ describe('The CalendarDate Component', function () {
         });
       });
 
-      it('when the isHighlightedDate prop is not passed in', () => {
-        useShallowRenderer({
+      it('when the isHighlightedDate prop is not passed in', function () {
+        this.useShallowRenderer({
           isHighlightedDate: false,
         });
         expect(this.spyCx).toHaveBeenCalledWith({
@@ -216,8 +219,8 @@ describe('The CalendarDate Component', function () {
         });
       });
 
-      it('when the isSelectedDate prop is passed in', () => {
-        useShallowRenderer({
+      it('when the isSelectedDate prop is passed in', function () {
+        this.useShallowRenderer({
           isSelectedDate: true,
         });
         expect(this.spyCx).toHaveBeenCalledWith({
@@ -227,8 +230,8 @@ describe('The CalendarDate Component', function () {
         });
       });
 
-      it('when the isInSelectedRange prop is passed in', () => {
-        useShallowRenderer({
+      it('when the isInSelectedRange prop is passed in', function () {
+        this.useShallowRenderer({
           isInSelectedRange: true,
         });
         expect(this.spyCx).toHaveBeenCalledWith({
@@ -238,8 +241,8 @@ describe('The CalendarDate Component', function () {
         });
       });
 
-      it('when the isInHighlightedRange prop is passed in', () => {
-        useShallowRenderer({
+      it('when the isInHighlightedRange prop is passed in', function () {
+        this.useShallowRenderer({
           isInHighlightedRange: true,
         });
         expect(this.spyCx).toHaveBeenCalledWith({
@@ -249,8 +252,8 @@ describe('The CalendarDate Component', function () {
         });
       });
 
-      it('when the isSelectedDate, isInSelectedRange, isInHighlightedRange props are not passed in', () => {
-        useShallowRenderer({
+      it('when the isSelectedDate, isInSelectedRange, isInHighlightedRange props are not passed in', function () {
+        this.useShallowRenderer({
           isSelectedDate: false,
           isInSelectedRange: false,
           isInHighlightedRange: false,
@@ -266,16 +269,16 @@ describe('The CalendarDate Component', function () {
 
   });
 
-  describe('creates the right style', () => {
+  describe('creates the right style', function () {
 
-    it('when numStyles is 1', () => {
-      useShallowRenderer();
+    it('when numStyles is 1', function () {
+      this.useShallowRenderer();
       expect(this.renderedComponent.props.style.borderLeftColor).toEqual('#29');
       expect(this.renderedComponent.props.style.borderRightColor).toEqual('#29');
     });
 
-    it('when numStyles is 2', () => {
-      useShallowRenderer({count: 2});
+    it('when numStyles is 2', function () {
+      this.useShallowRenderer({count: 2});
       expect(this.renderedComponent.props.style.borderLeftColor).toEqual('#29');
       expect(this.renderedComponent.props.style.borderRightColor).toEqual('#3a');
     });
@@ -283,10 +286,10 @@ describe('The CalendarDate Component', function () {
 
   });
 
-  describe('handles touch events', () => {
+  describe('handles touch events', function () {
 
-    beforeEach(() => {
-      useDocumentRenderer();
+    beforeEach(function () {
+      this.useDocumentRenderer();
       TestUtils.Simulate.touchStart(this.renderedComponent);
       var evt = document.createEvent('CustomEvent');
       evt.initCustomEvent('touchend', false, false, null);
@@ -294,45 +297,45 @@ describe('The CalendarDate Component', function () {
     });
 
 
-    it('by calling props.onHighlightDate after an interaction', () => {
+    it('by calling props.onHighlightDate after an interaction', function () {
       expect(this.highlightDateSpy).toHaveBeenCalled();
     });
 
-    it('by calling props.onSelectDate after an interaction', () => {
+    it('by calling props.onSelectDate after an interaction', function () {
       expect(this.selectDateSpy).toHaveBeenCalled();
     });
 
   });
 
-  describe('handles mouse events', () => {
+  describe('handles mouse events', function () {
 
     //MouseEnter and MouseLeave are buggy. Should be fixed in React#0.14
     //Workaround as suggested from https://github.com/facebook/react/issues/1297
 
-    beforeEach(() => {
+    beforeEach(function(){
       this.date = moment();
-      useDocumentRenderer({
+      this.useDocumentRenderer({
         date: this.date,
       });
     });
 
-    it('by calling props.onHighlightDate after a mouse enter', () => {
+    it('by calling props.onHighlightDate after a mouse enter', function () {
       TestUtils.SimulateNative.mouseOver(this.renderedComponent);
       expect(this.highlightDateSpy).toHaveBeenCalledWith(this.date);
     });
 
-    it('by calling props.onSelectDate after mouse down + mouse leave', () => {
+    it('by calling props.onSelectDate after mouse down + mouse leave', function () {
       TestUtils.Simulate.mouseDown(this.renderedComponent);
       TestUtils.SimulateNative.mouseOut(this.renderedComponent);
       expect(this.selectDateSpy).toHaveBeenCalledWith(this.date);
     });
 
-    it('by calling props.onUnHighlightDate after a mouse leave', () => {
+    it('by calling props.onUnHighlightDate after a mouse leave', function () {
       TestUtils.SimulateNative.mouseOut(this.renderedComponent);
       expect(this.unHighlightDateSpy).toHaveBeenCalledWith(this.date);
     });
 
-    it('by calling props.onSelectDate after mouse down + mouse up', () => {
+    it('by calling props.onSelectDate after mouse down + mouse up', function () {
       TestUtils.Simulate.mouseDown(this.renderedComponent);
       var evt = document.createEvent('CustomEvent');
       evt.initCustomEvent('mouseup', false, false, null);
@@ -342,10 +345,10 @@ describe('The CalendarDate Component', function () {
 
   });
 
-  describe('handles half days', () => {
+  describe('handles half days', function () {
 
-    it('by creating calendar date period when there is more than one period', () => {
-      useShallowRenderer({count: 2});
+    it('by creating calendar date period when there is more than one period', function () {
+      this.useShallowRenderer({count: 2});
       expect(this.renderedComponent.props.children[0]).toEqual(
         <div className='HalfDateStates'>
           <CalendarDatePeriod period='am' color='#333'/>
@@ -354,8 +357,8 @@ describe('The CalendarDate Component', function () {
       );
     });
 
-    it('by creating a simple div when there is only one period', () => {
-      useShallowRenderer();
+    it('by creating a simple div when there is only one period', function () {
+      this.useShallowRenderer();
       const bg = {
         backgroundColor: '#333',
       };
@@ -366,93 +369,93 @@ describe('The CalendarDate Component', function () {
     });
   });
 
-  describe('has a selection widget', () => {
-    it('with a modifier prop of single if props.isSelectedDate is true and others false', () => {
-      useShallowRenderer({isSelectedDate: true});
+  describe('has a selection widget', function () {
+    it('with a modifier prop of single if props.isSelectedDate is true and others false', function () {
+      this.useShallowRenderer({isSelectedDate: true});
       expect(this.renderedComponent.props.children[3]).toEqual(
         <CalendarSelection modifier='single' pending={false}/>
       );
     });
 
-    it('with a modifier prop of single if props.isSelectedRangeStart, props.isSelectedRangeEnd are true and others false', () => {
-      useShallowRenderer({isSelectedRangeStart: true, isSelectedRangeEnd: true});
+    it('with a modifier prop of single if props.isSelectedRangeStart, props.isSelectedRangeEnd are true and others false', function () {
+      this.useShallowRenderer({isSelectedRangeStart: true, isSelectedRangeEnd: true});
       expect(this.renderedComponent.props.children[3]).toEqual(
         <CalendarSelection modifier='single' pending={false}/>
       );
     });
 
-    it('with a modifier prop of single if props.isHighlightedRangeStart, props.isHighlightedRangeEnd are true and others false', () => {
-      useShallowRenderer({isHighlightedRangeStart: true, isHighlightedRangeEnd: true});
+    it('with a modifier prop of single if props.isHighlightedRangeStart, props.isHighlightedRangeEnd are true and others false', function () {
+      this.useShallowRenderer({isHighlightedRangeStart: true, isHighlightedRangeEnd: true});
       expect(this.renderedComponent.props.children[3]).toEqual(
         <CalendarSelection modifier='single' pending={false}/>
       );
     });
 
-    it('with a modifier prop of start if props.isSelectedRangeStart is true and others false', () => {
-      useShallowRenderer({isSelectedRangeStart: true, isSelectedRangeEnd: false});
+    it('with a modifier prop of start if props.isSelectedRangeStart is true and others false', function () {
+      this.useShallowRenderer({isSelectedRangeStart: true, isSelectedRangeEnd: false});
       expect(this.renderedComponent.props.children[3]).toEqual(
         <CalendarSelection modifier='start' pending={false}/>
       );
     });
 
-    it('with a modifier prop of start if props.isHighlightedRangeStart is true and others false', () => {
-      useShallowRenderer({isHighlightedRangeStart: true, isHighlightedRangeEnd: false});
+    it('with a modifier prop of start if props.isHighlightedRangeStart is true and others false', function () {
+      this.useShallowRenderer({isHighlightedRangeStart: true, isHighlightedRangeEnd: false});
       expect(this.renderedComponent.props.children[3]).toEqual(
         <CalendarSelection modifier='start' pending={false}/>
       );
     });
 
-    it('with a modifier prop of end if props.isSelectedRangeEnd is true and others false', () => {
-      useShallowRenderer({isSelectedRangeEnd: true, isSelectedRangeStart: false});
+    it('with a modifier prop of end if props.isSelectedRangeEnd is true and others false', function () {
+      this.useShallowRenderer({isSelectedRangeEnd: true, isSelectedRangeStart: false});
       expect(this.renderedComponent.props.children[3]).toEqual(
         <CalendarSelection modifier='end' pending={false}/>
       );
     });
 
-    it('with a modifier prop of end if props.isHighlightedRangeEnd is true and others false', () => {
-      useShallowRenderer({isHighlightedRangeEnd: true, isHighlightedRangeStart: false});
+    it('with a modifier prop of end if props.isHighlightedRangeEnd is true and others false', function () {
+      this.useShallowRenderer({isHighlightedRangeEnd: true, isHighlightedRangeStart: false});
       expect(this.renderedComponent.props.children[3]).toEqual(
         <CalendarSelection modifier='end' pending={false}/>
       );
     });
 
-    it('with a modifier prop of segment if props.isInSelectedRange is true and others false', () => {
-      useShallowRenderer({isInSelectedRange: true});
+    it('with a modifier prop of segment if props.isInSelectedRange is true and others false', function () {
+      this.useShallowRenderer({isInSelectedRange: true});
       expect(this.renderedComponent.props.children[3]).toEqual(
         <CalendarSelection modifier='segment' pending={false}/>
       );
     });
 
-    it('with a modifier prop of segment if props.isInHighlightedRange is true and others false', () => {
-      useShallowRenderer({isInHighlightedRange: true});
+    it('with a modifier prop of segment if props.isInHighlightedRange is true and others false', function () {
+      this.useShallowRenderer({isInHighlightedRange: true});
       expect(this.renderedComponent.props.children[3]).toEqual(
         <CalendarSelection modifier='segment' pending={true}/>
       );
     });
 
-    it('with a pending prop of true if props.isInHighlightedRange is true and any setting showing the CalendarSelection widget', () => {
-      useShallowRenderer({isInHighlightedRange: true, isSelectedDate: true});
+    it('with a pending prop of true if props.isInHighlightedRange is true and any setting showing the CalendarSelection widget', function () {
+      this.useShallowRenderer({isInHighlightedRange: true, isSelectedDate: true});
       expect(this.renderedComponent.props.children[3]).toEqual(
         <CalendarSelection modifier='single' pending={true}/>
       );
     });
 
-    it('which does not show otherwise', () => {
-      useShallowRenderer();
+    it('which does not show otherwise', function () {
+      this.useShallowRenderer();
       expect(this.renderedComponent.props.children[3]).toEqual(null);
     });
   });
 
-  describe('has a highlight modifier', () => {
-    it('which shows when props.isHighlightedDate is true', () => {
-      useShallowRenderer({isHighlightedDate: true});
+  describe('has a highlight modifier', function () {
+    it('which shows when props.isHighlightedDate is true', function () {
+      this.useShallowRenderer({isHighlightedDate: true});
       expect(this.renderedComponent.props.children[4]).toEqual(
         <CalendarHighlight modifier='single'/>
       );
     });
 
-    it('which does not show otherwise', () => {
-      useShallowRenderer({isHighlightedDate: false});
+    it('which does not show otherwise', function () {
+      this.useShallowRenderer({isHighlightedDate: false});
       expect(this.renderedComponent.props.children[4]).toEqual(null);
     });
   });

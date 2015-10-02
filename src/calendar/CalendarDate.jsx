@@ -7,9 +7,9 @@ import CustomPropTypes from '../utils/CustomPropTypes';
 import PureRenderMixin from '../utils/PureRenderMixin';
 import lightenDarkenColor from '../utils/lightenDarkenColor';
 
-import CalendarDatePeriod from './CalendarDatePeriod.jsx';
-import CalendarHighlight from './CalendarHighlight.jsx';
-import CalendarSelection from './CalendarSelection.jsx';
+import CalendarDatePeriod from './CalendarDatePeriod';
+import CalendarHighlight from './CalendarHighlight';
+import CalendarSelection from './CalendarSelection';
 
 
 const CalendarDate = React.createClass({

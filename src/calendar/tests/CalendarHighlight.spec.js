@@ -1,10 +1,10 @@
 import React from 'react/addons';
-import CalendarHighlight from '../CalendarHighlight.jsx';
+import CalendarHighlight from '../CalendarHighlight';
 
 const TestUtils = React.addons.TestUtils;
 
 describe('The CalendarHighlight Component', function () {
-  beforeEach(() => {
+  beforeEach(function () {
     this.spyCx = spyOn(CalendarHighlight.prototype.__reactAutoBindMap, 'cx').and.returnValue('my-class');
 
     var shallowRenderer = TestUtils.createRenderer();
@@ -12,7 +12,7 @@ describe('The CalendarHighlight Component', function () {
     this.renderedComponent = shallowRenderer.getRenderOutput();
   });
 
-  it('should render the right element', () => {
+  it('should render the right element', function () {
     expect(this.renderedComponent.type).toBe('div');
     expect(this.spyCx).toHaveBeenCalledWith({
       states: {

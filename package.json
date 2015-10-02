@@ -50,7 +50,7 @@
     "gulp-util": "^3.0.4",
     "gulp-watch": "^1.1.0",
     "gulp-webpack": "^1.4.0",
-    "isparta-loader": "^0.2.0",
+    "isparta-loader": "^1.0.0",
     "jasmine-core": "^2.3.4",
     "karma": "^0.13.9",
     "karma-coverage": "^0.5.0",
@@ -64,6 +64,7 @@
     "phantomjs": "^1.9.18",
     "timekeeper": "0.0.5",
     "transform-loader": "^0.2.1",
+    "underscore": "^1.8.3",
     "webpack": "^1.11.0"
   }
 }

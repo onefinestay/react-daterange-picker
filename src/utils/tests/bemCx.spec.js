@@ -1,8 +1,8 @@
-import bemCx from '../bemCx.js';
+import bemCx from '../bemCx';
 
 describe('bemCx', function () {
 
-  beforeEach(() => {
+  beforeEach(function () {
     this.block = 'block';
     this.element = 'element';
     this.namespace = 'ns';
@@ -16,7 +16,7 @@ describe('bemCx', function () {
     };
   });
 
-  it('returns a correct class name if an element and a namespace are provided', () => {
+  it('returns a correct class name if an element and a namespace are provided', function () {
     expect(bemCx({
       block: this.block,
       element: this.element,
@@ -24,27 +24,27 @@ describe('bemCx', function () {
     })).toContain('ns-block__element');
   });
 
-  it('returns a correct class name if an element and no namespace are provided', () => {
+  it('returns a correct class name if an element and no namespace are provided', function () {
     expect(bemCx({
       block: this.block,
       element: this.element,
     })).toContain('block__element');
   });
 
-  it('returns a correct class name if no element and a namespace are provided', () => {
+  it('returns a correct class name if no element and a namespace are provided', function () {
     expect(bemCx({
       block: this.block,
       namespace: this.namespace,
     })).toContain('ns-block');
   });
 
-  it('returns a correct class name if no element and no namespace are provided', () => {
+  it('returns a correct class name if no element and no namespace are provided', function () {
     expect(bemCx({
       block: this.block,
     })).toContain('block');
   });
 
-  it('returns the correct class names if states are provided', () => {
+  it('returns the correct class names if states are provided', function () {
     expect(bemCx({
       block: this.block,
       element: this.element,
@@ -53,7 +53,7 @@ describe('bemCx', function () {
     })).toContain('ns-block__element--is-state2');
   });
 
-  it('returns the correct class names if modifiers are provided', () => {
+  it('returns the correct class names if modifiers are provided', function () {
     expect(bemCx({
       block: this.block,
       element: this.element,
@@ -68,7 +68,7 @@ describe('bemCx', function () {
     })).toContain('ns-block__element--mod2');
   });
 
-  it('returns the correct class names if states and modifiers are provided', () => {
+  it('returns the correct class names if states and modifiers are provided', function () {
     expect(bemCx({
       block: this.block,
       element: this.element,

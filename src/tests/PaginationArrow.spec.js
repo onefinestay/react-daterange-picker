@@ -1,39 +1,37 @@
 import React from 'react/addons';
+import _ from 'underscore';
 
-import PaginationArrow from '../PaginationArrow.jsx';
+import PaginationArrow from '../PaginationArrow';
 
 const TestUtils = React.addons.TestUtils;
 
 describe('The Pagination Arrow component', function () {
 
-  const getPaginationArrow = (props) => {
-    props = props || {};
-    return (<PaginationArrow
-      disabled={props.disabled || false}
-      onTrigger={props.onTrigger || (() => {})}
-      direction={props.direction || 'next'}
-    />);
-  };
+  beforeEach(function () {
 
-  const useShallowRenderer = (props) => {
-    this.shallowRenderer = TestUtils.createRenderer();
-    this.shallowRenderer.render(getPaginationArrow(props));
-    this.renderedComponent = this.shallowRenderer.getRenderOutput();
-  };
+    const getPaginationArrow = (props) => {
+      props = _.extend({
+        disabled: false,
+        onTrigger: (() => {}),
+        direction: 'next',
+      }, props);
+      return (<PaginationArrow {...props} />);
+    };
 
-  const useDocumentRenderer = (props) => {
-    this.renderedComponent = TestUtils.renderIntoDocument(getPaginationArrow(props));
-  };
+    this.useShallowRenderer = (props) => {
+      this.shallowRenderer = TestUtils.createRenderer();
+      this.shallowRenderer.render(getPaginationArrow(props));
+      this.renderedComponent = this.shallowRenderer.getRenderOutput();
+    };
 
-  beforeEach(() => {
     this.spyCx = spyOn(PaginationArrow.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
       return data.element || 'my-class';
     });
   });
 
-  it('creates the correct markup', () => {
+  it('creates the correct markup', function () {
     var clickTrigger = () => {};
-    useShallowRenderer({
+    this.useShallowRenderer({
       onTrigger: clickTrigger,
     });
     expect(this.renderedComponent).toEqual(
@@ -43,8 +41,8 @@ describe('The Pagination Arrow component', function () {
     );
   });
 
-  it('creates the correct class names', () => {
-    useShallowRenderer();
+  it('creates the correct class names', function () {
+    this.useShallowRenderer();
     expect(this.spyCx).toHaveBeenCalledWith({
       modifiers: {
         'next': true,

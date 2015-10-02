@@ -71,34 +71,37 @@ var webpackConfig = {
 };
 
 gulp.task('test-unit', function (done) {
-    new KarmaServer({
-        configFile: __dirname + '/karma.conf.js'
-    }, done).start();
+  new KarmaServer({
+    configFile: __dirname + '/karma.conf.js'
+  }, done).start();
 });
 
 gulp.task('test-coverage', function (done) {
-    new KarmaServer({
-        configFile: __dirname + '/karma.conf.js',
-        reporters: ['mocha', 'coverage', 'threshold'],
-        singleRun: true,
-        webpack: {
-            module: {
-                preLoaders: [{
-                    test: /\.(js|jsx)$/,
-                    include: path.resolve('src/'),
-                    exclude: /tests/,
-                    loader: 'isparta'
-                }, {
-                    test: /\.spec.js$/,
-                    include: path.resolve('src/'),
-                    loader: 'babel'
-                }],
-                loaders: [
-                    {test: /\.(js|jsx)$/, exclude: /node_modules/, loader: require.resolve('babel-loader')}
-                ]
-            }
-        }
-    }, done).start();
+  new KarmaServer({
+    configFile: __dirname + '/karma.conf.js',
+    reporters: ['mocha', 'coverage', 'threshold'],
+    singleRun: true,
+    webpack: {
+      module: {
+        preLoaders: [{
+          test: /\.(js|jsx)$/,
+          include: path.resolve('src/'),
+          exclude: /tests/,
+          loader: 'isparta'
+        }, {
+          test: /\.spec.js$/,
+          include: path.resolve('src/'),
+          loader: 'babel'
+        }],
+        loaders: [
+          {test: /\.(js|jsx)$/, exclude: /node_modules/, loader: require.resolve('babel-loader')}
+        ]
+      },
+      resolve: {
+        extensions: ['', '.js', '.jsx']
+      }
+    }
+  }, done).start();
 });
 
 gulp.task('build-dist-js', function() {

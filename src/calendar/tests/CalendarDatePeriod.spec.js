@@ -1,10 +1,10 @@
 import React from 'react/addons';
-import CalendarDatePeriod from '../CalendarDatePeriod.jsx';
+import CalendarDatePeriod from '../CalendarDatePeriod';
 
 const TestUtils = React.addons.TestUtils;
 
 describe('The CalendarDatePeriod Component', function () {
-  beforeEach(() => {
+  beforeEach(function () {
     this.spyCx = spyOn(CalendarDatePeriod.prototype.__reactAutoBindMap, 'cx').and.returnValue('my-class');
 
     var shallowRenderer = TestUtils.createRenderer();
@@ -12,7 +12,7 @@ describe('The CalendarDatePeriod Component', function () {
     this.renderedComponent = shallowRenderer.getRenderOutput();
   });
 
-  it('should render the right element', () => {
+  it('should render the right element', function () {
     expect(this.renderedComponent.type).toBe('div');
     expect(this.spyCx).toHaveBeenCalledWith({
       modifiers: {

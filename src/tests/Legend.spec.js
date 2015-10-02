@@ -1,44 +1,47 @@
 import React from 'react/addons';
-import Legend from '../Legend.jsx';
+import Legend from '../Legend';
+import _ from 'underscore';
 
 
 const TestUtils = React.addons.TestUtils;
 
 describe('The Legend component', function () {
 
-  const getLegend = (props) => {
-    props = props || {};
-    return (<Legend
-      selectedLabel={props.selectedLabel || 'test'}
-      stateDefinitions={props.stateDefinitions || {}}
-    />);
-  };
+  beforeEach(function () {
 
-  const useShallowRenderer = (props) => {
-    this.shallowRenderer = TestUtils.createRenderer();
-    this.shallowRenderer.render(getLegend(props));
-    this.renderedComponent = this.shallowRenderer.getRenderOutput();
-  };
+    const getLegend = (props) => {
+      props = _.extend({
+        selectedLabel: 'test',
+        stateDefinitions: {},
+      }, props);
 
-  const useDocumentRenderer = (props) => {
-    this.renderedComponent = TestUtils.renderIntoDocument(getLegend(props));
-  };
+      return (<Legend {...props}/>);
+    };
 
-  beforeEach(() => {
+    this.useShallowRenderer = (props) => {
+      this.shallowRenderer = TestUtils.createRenderer();
+      this.shallowRenderer.render(getLegend(props));
+      this.renderedComponent = this.shallowRenderer.getRenderOutput();
+    };
+
+    this.useDocumentRenderer = (props) => {
+      this.renderedComponent = TestUtils.renderIntoDocument(getLegend(props));
+    };
+
     this.spyCx = spyOn(Legend.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
       data = data || {};
       return data.element || 'my-class';
     });
   });
 
-  it('creates a ul dom element as its root', () => {
-    useShallowRenderer();
+  it('creates a ul dom element as its root', function () {
+    this.useShallowRenderer();
     expect(this.renderedComponent.type).toBe('ul');
     expect(this.renderedComponent.props.className).toBe('my-class');
   });
 
-  it('creates at least one li, selected by default, using the props.selectedLabel', () => {
-    useShallowRenderer();
+  it('creates at least one li, selected by default, using the props.selectedLabel', function () {
+    this.useShallowRenderer();
     expect(this.renderedComponent.props.children.length).toBeGreaterThan(1);
     expect(this.renderedComponent.props.children[0]).toEqual(<li className='LegendItem'>
       <span className='LegendItemColor' />
@@ -46,8 +49,8 @@ describe('The Legend component', function () {
     </li>);
   });
 
-  it('creates extra lis based on the props.stateDefinitions', () => {
-    useDocumentRenderer({
+  it('creates extra lis based on the props.stateDefinitions', function () {
+    this.useDocumentRenderer({
       stateDefinitions: {
         a: {
           label: 'abc',

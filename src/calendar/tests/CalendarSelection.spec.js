@@ -1,10 +1,10 @@
 import React from 'react/addons';
-import CalendarSelection from '../CalendarSelection.jsx';
+import CalendarSelection from '../CalendarSelection';
 
 const TestUtils = React.addons.TestUtils;
 
 describe('The CalendarSelection Component', function () {
-  beforeEach(() => {
+  beforeEach(function () {
     this.spyCx = spyOn(CalendarSelection.prototype.__reactAutoBindMap, 'cx').and.returnValue('my-class');
 
     var shallowRenderer = TestUtils.createRenderer();
@@ -12,7 +12,7 @@ describe('The CalendarSelection Component', function () {
     this.renderedComponent = shallowRenderer.getRenderOutput();
   });
 
-  it('should render the right element', () => {
+  it('should render the right element', function () {
     expect(this.renderedComponent.type).toBe('div');
     expect(this.spyCx).toHaveBeenCalledWith({
       states: {

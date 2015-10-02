@@ -1,3 +1,3 @@
-import DateRangePicker from './DateRangePicker.jsx';
+import DateRangePicker from './DateRangePicker';
 
 export default DateRangePicker;
