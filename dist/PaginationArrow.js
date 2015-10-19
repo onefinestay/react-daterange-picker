@@ -12,25 +12,27 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _reactAddons = require('react/addons');
+var _react = require('react');
 
-var _reactAddons2 = _interopRequireDefault(_reactAddons);
+var _react2 = _interopRequireDefault(_react);
+
+var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
+
+var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _utilsBemMixin = require('./utils/BemMixin');
 
 var _utilsBemMixin2 = _interopRequireDefault(_utilsBemMixin);
 
-var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
-
-var PaginationArrow = _reactAddons2['default'].createClass({
+var PaginationArrow = _react2['default'].createClass({
   displayName: 'PaginationArrow',
 
-  mixins: [_utilsBemMixin2['default'], PureRenderMixin],
+  mixins: [_utilsBemMixin2['default'], _reactAddonsPureRenderMixin2['default']],
 
   propTypes: {
-    disabled: _reactAddons2['default'].PropTypes.bool,
-    onTrigger: _reactAddons2['default'].PropTypes.func,
-    direction: _reactAddons2['default'].PropTypes.oneOf(['next', 'previous'])
+    disabled: _react2['default'].PropTypes.bool,
+    onTrigger: _react2['default'].PropTypes.func,
+    direction: _react2['default'].PropTypes.oneOf(['next', 'previous'])
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -61,10 +63,10 @@ var PaginationArrow = _reactAddons2['default'].createClass({
       states: states
     };
 
-    return _reactAddons2['default'].createElement(
+    return _react2['default'].createElement(
       'div',
       _extends({ className: this.cx(elementOpts) }, props, { onClick: onTrigger }),
-      _reactAddons2['default'].createElement('div', { className: this.cx(iconOpts) })
+      _react2['default'].createElement('div', { className: this.cx(iconOpts) })
     );
   }
 });
