@@ -19,7 +19,9 @@ const PureRenderMixin = React.addons.PureRenderMixin;
 const absoluteMinimum = moment(new Date(-8640000000000000 / 2)).startOf('day');
 const absoluteMaximum = moment(new Date(8640000000000000 / 2)).startOf('day');
 
-React.initializeTouchEvents(true);
+if (React.hasOwnProperty('initializeTouchEvents')) {
+  React.initializeTouchEvents(true);
+}
 
 function noop() {}
 
