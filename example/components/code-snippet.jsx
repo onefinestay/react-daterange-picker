@@ -1,5 +1,5 @@
 /* global hljs */
-import React from 'react/addons';
+import React from 'react';
 import cx from 'classnames';
 
 const CodeSnippet = React.createClass({

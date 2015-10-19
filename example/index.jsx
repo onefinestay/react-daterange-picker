@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import moment from 'moment';
 import {} from 'moment-range';
 var fs = require('fs');
