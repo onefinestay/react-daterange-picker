@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import moment from 'moment';
 import {} from 'moment-range';
 import Immutable from 'immutable';
@@ -15,11 +15,10 @@ import PaginationArrow from './PaginationArrow';
 
 import isMomentRange from './utils/isMomentRange';
 
-const PureRenderMixin = React.addons.PureRenderMixin;
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+
 const absoluteMinimum = moment(new Date(-8640000000000000 / 2)).startOf('day');
 const absoluteMaximum = moment(new Date(8640000000000000 / 2)).startOf('day');
-
-React.initializeTouchEvents(true);
 
 function noop() {}
 

@@ -6,9 +6,9 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _reactAddons = require('react/addons');
+var _react = require('react');
 
-var _reactAddons2 = _interopRequireDefault(_reactAddons);
+var _react2 = _interopRequireDefault(_react);
 
 var _immutable = require('immutable');
 
@@ -42,7 +42,7 @@ var _CalendarSelection = require('./CalendarSelection');
 
 var _CalendarSelection2 = _interopRequireDefault(_CalendarSelection);
 
-var CalendarDate = _reactAddons2['default'].createClass({
+var CalendarDate = _react2['default'].createClass({
   displayName: 'CalendarDate',
 
   mixins: [_utilsBemMixin2['default'], _utilsPureRenderMixin2['default']],
@@ -50,27 +50,27 @@ var CalendarDate = _reactAddons2['default'].createClass({
   propTypes: {
     date: _utilsCustomPropTypes2['default'].moment,
 
-    firstOfMonth: _reactAddons2['default'].PropTypes.object.isRequired,
+    firstOfMonth: _react2['default'].PropTypes.object.isRequired,
 
-    isSelectedDate: _reactAddons2['default'].PropTypes.bool,
-    isSelectedRangeStart: _reactAddons2['default'].PropTypes.bool,
-    isSelectedRangeEnd: _reactAddons2['default'].PropTypes.bool,
-    isInSelectedRange: _reactAddons2['default'].PropTypes.bool,
+    isSelectedDate: _react2['default'].PropTypes.bool,
+    isSelectedRangeStart: _react2['default'].PropTypes.bool,
+    isSelectedRangeEnd: _react2['default'].PropTypes.bool,
+    isInSelectedRange: _react2['default'].PropTypes.bool,
 
-    isHighlightedDate: _reactAddons2['default'].PropTypes.bool,
-    isHighlightedRangeStart: _reactAddons2['default'].PropTypes.bool,
-    isHighlightedRangeEnd: _reactAddons2['default'].PropTypes.bool,
-    isInHighlightedRange: _reactAddons2['default'].PropTypes.bool,
+    isHighlightedDate: _react2['default'].PropTypes.bool,
+    isHighlightedRangeStart: _react2['default'].PropTypes.bool,
+    isHighlightedRangeEnd: _react2['default'].PropTypes.bool,
+    isInHighlightedRange: _react2['default'].PropTypes.bool,
 
-    highlightedDate: _reactAddons2['default'].PropTypes.object,
-    dateStates: _reactAddons2['default'].PropTypes.instanceOf(_immutable2['default'].List),
-    isDisabled: _reactAddons2['default'].PropTypes.bool,
-    isToday: _reactAddons2['default'].PropTypes.bool,
+    highlightedDate: _react2['default'].PropTypes.object,
+    dateStates: _react2['default'].PropTypes.instanceOf(_immutable2['default'].List),
+    isDisabled: _react2['default'].PropTypes.bool,
+    isToday: _react2['default'].PropTypes.bool,
 
-    dateRangesForDate: _reactAddons2['default'].PropTypes.func,
-    onHighlightDate: _reactAddons2['default'].PropTypes.func,
-    onUnHighlightDate: _reactAddons2['default'].PropTypes.func,
-    onSelectDate: _reactAddons2['default'].PropTypes.func
+    dateRangesForDate: _react2['default'].PropTypes.func,
+    onHighlightDate: _react2['default'].PropTypes.func,
+    onUnHighlightDate: _react2['default'].PropTypes.func,
+    onSelectDate: _react2['default'].PropTypes.func
   },
 
   getInitialState: function getInitialState() {
@@ -234,7 +234,7 @@ var CalendarDate = _reactAddons2['default'].createClass({
       }
     }
 
-    return _reactAddons2['default'].createElement(
+    return _react2['default'].createElement(
       'td',
       { className: this.cx({ element: 'Date', modifiers: bemModifiers, states: bemStates }),
         style: cellStyle,
@@ -242,20 +242,20 @@ var CalendarDate = _reactAddons2['default'].createClass({
         onMouseEnter: this.mouseEnter,
         onMouseLeave: this.mouseLeave,
         onMouseDown: this.mouseDown },
-      numStates > 1 && _reactAddons2['default'].createElement(
+      numStates > 1 && _react2['default'].createElement(
         'div',
         { className: this.cx({ element: "HalfDateStates" }) },
-        _reactAddons2['default'].createElement(_CalendarDatePeriod2['default'], { period: 'am', color: amColor }),
-        _reactAddons2['default'].createElement(_CalendarDatePeriod2['default'], { period: 'pm', color: pmColor })
+        _react2['default'].createElement(_CalendarDatePeriod2['default'], { period: 'am', color: amColor }),
+        _react2['default'].createElement(_CalendarDatePeriod2['default'], { period: 'pm', color: pmColor })
       ),
-      numStates === 1 && _reactAddons2['default'].createElement('div', { className: this.cx({ element: "FullDateStates" }), style: style }),
-      _reactAddons2['default'].createElement(
+      numStates === 1 && _react2['default'].createElement('div', { className: this.cx({ element: "FullDateStates" }), style: style }),
+      _react2['default'].createElement(
         'span',
         { className: this.cx({ element: "DateLabel" }) },
         date.format('D')
       ),
-      selectionModifier ? _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }) : null,
-      highlightModifier ? _reactAddons2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier }) : null
+      selectionModifier ? _react2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }) : null,
+      highlightModifier ? _react2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier }) : null
     );
   }
 });
