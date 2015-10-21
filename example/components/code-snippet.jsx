@@ -1,5 +1,5 @@
 /* global hljs */
-import React from 'react/addons';
+import React from 'react';
 import cx from 'classnames';
 
 const CodeSnippet = React.createClass({
@@ -32,7 +32,7 @@ const CodeSnippet = React.createClass({
       visible: value,
     }, function() {
       if (value) {
-        var el = self.refs.codeBlock.getDOMNode();
+        var el = self.refs.codeBlock;
         hljs.highlightBlock(el);
       }
     });
@@ -40,7 +40,7 @@ const CodeSnippet = React.createClass({
 
   componentDidMount: function() {
     if (this.state.visible) {
-      var el = this.refs.codeBlock.getDOMNode();
+      var el = this.refs.codeBlock;
       hljs.highlightBlock(el);
     }
   },
