@@ -3,6 +3,10 @@
   "version": "0.12.1",
   "description": "A React based date range picker",
   "author": "Jonathan Kim <jonathan.kim@onefinestay.com>",
+  "scripts": {
+    "develop": "gulp develop",
+    "build-dist-js": "gulp build-dist-js"
+},
   "contributors": [
     {
       "name": "Andrew Ingram",
