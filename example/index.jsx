@@ -164,7 +164,6 @@ const Index = React.createClass({
 
         <div className="content">
           <div className="example">
-{/*}
             <DatePickerRange
               firstOfWeek={1}
               numberOfCalendars={2}
@@ -177,7 +176,7 @@ const Index = React.createClass({
               value={moment.range(initialStart, initialEnd)}
               showLegend={true}
               />
-*/}
+
             <CodeSnippet language="javascript">
               {processCodeSnippet(mainCodeSnippet)}
             </CodeSnippet>
@@ -188,7 +187,6 @@ const Index = React.createClass({
 
           <div className="examples">
             <h2>Examples</h2>
-{/*}
             <div className="example">
               <h4>Range with no date states</h4>
               <DatePickerRange
@@ -213,10 +211,9 @@ const Index = React.createClass({
                 selectionType="single"
                 minimumDate={new Date()} />
             </div>
-*/}
+
             <div className="example">
               <h4>Multiple Date Select</h4>
-
               <DatePickerMultiple
                 numberOfCalendars={2}
                 selectionType="multiple"
