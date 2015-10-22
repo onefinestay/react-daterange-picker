@@ -19,7 +19,9 @@ const PureRenderMixin = React.addons.PureRenderMixin;
 const absoluteMinimum = moment(new Date(-8640000000000000 / 2)).startOf('day');
 const absoluteMaximum = moment(new Date(8640000000000000 / 2)).startOf('day');
 
-React.initializeTouchEvents(true);
+try {React.initializeTouchEvents(true);
+} catch(err) {}
+
 
 function noop() {}
 
@@ -49,11 +51,15 @@ const DateRangePicker = React.createClass({
     onSelectStart: React.PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: React.PropTypes.func,
     selectedLabel: React.PropTypes.string,
-    selectionType: React.PropTypes.oneOf(['single', 'range']),
+    selectionType: React.PropTypes.oneOf(['single', 'range', 'multiple']),
     singleDateRange: React.PropTypes.bool,
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
-    value: CustomPropTypes.momentOrMomentRange,
+    value: React.PropTypes.oneOfType([
+      React.PropTypes.array,
+      CustomPropTypes.momentOrMomentRange,
+    ])
+
   },
 
   getDefaultProps() {
@@ -103,17 +109,23 @@ const DateRangePicker = React.createClass({
     let {initialYear, initialMonth, initialFromValue, selectionType, value} = this.props;
     let year = now.getFullYear();
     let month = now.getMonth();
+    let selectedMultipleDates = [];
 
     if (initialYear && initialMonth) {
       year = initialYear;
       month = initialMonth;
     }
 
+    if (value instanceof Array){
+      selectedMultipleDates = value.map(function(selectedDate){
+        return moment(selectedDate).format();
+      });      
+    }
     if (initialFromValue && value) {
       if (selectionType === 'single') {
         year = value.year();
         month = value.month();
-      } else {
+      } else if (selectionType === 'range') {
         year = value.start.year();
         month = value.start.month();
       }
@@ -125,6 +137,7 @@ const DateRangePicker = React.createClass({
       selectedStartDate: null,
       highlightStartDate: null,
       highlightedDate: null,
+      highlightedDates: selectedMultipleDates,
       highlightRange: null,
       hideSelection: false,
       enabledRange: this.getEnabledRange(this.props),
@@ -264,7 +277,10 @@ const DateRangePicker = React.createClass({
           this.highlightRange(moment.range(date, date));
         }
       }
-
+    } else if(selectionType === 'multiple'){
+      if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.completeMultipleSelection(date);
+      }
     } else {
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.completeSelection();
@@ -341,6 +357,23 @@ const DateRangePicker = React.createClass({
       });
       this.props.onSelect(range, this.statesForRange(range));
     }
+  },
+
+  completeMultipleSelection(momentDate) {
+    var date = momentDate.format();
+
+    var highlightedDates = this.state.highlightedDates;
+    var index = highlightedDates.indexOf(date);
+
+    if (index > -1) {
+      highlightedDates.splice(index, 1);
+      this.setState({highlightedDates: highlightedDates});
+
+    } else {
+      highlightedDates.push(date);
+      this.setState({highlightedDates: highlightedDates});
+    }
+    this.props.onSelect(highlightedDates, this.statesForDate(momentDate));
   },
 
   highlightDate(date) {
@@ -434,6 +467,7 @@ const DateRangePicker = React.createClass({
       enabledRange,
       hideSelection,
       highlightedDate,
+      highlightedDates,
       highlightedRange
     } = this.state;
 
@@ -477,6 +511,7 @@ const DateRangePicker = React.createClass({
       firstOfWeek,
       hideSelection,
       highlightedDate,
+      highlightedDates,
       highlightedRange,
       index,
       key,

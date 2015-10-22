@@ -83,6 +83,34 @@ const DatePickerSingle = React.createClass({
   },
 });
 
+const DatePickerMultiple = React.createClass({
+  getDefaultProps() {
+    return {value: []}
+  },
+  getInitialState() {
+    return {
+      value: this.props.value,
+      states: null,
+    };
+  },
+
+  handleSelect(value, states) {
+    this.setState({value, states});
+  },
+
+  render() {
+    var string;
+    return (
+      <div>
+        <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
+        <div>
+          {this.state.value}
+        </div>
+      </div>
+    );
+  },
+});
+
 
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 
@@ -136,6 +164,7 @@ const Index = React.createClass({
 
         <div className="content">
           <div className="example">
+{/*}
             <DatePickerRange
               firstOfWeek={1}
               numberOfCalendars={2}
@@ -148,6 +177,7 @@ const Index = React.createClass({
               value={moment.range(initialStart, initialEnd)}
               showLegend={true}
               />
+*/}
             <CodeSnippet language="javascript">
               {processCodeSnippet(mainCodeSnippet)}
             </CodeSnippet>
@@ -158,7 +188,7 @@ const Index = React.createClass({
 
           <div className="examples">
             <h2>Examples</h2>
-
+{/*}
             <div className="example">
               <h4>Range with no date states</h4>
               <DatePickerRange
@@ -183,6 +213,18 @@ const Index = React.createClass({
                 selectionType="single"
                 minimumDate={new Date()} />
             </div>
+*/}
+            <div className="example">
+              <h4>Multiple Date Select</h4>
+
+              <DatePickerMultiple
+                numberOfCalendars={2}
+                selectionType="multiple"
+                minimumDate={new Date()}
+                value={['2015-04-14']}
+              />
+            </div>
+
           </div>
         </div>
 

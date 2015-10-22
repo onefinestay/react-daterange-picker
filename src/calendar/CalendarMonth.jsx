@@ -29,11 +29,14 @@ const CalendarMonth = React.createClass({
     highlightedRange: React.PropTypes.object,
     onMonthChange: React.PropTypes.func,
     onYearChange: React.PropTypes.func,
-    value: CustomPropTypes.momentOrMomentRange,
+    value: React.PropTypes.oneOfType([
+      React.PropTypes.array,
+      CustomPropTypes.momentOrMomentRange,
+    ])
   },
 
   renderDay(date, i) {
-    let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
+    let {dateComponent: CalendarDate, value, highlightedDate, highlightedDates, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
     let d = moment(date);
 
     let isInSelectedRange;
@@ -42,6 +45,8 @@ const CalendarMonth = React.createClass({
     let isSelectedRangeEnd;
 
     if (!hideSelection && value && moment.isMoment(value) && value.isSame(d, 'day')) {
+      isSelectedDate = true;
+    } else if (!hideSelection && highlightedDates.indexOf(d.format()) > -1) {
       isSelectedDate = true;
     } else if (!hideSelection && value && isMomentRange(value) && value.contains(d)) {
       isInSelectedRange = true;
