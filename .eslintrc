@@ -35,6 +35,18 @@
     "es6": true
   },
 
+  "globals": {
+    "spyOn": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "describe": true,
+    "fdescribe": true,
+    "it": true,
+    "fit": true,
+    "expect": true,
+    "jasmine": true
+  },
+
   "rules": {
     "no-alert": 2,
     "no-array-constructor": 2,
