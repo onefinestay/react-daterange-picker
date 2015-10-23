@@ -1,7 +1,7 @@
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import CalendarSelection from '../CalendarSelection';
 
-const TestUtils = React.addons.TestUtils;
 
 describe('The CalendarSelection Component', function () {
   beforeEach(function () {

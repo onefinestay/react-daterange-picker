@@ -1,9 +1,8 @@
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import Legend from '../Legend';
 import _ from 'underscore';
 
-
-const TestUtils = React.addons.TestUtils;
 
 describe('The Legend component', function () {
 
@@ -25,7 +24,8 @@ describe('The Legend component', function () {
     };
 
     this.useDocumentRenderer = (props) => {
-      this.component = this.renderedComponent = TestUtils.renderIntoDocument(getLegend(props));
+      const domComponent = TestUtils.renderIntoDocument(<div>{getLegend(props)}</div>);
+      this.renderedComponent = domComponent.childNodes[0];
     };
 
     this.spyCx = spyOn(Legend.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
@@ -68,12 +68,13 @@ describe('The Legend component', function () {
         },
       },
     });
-    var lis = TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'li');
-    expect(lis.length).toBe(3);
-    var spans = TestUtils.scryRenderedDOMComponentsWithTag(lis[1], 'span');
-    expect(spans.length).toBe(2);
-    expect(spans[0].getDOMNode().style.backgroundColor).toBe('blue');
-    expect(spans[1].getDOMNode().textContent).toBe('abc');
-  });
 
+    expect(this.renderedComponent.childNodes.length).toBe(3);
+
+    var spans = this.renderedComponent.childNodes[1].querySelectorAll('span');
+    expect(spans.length).toBe(2);
+
+    expect(spans[0].style.backgroundColor).toBe('blue');
+    expect(spans[1].textContent).toBe('abc');
+  });
 });

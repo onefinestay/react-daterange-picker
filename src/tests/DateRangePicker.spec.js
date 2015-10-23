@@ -8,10 +8,10 @@ import 'moment-range';
 import isMomentRange from '../utils/isMomentRange';
 import areMomentRangesEqual from '../utils/areMomentRangesEqual';
 import Immutable from 'immutable';
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import _ from 'underscore';
 
-const TestUtils = React.addons.TestUtils;
 
 describe('The DateRangePicker component', function () {
 
