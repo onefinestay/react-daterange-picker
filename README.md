@@ -17,6 +17,13 @@ A React based date range picker.
 Please feel to contribute to this project by making pull requests. You can see a
 list of tasks that can be worked on in the [issues list](https://github.com/onefinestay/react-daterange-picker/issues).
 
+Before a pull request can be merged, ensure that you have linted your files and all tests are passing -
+
+```shell
+npm run lint
+npm run test
+```
+
 ### Building example page
 
 Once you have the repository cloned run the following commands to get started:
