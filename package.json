@@ -6,6 +6,7 @@
   "scripts": {
     "develop": "gulp develop",
     "build-dist-js": "gulp build-dist-js",
+    "test": "gulp test-coverage",
     "lint": "eslint src example"
 },
   "contributors": [
