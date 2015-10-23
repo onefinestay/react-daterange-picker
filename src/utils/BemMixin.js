@@ -45,7 +45,7 @@ const BemMixin = {
     return null;
   },
 
-  cx(options={}) {
+  cx(options = {}) {
     let opts = {
       namespace: this.getBemNamespace(),
       element: this.constructor.displayName,

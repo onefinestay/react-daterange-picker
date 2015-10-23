@@ -5,7 +5,8 @@
   "author": "Jonathan Kim <jonathan.kim@onefinestay.com>",
   "scripts": {
     "develop": "gulp develop",
-    "build-dist-js": "gulp build-dist-js"
+    "build-dist-js": "gulp build-dist-js",
+    "lint": "eslint src example"
 },
   "contributors": [
     {
