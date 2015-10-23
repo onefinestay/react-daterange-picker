@@ -118,8 +118,8 @@ const DateRangePicker = React.createClass({
 
     if (value instanceof Array){
       selectedMultipleDates = value.map(function(selectedDate){
-        return moment(selectedDate).format();
-      });      
+        return moment(selectedDate).format('YYYY-MM-DD');
+      });
     }
     if (initialFromValue && value) {
       if (selectionType === 'single') {
@@ -360,7 +360,7 @@ const DateRangePicker = React.createClass({
   },
 
   completeMultipleSelection(momentDate) {
-    var date = momentDate.format();
+    var date = momentDate.format('YYYY-MM-DD');
 
     var highlightedDates = this.state.highlightedDates;
     var index = highlightedDates.indexOf(date);
