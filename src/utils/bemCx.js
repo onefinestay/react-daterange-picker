@@ -1,4 +1,4 @@
-export default function bemCx(options={}) {
+export default function bemCx(options = {}) {
   let {block, element, namespace, modifiers, states} = options;
   let bemClasses = [];
   let baseClassName;
