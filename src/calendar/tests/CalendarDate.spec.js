@@ -58,10 +58,10 @@ describe('The CalendarDate Component', function () {
     };
 
     this.useDocumentRenderer = (props) => {
-      const renderedTable = TestUtils.renderIntoDocument(<table>
+      this.component = TestUtils.renderIntoDocument(<table>
         <tbody>{getCalendarDate(props)}</tbody>
       </table>);
-      this.renderedComponent = TestUtils.findRenderedDOMComponentWithTag(renderedTable, 'td');
+      this.renderedComponent = TestUtils.findRenderedDOMComponentWithTag(this.component, 'td');
     };
 
     this.spyCx = spyOn(CalendarDate.prototype.__reactAutoBindMap, 'cx').and.callFake((data) => {
@@ -70,6 +70,12 @@ describe('The CalendarDate Component', function () {
     this.selectDateSpy = jasmine.createSpy();
     this.highlightDateSpy = jasmine.createSpy();
     this.unHighlightDateSpy = jasmine.createSpy();
+  });
+
+  afterEach( function () {
+    if (this.component) {
+      React.unmountComponentAtNode(React.findDOMNode(this.component).parentNode);
+    }
   });
 
   it('creates the right element', function () {

@@ -29,7 +29,7 @@ describe('The DateRangePicker component', function () {
     };
 
     this.useDocumentRenderer = (props) => {
-      this.renderedComponent = TestUtils.renderIntoDocument(getDateRangePicker(props));
+      this.component = this.renderedComponent = TestUtils.renderIntoDocument(getDateRangePicker(props));
     };
 
     this.useDocumentRendererWithComplexStates = () => {
@@ -75,6 +75,12 @@ describe('The DateRangePicker component', function () {
     this.spyCx = spyOn(DateRangePicker.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
       return data.element || 'my-class';
     });
+  });
+
+  afterEach( function () {
+    if (this.component) {
+      React.unmountComponentAtNode(React.findDOMNode(this.component).parentNode);
+    }
   });
 
 
