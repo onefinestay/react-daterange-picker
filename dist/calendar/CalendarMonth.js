@@ -65,7 +65,7 @@ var CalendarMonth = _reactAddons2['default'].createClass({
     highlightedRange: _reactAddons2['default'].PropTypes.object,
     onMonthChange: _reactAddons2['default'].PropTypes.func,
     onYearChange: _reactAddons2['default'].PropTypes.func,
-    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
+    value: _reactAddons2['default'].PropTypes.oneOfType([_reactAddons2['default'].PropTypes.array, _utilsCustomPropTypes2['default'].momentOrMomentRange])
   },
 
   renderDay: function renderDay(date, i) {
@@ -73,11 +73,12 @@ var CalendarMonth = _reactAddons2['default'].createClass({
     var CalendarDate = _props.dateComponent;
     var value = _props.value;
     var highlightedDate = _props.highlightedDate;
+    var highlightedDates = _props.highlightedDates;
     var highlightedRange = _props.highlightedRange;
     var hideSelection = _props.hideSelection;
     var enabledRange = _props.enabledRange;
 
-    var props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
+    var props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedDates', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
     var d = (0, _moment2['default'])(date);
 
@@ -87,6 +88,8 @@ var CalendarMonth = _reactAddons2['default'].createClass({
     var isSelectedRangeEnd = undefined;
 
     if (!hideSelection && value && _moment2['default'].isMoment(value) && value.isSame(d, 'day')) {
+      isSelectedDate = true;
+    } else if (!hideSelection && highlightedDates.indexOf(d.format('YYYY-MM-DD')) > -1) {
       isSelectedDate = true;
     } else if (!hideSelection && value && (0, _utilsIsMomentRange2['default'])(value) && value.contains(d)) {
       isInSelectedRange = true;

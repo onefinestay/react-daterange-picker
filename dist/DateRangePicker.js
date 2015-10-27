@@ -56,7 +56,9 @@ var PureRenderMixin = _reactAddons2['default'].addons.PureRenderMixin;
 var absoluteMinimum = (0, _moment2['default'])(new Date(-8640000000000000 / 2)).startOf('day');
 var absoluteMaximum = (0, _moment2['default'])(new Date(8640000000000000 / 2)).startOf('day');
 
-_reactAddons2['default'].initializeTouchEvents(true);
+try {
+  _reactAddons2['default'].initializeTouchEvents(true);
+} catch (err) {}
 
 function noop() {}
 
@@ -87,11 +89,12 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     onSelectStart: _reactAddons2['default'].PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: _reactAddons2['default'].PropTypes.func,
     selectedLabel: _reactAddons2['default'].PropTypes.string,
-    selectionType: _reactAddons2['default'].PropTypes.oneOf(['single', 'range']),
+    selectionType: _reactAddons2['default'].PropTypes.oneOf(['single', 'range', 'multiple']),
     singleDateRange: _reactAddons2['default'].PropTypes.bool,
     showLegend: _reactAddons2['default'].PropTypes.bool,
     stateDefinitions: _reactAddons2['default'].PropTypes.object,
-    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
+    value: _reactAddons2['default'].PropTypes.oneOfType([_reactAddons2['default'].PropTypes.array, _utilsCustomPropTypes2['default'].momentOrMomentRange])
+
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -147,17 +150,23 @@ var DateRangePicker = _reactAddons2['default'].createClass({
 
     var year = now.getFullYear();
     var month = now.getMonth();
+    var selectedMultipleDates = [];
 
     if (initialYear && initialMonth) {
       year = initialYear;
       month = initialMonth;
     }
 
+    if (value instanceof Array) {
+      selectedMultipleDates = value.map(function (selectedDate) {
+        return (0, _moment2['default'])(selectedDate).format('YYYY-MM-DD');
+      });
+    }
     if (initialFromValue && value) {
       if (selectionType === 'single') {
         year = value.year();
         month = value.month();
-      } else {
+      } else if (selectionType === 'range') {
         year = value.start.year();
         month = value.start.month();
       }
@@ -169,6 +178,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
       selectedStartDate: null,
       highlightStartDate: null,
       highlightedDate: null,
+      highlightedDates: selectedMultipleDates,
       highlightRange: null,
       hideSelection: false,
       enabledRange: this.getEnabledRange(this.props),
@@ -316,6 +326,10 @@ var DateRangePicker = _reactAddons2['default'].createClass({
           this.highlightRange(_moment2['default'].range(date, date));
         }
       }
+    } else if (selectionType === 'multiple') {
+      if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.completeMultipleSelection(date);
+      }
     } else {
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.completeSelection();
@@ -402,6 +416,22 @@ var DateRangePicker = _reactAddons2['default'].createClass({
       });
       this.props.onSelect(range, this.statesForRange(range));
     }
+  },
+
+  completeMultipleSelection: function completeMultipleSelection(momentDate) {
+    var date = momentDate.format('YYYY-MM-DD');
+
+    var highlightedDates = this.state.highlightedDates;
+    var index = highlightedDates.indexOf(date);
+
+    if (index > -1) {
+      highlightedDates.splice(index, 1);
+      this.setState({ highlightedDates: highlightedDates });
+    } else {
+      highlightedDates.push(date);
+      this.setState({ highlightedDates: highlightedDates });
+    }
+    this.props.onSelect(highlightedDates, this.statesForDate(momentDate));
   },
 
   highlightDate: function highlightDate(date) {
@@ -495,6 +525,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
     var enabledRange = _state2.enabledRange;
     var hideSelection = _state2.hideSelection;
     var highlightedDate = _state2.highlightedDate;
+    var highlightedDates = _state2.highlightedDates;
     var highlightedRange = _state2.highlightedRange;
 
     var monthDate = this.getMonthDate();
@@ -537,6 +568,7 @@ var DateRangePicker = _reactAddons2['default'].createClass({
       firstOfWeek: firstOfWeek,
       hideSelection: hideSelection,
       highlightedDate: highlightedDate,
+      highlightedDates: highlightedDates,
       highlightedRange: highlightedRange,
       index: index,
       key: key,
