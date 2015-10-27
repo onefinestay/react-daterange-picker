@@ -87,109 +87,103 @@ const DatePickerSingle = React.createClass({
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 
 
-const Index = React.createClass({
-  getDefaultProps() {
-    return {};
-  },
+function Index() {
+  const stateDefinitions = {
+    available: {
+      color: '#ffffff',
+      label: 'Available',
+    },
+    enquire: {
+      color: '#ffd200',
+      label: 'Enquire',
+    },
+    unavailable: {
+      selectable: false,
+      color: '#78818b',
+      label: 'Unavailable',
+    },
+  };
 
-  render() {
-    const stateDefinitions = {
-      available: {
-        color: '#ffffff',
-        label: 'Available',
-      },
-      enquire: {
-        color: '#ffd200',
-        label: 'Enquire',
-      },
-      unavailable: {
-        selectable: false,
-        color: '#78818b',
-        label: 'Unavailable',
-      },
-    };
+  const dateRanges = [
+    {
+      state: 'enquire',
+      range: moment.range(
+        moment().add(2, 'weeks').subtract(5, 'days'),
+        moment().add(2, 'weeks').add(6, 'days')
+      ),
+    },
+    {
+      state: 'unavailable',
+      range: moment.range(
+        moment().add(3, 'weeks'),
+        moment().add(3, 'weeks').add(5, 'days')
+      ),
+    },
+  ];
 
-    const dateRanges = [
-      {
-        state: 'enquire',
-        range: moment.range(
-          moment().add(2, 'weeks').subtract(5, 'days'),
-          moment().add(2, 'weeks').add(6, 'days')
-        ),
-      },
-      {
-        state: 'unavailable',
-        range: moment.range(
-          moment().add(3, 'weeks'),
-          moment().add(3, 'weeks').add(5, 'days')
-        ),
-      },
-    ];
+  const initialStart = moment().add(1, 'weeks').startOf('day');
+  const initialEnd = moment().add(1, 'weeks').add(3, 'days').startOf('day');
 
-    const initialStart = moment().add(1, 'weeks').startOf('day');
-    const initialEnd = moment().add(1, 'weeks').add(3, 'days').startOf('day');
+  return (
+    <main>
+      <Header />
+      <GithubRibbon />
 
-    return (
-      <main>
-        <Header />
-        <GithubRibbon />
-
-        <div className="content">
-          <div className="example">
-            <DatePickerRange
-              firstOfWeek={1}
-              numberOfCalendars={2}
-              selectionType='range'
-              minimumDate={new Date()}
-              maximumDate={moment().add(2, 'years').toDate()}
-              stateDefinitions={stateDefinitions}
-              dateStates={dateRanges}
-              defaultState="available"
-              value={moment.range(initialStart, initialEnd)}
-              showLegend={true}
-              />
-            <CodeSnippet language="javascript">
-              {processCodeSnippet(mainCodeSnippet)}
-            </CodeSnippet>
-          </div>
-
-          <Features />
-          <Install />
-
-          <div className="examples">
-            <h2>Examples</h2>
-
-            <div className="example">
-              <h4>Range with no date states</h4>
-              <DatePickerRange
-                numberOfCalendars={2}
-                selectionType="range"
-                minimumDate={new Date()} />
-            </div>
-
-            <div className="example">
-              <h4>Range with day-long ranges allowed</h4>
-              <DatePickerRange
-                numberOfCalendars={2}
-                selectionType="range"
-                singleDateRange={true}
-                minimumDate={new Date()} />
-            </div>
-
-            <div className="example">
-              <h4>Single with no date states</h4>
-              <DatePickerSingle
-                numberOfCalendars={2}
-                selectionType="single"
-                minimumDate={new Date()} />
-            </div>
-          </div>
+      <div className="content">
+        <div className="example">
+          <DatePickerRange
+            firstOfWeek={1}
+            numberOfCalendars={2}
+            selectionType='range'
+            minimumDate={new Date()}
+            maximumDate={moment().add(2, 'years').toDate()}
+            stateDefinitions={stateDefinitions}
+            dateStates={dateRanges}
+            defaultState="available"
+            value={moment.range(initialStart, initialEnd)}
+            showLegend={true}
+            />
+          <CodeSnippet language="javascript">
+            {processCodeSnippet(mainCodeSnippet)}
+          </CodeSnippet>
         </div>
 
-        <Footer />
-      </main>
-    );
-  },
-});
+        <Features />
+        <Install />
+
+        <div className="examples">
+          <h2>Examples</h2>
+
+          <div className="example">
+            <h4>Range with no date states</h4>
+            <DatePickerRange
+              numberOfCalendars={2}
+              selectionType="range"
+              minimumDate={new Date()} />
+          </div>
+
+          <div className="example">
+            <h4>Range with day-long ranges allowed</h4>
+            <DatePickerRange
+              numberOfCalendars={2}
+              selectionType="range"
+              singleDateRange={true}
+              minimumDate={new Date()} />
+          </div>
+
+          <div className="example">
+            <h4>Single with no date states</h4>
+            <DatePickerSingle
+              numberOfCalendars={2}
+              selectionType="single"
+              minimumDate={new Date()} />
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </main>
+  );
+}
 
 export default Index;
