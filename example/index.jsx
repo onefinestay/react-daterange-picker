@@ -1,3 +1,5 @@
+/* eslint-disable react/no-multi-comp, react/prop-types */
+
 import React from 'react/addons';
 import moment from 'moment';
 import {} from 'moment-range';
