@@ -1,5 +1,5 @@
-import moment from 'moment-range';
-
+import moment from 'moment';
+import {} from 'moment-range';
 import areMomentRangesEqual from './areMomentRangesEqual';
 import isMomentRange from './isMomentRange';
 
@@ -24,10 +24,11 @@ function shallowEqual(objA, objB) {
         }
       } else if (
         isMomentRange(objA[key]) &&
-        isMomentRange(objB[key]) &&
-        !areMomentRangesEqual(objA[key], objB[key])
+        isMomentRange(objB[key])
       ) {
-        return false;
+        if (!areMomentRangesEqual(objA[key], objB[key])) {
+          return false;
+        }
       } else if (objA[key] !== objB[key]) {
         return false;
       }

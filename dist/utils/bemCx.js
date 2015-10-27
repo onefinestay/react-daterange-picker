@@ -6,7 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports['default'] = bemCx;
 
 function bemCx() {
-  var options = arguments[0] === undefined ? {} : arguments[0];
+  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
   var block = options.block;
   var element = options.element;
   var namespace = options.namespace;
@@ -18,13 +18,13 @@ function bemCx() {
 
   if (element) {
     if (namespace) {
-      baseClassName = '' + namespace + '-' + block + '__' + element;
+      baseClassName = namespace + '-' + block + '__' + element;
     } else {
-      baseClassName = '' + block + '__' + element;
+      baseClassName = block + '__' + element;
     }
   } else {
     if (namespace) {
-      baseClassName = '' + namespace + '-' + block;
+      baseClassName = namespace + '-' + block;
     } else {
       baseClassName = block;
     }
@@ -40,7 +40,7 @@ function bemCx() {
     }
 
     states.forEach(function (state) {
-      bemClasses.push('' + baseClassName + '--is-' + state);
+      bemClasses.push(baseClassName + '--is-' + state);
     });
   }
 
@@ -52,11 +52,11 @@ function bemCx() {
     }
 
     modifiers.forEach(function (modifier) {
-      bemClasses.push('' + baseClassName + '--' + modifier);
+      bemClasses.push(baseClassName + '--' + modifier);
 
       if (states) {
         states.forEach(function (state) {
-          bemClasses.push('' + baseClassName + '--' + modifier + '--is-' + state);
+          bemClasses.push(baseClassName + '--' + modifier + '--is-' + state);
         });
       }
     });

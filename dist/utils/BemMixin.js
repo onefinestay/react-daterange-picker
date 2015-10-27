@@ -19,20 +19,24 @@ var _bemCx2 = _interopRequireDefault(_bemCx);
 var BemMixin = {
   propTypes: {
     bemNamespace: _react2['default'].PropTypes.string,
-    bemBlock: _react2['default'].PropTypes.string },
+    bemBlock: _react2['default'].PropTypes.string
+  },
 
   contextTypes: {
     bemNamespace: _react2['default'].PropTypes.string,
-    bemBlock: _react2['default'].PropTypes.string },
+    bemBlock: _react2['default'].PropTypes.string
+  },
 
   childContextTypes: {
     bemNamespace: _react2['default'].PropTypes.string,
-    bemBlock: _react2['default'].PropTypes.string },
+    bemBlock: _react2['default'].PropTypes.string
+  },
 
   getChildContext: function getChildContext() {
     return {
       bemNamespace: this.getBemNamespace(),
-      bemBlock: this.getBemBlock() };
+      bemBlock: this.getBemBlock()
+    };
   },
 
   getBemNamespace: function getBemNamespace() {
@@ -56,16 +60,18 @@ var BemMixin = {
   },
 
   cx: function cx() {
-    var options = arguments[0] === undefined ? {} : arguments[0];
+    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     var opts = {
       namespace: this.getBemNamespace(),
       element: this.constructor.displayName,
-      block: this.getBemBlock() };
+      block: this.getBemBlock()
+    };
 
     _extends(opts, options);
     return (0, _bemCx2['default'])(opts);
-  } };
+  }
+};
 
 exports['default'] = BemMixin;
 module.exports = exports['default'];

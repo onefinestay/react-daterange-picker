@@ -70,11 +70,13 @@ var CalendarDate = _reactAddons2['default'].createClass({
     dateRangesForDate: _reactAddons2['default'].PropTypes.func,
     onHighlightDate: _reactAddons2['default'].PropTypes.func,
     onUnHighlightDate: _reactAddons2['default'].PropTypes.func,
-    onSelectDate: _reactAddons2['default'].PropTypes.func },
+    onSelectDate: _reactAddons2['default'].PropTypes.func
+  },
 
   getInitialState: function getInitialState() {
     return {
-      mouseDown: false };
+      mouseDown: false
+    };
   },
 
   mouseUp: function mouseUp() {
@@ -82,14 +84,16 @@ var CalendarDate = _reactAddons2['default'].createClass({
 
     if (this.state.mouseDown) {
       this.setState({
-        mouseDown: false });
+        mouseDown: false
+      });
     }
     document.removeEventListener('mouseup', this.mouseUp);
   },
 
   mouseDown: function mouseDown() {
     this.setState({
-      mouseDown: true });
+      mouseDown: true
+    });
     document.addEventListener('mouseup', this.mouseUp);
   },
 
@@ -99,7 +103,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
 
     if (this.state.mouseDown) {
       this.setState({
-        mouseDown: false });
+        mouseDown: false
+      });
     }
     document.removeEventListener('touchend', this.touchEnd);
   },
@@ -107,7 +112,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
   touchStart: function touchStart(event) {
     event.preventDefault();
     this.setState({
-      mouseDown: true });
+      mouseDown: true
+    });
     document.addEventListener('touchend', this.touchEnd);
   },
 
@@ -120,7 +126,8 @@ var CalendarDate = _reactAddons2['default'].createClass({
       this.props.onSelectDate(this.props.date);
 
       this.setState({
-        mouseDown: false });
+        mouseDown: false
+      });
     }
     this.props.onUnHighlightDate(this.props.date);
   },
@@ -207,10 +214,12 @@ var CalendarDate = _reactAddons2['default'].createClass({
       if (color) {
 
         style = {
-          backgroundColor: color };
+          backgroundColor: color
+        };
         cellStyle = {
           borderLeftColor: (0, _utilsLightenDarkenColor2['default'])(color, -10),
-          borderRightColor: (0, _utilsLightenDarkenColor2['default'])(color, -10) };
+          borderRightColor: (0, _utilsLightenDarkenColor2['default'])(color, -10)
+        };
       }
     } else {
       amColor = states.getIn([0, 'color']);
@@ -235,20 +244,21 @@ var CalendarDate = _reactAddons2['default'].createClass({
         onMouseDown: this.mouseDown },
       numStates > 1 && _reactAddons2['default'].createElement(
         'div',
-        { className: this.cx({ element: 'HalfDateStates' }) },
+        { className: this.cx({ element: "HalfDateStates" }) },
         _reactAddons2['default'].createElement(_CalendarDatePeriod2['default'], { period: 'am', color: amColor }),
         _reactAddons2['default'].createElement(_CalendarDatePeriod2['default'], { period: 'pm', color: pmColor })
       ),
-      numStates === 1 && _reactAddons2['default'].createElement('div', { className: this.cx({ element: 'FullDateStates' }), style: style }),
+      numStates === 1 && _reactAddons2['default'].createElement('div', { className: this.cx({ element: "FullDateStates" }), style: style }),
       _reactAddons2['default'].createElement(
         'span',
-        { className: this.cx({ element: 'DateLabel' }) },
+        { className: this.cx({ element: "DateLabel" }) },
         date.format('D')
       ),
       selectionModifier ? _reactAddons2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }) : null,
       highlightModifier ? _reactAddons2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier }) : null
     );
-  } });
+  }
+});
 
 exports['default'] = CalendarDate;
 module.exports = exports['default'];

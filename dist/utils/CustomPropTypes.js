@@ -6,9 +6,11 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _momentRange = require('moment-range');
+var _moment2 = require('moment');
 
-var _momentRange2 = _interopRequireDefault(_momentRange);
+var _moment3 = _interopRequireDefault(_moment2);
+
+require('moment-range');
 
 var _isMomentRange = require('./isMomentRange');
 
@@ -20,7 +22,7 @@ exports['default'] = {
 
     if (!val) {
       return null;
-    } else if (_momentRange2['default'].isMoment(val)) {
+    } else if (_moment3['default'].isMoment(val)) {
       return null;
     } else if ((0, _isMomentRange2['default'])(val)) {
       return null;
@@ -33,7 +35,7 @@ exports['default'] = {
 
     if (!val) {
       return null;
-    } else if (_momentRange2['default'].isMoment(val)) {
+    } else if (_moment3['default'].isMoment(val)) {
       return null;
     }
     return new Error('\'' + propName + '\' must be a moment');
@@ -48,5 +50,6 @@ exports['default'] = {
       return null;
     }
     return new Error('\'' + propName + '\' must be a moment range');
-  } };
+  }
+};
 module.exports = exports['default'];
