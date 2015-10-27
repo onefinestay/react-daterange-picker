@@ -1,4 +1,4 @@
-/* eslint-disable react/no-multi-comp, react/prop-types */
+/* eslint-disable react/no-multi-comp */
 
 import React from 'react/addons';
 import moment from 'moment';
@@ -26,6 +26,10 @@ function processCodeSnippet(src) {
 
 
 const DatePickerRange = React.createClass({
+  propTypes: {
+    value: React.PropTypes.object,
+  },
+
   getInitialState() {
     return {
       value: this.props.value,
