@@ -25,13 +25,19 @@ describe('The Legend component', function () {
     };
 
     this.useDocumentRenderer = (props) => {
-      this.renderedComponent = TestUtils.renderIntoDocument(getLegend(props));
+      this.component = this.renderedComponent = TestUtils.renderIntoDocument(getLegend(props));
     };
 
     this.spyCx = spyOn(Legend.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
       data = data || {};
       return data.element || 'my-class';
     });
+  });
+
+  afterEach( function () {
+    if (this.component) {
+      React.unmountComponentAtNode(React.findDOMNode(this.component).parentNode);
+    }
   });
 
   it('creates a ul dom element as its root', function () {

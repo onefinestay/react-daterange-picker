@@ -50,13 +50,19 @@ describe('The CalendarMonth Component', function () {
     };
 
     this.useDocumentRenderer = (props) => {
-      this.renderedComponent = TestUtils.renderIntoDocument(getCalendarMonth(props));
+      this.component = this.renderedComponent = TestUtils.renderIntoDocument(getCalendarMonth(props));
     };
 
     this.spyCx = spyOn(CalendarMonth.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
       return data.element || 'my-class';
     });
     this.firstOfMonth = moment();
+  });
+
+  afterEach( function () {
+    if (this.component) {
+      React.unmountComponentAtNode(React.findDOMNode(this.component).parentNode);
+    }
   });
 
   it('should render the right element', function () {
