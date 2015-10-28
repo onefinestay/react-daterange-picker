@@ -5,6 +5,7 @@ Object.assign = require('object.assign');
 var fs = require('fs');
 var path = require('path');
 var gulp = require('gulp');
+var clean = require('gulp-rimraf');
 var autoprefixer = require('gulp-autoprefixer');
 var extReplace = require('gulp-ext-replace');
 var watch = require('gulp-watch');
@@ -104,9 +105,13 @@ gulp.task('test-coverage', function (done) {
   }, done).start();
 });
 
-gulp.task('build-dist-js', function() {
-  // build javascript files
-  return gulp.src('src/**/*.{js,jsx}')
+gulp.task('clean-dist-js', function() {
+  return gulp.src('dist')
+    .pipe(clean());
+});
+
+gulp.task('build-dist-js', ['clean-dist-js'], function() {
+  return gulp.src(['src/**/*.{js,jsx}', '!src/**/tests/**'])
     .pipe(babel({
       stage: 1,
       plugins: ['object-assign']

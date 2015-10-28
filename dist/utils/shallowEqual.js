@@ -35,8 +35,10 @@ function shallowEqual(objA, objB) {
         if (!objA[key].isSame(objB[key], 'day')) {
           return false;
         }
-      } else if ((0, _isMomentRange2['default'])(objA[key]) && (0, _isMomentRange2['default'])(objB[key]) && !(0, _areMomentRangesEqual2['default'])(objA[key], objB[key])) {
-        return false;
+      } else if ((0, _isMomentRange2['default'])(objA[key]) && (0, _isMomentRange2['default'])(objB[key])) {
+        if (!(0, _areMomentRangesEqual2['default'])(objA[key], objB[key])) {
+          return false;
+        }
       } else if (objA[key] !== objB[key]) {
         return false;
       }

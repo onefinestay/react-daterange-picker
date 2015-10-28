@@ -1,6 +1,6 @@
 {
   "name": "react-daterange-picker",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "description": "A React based date range picker",
   "author": "Jonathan Kim <jonathan.kim@onefinestay.com>",
   "scripts": {
@@ -8,7 +8,7 @@
     "build-dist-js": "gulp build-dist-js",
     "test": "gulp test-coverage",
     "lint": "eslint src example --ext .jsx --ext .js"
-},
+  },
   "contributors": [
     {
       "name": "Andrew Ingram",
@@ -58,6 +58,7 @@
     "gulp-connect": "^2.2.0",
     "gulp-ext-replace": "^0.1.0",
     "gulp-gh-pages": "^0.4.0",
+    "gulp-rimraf": "~0.2.0",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.2.4",
     "gulp-util": "^3.0.4",
