@@ -36,10 +36,10 @@ const dateRanges = [
   },
 ];
 
-var DatePicker = React.createClass({
+const DatePicker = React.createClass({
   getInitialState() {
     return {
-        value: null,
+      value: null,
     };
   },
   handleSelect(range, states) {
@@ -66,3 +66,6 @@ var DatePicker = React.createClass({
     );
   },
 });
+
+
+export default DatePicker;

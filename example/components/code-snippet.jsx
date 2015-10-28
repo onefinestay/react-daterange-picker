@@ -4,9 +4,10 @@ import cx from 'classnames';
 
 const CodeSnippet = React.createClass({
   propTypes: {
+    children: React.PropTypes.node.isRequired,
     language: React.PropTypes.string.isRequired,
     toggle: React.PropTypes.bool,
-    visible: React.PropTypes.bool
+    visible: React.PropTypes.bool,
   },
 
   getDefaultProps() {

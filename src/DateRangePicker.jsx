@@ -426,7 +426,7 @@ const DateRangePicker = React.createClass({
       firstOfWeek,
       numberOfCalendars,
       selectionType,
-      value
+      value,
     } = this.props;
 
     let {
@@ -434,7 +434,7 @@ const DateRangePicker = React.createClass({
       enabledRange,
       hideSelection,
       highlightedDate,
-      highlightedRange
+      highlightedRange,
     } = this.state;
 
     let monthDate = this.getMonthDate();

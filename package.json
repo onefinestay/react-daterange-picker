@@ -7,7 +7,7 @@
     "develop": "gulp develop",
     "build-dist-js": "gulp build-dist-js",
     "test": "gulp test-coverage",
-    "lint": "eslint src example"
+    "lint": "eslint src example --ext .jsx --ext .js"
 },
   "contributors": [
     {
