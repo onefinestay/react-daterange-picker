@@ -13,6 +13,10 @@
     {
       "name": "Andrew Ingram",
       "email": "andrew.ingram@onefinestay.com"
+    },
+    {
+      "name": "Alan Foster",
+      "email": "alan@alanfoster.me"
     }
   ],
   "license": "Apache 2.0",
