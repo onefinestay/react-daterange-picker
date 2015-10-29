@@ -5,18 +5,12 @@ Object.assign = require('object.assign');
 var fs = require('fs');
 var path = require('path');
 var gulp = require('gulp');
-var clean = require('del');
-var autoprefixer = require('gulp-autoprefixer');
-var extReplace = require('gulp-ext-replace');
-var watch = require('gulp-watch');
-var babel = require('gulp-babel');
-var connect = require('gulp-connect');
-var sass = require('gulp-sass');
-var deploy = require('gulp-gh-pages');
+
+var plugins = require('gulp-load-plugins')();
 var React = require('react');
 var webpack = require('webpack');
-var gulpWebpack = require('gulp-webpack');
 var KarmaServer = require('karma').Server;
+var clean = require('del');
 
 var PRODUCTION = (process.env.NODE_ENV === 'production');
 
@@ -110,17 +104,18 @@ gulp.task('clean-dist-js', function() {
 });
 
 gulp.task('build-dist-js', ['clean-dist-js'], function() {
+  // build javascript files
   return gulp.src(['src/**/*.{js,jsx}', '!src/**/tests/**', '!src/tests.webpack.js'])
-    .pipe(babel({
+    .pipe(plugins.babel({
       stage: 1,
       plugins: ['object-assign']
     }))
-    .pipe(extReplace('.js'))
+    .pipe(plugins.extReplace('.js'))
     .pipe(gulp.dest('dist'));
 });
 
 gulp.task('build-example-js', function() {
-  var compiler = gulpWebpack(webpackConfig, webpack);
+  var compiler = plugins.webpack(webpackConfig, webpack);
 
   return gulp.src('./example/js/index.js')
     .pipe(compiler)
@@ -128,7 +123,7 @@ gulp.task('build-example-js', function() {
 });
 
 gulp.task('watch-example-js', function() {
-  var compiler = gulpWebpack(Object.assign({}, {watch: true}, webpackConfig), webpack);
+  var compiler = plugins.webpack(Object.assign({}, {watch: true}, webpackConfig), webpack);
   return gulp.src('./example/js/index.js')
     .pipe(compiler)
     .pipe(gulp.dest('./example/build'));
@@ -150,19 +145,19 @@ gulp.task('build-example', function() {
 
 gulp.task('build-example-scss', function() {
   gulp.src('./example/css/**/*.scss')
-    .pipe(sass())
-    .pipe(autoprefixer())
+    .pipe(plugins.sass())
+    .pipe(plugins.autoprefixer())
     .pipe(gulp.dest('./example/css'));
 });
 
 gulp.task('watch-example-scss', ['build-example-scss'], function() {
-  watch('./example/**/*.scss', function(files, cb) {
+  plugins.watch('./example/**/*.scss', function(files, cb) {
     gulp.start('build-example-scss', cb);
   });
 });
 
 gulp.task('example-server', function() {
-  connect.server({
+  plugins.connect.server({
     root: 'example',
     port: '9989'
   });
@@ -173,5 +168,5 @@ gulp.task('develop', ['test-unit', 'build-example', 'watch-example-js', 'watch-e
 
 gulp.task('deploy-example', ['build'], function() {
   return gulp.src('./example/**/*')
-    .pipe(deploy());
+    .pipe(plugins.deploy());
 });
