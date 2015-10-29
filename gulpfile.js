@@ -14,6 +14,11 @@ var clean = require('del');
 
 var PRODUCTION = (process.env.NODE_ENV === 'production');
 
+var paths = {
+  src: 'src/**/*.js?(x)',
+  example: 'example/**/*.js?(x)'
+}
+
 var gulpPlugins = [
   // Fix for moment including all locales
   // Ref: http://stackoverflow.com/a/25426019
@@ -65,13 +70,20 @@ var webpackConfig = {
   plugins: gulpPlugins
 };
 
-gulp.task('test-unit', function (done) {
+gulp.task('lint', function() {
+  return gulp.src([paths.src, paths.example])
+             .pipe(plugins.eslint())
+             .pipe(plugins.eslint.format())
+             .pipe(plugins.eslint.failOnError());
+});
+
+gulp.task('test-unit', ['lint'], function (done) {
   new KarmaServer({
     configFile: __dirname + '/karma.conf.js'
   }, done).start();
 });
 
-gulp.task('test-coverage', function (done) {
+gulp.task('test-coverage', ['lint'], function (done) {
   new KarmaServer({
     configFile: __dirname + '/karma.conf.js',
     reporters: ['mocha', 'coverage', 'threshold'],
@@ -167,6 +179,6 @@ gulp.task('build', ['build-dist-js', 'build-example', 'build-example-js', 'build
 gulp.task('develop', ['test-unit', 'build-example', 'watch-example-js', 'watch-example-scss', 'example-server']);
 
 gulp.task('deploy-example', ['build'], function() {
-  return gulp.src('./example/**/*')
+  return gulp.src(paths.src)
     .pipe(plugins.deploy());
 });
