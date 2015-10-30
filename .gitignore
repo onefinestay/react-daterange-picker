@@ -8,3 +8,4 @@ example/css/*.css
 .DS_Store
 *.sublime-*
 dist/ui-coverage/
+npm-debug.log
