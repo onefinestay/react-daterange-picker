@@ -10,6 +10,11 @@
     "lint": "eslint src example --ext .jsx --ext .js",
     "deploy-example": "gulp deploy-example"
   },
+  "files": [
+    "dist",
+    "src",
+    "example"
+  ],
   "contributors": [
     {
       "name": "Andrew Ingram",
