@@ -24,6 +24,14 @@ npm run lint
 npm run test
 ```
 
+### Publishing
+
+If you have been added as a project contributor and wish to publish a new release -
+
+  - Ensure that you have added yourself to the `package.json` contributors list
+  - Bump the npm version as appropriate, following [SemVer](http://semver.org/) conventions
+  - Update the [Demo](http://onefinestay.github.io/react-daterange-picker/) by running `npm run deploy-example`
+
 ### Building example page
 
 Once you have the repository cloned run the following commands to get started:
