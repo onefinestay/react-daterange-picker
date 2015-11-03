@@ -7,7 +7,7 @@
     "develop": "gulp develop",
     "build-dist-js": "gulp build-dist-js",
     "test": "gulp test-coverage",
-    "lint": "eslint src example --ext .jsx --ext .js",
+    "lint": "gulp lint",
     "deploy-example": "gulp deploy-example"
   },
   "files": [
@@ -63,8 +63,10 @@
     "gulp-autoprefixer": "^2.1.0",
     "gulp-babel": "^5.1.0",
     "gulp-connect": "^2.2.0",
+    "gulp-eslint": "~1.0.0",
     "gulp-ext-replace": "^0.1.0",
     "gulp-gh-pages": "^0.4.0",
+    "gulp-load-plugins": "~1.0.0",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.2.4",
     "gulp-util": "^3.0.4",
