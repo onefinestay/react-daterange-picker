@@ -124,6 +124,13 @@ gulp.task('build-dist-js', ['clean-dist-js'], function() {
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('build-dist-scss', function() {
+  gulp.src('./src/css/**/*.scss')
+    .pipe(plugins.sass())
+    .pipe(plugins.autoprefixer())
+    .pipe(gulp.dest('./dist/css'));
+});
+
 gulp.task('build-example-js', function() {
   var compiler = plugins.webpack(webpackConfig, webpack);
 
@@ -154,14 +161,14 @@ gulp.task('build-example', function() {
 });
 
 gulp.task('build-example-scss', function() {
-  gulp.src('./example/css/**/*.scss')
+  gulp.src(['./example/css/**/*.scss', './src/css/**/*.scss'])
     .pipe(plugins.sass())
     .pipe(plugins.autoprefixer())
     .pipe(gulp.dest('./example/css'));
 });
 
 gulp.task('watch-example-scss', ['build-example-scss'], function() {
-  plugins.watch('./example/**/*.scss', function(files, cb) {
+  plugins.watch(['./example/**/*.scss', './src/css/**/*.scss'], function(files, cb) {
     gulp.start('build-example-scss', cb);
   });
 });
