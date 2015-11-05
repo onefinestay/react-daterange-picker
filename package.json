@@ -9,7 +9,7 @@
     "test": "gulp test-coverage",
     "lint": "gulp lint",
     "deploy-example": "gulp deploy-example",
-    "prepublish": "gulp build-dist-scss"
+    "prepublish": "gulp build-dist"
   },
   "style": "./dist/css/react-calendar.css",
   "files": [
@@ -86,6 +86,7 @@
     "karma-webpack": "^1.7.0",
     "object.assign": "^1.1.1",
     "phantomjs": "^1.9.18",
+    "run-sequence": "~1.1.4",
     "timekeeper": "0.0.5",
     "transform-loader": "^0.2.1",
     "underscore": "^1.8.3",
