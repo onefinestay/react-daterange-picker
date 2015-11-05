@@ -109,11 +109,11 @@ gulp.task('test-coverage', ['lint'], function (done) {
   }, done).start();
 });
 
-gulp.task('clean-dist-js', function() {
+gulp.task('clean-dist', function() {
   return clean('dist');
 });
 
-gulp.task('build-dist-js', ['clean-dist-js'], function() {
+gulp.task('build-dist-js', ['clean-dist'], function() {
   // build javascript files
   return gulp.src(['src/**/*.{js,jsx}', '!src/**/tests/**', '!src/tests.webpack.js'])
     .pipe(plugins.babel({
@@ -130,6 +130,8 @@ gulp.task('build-dist-scss', function() {
     .pipe(plugins.autoprefixer())
     .pipe(gulp.dest('./dist/css'));
 });
+
+gulp.task('build-dist', ['clean-dist', 'build-dist-js', 'build-dist-scss']);
 
 gulp.task('build-example-js', function() {
   var compiler = plugins.webpack(webpackConfig, webpack);
