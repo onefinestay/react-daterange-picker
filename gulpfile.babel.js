@@ -14,10 +14,6 @@ import runSequence from 'run-sequence';
 const plugins = gulpLoadPlugins();
 const PRODUCTION = (process.env.NODE_ENV === 'production');
 
-const paths = {
-  src: 'src/**/*.js?(x)',
-};
-
 let gulpPlugins = [
   // Fix for moment including all locales
   // Ref: http://stackoverflow.com/a/25426019
