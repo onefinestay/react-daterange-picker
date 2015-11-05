@@ -9,6 +9,7 @@ import React from 'react';
 import webpack from 'webpack';
 import { Server as KarmaServer } from 'karma';
 import clean from 'del';
+import runSequence from 'run-sequence';
 
 const plugins = gulpLoadPlugins();
 const PRODUCTION = (process.env.NODE_ENV === 'production');
@@ -113,7 +114,7 @@ gulp.task('clean-dist', function() {
   return clean('dist');
 });
 
-gulp.task('build-dist-js', ['clean-dist'], function() {
+gulp.task('build-dist-js', function() {
   // build javascript files
   return gulp.src(['src/**/*.{js,jsx}', '!src/**/tests/**', '!src/tests.webpack.js'])
     .pipe(plugins.babel({
@@ -131,7 +132,9 @@ gulp.task('build-dist-scss', function() {
     .pipe(gulp.dest('./dist/css'));
 });
 
-gulp.task('build-dist', ['clean-dist', 'build-dist-js', 'build-dist-scss']);
+gulp.task('build-dist', function(callback) {
+  runSequence('clean-dist', ['build-dist-js', 'build-dist-scss'], callback);
+});
 
 gulp.task('build-example-js', function() {
   var compiler = plugins.webpack(webpackConfig, webpack);
@@ -182,10 +185,10 @@ gulp.task('example-server', function() {
   });
 });
 
-gulp.task('build', ['build-dist-js', 'build-example', 'build-example-js', 'build-example-scss']);
+gulp.task('build', ['build-dist', 'build-example', 'build-example-js', 'build-example-scss']);
 gulp.task('develop', ['test-unit', 'build-example', 'watch-example-js', 'watch-example-scss', 'example-server']);
 
 gulp.task('deploy-example', ['build'], function() {
-  return gulp.src(paths.src)
-    .pipe(plugins.deploy());
+  return gulp.src('./example/**/*')
+    .pipe(plugins.ghPages());
 });
