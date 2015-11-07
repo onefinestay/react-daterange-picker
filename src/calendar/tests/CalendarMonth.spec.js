@@ -1,12 +1,11 @@
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import CalendarMonth from '../CalendarMonth';
 import CalendarDate from '../CalendarDate';
 import moment from 'moment';
 import {} from 'moment-range';
 import _ from 'underscore';
 
-
-const TestUtils = React.addons.TestUtils;
 
 describe('The CalendarMonth Component', function () {
 

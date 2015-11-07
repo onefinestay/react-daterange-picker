@@ -1,8 +1,8 @@
-import React from 'react/addons';
+import React from 'react';
 
 import BemMixin from './utils/BemMixin';
 
-const PureRenderMixin = React.addons.PureRenderMixin;
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 
 const Legend = React.createClass({

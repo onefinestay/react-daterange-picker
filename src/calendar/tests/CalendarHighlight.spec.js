@@ -1,7 +1,7 @@
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import CalendarHighlight from '../CalendarHighlight';
 
-const TestUtils = React.addons.TestUtils;
 
 describe('The CalendarHighlight Component', function () {
   beforeEach(function () {

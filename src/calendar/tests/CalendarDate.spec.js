@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import moment from 'moment';
 import _ from 'underscore';
 
@@ -8,7 +9,6 @@ import CalendarDatePeriod from '../CalendarDatePeriod';
 import CalendarHighlight from '../CalendarHighlight';
 import CalendarSelection from '../CalendarSelection';
 
-const TestUtils = React.addons.TestUtils;
 
 describe('The CalendarDate Component', function () {
 
@@ -58,10 +58,10 @@ describe('The CalendarDate Component', function () {
     };
 
     this.useDocumentRenderer = (props) => {
-      this.component = TestUtils.renderIntoDocument(<table>
+      const renderedTable = TestUtils.renderIntoDocument(<table>
         <tbody>{getCalendarDate(props)}</tbody>
       </table>);
-      this.renderedComponent = TestUtils.findRenderedDOMComponentWithTag(this.component, 'td');
+      this.renderedComponent = renderedTable.querySelector('td');
     };
 
     this.spyCx = spyOn(CalendarDate.prototype.__reactAutoBindMap, 'cx').and.callFake((data) => {

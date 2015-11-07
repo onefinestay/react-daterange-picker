@@ -1,7 +1,7 @@
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import CalendarDatePeriod from '../CalendarDatePeriod';
 
-const TestUtils = React.addons.TestUtils;
 
 describe('The CalendarDatePeriod Component', function () {
   beforeEach(function () {
