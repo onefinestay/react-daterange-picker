@@ -1,4 +1,6 @@
-import React from 'react/addons';
+/* eslint-disable react/no-multi-comp */
+
+import React from 'react';
 
 
 const OFSCredit = React.createClass({

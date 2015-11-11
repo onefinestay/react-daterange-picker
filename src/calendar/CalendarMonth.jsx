@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import moment from 'moment';
 import {} from 'moment-range';
 import calendar from 'calendar';
@@ -117,7 +117,6 @@ const CalendarMonth = React.createClass({
     let years = Immutable.Range(y - 5, y).concat(Immutable.Range(y, y + 10));
     let choices = years.map(this.renderYearChoice);
     let modifiers = {year: true};
-
     return (
       <span className={this.cx({element: 'MonthHeaderLabel', modifiers})}>
         {firstOfMonth.format('YYYY')}

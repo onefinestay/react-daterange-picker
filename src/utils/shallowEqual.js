@@ -24,10 +24,11 @@ function shallowEqual(objA, objB) {
         }
       } else if (
         isMomentRange(objA[key]) &&
-        isMomentRange(objB[key]) &&
-        !areMomentRangesEqual(objA[key], objB[key])
+        isMomentRange(objB[key])
       ) {
-        return false;
+        if (!areMomentRangesEqual(objA[key], objB[key])) {
+          return false;
+        }
       } else if (objA[key] !== objB[key]) {
         return false;
       }

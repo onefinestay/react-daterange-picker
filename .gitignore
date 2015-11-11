@@ -7,3 +7,5 @@ example/css/*.css
 .idea
 .DS_Store
 *.sublime-*
+dist/ui-coverage/
+npm-debug.log

@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 
 import DateRangePicker from 'react-daterange-picker';
 import moment from 'moment-range';
@@ -36,10 +36,10 @@ const dateRanges = [
   },
 ];
 
-var DatePicker = React.createClass({
+const DatePicker = React.createClass({
   getInitialState() {
     return {
-        value: null,
+      value: null,
     };
   },
   handleSelect(range, states) {
@@ -56,7 +56,7 @@ var DatePicker = React.createClass({
         firstOfWeek={1}
         numberOfCalendars={2}
         selectionType='range'
-        earliestDate={new Date()}
+        minimumDate={new Date()}
         stateDefinitions={stateDefinitions}
         dateStates={dateRanges}
         defaultState="available"
@@ -66,3 +66,6 @@ var DatePicker = React.createClass({
     );
   },
 });
+
+
+export default DatePicker;

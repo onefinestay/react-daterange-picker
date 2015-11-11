@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 
 import BemMixin from '../utils/BemMixin';
 import PureRenderMixin from '../utils/PureRenderMixin';
