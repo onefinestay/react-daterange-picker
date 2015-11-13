@@ -12,6 +12,12 @@ A React based date range picker.
 * Show any number of months at the same time.
 * Visually represent half day states.
 
+## React Version
+
+As of version 1.0.0, the react-daterange-picker component supports React 0.14
+
+If you wish to user an older version of React, please use react-daterange-picker v0.12.x or below.
+
 ## Contribute
 
 Please feel to contribute to this project by making pull requests. You can see a
