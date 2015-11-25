@@ -46,6 +46,7 @@ const DateRangePicker = React.createClass({
     onHighlightRange: React.PropTypes.func, // triggered when a range is highlighted (hovered)
     onSelect: React.PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: React.PropTypes.func, // triggered when the first date in a range is selected
+    onChange: React.PropTypes.func, // triggered when a year or month is changed
     paginationArrowComponent: React.PropTypes.func,
     selectedLabel: React.PropTypes.string,
     selectionType: React.PropTypes.oneOf(['single', 'range']),
@@ -129,6 +130,18 @@ const DateRangePicker = React.createClass({
       enabledRange: this.getEnabledRange(this.props),
       dateStates: this.getDateStates(this.props),
     };
+  },
+
+  componentWillUpdate(nextProps, nextState){
+    if(nextState.month !== this.state.month || 
+        nextState.year !== this.state.year){
+      if(typeof this.props.onChange === "function"){
+        this.props.onChange({
+          year: nextState.year,
+          month: nextState.month,
+        })
+      }
+    }
   },
 
   getEnabledRange(props) {
