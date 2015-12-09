@@ -23,9 +23,6 @@ describe('The Pagination Arrow component', function () {
       this.renderedComponent = this.shallowRenderer.getRenderOutput();
     };
 
-    this.spyCx = spyOn(PaginationArrow.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
-      return data.element || 'my-class';
-    });
   });
 
   it('creates the correct markup', function () {
@@ -34,31 +31,10 @@ describe('The Pagination Arrow component', function () {
       onTrigger: clickTrigger,
     });
     expect(this.renderedComponent).toEqual(
-      <div className='my-class' onClick={clickTrigger}>
-        <div className='PaginationArrowIcon' />
+      <div className='null__PaginationArrow null__PaginationArrow--next' onClick={clickTrigger}>
+        <div className='null__PaginationArrowIcon null__PaginationArrowIcon--next' />
       </div>
     );
-  });
-
-  it('creates the correct class names', function () {
-    this.useShallowRenderer();
-    expect(this.spyCx).toHaveBeenCalledWith({
-      modifiers: {
-        'next': true,
-      },
-      states: {
-        disabled: false,
-      },
-    });
-    expect(this.spyCx).toHaveBeenCalledWith({
-      element: 'PaginationArrowIcon',
-      modifiers: {
-        'next': true,
-      },
-      states: {
-        disabled: false,
-      },
-    });
   });
 
 });

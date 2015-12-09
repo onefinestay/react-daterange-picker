@@ -71,10 +71,6 @@ describe('The DateRangePicker component', function () {
       });
     };
 
-
-    this.spyCx = spyOn(DateRangePicker.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
-      return data.element || 'my-class';
-    });
   });
 
   afterEach( function () {
@@ -87,8 +83,7 @@ describe('The DateRangePicker component', function () {
   it('defines the expected top level elements', function () {
     this.useShallowRenderer();
     expect(this.renderedComponent.type).toBe('div');
-    expect(this.spyCx).toHaveBeenCalledWith({element: null});
-    expect(this.renderedComponent.props.className).toBe('my-class');
+    expect(this.renderedComponent.props.className).toBe('DateRangePicker');
   });
 
   describe('contains PaginationArrow components', function () {
@@ -660,7 +655,7 @@ describe('The DateRangePicker component', function () {
       var helpSpan = this.renderedComponent.props.children[3];
       expect(helpSpan.type).toBe('span');
       expect(helpSpan.props).toEqual({
-        className: 'HelpMessage',
+        className: 'DateRangePicker__HelpMessage',
         children: 'help',
       });
     });

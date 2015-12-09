@@ -27,11 +27,6 @@ describe('The Legend component', function () {
       const domComponent = TestUtils.renderIntoDocument(<div>{getLegend(props)}</div>);
       this.renderedComponent = domComponent.childNodes[0];
     };
-
-    this.spyCx = spyOn(Legend.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
-      data = data || {};
-      return data.element || 'my-class';
-    });
   });
 
   afterEach( function () {
@@ -43,15 +38,15 @@ describe('The Legend component', function () {
   it('creates a ul dom element as its root', function () {
     this.useShallowRenderer();
     expect(this.renderedComponent.type).toBe('ul');
-    expect(this.renderedComponent.props.className).toBe('my-class');
+    expect(this.renderedComponent.props.className).toBe('null__Legend');
   });
 
   it('creates at least one li, selected by default, using the props.selectedLabel', function () {
     this.useShallowRenderer();
     expect(this.renderedComponent.props.children.length).toBeGreaterThan(1);
-    expect(this.renderedComponent.props.children[0]).toEqual(<li className='LegendItem'>
-      <span className='LegendItemColor' />
-      <span className='LegendItemLabel'>test</span>
+    expect(this.renderedComponent.props.children[0]).toEqual(<li className='null__LegendItem'>
+      <span className='null__LegendItemColor null__LegendItemColor--selection' />
+      <span className='null__LegendItemLabel'>test</span>
     </li>);
   });
 

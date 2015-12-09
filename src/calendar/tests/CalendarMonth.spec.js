@@ -52,9 +52,6 @@ describe('The CalendarMonth Component', function () {
       this.component = this.renderedComponent = TestUtils.renderIntoDocument(getCalendarMonth(props));
     };
 
-    this.spyCx = spyOn(CalendarMonth.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
-      return data.element || 'my-class';
-    });
     this.firstOfMonth = moment();
   });
 
@@ -67,10 +64,7 @@ describe('The CalendarMonth Component', function () {
   it('should render the right element', function () {
     this.useShallowRenderer();
     expect(this.renderedComponent.type).toBe('div');
-    expect(this.spyCx).toHaveBeenCalledWith({
-      element: 'Month',
-    });
-    expect(this.renderedComponent.props.className).toEqual('Month');
+    expect(this.renderedComponent.props.className).toEqual('null__Month');
   });
 
   describe('has a label acting as a header', function () {
@@ -81,10 +75,7 @@ describe('The CalendarMonth Component', function () {
 
     it('which is a div with the correct class', function () {
       expect(this.container.type).toBe('div');
-      expect(this.container.props.className).toEqual('MonthHeader');
-      expect(this.spyCx).toHaveBeenCalledWith({
-        element: 'MonthHeader',
-      });
+      expect(this.container.props.className).toEqual('null__MonthHeader');
     });
 
     describe('displaying month information', function () {
@@ -95,13 +86,7 @@ describe('The CalendarMonth Component', function () {
         const span = this.container.props.children[0];
 
         expect(span.type).toBe('span');
-        expect(span.props.className).toEqual('MonthHeaderLabel');
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: 'MonthHeaderLabel',
-          modifiers: {
-            month: true,
-          },
-        });
+        expect(span.props.className).toEqual('null__MonthHeaderLabel null__MonthHeaderLabel--month');
       });
 
       it('which displays the name of the month', function () {
@@ -122,11 +107,8 @@ describe('The CalendarMonth Component', function () {
         this.useShallowRenderer();
         const select = this.container.props.children[0].props.children[1];
         expect(select.type).toBe('select');
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: 'MonthHeaderSelect',
-        });
         expect(select.props.value).toBe(this.firstOfMonth.month());
-        expect(select.props.className).toEqual('MonthHeaderSelect');
+        expect(select.props.className).toEqual('null__MonthHeaderSelect');
         expect(select.props.children.length).toBe(12);
       });
 
@@ -151,13 +133,7 @@ describe('The CalendarMonth Component', function () {
         const span = this.container.props.children[2];
 
         expect(span.type).toBe('span');
-        expect(span.props.className).toEqual('MonthHeaderLabel');
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: 'MonthHeaderLabel',
-          modifiers: {
-            year: true,
-          },
-        });
+        expect(span.props.className).toEqual('null__MonthHeaderLabel null__MonthHeaderLabel--year');
       });
 
       it('which displays the name of the year', function () {
@@ -178,11 +154,8 @@ describe('The CalendarMonth Component', function () {
         this.useShallowRenderer();
         const select = this.container.props.children[2].props.children[1];
         expect(select.type).toBe('select');
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: 'MonthHeaderSelect',
-        });
         expect(select.props.value).toBe(this.firstOfMonth.year());
-        expect(select.props.className).toEqual('MonthHeaderSelect');
+        expect(select.props.className).toEqual('null__MonthHeaderSelect');
         expect(select.props.children.length).toBe(15);
       });
 
@@ -205,21 +178,18 @@ describe('The CalendarMonth Component', function () {
       it('which has the expected className', function () {
         this.useShallowRenderer();
         expect(this.table.type).toBe('table');
-        expect(this.table.props.className).toEqual('MonthDates');
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: 'MonthDates',
-        });
+        expect(this.table.props.className).toEqual('null__MonthDates');
       });
 
       it('whose head contains day information', function () {
-        expect(this.table.props.children[0].props.children).toEqual(<tr className='Weekdays'>
-          <th className='WeekdayHeading' key='Sunday,Sun' scope='col'><abbr title='Sunday'>Sun</abbr></th>
-          <th className='WeekdayHeading' key='Monday,Mon' scope='col'><abbr title='Monday'>Mon</abbr></th>
-          <th className='WeekdayHeading' key='Tuesday,Tue' scope='col'><abbr title='Tuesday'>Tue</abbr></th>
-          <th className='WeekdayHeading' key='Wednesday,Wed' scope='col'><abbr title='Wednesday'>Wed</abbr></th>
-          <th className='WeekdayHeading' key='Thursday,Thu' scope='col'><abbr title='Thursday'>Thu</abbr></th>
-          <th className='WeekdayHeading' key='Friday,Fri' scope='col'><abbr title='Friday'>Fri</abbr></th>
-          <th className='WeekdayHeading' key='Saturday,Sat' scope='col'><abbr title='Saturday'>Sat</abbr></th>
+        expect(this.table.props.children[0].props.children).toEqual(<tr className='null__Weekdays'>
+          <th className='null__WeekdayHeading' key='Sunday,Sun' scope='col'><abbr title='Sunday'>Sun</abbr></th>
+          <th className='null__WeekdayHeading' key='Monday,Mon' scope='col'><abbr title='Monday'>Mon</abbr></th>
+          <th className='null__WeekdayHeading' key='Tuesday,Tue' scope='col'><abbr title='Tuesday'>Tue</abbr></th>
+          <th className='null__WeekdayHeading' key='Wednesday,Wed' scope='col'><abbr title='Wednesday'>Wed</abbr></th>
+          <th className='null__WeekdayHeading' key='Thursday,Thu' scope='col'><abbr title='Thursday'>Thu</abbr></th>
+          <th className='null__WeekdayHeading' key='Friday,Fri' scope='col'><abbr title='Friday'>Fri</abbr></th>
+          <th className='null__WeekdayHeading' key='Saturday,Sat' scope='col'><abbr title='Saturday'>Sat</abbr></th>
         </tr>);
       });
 
