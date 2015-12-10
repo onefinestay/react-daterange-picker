@@ -13,6 +13,7 @@ describe('The Pagination Arrow component', function () {
         disabled: false,
         onTrigger: (() => {}),
         direction: 'next',
+        bemBlock: 'DateRangePicker',
       }, props);
       return (<PaginationArrow {...props} />);
     };
@@ -31,8 +32,8 @@ describe('The Pagination Arrow component', function () {
       onTrigger: clickTrigger,
     });
     expect(this.renderedComponent).toEqual(
-      <div className='null__PaginationArrow null__PaginationArrow--next' onClick={clickTrigger}>
-        <div className='null__PaginationArrowIcon null__PaginationArrowIcon--next' />
+      <div bemBlock='DateRangePicker' className='DateRangePicker__PaginationArrow DateRangePicker__PaginationArrow--next' onClick={clickTrigger} >
+        <div className='DateRangePicker__PaginationArrowIcon DateRangePicker__PaginationArrowIcon--next' />
       </div>
     );
   });

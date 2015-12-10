@@ -45,6 +45,7 @@ describe('The CalendarDate Component', function () {
         isInHighlightedRange: false,
         isToday: false,
         isDisabled: false,
+        bemBlock: 'DateRangePicker',
       }, props);
 
 
@@ -84,7 +85,7 @@ describe('The CalendarDate Component', function () {
 
     it('by defininig the expected class name', function () {
       this.useShallowRenderer();
-      expect(this.renderedComponent.props.className).toEqual('null__Date');
+      expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
     });
 
     describe('by setting the expected bem modifiers', function () {
@@ -93,7 +94,7 @@ describe('The CalendarDate Component', function () {
         this.useShallowRenderer({
           isToday: true,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date null__Date--today');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--today');
       });
 
 
@@ -101,7 +102,7 @@ describe('The CalendarDate Component', function () {
         this.useShallowRenderer({
           isToday: false,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
       });
 
       it('when the provided date is over the weekend', function () {
@@ -109,7 +110,7 @@ describe('The CalendarDate Component', function () {
         this.useShallowRenderer({
           date: nextSunday,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date null__Date--weekend');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--weekend');
       });
 
 
@@ -118,7 +119,7 @@ describe('The CalendarDate Component', function () {
         this.useShallowRenderer({
           date: nextMonday,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
       });
 
       it('when the provided date is during the same month', function () {
@@ -128,7 +129,7 @@ describe('The CalendarDate Component', function () {
           date: date,
           firstOfMonth: firstOfMonth,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
       });
 
 
@@ -139,7 +140,7 @@ describe('The CalendarDate Component', function () {
           date: date,
           firstOfMonth: firstOfMonth,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date null__Date--otherMonth');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--otherMonth');
       });
     });
 
@@ -149,49 +150,49 @@ describe('The CalendarDate Component', function () {
         this.useShallowRenderer({
           isDisabled: true,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date null__Date--is-disabled');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--is-disabled');
       });
 
       it('when the isDisabled prop is not passed in', function () {
         this.useShallowRenderer({
           isDisabled: false,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
       });
 
       it('when the isHighlightedDate prop is passed in', function () {
         this.useShallowRenderer({
           isHighlightedDate: true,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date null__Date--is-highlighted');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--is-highlighted');
       });
 
       it('when the isHighlightedDate prop is not passed in', function () {
         this.useShallowRenderer({
           isHighlightedDate: false,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
       });
 
       it('when the isSelectedDate prop is passed in', function () {
         this.useShallowRenderer({
           isSelectedDate: true,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date null__Date--is-selected');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--is-selected');
       });
 
       it('when the isInSelectedRange prop is passed in', function () {
         this.useShallowRenderer({
           isInSelectedRange: true,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date null__Date--is-selected');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--is-selected');
       });
 
       it('when the isInHighlightedRange prop is passed in', function () {
         this.useShallowRenderer({
           isInHighlightedRange: true,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date null__Date--is-selected');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--is-selected');
       });
 
       it('when the isSelectedDate, isInSelectedRange, isInHighlightedRange props are not passed in', function () {
@@ -200,7 +201,7 @@ describe('The CalendarDate Component', function () {
           isInSelectedRange: false,
           isInHighlightedRange: false,
         });
-        expect(this.renderedComponent.props.className).toEqual('null__Date');
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
       });
 
     });
@@ -288,7 +289,7 @@ describe('The CalendarDate Component', function () {
     it('by creating calendar date period when there is more than one period', function () {
       this.useShallowRenderer({count: 2});
       expect(this.renderedComponent.props.children[0]).toEqual(
-        <div className='null__HalfDateStates'>
+        <div className='DateRangePicker__HalfDateStates'>
           <CalendarDatePeriod period='am' color='#333'/>
           <CalendarDatePeriod period='pm' color='#444'/>
         </div>
@@ -301,7 +302,7 @@ describe('The CalendarDate Component', function () {
         backgroundColor: '#333',
       };
       expect(this.renderedComponent.props.children[1]).toEqual(
-        <div className='null__FullDateStates' style={bg}>
+        <div className='DateRangePicker__FullDateStates' style={bg}>
         </div>
       );
     });

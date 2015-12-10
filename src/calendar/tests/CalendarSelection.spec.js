@@ -6,7 +6,7 @@ import CalendarSelection from '../CalendarSelection';
 describe('The CalendarSelection Component', function () {
   beforeEach(function () {
     var shallowRenderer = TestUtils.createRenderer();
-    shallowRenderer.render(<CalendarSelection pending={true} modifier='test'/>);
+    shallowRenderer.render(<CalendarSelection pending={true} modifier='test' bemBlock='DateRangePicker' />);
     this.renderedComponent = shallowRenderer.getRenderOutput();
   });
 
