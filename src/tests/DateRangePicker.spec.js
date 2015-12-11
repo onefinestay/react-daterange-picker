@@ -335,43 +335,44 @@ describe('The DateRangePicker component', function () {
     describe('each component is provided with a number of event handlers', function () {
 
       it('onMonthChange calls #changeMonth', function () {
-        var spy = spyOn(DateRangePicker.prototype.__reactAutoBindMap, 'changeMonth');
-        this.useDocumentRenderer();
+        this.useDocumentRenderer({
+          initialMonth: 6,
+        });
         var calendarMonthComponent = TestUtils.scryRenderedComponentsWithType(this.renderedComponent, CalendarMonth)[0];
         calendarMonthComponent.props.onMonthChange(5);
-        expect(spy).toHaveBeenCalled();
+        expect(this.renderedComponent.state.month).toBe(5);
       });
 
       it('onYearChange calls #changeYear', function () {
-        var spy = spyOn(DateRangePicker.prototype.__reactAutoBindMap, 'changeYear');
-        this.useDocumentRenderer();
+        this.useDocumentRenderer({
+          initialYear: 2000,
+        });
         var calendarMonthComponent = TestUtils.scryRenderedComponentsWithType(this.renderedComponent, CalendarMonth)[0];
-        calendarMonthComponent.props.onYearChange(2000);
-        expect(spy).toHaveBeenCalled();
+        calendarMonthComponent.props.onYearChange(2015);
+        expect(this.renderedComponent.state.year).toBe(2015);
       });
 
       it('onSelectDate calls #onSelectDate', function () {
-        var spy = spyOn(DateRangePicker.prototype.__reactAutoBindMap, 'onSelectDate');
         this.useDocumentRenderer();
         var calendarMonthComponent = TestUtils.scryRenderedComponentsWithType(this.renderedComponent, CalendarMonth)[0];
         calendarMonthComponent.props.onSelectDate(moment());
-        expect(spy).toHaveBeenCalled();
+        expect(this.renderedComponent.state.selectedStartDate).toBeDefined();
+
       });
 
       it('onHighlightDate calls #onHighlightDate', function () {
-        var spy = spyOn(DateRangePicker.prototype.__reactAutoBindMap, 'onHighlightDate');
         this.useDocumentRenderer();
         var calendarMonthComponent = TestUtils.scryRenderedComponentsWithType(this.renderedComponent, CalendarMonth)[0];
         calendarMonthComponent.props.onHighlightDate(moment());
-        expect(spy).toHaveBeenCalled();
+        expect(this.renderedComponent.state.highlightedDate).toBeDefined();
       });
 
       it('onUnHighlightDate calls #onUnHighlightDate', function () {
-        var spy = spyOn(DateRangePicker.prototype.__reactAutoBindMap, 'onUnHighlightDate');
         this.useDocumentRenderer();
         var calendarMonthComponent = TestUtils.scryRenderedComponentsWithType(this.renderedComponent, CalendarMonth)[0];
+        calendarMonthComponent.props.onHighlightDate(moment());
         calendarMonthComponent.props.onUnHighlightDate(moment());
-        expect(spy).toHaveBeenCalled();
+        expect(this.renderedComponent.state.highlightedDate).toBe(null);
       });
 
     });
