@@ -9,12 +9,6 @@ import CustomPropTypes from '../utils/CustomPropTypes';
 import isMomentRange from '../utils/isMomentRange';
 import PureRenderMixin from '../utils/PureRenderMixin';
 
-const lang = moment().localeData();
-
-const WEEKDAYS = Immutable.List(lang._weekdays).zip(Immutable.List(lang._weekdaysShort));
-const MONTHS = Immutable.List(lang._months);
-
-
 const CalendarMonth = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
@@ -30,6 +24,15 @@ const CalendarMonth = React.createClass({
     onMonthChange: React.PropTypes.func,
     onYearChange: React.PropTypes.func,
     value: CustomPropTypes.momentOrMomentRange,
+  },
+
+  getInitialState() {
+    const lang = moment().localeData();
+
+    return {
+      WEEKDAYS: Immutable.List(lang._weekdays).zip(Immutable.List(lang._weekdaysShort)),
+      MONTHS: Immutable.List(lang._months),
+    };
   },
 
   renderDay(date, i) {
@@ -80,7 +83,7 @@ const CalendarMonth = React.createClass({
     let indices = Immutable.Range(firstOfWeek, 7).concat(Immutable.Range(0, firstOfWeek));
 
     let headers = indices.map(function(index) {
-      let weekday = WEEKDAYS.get(index);
+      let weekday = this.state.WEEKDAYS.get(index);
       return (
         <th className={this.cx({element: 'WeekdayHeading'})} key={weekday} scope="col"><abbr title={weekday[0]}>{weekday[1]}</abbr></th>
       );
@@ -107,7 +110,7 @@ const CalendarMonth = React.createClass({
     }
 
     return (
-      <option key={year} value={year}>{year}</option>
+      <option key={year} value={year}>{moment(year, 'YYYY').format('YYYY')}</option>
     );
   },
 
@@ -149,7 +152,7 @@ const CalendarMonth = React.createClass({
 
   renderHeaderMonth() {
     let {firstOfMonth} = this.props;
-    let choices = MONTHS.map(this.renderMonthChoice);
+    let choices = this.state.MONTHS.map(this.renderMonthChoice);
     let modifiers = {month: true};
 
     return (
