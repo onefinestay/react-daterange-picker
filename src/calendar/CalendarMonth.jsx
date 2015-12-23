@@ -26,13 +26,10 @@ const CalendarMonth = React.createClass({
     value: CustomPropTypes.momentOrMomentRange,
   },
 
-  getInitialState() {
+  componentWillMount() {
     const lang = moment().localeData();
-
-    return {
-      WEEKDAYS: Immutable.List(lang._weekdays).zip(Immutable.List(lang._weekdaysShort)),
-      MONTHS: Immutable.List(lang._months),
-    };
+    this.WEEKDAYS = Immutable.List(lang._weekdays).zip(Immutable.List(lang._weekdaysShort));
+    this.MONTHS = Immutable.List(lang._months);
   },
 
   renderDay(date, i) {
@@ -83,7 +80,7 @@ const CalendarMonth = React.createClass({
     let indices = Immutable.Range(firstOfWeek, 7).concat(Immutable.Range(0, firstOfWeek));
 
     let headers = indices.map(function(index) {
-      let weekday = this.state.WEEKDAYS.get(index);
+      let weekday = this.WEEKDAYS.get(index);
       return (
         <th className={this.cx({element: 'WeekdayHeading'})} key={weekday} scope="col"><abbr title={weekday[0]}>{weekday[1]}</abbr></th>
       );
@@ -152,7 +149,7 @@ const CalendarMonth = React.createClass({
 
   renderHeaderMonth() {
     let {firstOfMonth} = this.props;
-    let choices = this.state.MONTHS.map(this.renderMonthChoice);
+    let choices = this.MONTHS.map(this.renderMonthChoice);
     let modifiers = {month: true};
 
     return (
