@@ -94,8 +94,21 @@ var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'ut
 
 
 const Index = React.createClass({
+
+  getInitialState() {
+    return {
+      locale: 'en',
+    };
+  },
+
   getDefaultProps() {
     return {};
+  },
+
+  _selectLocale() {
+    this.setState({
+      locale: this.refs.locale.value,
+    });
   },
 
   render() {
@@ -189,6 +202,26 @@ const Index = React.createClass({
                 selectionType="single"
                 minimumDate={new Date()} />
             </div>
+
+            <div className="example">
+              <h4>
+                i18n support based on moment/locale &nbsp;&nbsp;
+                <select ref="locale" onChange={this._selectLocale} name="locale" id="locale">
+                  <option value="en">EN</option>
+                  <option value="ar-sa">AR</option>
+                  <option value="fr">FR</option>
+                  <option value="it">IT</option>
+                  <option value="es">ES</option>
+                  <option value="de">DE</option>
+                </select>
+              </h4>
+              <DatePickerRange
+                locale={this.state.locale}
+                numberOfCalendars={2}
+                selectionType="range"
+                minimumDate={new Date()} />
+            </div>
+
           </div>
         </div>
 

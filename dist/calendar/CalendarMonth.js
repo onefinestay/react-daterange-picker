@@ -60,13 +60,35 @@ var CalendarMonth = _react2['default'].createClass({
     highlightedRange: _react2['default'].PropTypes.object,
     onMonthChange: _react2['default'].PropTypes.func,
     onYearChange: _react2['default'].PropTypes.func,
-    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
+    value: _utilsCustomPropTypes2['default'].momentOrMomentRange,
+    locale: _react2['default'].PropTypes.string
+  },
+
+  _setupLocale: function _setupLocale(locale) {
+    this.moment = (0, _moment2['default'])();
+
+    if (locale !== 'en') {
+      require('moment/locale/' + locale);
+    }
+
+    this.moment.locale(locale);
+
+    var lang = this.moment.localeData(locale);
+
+    this.WEEKDAYS = _immutable2['default'].List(lang._weekdays).zip(_immutable2['default'].List(lang._weekdaysShort));
+    this.MONTHS = _immutable2['default'].List(lang._months);
   },
 
   componentWillMount: function componentWillMount() {
-    var lang = (0, _moment2['default'])().localeData();
-    this.WEEKDAYS = _immutable2['default'].List(lang._weekdays).zip(_immutable2['default'].List(lang._weekdaysShort));
-    this.MONTHS = _immutable2['default'].List(lang._months);
+    var locale = this.props.locale;
+
+    this._setupLocale(locale);
+  },
+
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    var locale = nextProps.locale;
+
+    this._setupLocale(locale);
   },
 
   renderDay: function renderDay(date, i) {
@@ -80,7 +102,7 @@ var CalendarMonth = _react2['default'].createClass({
 
     var props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
-    var d = (0, _moment2['default'])(date);
+    var d = (0, _moment2['default'])(date).locale(this.props.locale);
 
     var isInSelectedRange = undefined;
     var isSelectedDate = undefined;
@@ -164,7 +186,7 @@ var CalendarMonth = _react2['default'].createClass({
     return _react2['default'].createElement(
       'option',
       { key: year, value: year },
-      (0, _moment2['default'])(year, 'YYYY').format('YYYY')
+      (0, _moment2['default'])(year, 'YYYY').locale(this.props.locale).format('YYYY')
     );
   },
 
@@ -178,7 +200,7 @@ var CalendarMonth = _react2['default'].createClass({
     return _react2['default'].createElement(
       'span',
       { className: this.cx({ element: 'MonthHeaderLabel', modifiers: modifiers }) },
-      firstOfMonth.format('YYYY'),
+      firstOfMonth.locale(this.props.locale).format('YYYY'),
       this.props.disableNavigation ? null : _react2['default'].createElement(
         'select',
         { className: this.cx({ element: 'MonthHeaderSelect' }), value: y, onChange: this.handleYearChange },
@@ -223,7 +245,7 @@ var CalendarMonth = _react2['default'].createClass({
     return _react2['default'].createElement(
       'span',
       { className: this.cx({ element: 'MonthHeaderLabel', modifiers: modifiers }) },
-      firstOfMonth.format('MMMM'),
+      firstOfMonth.locale(this.props.locale).format('MMMM'),
       this.props.disableNavigation ? null : _react2['default'].createElement(
         'select',
         { className: this.cx({ element: 'MonthHeaderSelect' }), value: firstOfMonth.month(), onChange: this.handleMonthChange },

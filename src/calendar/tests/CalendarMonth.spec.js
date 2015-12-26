@@ -34,6 +34,7 @@ describe('The CalendarMonth Component', function () {
         },
         onMonthChange: function () {},
         onYearChange: function () {},
+        locale: 'en',
       }, props);
 
 
