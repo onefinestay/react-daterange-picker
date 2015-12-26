@@ -24,17 +24,37 @@ const CalendarMonth = React.createClass({
     onMonthChange: React.PropTypes.func,
     onYearChange: React.PropTypes.func,
     value: CustomPropTypes.momentOrMomentRange,
+    locale: React.PropTypes.string,
   },
 
-  componentWillMount() {
-    const lang = moment().localeData();
+  _setupLocale(locale) {
+    this.moment = moment();
+
+    if (locale !== 'en') {
+      require(`moment/locale/${locale}`);
+    }
+
+    this.moment.locale(locale);
+
+    const lang = this.moment.localeData(locale);
+
     this.WEEKDAYS = Immutable.List(lang._weekdays).zip(Immutable.List(lang._weekdaysShort));
     this.MONTHS = Immutable.List(lang._months);
   },
 
+  componentWillMount() {
+    const { locale } = this.props;
+    this._setupLocale(locale);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    const { locale } = nextProps;
+    this._setupLocale(locale);
+  },
+
   renderDay(date, i) {
     let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
-    let d = moment(date);
+    let d = moment(date).locale(this.props.locale);
 
     let isInSelectedRange;
     let isSelectedDate;
@@ -107,7 +127,7 @@ const CalendarMonth = React.createClass({
     }
 
     return (
-      <option key={year} value={year}>{moment(year, 'YYYY').format('YYYY')}</option>
+      <option key={year} value={year}>{moment(year, 'YYYY').locale(this.props.locale).format('YYYY')}</option>
     );
   },
 
@@ -119,7 +139,7 @@ const CalendarMonth = React.createClass({
     let modifiers = {year: true};
     return (
       <span className={this.cx({element: 'MonthHeaderLabel', modifiers})}>
-        {firstOfMonth.format('YYYY')}
+        {firstOfMonth.locale(this.props.locale).format('YYYY')}
         {this.props.disableNavigation ? null : <select className={this.cx({element: 'MonthHeaderSelect'})} value={y} onChange={this.handleYearChange}>{choices.toJS()}</select>}
       </span>
     );
@@ -154,7 +174,7 @@ const CalendarMonth = React.createClass({
 
     return (
       <span className={this.cx({element: 'MonthHeaderLabel', modifiers})}>
-        {firstOfMonth.format('MMMM')}
+        {firstOfMonth.locale(this.props.locale).format('MMMM')}
         {this.props.disableNavigation ? null : <select className={this.cx({element: 'MonthHeaderSelect'})} value={firstOfMonth.month()} onChange={this.handleMonthChange}>{choices.toJS()}</select>}
       </span>
     );
