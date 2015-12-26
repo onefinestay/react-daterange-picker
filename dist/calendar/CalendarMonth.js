@@ -88,7 +88,9 @@ var CalendarMonth = _react2['default'].createClass({
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     var locale = nextProps.locale;
 
-    this._setupLocale(locale);
+    if (locale !== this.props.locale) {
+      this._setupLocale(locale);
+    }
   },
 
   renderDay: function renderDay(date, i) {
