@@ -49,7 +49,9 @@ const CalendarMonth = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     const { locale } = nextProps;
-    this._setupLocale(locale);
+    if (locale !== this.props.locale) {
+      this._setupLocale(locale);
+    }
   },
 
   renderDay(date, i) {
