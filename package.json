@@ -1,6 +1,6 @@
 {
   "name": "react-daterange-picker",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "A React based date range picker",
   "author": "Jonathan Kim <jonathan.kim@onefinestay.com>",
   "scripts": {
