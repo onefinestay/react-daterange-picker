@@ -395,14 +395,18 @@ var DateRangePicker = _react2['default'].createClass({
     var range = this.state.highlightedRange;
 
     if (range && (!range.start.isSame(range.end, 'day') || this.props.singleDateRange)) {
-      this.setState({
-        selectedStartDate: null,
-        highlightedRange: null,
-        highlightedDate: null,
-        hideSelection: false
-      });
+      this.clearHighlight();
       this.props.onSelect(range, this.statesForRange(range));
     }
+  },
+
+  clearHighlight: function clearHighlight() {
+    this.setState({
+      selectedStartDate: null,
+      highlightedRange: null,
+      highlightedDate: null,
+      hideSelection: false
+    });
   },
 
   highlightDate: function highlightDate(date) {
