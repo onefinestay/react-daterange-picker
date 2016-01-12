@@ -86,6 +86,7 @@ var DateRangePicker = _react2['default'].createClass({
     onHighlightRange: _react2['default'].PropTypes.func, // triggered when a range is highlighted (hovered)
     onSelect: _react2['default'].PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: _react2['default'].PropTypes.func, // triggered when the first date in a range is selected
+    onChange: _react2['default'].PropTypes.func, // triggered when a year or month is changed
     paginationArrowComponent: _react2['default'].PropTypes.func,
     selectedLabel: _react2['default'].PropTypes.string,
     selectionType: _react2['default'].PropTypes.oneOf(['single', 'range']),
@@ -125,6 +126,13 @@ var DateRangePicker = _react2['default'].createClass({
       onSelect: noop,
       paginationArrowComponent: _PaginationArrow2['default']
     };
+  },
+
+  componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
+    var newDate = nextProps.value.start.toDate();
+    if (newDate.getMonth() !== this.state.month || newDate.getFullYear() !== this.state.year) {
+      this.changeMonth(newDate.getMonth());
+    }
   },
 
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -482,6 +490,7 @@ var DateRangePicker = _react2['default'].createClass({
   },
 
   changeMonth: function changeMonth(date) {
+    console.log('changing month', date);
     this.setState({
       month: date
     });
