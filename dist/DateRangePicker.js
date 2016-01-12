@@ -130,8 +130,11 @@ var DateRangePicker = _react2['default'].createClass({
 
   componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
     var newDate = nextProps.value.start.toDate();
-    if (newDate.getMonth() !== this.state.month || newDate.getFullYear() !== this.state.year) {
+    if (newDate.getMonth() !== this.state.month) {
       this.changeMonth(newDate.getMonth());
+    }
+    if (newDate.getFullYear() !== this.state.year) {
+      this.changeYear(newDate.getFullYear());
     }
   },
 
@@ -490,7 +493,6 @@ var DateRangePicker = _react2['default'].createClass({
   },
 
   changeMonth: function changeMonth(date) {
-    console.log('changing month', date);
     this.setState({
       month: date
     });
