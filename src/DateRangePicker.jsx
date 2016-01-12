@@ -89,7 +89,7 @@ const DateRangePicker = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     // only update calendar if date change is triggered outside calendar
-    if(!this.state.selectedStartDate) {
+    if(!this.state.selectedStartDate && nextProps.value) {
       this.onDateUpdate(nextProps.value);
     }
 
