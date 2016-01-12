@@ -87,17 +87,6 @@ const DateRangePicker = React.createClass({
     };
   },
 
-  onDateUpdate(range) {
-    // if the new start date doesn't match the current, update the calendar state
-    var startDate = range.start.toDate();
-    if(startDate.getFullYear() !== this.state.year) {
-      this.changeYear(startDate.getFullYear());
-    }
-    if (startDate.getMonth() !== this.state.month) {
-      this.changeMonth(startDate.getMonth());
-    }
-  },
-
   componentWillReceiveProps(nextProps) {
     // only update calendar if date change is triggered outside calendar
     if(!this.state.selectedStartDate) {
@@ -309,6 +298,17 @@ const DateRangePicker = React.createClass({
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.highlightDate(date);
       }
+    }
+  },
+
+  onDateUpdate(range) {
+    // if the new start date doesn't match the current, update the calendar state
+    var startDate = range.start.toDate();
+    if(startDate.getFullYear() !== this.state.year) {
+      this.changeYear(startDate.getFullYear());
+    }
+    if (startDate.getMonth() !== this.state.month) {
+      this.changeMonth(startDate.getMonth());
     }
   },
 
