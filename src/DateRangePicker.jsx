@@ -90,11 +90,11 @@ const DateRangePicker = React.createClass({
   onDateUpdate(range) {
     // if the new start date doesn't match the current, update the calendar state
     var startDate = range.start.toDate();
-    if (startDate.getMonth() !== this.state.month) {
-      this.changeMonth(startDate.getMonth());
-    }
     if(startDate.getFullYear() !== this.state.year) {
       this.changeYear(startDate.getFullYear());
+    }
+    if (startDate.getMonth() !== this.state.month) {
+      this.changeMonth(startDate.getMonth());
     }
   },
 
