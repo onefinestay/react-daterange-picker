@@ -46,7 +46,6 @@ const DateRangePicker = React.createClass({
     onHighlightRange: React.PropTypes.func, // triggered when a range is highlighted (hovered)
     onSelect: React.PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: React.PropTypes.func, // triggered when the first date in a range is selected
-    onChange: React.PropTypes.func, // triggered when a year or month is changed
     paginationArrowComponent: React.PropTypes.func,
     selectedLabel: React.PropTypes.string,
     selectionType: React.PropTypes.oneOf(['single', 'range']),
@@ -88,17 +87,23 @@ const DateRangePicker = React.createClass({
     };
   },
 
-  componentWillUpdate(nextProps, nextState) {
-    var newDate = nextProps.value.start.toDate();
-    if (newDate.getMonth() !== this.state.month) {
-      this.changeMonth(newDate.getMonth());
+  onDateUpdate(range) {
+    // if the new start date doesn't match the current, update the calendar state
+    var startDate = range.start.toDate();
+    if (startDate.getMonth() !== this.state.month) {
+      this.changeMonth(startDate.getMonth());
     }
-    if(newDate.getFullYear() !== this.state.year) {
-      this.changeYear(newDate.getFullYear());
+    if(startDate.getFullYear() !== this.state.year) {
+      this.changeYear(startDate.getFullYear());
     }
   },
 
   componentWillReceiveProps(nextProps) {
+    // only update calendar if date change is triggered outside calendar
+    if(!this.state.selectedStartDate) {
+      this.onDateUpdate(nextProps.value);
+    }
+
     var nextDateStates = this.getDateStates(nextProps);
     var nextEnabledRange = this.getEnabledRange(nextProps);
 

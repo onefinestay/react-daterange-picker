@@ -86,7 +86,6 @@ var DateRangePicker = _react2['default'].createClass({
     onHighlightRange: _react2['default'].PropTypes.func, // triggered when a range is highlighted (hovered)
     onSelect: _react2['default'].PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: _react2['default'].PropTypes.func, // triggered when the first date in a range is selected
-    onChange: _react2['default'].PropTypes.func, // triggered when a year or month is changed
     paginationArrowComponent: _react2['default'].PropTypes.func,
     selectedLabel: _react2['default'].PropTypes.string,
     selectionType: _react2['default'].PropTypes.oneOf(['single', 'range']),
@@ -128,17 +127,23 @@ var DateRangePicker = _react2['default'].createClass({
     };
   },
 
-  componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
-    var newDate = nextProps.value.start.toDate();
-    if (newDate.getMonth() !== this.state.month) {
-      this.changeMonth(newDate.getMonth());
+  onDateUpdate: function onDateUpdate(range) {
+    // if the new start date doesn't match the current, update the calendar state
+    var startDate = range.start.toDate();
+    if (startDate.getMonth() !== this.state.month) {
+      this.changeMonth(startDate.getMonth());
     }
-    if (newDate.getFullYear() !== this.state.year) {
-      this.changeYear(newDate.getFullYear());
+    if (startDate.getFullYear() !== this.state.year) {
+      this.changeYear(startDate.getFullYear());
     }
   },
 
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    // only update calendar if date change is triggered outside calendar
+    if (!this.state.selectedStartDate) {
+      this.onDateUpdate(nextProps.value);
+    }
+
     var nextDateStates = this.getDateStates(nextProps);
     var nextEnabledRange = this.getEnabledRange(nextProps);
 
