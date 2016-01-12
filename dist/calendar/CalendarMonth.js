@@ -67,10 +67,6 @@ var CalendarMonth = _react2['default'].createClass({
   _setupLocale: function _setupLocale(locale) {
     this.moment = (0, _moment2['default'])();
 
-    if (locale !== 'en') {
-      require('moment/locale/' + locale);
-    }
-
     this.moment.locale(locale);
 
     var lang = this.moment.localeData(locale);
