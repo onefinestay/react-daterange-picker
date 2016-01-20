@@ -86,13 +86,17 @@ var CalendarMonth = _react2['default'].createClass({
     var isSelectedRangeStart = undefined;
     var isSelectedRangeEnd = undefined;
 
-    if (!hideSelection && value && _moment2['default'].isMoment(value) && value.isSame(d, 'day')) {
-      isSelectedDate = true;
-    } else if (!hideSelection && value && (0, _utilsIsMomentRange2['default'])(value) && value.contains(d)) {
-      isInSelectedRange = true;
+    if (!hideSelection && value) {
+      if (_moment2['default'].isMoment(value) && value.isSame(d, 'day')) {
+        isSelectedDate = true;
+      } else if ((0, _utilsIsMomentRange2['default'])(value)) {
+        isSelectedRangeStart = value.start.isSame(d, 'day');
+        isSelectedRangeEnd = value.end.isSame(d, 'day');
 
-      isSelectedRangeStart = value.start.isSame(d, 'day');
-      isSelectedRangeEnd = value.end.isSame(d, 'day');
+        if (d.isBetween(value.start, value.end) || isSelectedRangeStart || isSelectedRangeEnd) {
+          isInSelectedRange = true;
+        }
+      }
     }
 
     return _react2['default'].createElement(CalendarDate, _extends({
