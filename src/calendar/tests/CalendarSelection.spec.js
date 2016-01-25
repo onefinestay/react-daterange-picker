@@ -12,6 +12,6 @@ describe('The CalendarSelection Component', function () {
 
   it('should render the right element', function () {
     expect(this.renderedComponent.type).toBe('div');
-    expect(this.renderedComponent.props.className).toContain('CalendarSelection');
+    expect(this.renderedComponent.props.className).toContain('DateRangePicker__CalendarSelection');
   });
 });

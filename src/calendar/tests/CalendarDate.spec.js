@@ -110,7 +110,7 @@ describe('The CalendarDate Component', function () {
         this.useShallowRenderer({
           date: nextSunday,
         });
-        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--weekend');
+        expect(this.renderedComponent.props.className).toContain('DateRangePicker__Date--weekend');
       });
 
 
@@ -119,7 +119,7 @@ describe('The CalendarDate Component', function () {
         this.useShallowRenderer({
           date: nextMonday,
         });
-        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
+        expect(this.renderedComponent.props.className).not.toContain('DateRangePicker__Date--weekend');
       });
 
       it('when the provided date is during the same month', function () {

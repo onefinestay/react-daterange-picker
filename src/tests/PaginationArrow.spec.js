@@ -37,5 +37,4 @@ describe('The Pagination Arrow component', function () {
       </div>
     );
   });
-
 });
