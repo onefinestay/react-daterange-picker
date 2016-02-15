@@ -53,6 +53,7 @@ const DateRangePicker = React.createClass({
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
     value: CustomPropTypes.momentOrMomentRange,
+    rangeBucket: React.PropTypes.number, // if provided, will force a range within this number when selecting a day
   },
 
   getDefaultProps() {
@@ -89,7 +90,7 @@ const DateRangePicker = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     // only update calendar if date change is triggered outside calendar
-    if(!this.state.selectedStartDate && nextProps.value) {
+    if (!this.state.selectedStartDate && nextProps.value) {
       this.onDateUpdate(nextProps.value);
     }
 
@@ -263,12 +264,18 @@ const DateRangePicker = React.createClass({
       if (selectedStartDate) {
         this.completeRangeSelection();
       } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
-        this.startRangeSelection(date);
-        if (this.props.singleDateRange) {
-          this.highlightRange(moment.range(date, date));
+        // range selection
+        // check if # days bucket was provided
+        if (this.props.rangeBucket) {
+          this.highlightRange(moment.range(date, date.clone().add(this.props.rangeBucket, 'days')));
+        } else {
+          // otherwise, allow selection of start + end
+          this.startRangeSelection(date);
+          if (this.props.singleDateRange) {
+            this.highlightRange(moment.range(date, date));
+          }
         }
       }
-
     } else {
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.completeSelection();
@@ -304,7 +311,7 @@ const DateRangePicker = React.createClass({
   onDateUpdate(range) {
     // if the new start date doesn't match the current, update the calendar state
     var startDate = range.start.toDate();
-    if(startDate.getFullYear() !== this.state.year) {
+    if (startDate.getFullYear() !== this.state.year) {
       this.changeYear(startDate.getFullYear());
     }
     if (startDate.getMonth() !== this.state.month) {
@@ -358,7 +365,7 @@ const DateRangePicker = React.createClass({
       selectedStartDate: null,
       highlightedRange: null,
       highlightedDate: null,
-      hideSelection: false
+      hideSelection: false,
     });
   },
 
