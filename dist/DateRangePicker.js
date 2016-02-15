@@ -92,9 +92,10 @@ var DateRangePicker = _react2['default'].createClass({
     singleDateRange: _react2['default'].PropTypes.bool,
     showLegend: _react2['default'].PropTypes.bool,
     stateDefinitions: _react2['default'].PropTypes.object,
-    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
-  },
+    value: _utilsCustomPropTypes2['default'].momentOrMomentRange,
+    rangeBucket: _react2['default'].PropTypes.number },
 
+  // if provided, will force a range within this number when selecting a day
   getDefaultProps: function getDefaultProps() {
     var date = new Date();
     var initialDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -317,9 +318,16 @@ var DateRangePicker = _react2['default'].createClass({
       if (selectedStartDate) {
         this.completeRangeSelection();
       } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
-        this.startRangeSelection(date);
-        if (this.props.singleDateRange) {
-          this.highlightRange(_moment2['default'].range(date, date));
+        // range selection
+        // check if # days bucket was provided
+        if (this.props.rangeBucket) {
+          this.highlightRange(_moment2['default'].range(date, date.clone().add(this.props.rangeBucket, 'days')));
+        } else {
+          // otherwise, allow selection of start + end
+          this.startRangeSelection(date);
+          if (this.props.singleDateRange) {
+            this.highlightRange(_moment2['default'].range(date, date));
+          }
         }
       }
     } else {
