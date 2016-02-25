@@ -100,15 +100,6 @@ const DatePickerSingleWithSetDateButtons = React.createClass({
       value: value,
     });
   },
-  today(future, type) {
-    let cachedDate = new Date();
-    timekeeper.reset();
-    let today = moment();
-    timekeeper.freeze(cachedDate);
-    this.setState({
-      value: today,
-    });
-  },
   updateDate(future, type) {
     // store timekeeper to show accurate "Today"
     // then Restore once finished using new date
@@ -247,7 +238,7 @@ const Index = React.createClass({
                 minimumDate={new Date()} />
             </div>
 
-			      <div className="example">
+            <div className="example">
               <h4>Updating calendar date value</h4>
               <DatePickerSingleWithSetDateButtons
                 numberOfCalendars={1}
@@ -256,7 +247,6 @@ const Index = React.createClass({
             </div>
           </div>
         </div>
-
         <Footer />
       </main>
     );
