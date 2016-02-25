@@ -133,7 +133,7 @@ const DatePickerSingleWithSetDateButtons = React.createClass({
             <button type='button' onClick={this.updateDate.bind(this, null)} >today</button>
             <button type='button' onClick={this.updateDate.bind(this, true, 'month')} >Next Month</button>
             <button type='button' onClick={this.updateDate.bind(this, false, 'month')} >Last Month</button>
-            <button type='button' onClick={this.updateDate.bind(this, true, 'year')} >Next Year Year</button>
+            <button type='button' onClick={this.updateDate.bind(this, true, 'year')} >Next Year</button>
             <button type='button' onClick={this.updateDate.bind(this, false, 'year')} >Last Year</button>
           </div>
         <div>
