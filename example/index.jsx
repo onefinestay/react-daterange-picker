@@ -89,6 +89,64 @@ const DatePickerSingle = React.createClass({
   },
 });
 
+const DatePickerSingleWithSetDateButtons = React.createClass({
+  getInitialState() {
+    return {
+      value: null,
+    };
+  },
+  handleSelect(value) {
+    this.setState({
+      value: value,
+    });
+  },
+  today(future, type) {
+    let cachedDate = new Date();
+    timekeeper.reset();
+    let today = moment();
+    timekeeper.freeze(cachedDate);
+    this.setState({
+      value: today,
+    });
+  },
+  updateDate(future, type) {
+    // store timekeeper to show accurate "Today"
+    // then Restore once finished using new date
+    let cachedDate = new Date();
+    timekeeper.reset();
+    let date = moment();
+    if (type){
+      date = future ? date.add(1, type) : date.subtract(1, type);
+    }
+    timekeeper.freeze(cachedDate);
+    this.setState({
+      value: date,
+    });
+  },
+
+  render() {
+    return (
+      <div className="singleDateRange">
+        <RangePicker {...this.props} onSelect={this.handleSelect}
+          value={this.state.value} />
+          <div className="buttonContainer">
+            <button type='button' onClick={this.updateDate.bind(this, null)} >today</button>
+            <button type='button' onClick={this.updateDate.bind(this, true, 'month')} >Next Month</button>
+            <button type='button' onClick={this.updateDate.bind(this, false, 'month')} >Last Month</button>
+            <button type='button' onClick={this.updateDate.bind(this, true, 'year')} >Next Year Year</button>
+            <button type='button' onClick={this.updateDate.bind(this, false, 'year')} >Last Year</button>
+          </div>
+        <div>
+          <input type="text"
+            value={this.state.value ? this.state.value.format('LL') : null}
+            readOnly={true} />
+        </div>
+
+      </div>
+    );
+  },
+});
+
 
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 
@@ -97,7 +155,6 @@ const Index = React.createClass({
   getDefaultProps() {
     return {};
   },
-
   render() {
     const stateDefinitions = {
       available: {
@@ -188,6 +245,14 @@ const Index = React.createClass({
                 numberOfCalendars={2}
                 selectionType="single"
                 minimumDate={new Date()} />
+            </div>
+
+			      <div className="example">
+              <h4>Updating calendar date value</h4>
+              <DatePickerSingleWithSetDateButtons
+                numberOfCalendars={1}
+                selectionType="single"
+                />
             </div>
           </div>
         </div>

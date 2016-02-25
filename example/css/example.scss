@@ -141,3 +141,20 @@ input {
     margin-top: 0;
   }
 }
+.singleDateRange{
+  .DateRangePicker{
+    float: left;
+    width:50%;
+  }
+  .buttonContainer {
+    float: right;
+    width:50%;
+
+    button{
+      width: 100px;
+      padding: 6px;
+      margin: 0 auto 15px;
+      display: block;
+    }
+  }
+}
