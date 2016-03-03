@@ -27,7 +27,7 @@
       "email": "alan@alanfoster.me"
     }
   ],
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "main": "dist/DateRangePicker.js",
   "keywords": [
     "react",

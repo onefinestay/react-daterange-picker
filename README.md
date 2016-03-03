@@ -43,6 +43,7 @@ If you have been added as a project contributor and wish to publish a new releas
 Once you have the repository cloned run the following commands to get started:
 
 ```shell
+npm install react react-dom
 npm install
 npm run develop
 ```
@@ -50,4 +51,4 @@ npm run develop
 This will start a local server at `http://localhost:9989` where you can see the
 example page. It will also watch for any files changes and rebuild.
 To update the compiled files in dist run `npm run build-dist-js`, and you can
-lint the code with `npm run lint`.
+lint the code with `npm run lint`. 
