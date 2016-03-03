@@ -135,7 +135,7 @@ var DateRangePicker = _react2['default'].createClass({
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange
     };
 
-    if (nextProps.value) {
+    if (nextProps.value && nextProps.numberOfCalendars === 1) {
       updatedState.year = nextProps.value.year();
       updatedState.month = nextProps.value.month();
     }

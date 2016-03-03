@@ -121,11 +121,11 @@ const DatePickerSingleWithSetDateButtons = React.createClass({
         <RangePicker {...this.props} onSelect={this.handleSelect}
           value={this.state.value} />
           <div className="buttonContainer">
-            <input type='button' onClick={this.updateDate.bind(this, null)} >today</input>
-            <input type='button' onClick={this.updateDate.bind(this, true, 'month')} >Next Month</input>
-            <input type='button' onClick={this.updateDate.bind(this, false, 'month')} >Last Month</input>
-            <input type='button' onClick={this.updateDate.bind(this, true, 'year')} >Next Year</input>
-            <input type='button' onClick={this.updateDate.bind(this, false, 'year')} >Last Year</input>
+            <input type='button' onClick={this.updateDate.bind(this, null)} value="today"/>
+            <input type='button' onClick={this.updateDate.bind(this, true, 'month')} value="Next Month"/>
+            <input type='button' onClick={this.updateDate.bind(this, false, 'month')} value="Last Month"/>
+            <input type='button' onClick={this.updateDate.bind(this, true, 'year')} value="Next Year"/>
+            <input type='button' onClick={this.updateDate.bind(this, false, 'year')} value="Last Year"/>
           </div>
         <div>
           <input type="text"

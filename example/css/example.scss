@@ -149,12 +149,14 @@ input {
   .buttonContainer {
     float: right;
     width:50%;
+    padding-top: 75px;
 
-    button {
+    input[type=button] {
       width: 100px;
       padding: 6px;
       margin: 0 auto 15px;
       display: block;
+      float:none;
     }
   }
 }
