@@ -130,11 +130,17 @@ var DateRangePicker = _react2['default'].createClass({
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     var nextDateStates = this.getDateStates(nextProps);
     var nextEnabledRange = this.getEnabledRange(nextProps);
-
-    this.setState({
+    var updatedState = {
       dateStates: this.state.dateStates && _immutable2['default'].is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange
-    });
+    };
+
+    if (nextProps.value) {
+      updatedState.year = nextProps.value.year();
+      updatedState.month = nextProps.value.month();
+    }
+
+    this.setState(updatedState);
   },
 
   getInitialState: function getInitialState() {
