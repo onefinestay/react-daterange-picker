@@ -39,6 +39,7 @@ const DateRangePicker = React.createClass({
     initialMonth: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
     initialRange: React.PropTypes.object,
     initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
+    locale: React.PropTypes.string,
     maximumDate: React.PropTypes.instanceOf(Date),
     minimumDate: React.PropTypes.instanceOf(Date),
     numberOfCalendars: React.PropTypes.number,
@@ -69,6 +70,7 @@ const DateRangePicker = React.createClass({
       previousLabel: '',
       initialDate: initialDate,
       initialFromValue: true,
+      locale: moment().locale(),
       selectionType: 'range',
       singleDateRange: false,
       stateDefinitions: {
@@ -490,6 +492,7 @@ const DateRangePicker = React.createClass({
       onUnHighlightDate: this.onUnHighlightDate,
       dateRangesForDate: this.dateRangesForDate,
       dateComponent: CalendarDate,
+      locale: this.props.locale
     };
 
     return <CalendarMonth {...props} />;
