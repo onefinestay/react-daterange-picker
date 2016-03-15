@@ -78,23 +78,29 @@ var CalendarDate = _react2['default'].createClass({
       mouseDown: false
     };
   },
+  componentWillUnmount: function componentWillUnmount() {
+    this.isUnmounted = true;
+  },
 
   mouseUp: function mouseUp() {
     this.props.onSelectDate(this.props.date);
-
-    if (this.state.mouseDown) {
-      this.setState({
-        mouseDown: false
-      });
+    if (!this.isUnmounted) {
+      if (this.state.mouseDown) {
+        this.setState({
+          mouseDown: false
+        });
+      }
+      document.removeEventListener('mouseup', this.mouseUp);
     }
-    document.removeEventListener('mouseup', this.mouseUp);
   },
 
   mouseDown: function mouseDown() {
-    this.setState({
-      mouseDown: true
-    });
-    document.addEventListener('mouseup', this.mouseUp);
+    if (!this.isUnmounted) {
+      this.setState({
+        mouseDown: true
+      });
+      document.addEventListener('mouseup', this.mouseUp);
+    }
   },
 
   touchEnd: function touchEnd() {

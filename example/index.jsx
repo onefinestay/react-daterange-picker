@@ -139,6 +139,57 @@ const DatePickerSingleWithSetDateButtons = React.createClass({
 });
 
 
+const DatePickerRangeWithSetRangeButtons = React.createClass({
+  propTypes: {
+    value: React.PropTypes.object,
+  },
+
+  getInitialState() {
+    return {
+      value: this.props.value,
+      states: null,
+    };
+  },
+
+  setRange(range){
+    this.setState({value: range});
+  },
+
+  handleSelect(value, states) {
+    this.setState({value, states});
+  },
+
+  render() {
+    return (
+      <div className="rangeDateContainer">
+        <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
+        <div>
+          <input type="text"
+            value={this.state.value ? this.state.value.start.format('LL') : null}
+            readOnly={true}
+            placeholder="Start date"/>
+          <input type="text"
+            value={this.state.value ? this.state.value.end.format('LL') : null}
+            readOnly={true}
+            placeholder="End date" />
+        </div>
+        <div className="buttonContainer">
+          <input type='button' onClick={this.setRange.bind(this, moment.range(
+            moment(new Date("2015/04/07")),
+            moment(new Date("2015/05/06")),
+          ))} value="April 7, 2015 - May 6, 2015"/>
+          <input type='button' onClick={this.setRange.bind(this, moment.range(
+            moment(new Date("1985/10/26")),
+            moment(new Date("2015/10/21")),
+          ))} value="Back to the Future..."/>
+        </div>
+
+      </div>
+    );
+  },
+});
+
+
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 
 
@@ -245,6 +296,15 @@ const Index = React.createClass({
                 selectionType="single"
                 />
             </div>
+
+            <div className="example">
+              <h4>Updating calendar date value</h4>
+              <DatePickerRangeWithSetRangeButtons
+                numberOfCalendars={2}
+                selectionType="range"
+                />
+            </div>
+
           </div>
         </div>
         <Footer />
