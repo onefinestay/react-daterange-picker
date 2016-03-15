@@ -721,6 +721,30 @@ describe('The DateRangePicker component', function () {
       expect(this.renderedComponent.state.enabledRange).toBe(newEnabledRange);
     });
 
+    it('updates component year and month if value is updated with single moment value', function () {
+      var newValue = moment(new Date('1985/10/26'));
+      var newDateStates = ['newDateStates'];
+      spyOn(this.renderedComponent, 'getDateStates').and.returnValue(newDateStates);
+      spyOn(this.renderedComponent, 'getEnabledRange').and.returnValue('newEnabledRange');
+      this.renderedComponent.setState({
+        dateStates: ['oldDateStates'],
+      });
+      this.renderedComponent.componentWillReceiveProps({value: newValue});
+      expect(this.renderedComponent.state.year).toBe(newValue.year());
+      expect(this.renderedComponent.state.month).toBe(newValue.month());
+    });
+    it('updates component year and month if value is updated with single moment value', function () {
+      var newValue = moment.range(moment(new Date('1985/10/26')), moment(new Date('2015/10/21')));
+      var newDateStates = ['newDateStates'];
+      spyOn(this.renderedComponent, 'getDateStates').and.returnValue(newDateStates);
+      spyOn(this.renderedComponent, 'getEnabledRange').and.returnValue('newEnabledRange');
+      this.renderedComponent.setState({
+        dateStates: ['oldDateStates'],
+      });
+      this.renderedComponent.componentWillReceiveProps({value: newValue});
+      expect(this.renderedComponent.state.year).toBe(newValue.start.year());
+      expect(this.renderedComponent.state.month).toBe(newValue.start.month());
+    });
   });
 
   describe('#isDateSelectable', function () {
