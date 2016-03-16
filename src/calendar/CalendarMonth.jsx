@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import {} from 'moment-range';
+import 'moment-range';
 import calendar from 'calendar';
 import Immutable from 'immutable';
 
@@ -28,11 +28,7 @@ const CalendarMonth = React.createClass({
   },
 
   _setupLocale(locale) {
-    this.moment = moment();
-
-    this.moment.locale(locale);
-
-    const lang = this.moment.localeData(locale);
+    const lang = moment.localeData(locale);
 
     this.WEEKDAYS = Immutable.List(lang._weekdays).zip(Immutable.List(lang._weekdaysShort));
     this.MONTHS = Immutable.List(lang._months);
