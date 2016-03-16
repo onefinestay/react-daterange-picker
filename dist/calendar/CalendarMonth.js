@@ -65,11 +65,7 @@ var CalendarMonth = _react2['default'].createClass({
   },
 
   _setupLocale: function _setupLocale(locale) {
-    this.moment = (0, _moment2['default'])();
-
-    this.moment.locale(locale);
-
-    var lang = this.moment.localeData(locale);
+    var lang = _moment2['default'].localeData(locale);
 
     this.WEEKDAYS = _immutable2['default'].List(lang._weekdays).zip(_immutable2['default'].List(lang._weekdaysShort));
     this.MONTHS = _immutable2['default'].List(lang._months);
