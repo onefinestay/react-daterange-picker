@@ -54,7 +54,7 @@ const DatePicker = React.createClass({
           <option value="es">ES</option>
           <option value="de">DE</option>
         </select>
-        <DatePickerRange
+        <DateRangePicker
           locale={this.state.locale}
           numberOfCalendars={2}
           selectionType="range"
