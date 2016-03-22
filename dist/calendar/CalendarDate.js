@@ -83,8 +83,8 @@ var CalendarDate = _react2['default'].createClass({
   },
 
   mouseUp: function mouseUp() {
-    this.props.onSelectDate(this.props.date);
     if (!this.isUnmounted) {
+      this.props.onSelectDate(this.props.date);
       if (this.state.mouseDown) {
         this.setState({
           mouseDown: false
