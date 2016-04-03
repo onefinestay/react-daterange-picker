@@ -13,8 +13,9 @@ import GithubRibbon from './components/github-ribbon';
 import CodeSnippet from './components/code-snippet';
 import Install from './components/install';
 import Features from './components/features';
+import _ from 'underscore';
 
-
+const today = moment();
 // freeze date to April 1st
 timekeeper.freeze(new Date('2015-04-01'));
 
@@ -89,79 +90,99 @@ const DatePickerSingle = React.createClass({
   },
 });
 
+const QuickSelection = React.createClass({
+  propTypes: {
+    dates: React.PropTypes.object,
+    onSelect: React.PropTypes.func.isRequired,
+  },
+
+  render() {
+    return (
+      <div className='quickSelection'>
+         {_.map(this.props.dates, (date, label) => {
+           return (
+              <input key={label}
+                  className='quickSelection__button'
+                  type='button'
+                  onClick={() => this.props.onSelect(date)}
+                  value={label} />
+            );
+         })}
+      </div>
+    );
+  },
+});
+
 const DatePickerSingleWithSetDateButtons = React.createClass({
   getInitialState() {
     return {
       value: null,
     };
   },
+
   handleSelect(value) {
-    this.setState({
-      value: value,
-    });
+    this.setState({ value });
   },
-  updateDate(future, type) {
-    // store timekeeper to show accurate "Today"
-    // then Restore once finished using new date
-    let cachedDate = new Date();
-    timekeeper.reset();
-    let date = moment();
-    if (type){
-      date = future ? date.add(1, type) : date.subtract(1, type);
-    }
-    timekeeper.freeze(cachedDate);
-    this.setState({
-      value: date,
-    });
+
+  setDate(value) {
+    this.setState({ value });
   },
 
   render() {
+    const dateRanges = {
+      'Today': today,
+      'Next Month': today.clone().add(1, 'month'),
+      'Last Month': today.clone().subtract(1, 'month'),
+
+      'Next Year': today.clone().add(1, 'year'),
+      'Last Year': today.clone().subtract(1, 'year'),
+    };
+
     return (
       <div className="singleDateRange">
-        <RangePicker {...this.props} onSelect={this.handleSelect}
-          value={this.state.value} />
-          <div className="buttonContainer">
-            <input type='button' onClick={this.updateDate.bind(this, null)} value="today"/>
-            <input type='button' onClick={this.updateDate.bind(this, true, 'month')} value="Next Month"/>
-            <input type='button' onClick={this.updateDate.bind(this, false, 'month')} value="Last Month"/>
-            <input type='button' onClick={this.updateDate.bind(this, true, 'year')} value="Next Year"/>
-            <input type='button' onClick={this.updateDate.bind(this, false, 'year')} value="Last Year"/>
-          </div>
+        <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
+        <QuickSelection dates={dateRanges} onSelect={this.setDate} />
         <div>
           <input type="text"
             value={this.state.value ? this.state.value.format('LL') : null}
             readOnly={true} />
         </div>
-
       </div>
     );
   },
 });
 
-
 const DatePickerRangeWithSetRangeButtons = React.createClass({
-  propTypes: {
-    value: React.PropTypes.object,
-  },
-
   getInitialState() {
     return {
-      value: this.props.value,
+      value: null,
       states: null,
     };
   },
 
-  setRange(range){
-    this.setState({value: range});
+  handleSelect(value, states) {
+    this.setState({ value, states });
   },
 
-  handleSelect(value, states) {
-    this.setState({value, states});
+  setRange(value){
+    this.setState({ value });
   },
 
   render() {
+    const dateRanges = {
+      'This Month': moment.range(
+        today.clone().startOf('month'),
+        today.clone().endOf('month')
+      ),
+      'Next Month': moment.range(
+        today.clone().subtract(1, 'month').startOf('month'),
+        today.clone().subtract(1, 'month').endOf('month')
+      ),
+    };
+
     return (
       <div className="rangeDateContainer">
+        <QuickSelection dates={dateRanges} onSelect={this.setRange} />
         <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
         <div>
           <input type="text"
@@ -173,22 +194,10 @@ const DatePickerRangeWithSetRangeButtons = React.createClass({
             readOnly={true}
             placeholder="End date" />
         </div>
-        <div className="buttonContainer">
-          <input type='button' onClick={this.setRange.bind(this, moment.range(
-            moment(new Date("2015/04/07")),
-            moment(new Date("2015/05/06")),
-          ))} value="April 7, 2015 - May 6, 2015"/>
-          <input type='button' onClick={this.setRange.bind(this, moment.range(
-            moment(new Date("1985/10/26")),
-            moment(new Date("2015/10/21")),
-          ))} value="Back to the Future..."/>
-        </div>
-
       </div>
     );
   },
 });
-
 
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 
@@ -290,7 +299,7 @@ const Index = React.createClass({
             </div>
 
             <div className="example">
-              <h4>Updating calendar date value</h4>
+              <h4>Setting Calendar Externally</h4>
               <DatePickerSingleWithSetDateButtons
                 numberOfCalendars={1}
                 selectionType="single"
@@ -298,13 +307,12 @@ const Index = React.createClass({
             </div>
 
             <div className="example">
-              <h4>Updating calendar date value</h4>
+              <h4>Setting Calendar Range Externally</h4>
               <DatePickerRangeWithSetRangeButtons
                 numberOfCalendars={2}
                 selectionType="range"
                 />
             </div>
-
           </div>
         </div>
         <Footer />

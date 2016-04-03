@@ -141,17 +141,19 @@ input {
     margin-top: 0;
   }
 }
+
 .singleDateRange {
   .DateRangePicker {
     float: left;
-    width:50%;
+    width: 50%;
   }
-  .buttonContainer {
+  
+  .quickSelection {
     float: right;
-    width:50%;
+    width: 50%;
     padding-top: 75px;
 
-    input[type=button] {
+    &__button {
       width: 100px;
       padding: 6px;
       margin: 0 auto 15px;
@@ -160,8 +162,9 @@ input {
     }
   }
 }
-.rangeDateContainer{
-  .buttonContainer{
+
+.rangeDateContainer {
+  .quickSelection {
     padding-top: 10px;
   }
 }
