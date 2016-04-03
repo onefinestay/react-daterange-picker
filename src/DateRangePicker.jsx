@@ -90,17 +90,18 @@ const DateRangePicker = React.createClass({
   componentWillReceiveProps(nextProps) {
     var nextDateStates = this.getDateStates(nextProps);
     var nextEnabledRange = this.getEnabledRange(nextProps);
+    var yearMonth = this.getYearMonth(nextProps);
+
     var updatedState = {
+      selectedStartDate: null,
+      hideSelection: false,
       dateStates: this.state.dateStates && Immutable.is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange,
     };
 
-    if (nextProps.value && moment.isMoment(nextProps.value)) {
-      updatedState.year = nextProps.value.year();
-      updatedState.month = nextProps.value.month();
-    } else if (nextProps.value && nextProps.value.start) {
-      updatedState.year = nextProps.value.start.year();
-      updatedState.month = nextProps.value.start.month();
+    if (yearMonth) {
+      updatedState.year = yearMonth.year;
+      updatedState.month = yearMonth.month;
     }
 
     this.setState(updatedState);
@@ -108,7 +109,7 @@ const DateRangePicker = React.createClass({
 
   getInitialState() {
     let now = new Date();
-    let {initialYear, initialMonth, initialFromValue, selectionType, value} = this.props;
+    let {initialYear, initialMonth, initialFromValue, value} = this.props;
     let year = now.getFullYear();
     let month = now.getMonth();
 
@@ -118,20 +119,15 @@ const DateRangePicker = React.createClass({
     }
 
     if (initialFromValue && value) {
-      if (selectionType === 'single') {
-        year = value.year();
-        month = value.month();
-      } else {
-        year = value.start.year();
-        month = value.start.month();
-      }
+      const yearMonth = this.getYearMonth(this.props);
+      month = yearMonth.month;
+      year = yearMonth.year;
     }
 
     return {
       year: year,
       month: month,
       selectedStartDate: null,
-      highlightStartDate: null,
       highlightedDate: null,
       highlightRange: null,
       hideSelection: false,
@@ -192,6 +188,27 @@ const DateRangePicker = React.createClass({
         color: def.get('color'),
       });
     });
+  },
+
+  getYearMonth(props) {
+    let { selectionType, value } = props;
+
+    let year;
+    let month;
+
+    if (!value) {
+      return undefined;
+    }
+
+    if (selectionType === 'single') {
+      year = value.year();
+      month = value.month();
+    } else {
+      year = value.start.year();
+      month = value.start.month();
+    }
+
+    return { year, month };
   },
 
   isDateDisabled(date) {
