@@ -30,6 +30,7 @@ const CalendarDate = React.createClass({
     isHighlightedRangeEnd: React.PropTypes.bool,
     isInHighlightedRange: React.PropTypes.bool,
 
+    fullDayStates: React.PropTypes.bool,
     highlightedDate: React.PropTypes.object,
     dateStates: React.PropTypes.instanceOf(Immutable.List),
     isDisabled: React.PropTypes.bool,
@@ -119,11 +120,11 @@ const CalendarDate = React.createClass({
 
   getBemStates() {
     let {
-      isSelectedDate,
-      isInSelectedRange,
-      isInHighlightedRange,
-      isHighlightedDate: highlighted,
-      isDisabled: disabled,
+        isSelectedDate,
+        isInSelectedRange,
+        isInHighlightedRange,
+        isHighlightedDate: highlighted,
+        isDisabled: disabled,
     } = this.props;
 
     let selected = isSelectedDate || isInSelectedRange || isInHighlightedRange;
@@ -133,16 +134,16 @@ const CalendarDate = React.createClass({
 
   render() {
     let {
-      date,
-      dateRangesForDate,
-      isSelectedDate,
-      isSelectedRangeStart,
-      isSelectedRangeEnd,
-      isInSelectedRange,
-      isHighlightedDate,
-      isHighlightedRangeStart,
-      isHighlightedRangeEnd,
-      isInHighlightedRange,
+        date,
+        dateRangesForDate,
+        isSelectedDate,
+        isSelectedRangeStart,
+        isSelectedRangeEnd,
+        isInSelectedRange,
+        isHighlightedDate,
+        isHighlightedRangeStart,
+        isHighlightedRangeEnd,
+        isInHighlightedRange,
     } = this.props;
 
     let bemModifiers = this.getBemModifiers();
@@ -175,7 +176,7 @@ const CalendarDate = React.createClass({
       highlightModifier = 'single';
     }
 
-    if (numStates === 1) {
+    if (this.props.fullDayStates || numStates === 1) {
       // If there's only one state, it means we're not at a boundary
       color = states.getIn([0, 'color']);
 
@@ -203,23 +204,23 @@ const CalendarDate = React.createClass({
     }
 
     return (
-      <td className={this.cx({element: 'Date', modifiers: bemModifiers, states: bemStates})}
-        style={cellStyle}
-        onTouchStart={this.touchStart}
-        onMouseEnter={this.mouseEnter}
-        onMouseLeave={this.mouseLeave}
-        onMouseDown={this.mouseDown}>
-        {numStates > 1 &&
+        <td className={this.cx({element: 'Date', modifiers: bemModifiers, states: bemStates})}
+            style={cellStyle}
+            onTouchStart={this.touchStart}
+            onMouseEnter={this.mouseEnter}
+            onMouseLeave={this.mouseLeave}
+            onMouseDown={this.mouseDown}>
+          {(numStates > 1 && !this.props.fullDayStates) &&
           <div className={this.cx({element: "HalfDateStates"})}>
             <CalendarDatePeriod period="am" color={amColor} />
             <CalendarDatePeriod period="pm" color={pmColor} />
           </div>}
-        {numStates === 1 &&
+          {numStates === 1 &&
           <div className={this.cx({element: "FullDateStates"})} style={style} />}
-        <span className={this.cx({element: "DateLabel"})}>{date.format('D')}</span>
-        {selectionModifier ? <CalendarSelection modifier={selectionModifier} pending={pending} /> : null}
-        {highlightModifier ? <CalendarHighlight modifier={highlightModifier} /> : null}
-      </td>
+          <span className={this.cx({element: "DateLabel"})}>{date.format('D')}</span>
+          {selectionModifier ? <CalendarSelection modifier={selectionModifier} pending={pending} /> : null}
+          {highlightModifier ? <CalendarHighlight modifier={highlightModifier} /> : null}
+        </td>
     );
   },
 });
