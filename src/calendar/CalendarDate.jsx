@@ -181,7 +181,9 @@ const CalendarDate = React.createClass({
       color = states.getIn([0, 'color']);
 
       if (color) {
-
+        if (!states.getIn([0, 'selectable'])) {
+          bemStates[states.getIn([0, 'state'])] = true;
+        }
         style = {
           backgroundColor: color,
         };
