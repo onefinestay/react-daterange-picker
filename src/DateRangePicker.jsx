@@ -16,7 +16,6 @@ import PaginationArrow from './PaginationArrow';
 import isMomentRange from './utils/isMomentRange';
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-
 const absoluteMinimum = moment(new Date(-8640000000000000 / 2)).startOf('day');
 const absoluteMaximum = moment(new Date(8640000000000000 / 2)).startOf('day');
 
@@ -33,6 +32,7 @@ const DateRangePicker = React.createClass({
     defaultState: React.PropTypes.string,
     disableNavigation: React.PropTypes.bool,
     firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
+    fullDayStates: React.PropTypes.bool,
     helpMessage: React.PropTypes.string,
     initialDate: React.PropTypes.instanceOf(Date),
     initialFromValue: React.PropTypes.bool,
@@ -64,6 +64,7 @@ const DateRangePicker = React.createClass({
       bemBlock: 'DateRangePicker',
       numberOfCalendars: 1,
       firstOfWeek: 0,
+      fullDayStates: false,
       disableNavigation: false,
       nextLabel: '',
       previousLabel: '',
@@ -145,6 +146,12 @@ const DateRangePicker = React.createClass({
     let maxDate = absoluteMaximum;
     let dateCursor = moment(minDate).startOf('day');
 
+    // If states should always include the full day at the edges, we need to
+    // use different boundaries for the "default state" ranges we generate
+    // here. Otherwise the rendering code in CalenderDate cannot know if the
+    // day is at a boundary or not.
+    let shiftDays = this.props.fullDayStates ? 1 : 0;
+
     let defs = Immutable.fromJS(stateDefinitions);
 
     dateStates.forEach(function(s) {
@@ -156,8 +163,8 @@ const DateRangePicker = React.createClass({
         actualStates.push({
           state: defaultState,
           range: moment.range(
-            dateCursor,
-            start
+              moment(dateCursor).add(shiftDays, 'day'),
+              moment(start).subtract(shiftDays, 'day')
           ),
         });
       }
@@ -168,8 +175,8 @@ const DateRangePicker = React.createClass({
     actualStates.push({
       state: defaultState,
       range: moment.range(
-        dateCursor,
-        maxDate
+          moment(dateCursor).add(shiftDays, 'day'),
+          maxDate
       ),
     });
 
@@ -207,6 +214,17 @@ const DateRangePicker = React.createClass({
      * which direction to work
      */
     let blockedRanges = this.nonSelectableStateRanges().map(r => r.get('range'));
+    if (this.props.fullDayStates) {
+      // range.intersect() ignores when one range ends on the same day
+      // the other begins; for the block to work, we have to extend the
+      // ranges by one day.
+      blockedRanges = blockedRanges.map(r => {
+        r = r.clone();
+        r.start.subtract(1, 'day');
+        r.end.add(1, 'day');
+        return r;
+      });
+    }
     let intersect;
 
     if (forwards) {
@@ -420,20 +438,21 @@ const DateRangePicker = React.createClass({
 
   renderCalendar(index) {
     let {
-      bemBlock,
-      bemNamespace,
-      firstOfWeek,
-      numberOfCalendars,
-      selectionType,
-      value,
+        bemBlock,
+        bemNamespace,
+        firstOfWeek,
+        fullDayStates,
+        numberOfCalendars,
+        selectionType,
+        value,
     } = this.props;
 
     let {
-      dateStates,
-      enabledRange,
-      hideSelection,
-      highlightedDate,
-      highlightedRange,
+        dateStates,
+        enabledRange,
+        hideSelection,
+        highlightedDate,
+        highlightedRange,
     } = this.state;
 
     let monthDate = this.getMonthDate();
@@ -474,6 +493,7 @@ const DateRangePicker = React.createClass({
       dateStates,
       enabledRange,
       firstOfWeek,
+      fullDayStates,
       hideSelection,
       highlightedDate,
       highlightedRange,
@@ -501,13 +521,13 @@ const DateRangePicker = React.createClass({
     let calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
 
     return (
-      <div className={this.cx({element: null})}>
-        <PaginationArrowComponent direction="previous" onTrigger={this.moveBack} disabled={!this.canMoveBack()} />
-        {calendars.toJS()}
-        <PaginationArrowComponent direction="next" onTrigger={this.moveForward} disabled={!this.canMoveForward()} />
-        {helpMessage ? <span className={this.cx({element: 'HelpMessage'})}>{helpMessage}</span> : null}
-        {showLegend ? <Legend stateDefinitions={stateDefinitions} selectedLabel={selectedLabel} /> : null}
-      </div>
+        <div className={this.cx({element: null})}>
+          <PaginationArrowComponent direction="previous" onTrigger={this.moveBack} disabled={!this.canMoveBack()} />
+          {calendars.toJS()}
+          <PaginationArrowComponent direction="next" onTrigger={this.moveForward} disabled={!this.canMoveForward()} />
+          {helpMessage ? <span className={this.cx({element: 'HelpMessage'})}>{helpMessage}</span> : null}
+          {showLegend ? <Legend stateDefinitions={stateDefinitions} selectedLabel={selectedLabel} /> : null}
+        </div>
     );
   },
 });
