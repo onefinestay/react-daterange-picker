@@ -17,16 +17,13 @@
     "src",
     "example"
   ],
-  "contributors": [
-    {
-      "name": "Andrew Ingram",
-      "email": "andrew.ingram@onefinestay.com"
-    },
-    {
-      "name": "Alan Foster",
-      "email": "alan@alanfoster.me"
-    }
-  ],
+  "contributors": [{
+    "name": "Andrew Ingram",
+    "email": "andrew.ingram@onefinestay.com"
+  }, {
+    "name": "Alan Foster",
+    "email": "alan@alanfoster.me"
+  }],
   "license": "Apache-2.0",
   "main": "dist/DateRangePicker.js",
   "keywords": [
@@ -42,8 +39,8 @@
     "url": "https://github.com/onefinestay/react-daterange-picker"
   },
   "peerDependencies": {
-    "react": ">=0.14.0",
-    "react-dom": ">=0.14.0"
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
   },
   "dependencies": {
     "calendar": "^0.1.0",
