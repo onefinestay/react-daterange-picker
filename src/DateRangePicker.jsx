@@ -99,7 +99,14 @@ const DateRangePicker = React.createClass({
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange,
     };
 
-    if (yearMonth) {
+    // if numberOfCalendars are not 2 update as normal
+    if (yearMonth && nextProps.numberOfCalendars !== 2) {
+      updatedState.year = yearMonth.year;
+      updatedState.month = yearMonth.month;
+
+      // prevent updating month & year if there are 2 calendars and the date falls in the 2nd month
+      // this will prevent the calendar moving if within the 2 months already visiable
+    } else if (this.isYearMonthNotCurrentlyDisplayed(yearMonth, nextProps.numberOfCalendars)) {
       updatedState.year = yearMonth.year;
       updatedState.month = yearMonth.month;
     }
@@ -379,6 +386,10 @@ const DateRangePicker = React.createClass({
 
   getMonthDate() {
     return moment(new Date(this.state.year, this.state.month, 1));
+  },
+
+  isYearMonthNotCurrentlyDisplayed(yearMonth, numberOfCalendars){
+    return (yearMonth && numberOfCalendars === 2 && ( (yearMonth.month - 1) !== this.state.month || yearMonth.year !== this.state.year ));
   },
 
   canMoveBack() {

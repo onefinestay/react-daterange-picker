@@ -169,16 +169,22 @@ const DatePickerRangeWithSetRangeButtons = React.createClass({
   },
 
   render() {
-    const dateRanges = {
-      'This Month': moment.range(
+    let dateRanges = {},
+      nextMonth = {};
+    dateRanges[today.format('MMMM')] = moment.range(
         today.clone().startOf('month'),
         today.clone().endOf('month')
-      ),
-      'Next Month': moment.range(
-        today.clone().subtract(1, 'month').startOf('month'),
-        today.clone().subtract(1, 'month').endOf('month')
-      ),
-    };
+      );
+    if (!this.state.value) {
+      nextMonth = today.clone().add(2, 'month');
+    } else {
+      nextMonth = this.state.value.start.clone().add(2, 'month');
+    }
+    dateRanges[nextMonth.format('MMMM')] = moment.range(
+        nextMonth.startOf('month'),
+        nextMonth.clone().endOf('month')
+      );
+
 
     return (
       <div className="rangeDateContainer">
