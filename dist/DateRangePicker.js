@@ -139,18 +139,20 @@ var DateRangePicker = _react2['default'].createClass({
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange
     };
 
-    // if numberOfCalendars are not 2 update as normal
+    /*// if numberOfCalendars are not 2 update as normal
     if (yearMonth && nextProps.numberOfCalendars !== 2) {
       updatedState.year = yearMonth.year;
       updatedState.month = yearMonth.month;
-
-      // prevent updating month & year if there are 2 calendars and the date falls in the 2nd month
+       // prevent updating month & year if there are 2 calendars and the date falls in the 2nd month
       // this will prevent the calendar moving if within the 2 months already visiable
     } else if (this.isYearMonthNotCurrentlyDisplayed(yearMonth, nextProps.numberOfCalendars)) {
-        updatedState.year = yearMonth.year;
-        updatedState.month = yearMonth.month;
-      }
-
+      updatedState.year = yearMonth.year;
+      updatedState.month = yearMonth.month;
+    }*/
+    if (yearMonth && !this.isYearMonthVisible(yearMonth, nextProps.numberOfCalendars)) {
+      updatedState.year = yearMonth.year;
+      updatedState.month = yearMonth.month;
+    }
     this.setState(updatedState);
   },
 
@@ -451,8 +453,11 @@ var DateRangePicker = _react2['default'].createClass({
     return (0, _moment2['default'])(new Date(this.state.year, this.state.month, 1));
   },
 
-  isYearMonthNotCurrentlyDisplayed: function isYearMonthNotCurrentlyDisplayed(yearMonth, numberOfCalendars) {
-    return yearMonth && numberOfCalendars === 2 && (yearMonth.month - 1 !== this.state.month || yearMonth.year !== this.state.year);
+  isYearMonthVisible: function isYearMonthVisible(yearMonth, numberOfCalendars) {
+    var isSameYear = yearMonth.year === this.state.year;
+    var isMonthVisible = yearMonth.month === this.state.month || numberOfCalendars === 2 && yearMonth.month - 1 === this.state.month;
+
+    return isSameYear && isMonthVisible;
   },
 
   canMoveBack: function canMoveBack() {
