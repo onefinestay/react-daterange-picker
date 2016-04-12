@@ -88,6 +88,8 @@ var DateRangePicker = _react2['default'].createClass({
     onSelect: _react2['default'].PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: _react2['default'].PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: _react2['default'].PropTypes.func,
+    onMoveForward: _react2['default'].PropTypes.func,
+    onMoveBack: _react2['default'].PropTypes.func,
     selectedLabel: _react2['default'].PropTypes.string,
     selectionType: _react2['default'].PropTypes.oneOf(['single', 'range']),
     singleDateRange: _react2['default'].PropTypes.bool,
@@ -454,6 +456,9 @@ var DateRangePicker = _react2['default'].createClass({
         year: monthDate.year(),
         month: monthDate.month()
       });
+      if (this.props.onMoveBack) {
+        this.props.onMoveBack(monthDate);
+      }
     }
   },
 
@@ -474,6 +479,9 @@ var DateRangePicker = _react2['default'].createClass({
         year: monthDate.year(),
         month: monthDate.month()
       });
+      if (this.props.onMoveForward) {
+        this.props.onMoveForward(monthDate);
+      }
     }
   },
 
