@@ -47,6 +47,8 @@ const DateRangePicker = React.createClass({
     onSelect: React.PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: React.PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: React.PropTypes.func,
+    onMoveForward: React.PropTypes.func,
+    onMoveBack: React.PropTypes.func,
     selectedLabel: React.PropTypes.string,
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     singleDateRange: React.PropTypes.bool,
@@ -390,6 +392,9 @@ const DateRangePicker = React.createClass({
         year: monthDate.year(),
         month: monthDate.month(),
       });
+      if (this.props.onMoveBack) {
+        this.props.onMoveBack(monthDate);
+      }
     }
   },
 
@@ -410,6 +415,9 @@ const DateRangePicker = React.createClass({
         year: monthDate.year(),
         month: monthDate.month(),
       });
+      if (this.props.onMoveForward) {
+        this.props.onMoveForward(monthDate);
+      }
     }
   },
 
