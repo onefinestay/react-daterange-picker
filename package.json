@@ -1,6 +1,6 @@
 {
   "name": "react-daterange-picker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A React based date range picker forked",
   "author": "Dennis Wilkins dennis@nuvi.com",
   "scripts": {
