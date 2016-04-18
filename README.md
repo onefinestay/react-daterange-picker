@@ -1,5 +1,6 @@
 Nuvi Daterange Picker
 ======================
+[![Build Status](https://travis-ci.org/nuvi/react-daterange-picker.svg?branch=master)](https://travis-ci.org/nuvi/react-daterange-picker)
 
 A React based date range picker. Forked from onefinestay/react-daterange-picker but that thing is way old.
 
