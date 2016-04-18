@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import CalendarMonth from '../CalendarMonth';
 import CalendarDate from '../CalendarDate';
@@ -58,7 +59,7 @@ describe('The CalendarMonth Component', function () {
 
   afterEach( function () {
     if (this.component) {
-      React.unmountComponentAtNode(React.findDOMNode(this.component).parentNode);
+      ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this.component).parentNode);
     }
   });
 
@@ -118,7 +119,7 @@ describe('The CalendarMonth Component', function () {
         this.useDocumentRenderer({
           onMonthChange: onMonthChange,
         });
-        var select = TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[0].getDOMNode();
+        var select = ReactDOM.findDOMNode(TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[0]);
         select.value = '2';
         TestUtils.Simulate.change(select);
         expect(onMonthChange).toHaveBeenCalledWith(2);
@@ -165,7 +166,7 @@ describe('The CalendarMonth Component', function () {
         this.useDocumentRenderer({
           onYearChange: onYearChange,
         });
-        var select = TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[1].getDOMNode();
+        var select = ReactDOM.findDOMNode(TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[1]);
         var value = (this.firstOfMonth.year() + 1).toString();
         select.value = value;
         TestUtils.Simulate.change(select);
