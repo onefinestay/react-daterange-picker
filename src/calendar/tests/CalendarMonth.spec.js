@@ -4,7 +4,7 @@ import CalendarMonth from '../CalendarMonth';
 import CalendarDate from '../CalendarDate';
 import moment from 'moment';
 import {} from 'moment-range';
-import _ from 'underscore';
+import _ from 'lodash';
 
 
 describe('The CalendarMonth Component', function () {

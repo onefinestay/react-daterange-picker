@@ -1,6 +1,6 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import _ from 'underscore';
+import _ from 'lodash';
 
 import PaginationArrow from '../PaginationArrow';
 

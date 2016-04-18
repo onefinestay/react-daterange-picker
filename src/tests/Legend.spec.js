@@ -1,7 +1,7 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Legend from '../Legend';
-import _ from 'underscore';
+import _ from 'lodash';
 
 
 describe('The Legend component', function () {
