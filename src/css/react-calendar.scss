@@ -1,7 +1,7 @@
-$arrow-size: 8px;
-$selection-radius: 5px;
-$selection-margin: 5px;
-$ns: DateRangePicker;
+$arrow-size: 8px !default;
+$selection-radius: 5px !default;
+$selection-margin: 5px !default;
+$ns: DateRangePicker !default;
 
 .#{$ns} {
   display: inline-block;
