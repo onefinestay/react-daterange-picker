@@ -9,4 +9,5 @@ example/css/*.css
 *.sublime-*
 dist/ui-coverage/
 lib/
+dev/
 npm-debug.log
