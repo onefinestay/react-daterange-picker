@@ -76,7 +76,7 @@ describe('The DateRangePicker component', function () {
 
   afterEach( function () {
     if (this.component) {
-      React.unmountComponentAtNode(ReactDOM.findDOMNode(this.component).parentNode);
+      ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this.component).parentNode);
     }
   });
 
