@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import moment from 'moment';
 import _ from 'underscore';
@@ -72,7 +73,7 @@ describe('The CalendarDate Component', function () {
 
   afterEach( function () {
     if (this.component) {
-      React.unmountComponentAtNode(React.findDOMNode(this.component).parentNode);
+      React.unmountComponentAtNode(ReactDOM.findDOMNode(this.component).parentNode);
     }
   });
 
