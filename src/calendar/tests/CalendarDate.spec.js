@@ -60,9 +60,11 @@ describe('The CalendarDate Component', function () {
     };
 
     this.useDocumentRenderer = (props) => {
-      const renderedTable = TestUtils.renderIntoDocument(<table>
-        <tbody>{getCalendarDate(props)}</tbody>
-      </table>);
+      const renderedTable = TestUtils.renderIntoDocument(
+        <table>
+          <tbody><tr>{getCalendarDate(props)}</tr></tbody>
+        </table>
+      );
       this.renderedComponent = renderedTable.querySelector('td');
     };
 
@@ -73,7 +75,7 @@ describe('The CalendarDate Component', function () {
 
   afterEach( function () {
     if (this.component) {
-      React.unmountComponentAtNode(ReactDOM.findDOMNode(this.component).parentNode);
+      ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this.component).parentNode);
     }
   });
 
