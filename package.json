@@ -42,8 +42,8 @@
     "url": "https://github.com/onefinestay/react-daterange-picker"
   },
   "peerDependencies": {
-    "react": ">=0.14.0",
-    "react-dom": ">=0.14.0"
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
   },
   "dependencies": {
     "calendar": "^0.1.0",
