@@ -3,6 +3,7 @@ import moment from 'moment';
 import {} from 'moment-range';
 import Immutable from 'immutable';
 import calendar from 'calendar';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import BemMixin from './utils/BemMixin';
 import CustomPropTypes from './utils/CustomPropTypes';
@@ -41,6 +42,7 @@ const DateRangePicker = React.createClass({
     initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
     maximumDate: React.PropTypes.instanceOf(Date),
     minimumDate: React.PropTypes.instanceOf(Date),
+    monthNames: ImmutablePropTypes.listOf(React.PropTypes.string.isRequired),
     numberOfCalendars: React.PropTypes.number,
     onHighlightDate: React.PropTypes.func, // triggered when a date is highlighted (hovered)
     onHighlightRange: React.PropTypes.func, // triggered when a range is highlighted (hovered)
@@ -53,6 +55,7 @@ const DateRangePicker = React.createClass({
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
     value: CustomPropTypes.momentOrMomentRange,
+    weekdayNames: ImmutablePropTypes.listOf(React.PropTypes.arrayOf(React.PropTypes.string).isRequired),
   },
 
   getDefaultProps() {
@@ -490,6 +493,8 @@ const DateRangePicker = React.createClass({
       onUnHighlightDate: this.onUnHighlightDate,
       dateRangesForDate: this.dateRangesForDate,
       dateComponent: CalendarDate,
+      monthNames: this.props.monthNames,
+      weekdayNames: this.props.weekdayNames,
     };
 
     return <CalendarMonth {...props} />;

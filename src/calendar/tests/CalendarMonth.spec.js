@@ -1,8 +1,10 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import CalendarMonth from '../CalendarMonth';
 import CalendarDate from '../CalendarDate';
 import moment from 'moment';
+import Immutable from 'immutable';
 import {} from 'moment-range';
 import _ from 'underscore';
 
@@ -58,7 +60,7 @@ describe('The CalendarMonth Component', function () {
 
   afterEach( function () {
     if (this.component) {
-      React.unmountComponentAtNode(React.findDOMNode(this.component).parentNode);
+      ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this.component).parentNode);
     }
   });
 
@@ -118,7 +120,7 @@ describe('The CalendarMonth Component', function () {
         this.useDocumentRenderer({
           onMonthChange: onMonthChange,
         });
-        var select = TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[0].getDOMNode();
+        var select = ReactDOM.findDOMNode(TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[0]);
         select.value = '2';
         TestUtils.Simulate.change(select);
         expect(onMonthChange).toHaveBeenCalledWith(2);
@@ -165,7 +167,7 @@ describe('The CalendarMonth Component', function () {
         this.useDocumentRenderer({
           onYearChange: onYearChange,
         });
-        var select = TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[1].getDOMNode();
+        var select = ReactDOM.findDOMNode(TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[1]);
         var value = (this.firstOfMonth.year() + 1).toString();
         select.value = value;
         TestUtils.Simulate.change(select);
@@ -191,6 +193,23 @@ describe('The CalendarMonth Component', function () {
           <th className='DateRangePicker__WeekdayHeading' key='Thursday,Thu' scope='col'><abbr title='Thursday'>Thu</abbr></th>
           <th className='DateRangePicker__WeekdayHeading' key='Friday,Fri' scope='col'><abbr title='Friday'>Fri</abbr></th>
           <th className='DateRangePicker__WeekdayHeading' key='Saturday,Sat' scope='col'><abbr title='Saturday'>Sat</abbr></th>
+        </tr>);
+      });
+
+      it('which can be customized with the desired day names', function () {
+        const lang = moment().localeData();
+        const WEEKDAYS = Immutable.List(lang._weekdays).zip(Immutable.List(moment.weekdaysMin().map(name => name.substring(0, 1))));
+        this.useShallowRenderer({
+          weekdayNames: WEEKDAYS,
+        });
+        expect(this.table.props.children[0].props.children).toEqual(<tr className='DateRangePicker__Weekdays'>
+          <th className='DateRangePicker__WeekdayHeading' key='Sunday,S' scope='col'><abbr title='Sunday'>S</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Monday,M' scope='col'><abbr title='Monday'>M</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Tuesday,T' scope='col'><abbr title='Tuesday'>T</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Wednesday,W' scope='col'><abbr title='Wednesday'>W</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Thursday,T' scope='col'><abbr title='Thursday'>T</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Friday,F' scope='col'><abbr title='Friday'>F</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Saturday,S' scope='col'><abbr title='Saturday'>S</abbr></th>
         </tr>);
       });
 
