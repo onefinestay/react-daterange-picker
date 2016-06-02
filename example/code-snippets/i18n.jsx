@@ -22,7 +22,7 @@ const DatePicker = React.createClass({
   getInitialState() {
     return {
       value: null,
-      locale: 'en'
+      locale: 'en',
     };
   },
 
