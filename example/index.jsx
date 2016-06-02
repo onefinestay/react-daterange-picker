@@ -16,7 +16,7 @@ import Features from './components/features';
 
 
 // freeze date to April 1st
-timekeeper.freeze(new Date('2015-04-01'));
+timekeeper.freeze(new Date('2016-04-01'));
 
 function processCodeSnippet(src) {
   var lines = src.split('\n');
@@ -107,11 +107,14 @@ const Index = React.createClass({
   },
 
   _selectLocale() {
-    require(`moment/locale/${this.refs.locale.value}`);
-    moment.locale(this.refs.locale.value);
+    const locale = this.refs.locale.value;
+    if (locale !== 'en') {
+      require(`moment/locale/${locale}`);
+    }
+    moment.locale(locale);
 
     this.setState({
-      locale: this.refs.locale.value,
+      locale: locale,
     });
   },
 
