@@ -7,7 +7,6 @@ import moment from 'moment';
  * Load moment locales that you need in your app
  * to make the localeData available to the DatePicker
  */
-require('moment/locale/en');
 require('moment/locale/ar');
 require('moment/locale/fr');
 require('moment/locale/it');
@@ -23,6 +22,7 @@ const DatePicker = React.createClass({
   getInitialState() {
     return {
       value: null,
+      locale: 'en'
     };
   },
 
