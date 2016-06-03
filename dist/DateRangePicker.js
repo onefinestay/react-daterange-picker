@@ -322,6 +322,7 @@ var DateRangePicker = _react2['default'].createClass({
         // check if # days bucket was provided
         if (this.props.rangeBucket) {
           this.highlightRange(_moment2['default'].range(date, date.clone().add(this.props.rangeBucket, 'days')));
+          this.completeRangeSelection();
         } else {
           // otherwise, allow selection of start + end
           this.startRangeSelection(date);
