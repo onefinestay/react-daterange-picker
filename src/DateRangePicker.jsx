@@ -41,6 +41,7 @@ const DateRangePicker = React.createClass({
     initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
     maximumDate: React.PropTypes.instanceOf(Date),
     minimumDate: React.PropTypes.instanceOf(Date),
+    historicalView: React.PropTypes.bool,
     numberOfCalendars: React.PropTypes.number,
     onHighlightDate: React.PropTypes.func, // triggered when a date is highlighted (hovered)
     onHighlightRange: React.PropTypes.func, // triggered when a range is highlighted (hovered)
@@ -119,8 +120,13 @@ const DateRangePicker = React.createClass({
         year = value.year();
         month = value.month();
       } else {
-        year = value.start.year();
-        month = value.start.month();
+        if (this.props.historicalView) {
+          year = value.end.year();
+          month = value.end.month();
+        } else {
+          year = value.end.year();
+          month = value.end.month();
+        }
       }
     }
 
@@ -404,9 +410,14 @@ const DateRangePicker = React.createClass({
   },
 
   canMoveForward() {
-    if (this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
+    const condition = this.props.historicalView
+      ? this.getMonthDate().add(1, 'months').isAfter(this.state.enabledRange.end)
+      : this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end);
+
+    if (condition) {
       return false;
     }
+
     return true;
   },
 
@@ -470,7 +481,10 @@ const DateRangePicker = React.createClass({
     let key = `${ index}-${ year }-${ month }`;
     let props;
 
-    monthDate.add(index, 'months');
+    if (numberOfCalendars > 1) {
+      monthDate.add(index, 'months');  
+    }
+
 
     let cal = new calendar.Calendar(firstOfWeek);
     let monthDates = Immutable.fromJS(cal.monthDates(monthDate.year(), monthDate.month()));
@@ -524,9 +538,17 @@ const DateRangePicker = React.createClass({
   },
 
   render: function() {
-    let {paginationArrowComponent: PaginationArrowComponent, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage} = this.props;
+    let {paginationArrowComponent: PaginationArrowComponent, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage, historicalView} = this.props;
 
-    let calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
+    let calendars;
+
+
+    if (historicalView) {
+      // currently-selected day in rightmost calendar
+      calendars = Immutable.Range(-(numberOfCalendars - 1), 1).map(this.renderCalendar);
+    } else {
+      calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
+    }
 
     return (
       <div className={this.cx({element: null})}>
