@@ -81,6 +81,7 @@ var DateRangePicker = _react2['default'].createClass({
     initialYear: _react2['default'].PropTypes.number, // Overrides values derived from initialDate/initialRange
     maximumDate: _react2['default'].PropTypes.instanceOf(Date),
     minimumDate: _react2['default'].PropTypes.instanceOf(Date),
+    historicalView: _react2['default'].PropTypes.bool,
     numberOfCalendars: _react2['default'].PropTypes.number,
     onHighlightDate: _react2['default'].PropTypes.func, // triggered when a date is highlighted (hovered)
     onHighlightRange: _react2['default'].PropTypes.func, // triggered when a range is highlighted (hovered)
@@ -165,8 +166,13 @@ var DateRangePicker = _react2['default'].createClass({
         year = value.year();
         month = value.month();
       } else {
-        year = value.start.year();
-        month = value.start.month();
+        if (this.props.historicalView) {
+          year = value.end.year();
+          month = value.end.month();
+        } else {
+          year = value.end.year();
+          month = value.end.month();
+        }
       }
     }
 
@@ -468,9 +474,12 @@ var DateRangePicker = _react2['default'].createClass({
   },
 
   canMoveForward: function canMoveForward() {
-    if (this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
+    var condition = this.props.historicalView ? this.getMonthDate().add(1, 'months').isAfter(this.state.enabledRange.end) : this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end);
+
+    if (condition) {
       return false;
     }
+
     return true;
   },
 
@@ -533,7 +542,9 @@ var DateRangePicker = _react2['default'].createClass({
     var key = index + '-' + year + '-' + month;
     var props = undefined;
 
-    monthDate.add(index, 'months');
+    if (numberOfCalendars > 1) {
+      monthDate.add(index, 'months');
+    }
 
     var cal = new _calendar2['default'].Calendar(firstOfWeek);
     var monthDates = _immutable2['default'].fromJS(cal.monthDates(monthDate.year(), monthDate.month()));
@@ -594,8 +605,16 @@ var DateRangePicker = _react2['default'].createClass({
     var selectedLabel = _props3.selectedLabel;
     var showLegend = _props3.showLegend;
     var helpMessage = _props3.helpMessage;
+    var historicalView = _props3.historicalView;
 
-    var calendars = _immutable2['default'].Range(0, numberOfCalendars).map(this.renderCalendar);
+    var calendars = undefined;
+
+    if (historicalView) {
+      // currently-selected day in rightmost calendar
+      calendars = _immutable2['default'].Range(-(numberOfCalendars - 1), 1).map(this.renderCalendar);
+    } else {
+      calendars = _immutable2['default'].Range(0, numberOfCalendars).map(this.renderCalendar);
+    }
 
     return _react2['default'].createElement(
       'div',
