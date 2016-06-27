@@ -130,11 +130,30 @@ var DateRangePicker = _react2['default'].createClass({
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     var nextDateStates = this.getDateStates(nextProps);
     var nextEnabledRange = this.getEnabledRange(nextProps);
+    var yearMonth = this.getYearMonth(nextProps);
 
-    this.setState({
+    var updatedState = {
+      selectedStartDate: null,
+      hideSelection: false,
       dateStates: this.state.dateStates && _immutable2['default'].is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange
-    });
+    };
+
+    /*// if numberOfCalendars are not 2 update as normal
+    if (yearMonth && nextProps.numberOfCalendars !== 2) {
+      updatedState.year = yearMonth.year;
+      updatedState.month = yearMonth.month;
+       // prevent updating month & year if there are 2 calendars and the date falls in the 2nd month
+      // this will prevent the calendar moving if within the 2 months already visiable
+    } else if (this.isYearMonthNotCurrentlyDisplayed(yearMonth, nextProps.numberOfCalendars)) {
+      updatedState.year = yearMonth.year;
+      updatedState.month = yearMonth.month;
+    }*/
+    if (yearMonth && !this.isYearMonthVisible(yearMonth, nextProps.numberOfCalendars)) {
+      updatedState.year = yearMonth.year;
+      updatedState.month = yearMonth.month;
+    }
+    this.setState(updatedState);
   },
 
   getInitialState: function getInitialState() {
@@ -143,7 +162,6 @@ var DateRangePicker = _react2['default'].createClass({
     var initialYear = _props.initialYear;
     var initialMonth = _props.initialMonth;
     var initialFromValue = _props.initialFromValue;
-    var selectionType = _props.selectionType;
     var value = _props.value;
 
     var year = now.getFullYear();
@@ -155,20 +173,15 @@ var DateRangePicker = _react2['default'].createClass({
     }
 
     if (initialFromValue && value) {
-      if (selectionType === 'single') {
-        year = value.year();
-        month = value.month();
-      } else {
-        year = value.start.year();
-        month = value.start.month();
-      }
+      var yearMonth = this.getYearMonth(this.props);
+      month = yearMonth.month;
+      year = yearMonth.year;
     }
 
     return {
       year: year,
       month: month,
       selectedStartDate: null,
-      highlightStartDate: null,
       highlightedDate: null,
       highlightRange: null,
       hideSelection: false,
@@ -226,6 +239,28 @@ var DateRangePicker = _react2['default'].createClass({
         color: def.get('color')
       });
     });
+  },
+
+  getYearMonth: function getYearMonth(props) {
+    var selectionType = props.selectionType;
+    var value = props.value;
+
+    var year = undefined;
+    var month = undefined;
+
+    if (!value) {
+      return undefined;
+    }
+
+    if (selectionType === 'single') {
+      year = value.year();
+      month = value.month();
+    } else {
+      year = value.start.year();
+      month = value.start.month();
+    }
+
+    return { year: year, month: month };
   },
 
   isDateDisabled: function isDateDisabled(date) {
@@ -416,6 +451,13 @@ var DateRangePicker = _react2['default'].createClass({
 
   getMonthDate: function getMonthDate() {
     return (0, _moment2['default'])(new Date(this.state.year, this.state.month, 1));
+  },
+
+  isYearMonthVisible: function isYearMonthVisible(yearMonth, numberOfCalendars) {
+    var isSameYear = yearMonth.year === this.state.year;
+    var isMonthVisible = yearMonth.month === this.state.month || numberOfCalendars === 2 && yearMonth.month - 1 === this.state.month;
+
+    return isSameYear && isMonthVisible;
   },
 
   canMoveBack: function canMoveBack() {

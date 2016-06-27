@@ -90,16 +90,25 @@ const DateRangePicker = React.createClass({
   componentWillReceiveProps(nextProps) {
     var nextDateStates = this.getDateStates(nextProps);
     var nextEnabledRange = this.getEnabledRange(nextProps);
+    var yearMonth = this.getYearMonth(nextProps);
 
-    this.setState({
+    var updatedState = {
+      selectedStartDate: null,
+      hideSelection: false,
       dateStates: this.state.dateStates && Immutable.is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange,
-    });
+    };
+
+    if (yearMonth && !this.isYearMonthVisible(yearMonth, nextProps.numberOfCalendars)) {
+      updatedState.year = yearMonth.year;
+      updatedState.month = yearMonth.month;
+    }
+    this.setState(updatedState);
   },
 
   getInitialState() {
     let now = new Date();
-    let {initialYear, initialMonth, initialFromValue, selectionType, value} = this.props;
+    let {initialYear, initialMonth, initialFromValue, value} = this.props;
     let year = now.getFullYear();
     let month = now.getMonth();
 
@@ -109,20 +118,15 @@ const DateRangePicker = React.createClass({
     }
 
     if (initialFromValue && value) {
-      if (selectionType === 'single') {
-        year = value.year();
-        month = value.month();
-      } else {
-        year = value.start.year();
-        month = value.start.month();
-      }
+      const yearMonth = this.getYearMonth(this.props);
+      month = yearMonth.month;
+      year = yearMonth.year;
     }
 
     return {
       year: year,
       month: month,
       selectedStartDate: null,
-      highlightStartDate: null,
       highlightedDate: null,
       highlightRange: null,
       hideSelection: false,
@@ -183,6 +187,27 @@ const DateRangePicker = React.createClass({
         color: def.get('color'),
       });
     });
+  },
+
+  getYearMonth(props) {
+    let { selectionType, value } = props;
+
+    let year;
+    let month;
+
+    if (!value) {
+      return undefined;
+    }
+
+    if (selectionType === 'single') {
+      year = value.year();
+      month = value.month();
+    } else {
+      year = value.start.year();
+      month = value.start.month();
+    }
+
+    return { year, month };
   },
 
   isDateDisabled(date) {
@@ -355,6 +380,13 @@ const DateRangePicker = React.createClass({
     return moment(new Date(this.state.year, this.state.month, 1));
   },
 
+  isYearMonthVisible: function isYearMonthVisible(yearMonth, numberOfCalendars) {
+    const isSameYear = (yearMonth.year === this.state.year);
+    const isMonthVisible =  (yearMonth.month === this.state.month) || (numberOfCalendars === 2 && (yearMonth.month - 1 === this.state.month));
+
+    return isSameYear && isMonthVisible;
+  },
+
   canMoveBack() {
     if (this.getMonthDate().subtract(1, 'days').isBefore(this.state.enabledRange.start)) {
       return false;
@@ -435,7 +467,6 @@ const DateRangePicker = React.createClass({
       highlightedDate,
       highlightedRange,
     } = this.state;
-
     let monthDate = this.getMonthDate();
     let year = monthDate.year();
     let month = monthDate.month();
