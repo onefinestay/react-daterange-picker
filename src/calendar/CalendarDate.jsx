@@ -47,14 +47,25 @@ const CalendarDate = React.createClass({
     };
   },
 
+  componentWillUnmount() {
+    this.isUnmounted = true;
+    document.removeEventListener('mouseup', this.mouseUp);
+    document.removeEventListener('touchend', this.touchEnd);
+  },
+
   mouseUp() {
     this.props.onSelectDate(this.props.date);
+
+    if (this.isUnmounted) {
+      return;
+    }
 
     if (this.state.mouseDown) {
       this.setState({
         mouseDown: false,
       });
     }
+
     document.removeEventListener('mouseup', this.mouseUp);
   },
 
@@ -62,12 +73,17 @@ const CalendarDate = React.createClass({
     this.setState({
       mouseDown: true,
     });
+
     document.addEventListener('mouseup', this.mouseUp);
   },
 
   touchEnd() {
     this.props.onHighlightDate(this.props.date);
     this.props.onSelectDate(this.props.date);
+
+    if (this.isUnmounted) {
+      return;
+    }
 
     if (this.state.mouseDown) {
       this.setState({
