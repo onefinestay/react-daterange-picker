@@ -455,7 +455,7 @@ const DateRangePicker = React.createClass({
         value = null;
       }
     } else if (isMomentRange(value)) {
-      if (!monthRange.overlaps(value)) {
+      if (!monthRange.overlaps(value) && !monthRange.end.isSame(value.start) && !monthRange.start.isSame(value.end)) {
         value = null;
       }
     }
