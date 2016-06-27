@@ -329,7 +329,17 @@ describe('The DateRangePicker component', function () {
         expect(this.renderedComponent.props.children[1][0].props.firstOfWeek).toBe(0);
       });
 
-
+      it('like props.monthNames and props.weekdayNames', function () {
+        const lang = moment().localeData();
+        const MONTHS = Immutable.List(moment.monthsShort());
+        const WEEKDAYS = Immutable.List(lang._weekdays).zip(Immutable.List(moment.weekdaysMin().map(name => name.substring(0, 1))));
+        this.useShallowRenderer({
+          monthNames: MONTHS,
+          weekdayNames: WEEKDAYS,
+        });
+        expect(this.renderedComponent.props.children[1][0].props.monthNames).toBe(MONTHS);
+        expect(this.renderedComponent.props.children[1][0].props.weekdayNames).toBe(WEEKDAYS);
+      });
     });
 
     describe('each component is provided with a number of event handlers', function () {

@@ -51,7 +51,8 @@
     "immutable": "^3.7.2",
     "moment": "^2.10.6",
     "moment-range": "^2.0.3",
-    "react-addons-pure-render-mixin": "^0.14.0"
+    "react-addons-pure-render-mixin": "^0.14.0",
+    "react-immutable-proptypes": "^1.7.1"
   },
   "devDependencies": {
     "babel": "^5.2.16",
