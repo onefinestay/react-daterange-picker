@@ -44,11 +44,6 @@ var _utilsPureRenderMixin = require('../utils/PureRenderMixin');
 
 var _utilsPureRenderMixin2 = _interopRequireDefault(_utilsPureRenderMixin);
 
-var lang = (0, _moment2['default'])().localeData();
-
-var WEEKDAYS = _immutable2['default'].List(lang._weekdays).zip(_immutable2['default'].List(lang._weekdaysShort));
-var MONTHS = _immutable2['default'].List(lang._months);
-
 var CalendarMonth = _react2['default'].createClass({
   displayName: 'CalendarMonth',
 
@@ -65,7 +60,29 @@ var CalendarMonth = _react2['default'].createClass({
     highlightedRange: _react2['default'].PropTypes.object,
     onMonthChange: _react2['default'].PropTypes.func,
     onYearChange: _react2['default'].PropTypes.func,
-    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
+    value: _utilsCustomPropTypes2['default'].momentOrMomentRange,
+    locale: _react2['default'].PropTypes.string
+  },
+
+  _setupLocale: function _setupLocale(locale) {
+    var lang = _moment2['default'].localeData(locale);
+
+    this.WEEKDAYS = _immutable2['default'].List(lang._weekdays).zip(_immutable2['default'].List(lang._weekdaysShort));
+    this.MONTHS = _immutable2['default'].List(lang._months);
+  },
+
+  componentWillMount: function componentWillMount() {
+    var locale = this.props.locale;
+
+    this._setupLocale(locale);
+  },
+
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    var locale = nextProps.locale;
+
+    if (locale !== this.props.locale) {
+      this._setupLocale(locale);
+    }
   },
 
   renderDay: function renderDay(date, i) {
@@ -79,7 +96,7 @@ var CalendarMonth = _react2['default'].createClass({
 
     var props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
-    var d = (0, _moment2['default'])(date);
+    var d = (0, _moment2['default'])(date).locale(this.props.locale);
 
     var isInSelectedRange = undefined;
     var isSelectedDate = undefined;
@@ -126,7 +143,7 @@ var CalendarMonth = _react2['default'].createClass({
     var indices = _immutable2['default'].Range(firstOfWeek, 7).concat(_immutable2['default'].Range(0, firstOfWeek));
 
     var headers = indices.map((function (index) {
-      var weekday = WEEKDAYS.get(index);
+      var weekday = this.WEEKDAYS.get(index);
       return _react2['default'].createElement(
         'th',
         { className: this.cx({ element: 'WeekdayHeading' }), key: weekday, scope: 'col' },
@@ -163,7 +180,7 @@ var CalendarMonth = _react2['default'].createClass({
     return _react2['default'].createElement(
       'option',
       { key: year, value: year },
-      year
+      (0, _moment2['default'])(year, 'YYYY').locale(this.props.locale).format('YYYY')
     );
   },
 
@@ -177,7 +194,7 @@ var CalendarMonth = _react2['default'].createClass({
     return _react2['default'].createElement(
       'span',
       { className: this.cx({ element: 'MonthHeaderLabel', modifiers: modifiers }) },
-      firstOfMonth.format('YYYY'),
+      firstOfMonth.locale(this.props.locale).format('YYYY'),
       this.props.disableNavigation ? null : _react2['default'].createElement(
         'select',
         { className: this.cx({ element: 'MonthHeaderSelect' }), value: y, onChange: this.handleYearChange },
@@ -216,13 +233,13 @@ var CalendarMonth = _react2['default'].createClass({
   renderHeaderMonth: function renderHeaderMonth() {
     var firstOfMonth = this.props.firstOfMonth;
 
-    var choices = MONTHS.map(this.renderMonthChoice);
+    var choices = this.MONTHS.map(this.renderMonthChoice);
     var modifiers = { month: true };
 
     return _react2['default'].createElement(
       'span',
       { className: this.cx({ element: 'MonthHeaderLabel', modifiers: modifiers }) },
-      firstOfMonth.format('MMMM'),
+      firstOfMonth.locale(this.props.locale).format('MMMM'),
       this.props.disableNavigation ? null : _react2['default'].createElement(
         'select',
         { className: this.cx({ element: 'MonthHeaderSelect' }), value: firstOfMonth.month(), onChange: this.handleMonthChange },

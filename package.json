@@ -25,6 +25,10 @@
     {
       "name": "Alan Foster",
       "email": "alan@alanfoster.me"
+    },
+    {
+      "name": "Thaer Abbas",
+      "email": "thaer.abbas@tajawal.com"
     }
   ],
   "license": "Apache-2.0",
