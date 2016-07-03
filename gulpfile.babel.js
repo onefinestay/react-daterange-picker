@@ -78,6 +78,14 @@ gulp.task('test-unit', ['lint'], function (done) {
   }, done).start();
 });
 
+gulp.task('test-dev', function (done) {
+  new KarmaServer({
+    autoWatch: true,
+    singleRun: false,
+    configFile: __dirname + '/karma.conf.js',
+  }, done).start();
+});
+
 gulp.task('test-coverage', ['lint'], function (done) {
   new KarmaServer({
     configFile: __dirname + '/karma.conf.js',

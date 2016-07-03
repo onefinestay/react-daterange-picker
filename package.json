@@ -7,6 +7,8 @@
     "develop": "gulp develop",
     "build-dist-js": "gulp build-dist-js",
     "test": "gulp test-coverage",
+    "test-unit": "gulp test-unit",
+    "test-dev": "gulp test-dev",
     "lint": "gulp lint",
     "deploy-example": "gulp deploy-example",
     "prepublish": "gulp build-dist"

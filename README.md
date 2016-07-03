@@ -23,6 +23,12 @@ If you wish to user an older version of React, please use react-daterange-picker
 Please feel to contribute to this project by making pull requests. You can see a
 list of tasks that can be worked on in the [issues list](https://github.com/onefinestay/react-daterange-picker/issues).
 
+A Test Driven approach to development can be achieved best using the following npm command.
+
+```shell
+npm run test-dev
+```
+
 Before a pull request can be merged, ensure that you have linted your files and all tests are passing -
 
 ```shell
@@ -51,4 +57,4 @@ npm run develop
 This will start a local server at `http://localhost:9989` where you can see the
 example page. It will also watch for any files changes and rebuild.
 To update the compiled files in dist run `npm run build-dist-js`, and you can
-lint the code with `npm run lint`. 
+lint the code with `npm run lint`.
