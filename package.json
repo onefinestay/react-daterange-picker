@@ -42,8 +42,8 @@
     "url": "https://github.com/onefinestay/react-daterange-picker"
   },
   "peerDependencies": {
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0"
+    "react": "^0.14.0 || 15.x.x",
+    "react-dom": "^0.14.0 || 15.x.x"
   },
   "dependencies": {
     "calendar": "^0.1.0",
@@ -51,7 +51,7 @@
     "immutable": "^3.7.2",
     "moment": "^2.10.6",
     "moment-range": "^2.0.3",
-    "react-addons-pure-render-mixin": "^0.14.0"
+    "react-addons-pure-render-mixin": "^0.14.0 || 15.x.x"
   },
   "devDependencies": {
     "babel": "^5.2.16",
@@ -89,7 +89,7 @@
     "object.assign": "^1.1.1",
     "phantomjs": "^1.9.18",
     "run-sequence": "~1.1.4",
-    "react-addons-test-utils": "^0.14.0",
+    "react-addons-test-utils": "^0.14.0 || 15.x.x",
     "timekeeper": "0.0.5",
     "transform-loader": "^0.2.1",
     "underscore": "^1.8.3",

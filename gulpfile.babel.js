@@ -6,6 +6,7 @@ import gulp from 'gulp';
 
 import gulpLoadPlugins from 'gulp-load-plugins';
 import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import webpack from 'webpack';
 import { Server as KarmaServer } from 'karma';
 import clean from 'del';
@@ -155,7 +156,7 @@ gulp.task('build-example', function() {
   });
 
   var Index = React.createFactory(require('./example/base.jsx'));
-  var markup = '<!document html>' + React.renderToString(Index());
+  var markup = '<!document html>' + ReactDOMServer.renderToString(Index());
 
   // write file
   fs.writeFileSync('./example/index.html', markup);

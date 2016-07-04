@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import moment from 'moment';
 import _ from 'underscore';
@@ -59,9 +60,11 @@ describe('The CalendarDate Component', function () {
     };
 
     this.useDocumentRenderer = (props) => {
-      const renderedTable = TestUtils.renderIntoDocument(<table>
-        <tbody>{getCalendarDate(props)}</tbody>
-      </table>);
+      const renderedTable = TestUtils.renderIntoDocument(
+        <table>
+          <tbody><tr>{getCalendarDate(props)}</tr></tbody>
+        </table>
+      );
       this.renderedComponent = renderedTable.querySelector('td');
     };
 
@@ -72,7 +75,7 @@ describe('The CalendarDate Component', function () {
 
   afterEach( function () {
     if (this.component) {
-      React.unmountComponentAtNode(React.findDOMNode(this.component).parentNode);
+      ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this.component).parentNode);
     }
   });
 

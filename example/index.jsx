@@ -47,11 +47,11 @@ const DatePickerRange = React.createClass({
         <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
         <div>
           <input type="text"
-            value={this.state.value ? this.state.value.start.format('LL') : null}
+            value={this.state.value ? this.state.value.start.format('LL') : ""}
             readOnly={true}
             placeholder="Start date"/>
           <input type="text"
-            value={this.state.value ? this.state.value.end.format('LL') : null}
+            value={this.state.value ? this.state.value.end.format('LL') : ""}
             readOnly={true}
             placeholder="End date" />
         </div>
@@ -64,7 +64,7 @@ const DatePickerRange = React.createClass({
 const DatePickerSingle = React.createClass({
   getInitialState() {
     return {
-      value: null,
+      value: "",
     };
   },
 
@@ -81,7 +81,7 @@ const DatePickerSingle = React.createClass({
           value={this.state.value} />
         <div>
           <input type="text"
-            value={this.state.value ? this.state.value.format('LL') : null}
+            value={this.state.value ? this.state.value.format('LL') : ""}
             readOnly={true} />
         </div>
       </div>
