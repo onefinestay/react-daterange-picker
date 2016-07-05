@@ -42,13 +42,12 @@ const DateRangePicker = React.createClass({
     maximumDate: React.PropTypes.instanceOf(Date),
     minimumDate: React.PropTypes.instanceOf(Date),
     numberOfCalendars: React.PropTypes.number,
+    onDateChange: React.PropTypes.func,
     onHighlightDate: React.PropTypes.func, // triggered when a date is highlighted (hovered)
     onHighlightRange: React.PropTypes.func, // triggered when a range is highlighted (hovered)
     onSelect: React.PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: React.PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: React.PropTypes.func,
-    onMoveForward: React.PropTypes.func,
-    onMoveBack: React.PropTypes.func,
     selectedLabel: React.PropTypes.string,
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     singleDateRange: React.PropTypes.bool,
@@ -392,8 +391,8 @@ const DateRangePicker = React.createClass({
         year: monthDate.year(),
         month: monthDate.month(),
       });
-      if (this.props.onMoveBack) {
-        this.props.onMoveBack(monthDate);
+      if (this.props.onDateChange) {
+        this.props.onDateChange(monthDate);
       }
     }
   },
@@ -415,8 +414,8 @@ const DateRangePicker = React.createClass({
         year: monthDate.year(),
         month: monthDate.month(),
       });
-      if (this.props.onMoveForward) {
-        this.props.onMoveForward(monthDate);
+      if (this.props.onDateChange) {
+        this.props.onDateChange(monthDate);
       }
     }
   },
@@ -436,12 +435,18 @@ const DateRangePicker = React.createClass({
       year: year,
       month: month,
     });
+    if (this.props.onDateChange) {
+      this.props.onDateChange({ year, month });
+    }
   },
 
   changeMonth(date) {
     this.setState({
       month: date,
     });
+    if (this.props.onDateChange) {
+      this.props.onDateChange({ year: this.state.year, month: date });
+    }
   },
 
   renderCalendar(index) {
