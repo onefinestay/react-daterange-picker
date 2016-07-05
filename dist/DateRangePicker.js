@@ -83,13 +83,12 @@ var DateRangePicker = _react2['default'].createClass({
     maximumDate: _react2['default'].PropTypes.instanceOf(Date),
     minimumDate: _react2['default'].PropTypes.instanceOf(Date),
     numberOfCalendars: _react2['default'].PropTypes.number,
+    onDateChange: _react2['default'].PropTypes.func,
     onHighlightDate: _react2['default'].PropTypes.func, // triggered when a date is highlighted (hovered)
     onHighlightRange: _react2['default'].PropTypes.func, // triggered when a range is highlighted (hovered)
     onSelect: _react2['default'].PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: _react2['default'].PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: _react2['default'].PropTypes.func,
-    onMoveForward: _react2['default'].PropTypes.func,
-    onMoveBack: _react2['default'].PropTypes.func,
     selectedLabel: _react2['default'].PropTypes.string,
     selectionType: _react2['default'].PropTypes.oneOf(['single', 'range']),
     singleDateRange: _react2['default'].PropTypes.bool,
@@ -456,8 +455,8 @@ var DateRangePicker = _react2['default'].createClass({
         year: monthDate.year(),
         month: monthDate.month()
       });
-      if (this.props.onMoveBack) {
-        this.props.onMoveBack(monthDate);
+      if (this.props.onDateChange) {
+        this.props.onDateChange(monthDate);
       }
     }
   },
@@ -479,8 +478,8 @@ var DateRangePicker = _react2['default'].createClass({
         year: monthDate.year(),
         month: monthDate.month()
       });
-      if (this.props.onMoveForward) {
-        this.props.onMoveForward(monthDate);
+      if (this.props.onDateChange) {
+        this.props.onDateChange(monthDate);
       }
     }
   },
@@ -502,12 +501,18 @@ var DateRangePicker = _react2['default'].createClass({
       year: year,
       month: month
     });
+    if (this.props.onDateChange) {
+      this.props.onDateChange({ year: year, month: month });
+    }
   },
 
   changeMonth: function changeMonth(date) {
     this.setState({
       month: date
     });
+    if (this.props.onDateChange) {
+      this.props.onDateChange({ year: this.state.year, month: date });
+    }
   },
 
   renderCalendar: function renderCalendar(index) {
