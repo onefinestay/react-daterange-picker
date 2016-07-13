@@ -29,6 +29,7 @@ const DateRangePicker = React.createClass({
   propTypes: {
     bemBlock: React.PropTypes.string,
     bemNamespace: React.PropTypes.string,
+    className: React.PropTypes.string,
     dateStates: React.PropTypes.array, // an array of date ranges and their states
     defaultState: React.PropTypes.string,
     disableNavigation: React.PropTypes.bool,
@@ -62,6 +63,7 @@ const DateRangePicker = React.createClass({
     return {
       bemNamespace: null,
       bemBlock: 'DateRangePicker',
+      className: '',
       numberOfCalendars: 1,
       firstOfWeek: 0,
       disableNavigation: false,
@@ -496,12 +498,13 @@ const DateRangePicker = React.createClass({
   },
 
   render: function() {
-    let {paginationArrowComponent: PaginationArrowComponent, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage} = this.props;
+    let {paginationArrowComponent: PaginationArrowComponent, className, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage} = this.props;
 
     let calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
+    className = this.cx({element: null}) + ' ' + className;
 
     return (
-      <div className={this.cx({element: null})}>
+      <div className={className.trim()}>
         <PaginationArrowComponent direction="previous" onTrigger={this.moveBack} disabled={!this.canMoveBack()} />
         {calendars.toJS()}
         <PaginationArrowComponent direction="next" onTrigger={this.moveForward} disabled={!this.canMoveForward()} />
