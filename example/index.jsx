@@ -47,11 +47,11 @@ const DatePickerRange = React.createClass({
         <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
         <div>
           <input type="text"
-            value={this.state.value ? this.state.value.start.format('LL') : null}
+            value={this.state.value ? this.state.value.start.format('LL') : ""}
             readOnly={true}
             placeholder="Start date"/>
           <input type="text"
-            value={this.state.value ? this.state.value.end.format('LL') : null}
+            value={this.state.value ? this.state.value.end.format('LL') : ""}
             readOnly={true}
             placeholder="End date" />
         </div>
@@ -64,7 +64,7 @@ const DatePickerRange = React.createClass({
 const DatePickerSingle = React.createClass({
   getInitialState() {
     return {
-      value: null,
+      value: "",
     };
   },
 
@@ -81,7 +81,7 @@ const DatePickerSingle = React.createClass({
           value={this.state.value} />
         <div>
           <input type="text"
-            value={this.state.value ? this.state.value.format('LL') : null}
+            value={this.state.value ? this.state.value.format('LL') : ""}
             readOnly={true} />
         </div>
       </div>
@@ -188,6 +188,15 @@ const Index = React.createClass({
                 numberOfCalendars={2}
                 selectionType="single"
                 minimumDate={new Date()} />
+            </div>
+
+            <div className="example">
+              <h4>Cusom weekdays</h4>
+              <DatePickerSingle
+                  numberOfCalendars={2}
+                  selectionType="single"
+                  minimumDate={new Date()}
+                  weekdayNames={["M", "T", "W", "T", "F", "S", "S"]} />
             </div>
           </div>
         </div>

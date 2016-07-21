@@ -94,7 +94,8 @@ var DateRangePicker = _react2['default'].createClass({
     singleDateRange: _react2['default'].PropTypes.bool,
     showLegend: _react2['default'].PropTypes.bool,
     stateDefinitions: _react2['default'].PropTypes.object,
-    value: _utilsCustomPropTypes2['default'].momentOrMomentRange
+    value: _utilsCustomPropTypes2['default'].momentOrMomentRange,
+    weekdayNames: _utilsCustomPropTypes2['default'].weekArray
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -524,6 +525,7 @@ var DateRangePicker = _react2['default'].createClass({
     var numberOfCalendars = _props2.numberOfCalendars;
     var selectionType = _props2.selectionType;
     var value = _props2.value;
+    var weekdayNames = _props2.weekdayNames;
     var _state2 = this.state;
     var dateStates = _state2.dateStates;
     var enabledRange = _state2.enabledRange;
@@ -577,6 +579,7 @@ var DateRangePicker = _react2['default'].createClass({
       key: key,
       selectionType: selectionType,
       value: value,
+      weekdayNames: weekdayNames,
       maxIndex: numberOfCalendars - 1,
       firstOfMonth: monthDate,
       onMonthChange: this.changeMonth,
