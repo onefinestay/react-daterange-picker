@@ -54,6 +54,7 @@ const DateRangePicker = React.createClass({
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
     value: CustomPropTypes.momentOrMomentRange,
+    weekdayNames: CustomPropTypes.weekArray,
   },
 
   getDefaultProps() {
@@ -458,6 +459,7 @@ const DateRangePicker = React.createClass({
         numberOfCalendars,
         selectionType,
         value,
+        weekdayNames,
     } = this.props;
 
     let {
@@ -514,6 +516,7 @@ const DateRangePicker = React.createClass({
       key,
       selectionType,
       value,
+      weekdayNames,
       maxIndex: numberOfCalendars - 1,
       firstOfMonth: monthDate,
       onMonthChange: this.changeMonth,
