@@ -27,22 +27,21 @@ const CalendarMonth = React.createClass({
     locale: React.PropTypes.string,
   },
 
-  _setupLocale(locale) {
-    const lang = moment.localeData(locale);
-
-    this.WEEKDAYS = Immutable.List(lang._weekdays).zip(Immutable.List(lang._weekdaysShort));
-    this.MONTHS = Immutable.List(lang._months);
+  setLocale(locale) {
+    moment.locale(locale);
+    this.WEEKDAYS = Immutable.List(moment.weekdays()).zip(Immutable.List(moment.weekdaysShort()));
+    this.MONTHS = Immutable.List(moment.months());
   },
 
   componentWillMount() {
     const { locale } = this.props;
-    this._setupLocale(locale);
+    this.setLocale(locale);
   },
 
   componentWillReceiveProps(nextProps) {
     const { locale } = nextProps;
     if (locale !== this.props.locale) {
-      this._setupLocale(locale);
+      this.setLocale(locale);
     }
   },
 

@@ -7,7 +7,7 @@ import CalendarDate from '../calendar/CalendarDate';
 
 describe('Localization', function () {
 
-  const testLocale = 'ar';
+  const testLocales = ['en-gb', 'ar', 'fr', 'it', 'es', 'de', 'ru', 'be'];
 
   beforeEach(function () {
 
@@ -63,71 +63,75 @@ describe('Localization', function () {
     }
   });
 
+
   it('renders the proper month header', function () {
+    testLocales.forEach((currLocale) => {
+      require(`moment/locale/${currLocale}`);
+      moment.locale(currLocale);
+      this.useShallowRenderer({
+        locale: currLocale,
+      });
 
-    require(`moment/locale/${testLocale}`);
-    moment.locale(testLocale);
-    this.useShallowRenderer({
-      locale: testLocale,
+      const currentMonth = moment().format('MMMM');
+      const headerMonthLabel = this.container.props.children[0].props.children[0];
+
+      expect(headerMonthLabel).toEqual(currentMonth);
     });
-
-    const currentMonth = moment().format('MMMM');
-    const headerMonthLabel = this.container.props.children[0].props.children[0];
-
-    expect(headerMonthLabel).toEqual(currentMonth);
   });
+
 
   it('renders the proper month options', function () {
+    testLocales.forEach((currLocale) => {
+      require(`moment/locale/${currLocale}`);
+      moment.locale(currLocale);
+      this.useShallowRenderer({
+        locale: currLocale,
+      });
 
-    require(`moment/locale/${testLocale}`);
-    moment.locale(testLocale);
-    this.useShallowRenderer({
-      locale: testLocale,
+      const months = moment.months();
+      const headerMonthSelect = this.container.props.children[0].props.children[1];
+
+      headerMonthSelect.props.children.map((option, index) => {
+        const optionText = option.props.children;
+        expect(optionText).toEqual(months[index]);
+      });
     });
-
-    const months = moment.localeData(testLocale)._months;
-
-    const headerMonthSelect = this.container.props.children[0].props.children[1];
-
-    headerMonthSelect.props.children.map((option, index) => {
-      const optionText = option.props.children;
-      expect(optionText).toEqual(months[index]);
-    });
-
   });
+
 
   it('renders the proper year header', function() {
-    require(`moment/locale/${testLocale}`);
-    moment.locale(testLocale);
-    this.useShallowRenderer({
-      locale: testLocale,
+    testLocales.forEach((currLocale) => {
+      require(`moment/locale/${currLocale}`);
+      moment.locale(currLocale);
+      this.useShallowRenderer({
+        locale: currLocale,
+      });
+
+      const currentYear = moment().format('YYYY');
+      const headerYearLabel = this.container.props.children[2].props.children[0];
+
+      expect(headerYearLabel).toEqual(currentYear);
     });
-
-    const currentYear = moment().format('YYYY');
-    const headerYearLabel = this.container.props.children[2].props.children[0];
-
-    expect(headerYearLabel).toEqual(currentYear);
-
   });
 
+
   it('renders the proper year options', function () {
+    testLocales.forEach((currLocale) => {
+      require(`moment/locale/${currLocale}`);
+      moment.locale(currLocale);
+      this.useShallowRenderer({
+        locale: currLocale,
+      });
 
-    const years = _.map(_.range(0, 4), (val) => {
-      return moment().add(val, 'y').format('YYYY');
+      const years = _.map(_.range(0, 4), (val) => {
+        return moment().add(val, 'y').format('YYYY');
+      });
+      const headerYearSelect = this.container.props.children[2].props.children[1];
+
+      _.map(_.compact(headerYearSelect.props.children), (option, index) => {
+        const optionText = option.props.children;
+        expect(optionText).toEqual(years[index]);
+      });
     });
-
-    require(`moment/locale/${testLocale}`);
-    moment.locale(testLocale);
-    this.useShallowRenderer({
-      locale: testLocale,
-    });
-
-    const headerYearSelect = this.container.props.children[2].props.children[1];
-
-    _.map(_.compact(headerYearSelect.props.children), (option, index) => {
-      const optionText = option.props.children;
-      expect(optionText).toEqual(years[index]);
-    });
-
   });
 });
