@@ -39,16 +39,16 @@
     "url": "https://github.com/nuvi/nuvi-daterange-picker"
   },
   "peerDependencies": {
-    "react": "^15.0.1",
-    "react-dom": "^15.0.1"
+    "react": "~15.0.1",
+    "react-dom": "~15.0.1"
   },
   "dependencies": {
     "calendar": "^0.1.0",
     "classnames": "^2.2.3",
     "immutable": "^3.8.0",
-    "moment": "^2.13.0",
-    "moment-range": "^2.2.0",
-    "react-addons-pure-render-mixin": "^15.0.1"
+    "moment": "~2.13.0",
+    "moment-range": "~2.2.0",
+    "react-addons-pure-render-mixin": "~15.0.1"
   },
   "devDependencies": {
     "babel-cli": "~6.7.5",
