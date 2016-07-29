@@ -46,7 +46,7 @@
     "calendar": "^0.1.0",
     "classnames": "^2.2.3",
     "immutable": "^3.8.0",
-    "moment": "~2.13.0",
+    "moment": "~2.14.0",
     "moment-range": "~2.2.0",
     "react-addons-pure-render-mixin": "^15.2.1"
   },
