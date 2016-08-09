@@ -87,6 +87,13 @@ describe('The DateRangePicker component', function () {
     expect(this.renderedComponent.props.className).toBe('DateRangePicker');
   });
 
+  it('uses the supplied CSS class', function () {
+    this.useShallowRenderer({
+      className: 'foo-bar',
+    });
+    expect(this.renderedComponent.props.className).toBe('DateRangePicker foo-bar');
+  });
+
   describe('contains PaginationArrow components', function () {
 
     it('2 of them', function () {
