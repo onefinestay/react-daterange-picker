@@ -69,6 +69,7 @@ var DateRangePicker = _react2['default'].createClass({
   propTypes: {
     bemBlock: _react2['default'].PropTypes.string,
     bemNamespace: _react2['default'].PropTypes.string,
+    className: _react2['default'].PropTypes.string,
     dateStates: _react2['default'].PropTypes.array, // an array of date ranges and their states
     defaultState: _react2['default'].PropTypes.string,
     disableNavigation: _react2['default'].PropTypes.bool,
@@ -104,6 +105,7 @@ var DateRangePicker = _react2['default'].createClass({
     return {
       bemNamespace: null,
       bemBlock: 'DateRangePicker',
+      className: '',
       numberOfCalendars: 1,
       firstOfWeek: 0,
       disableNavigation: false,
@@ -606,6 +608,7 @@ var DateRangePicker = _react2['default'].createClass({
     var showLegend = _props3.showLegend;
     var helpMessage = _props3.helpMessage;
     var historicalView = _props3.historicalView;
+    var className = _props3.className;
 
     var calendars = undefined;
 
@@ -615,10 +618,11 @@ var DateRangePicker = _react2['default'].createClass({
     } else {
       calendars = _immutable2['default'].Range(0, numberOfCalendars).map(this.renderCalendar);
     }
+    var classes = this.cx({ element: null }) + ' ' + className;
 
     return _react2['default'].createElement(
       'div',
-      { className: this.cx({ element: null }) },
+      { className: classes.trim() },
       _react2['default'].createElement(PaginationArrowComponent, { direction: 'previous', onTrigger: this.moveBack, disabled: !this.canMoveBack() }),
       calendars.toJS(),
       _react2['default'].createElement(PaginationArrowComponent, { direction: 'next', onTrigger: this.moveForward, disabled: !this.canMoveForward() }),

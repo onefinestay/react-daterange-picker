@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import Legend from '../Legend';
 import _ from 'underscore';
@@ -12,6 +13,7 @@ describe('The Legend component', function () {
       props = _.extend({
         selectedLabel: 'test',
         stateDefinitions: {},
+        bemBlock: 'DateRangePicker',
       }, props);
 
       return (<Legend {...props}/>);
@@ -27,31 +29,26 @@ describe('The Legend component', function () {
       const domComponent = TestUtils.renderIntoDocument(<div>{getLegend(props)}</div>);
       this.renderedComponent = domComponent.childNodes[0];
     };
-
-    this.spyCx = spyOn(Legend.prototype.__reactAutoBindMap, 'cx').and.callFake( (data) => {
-      data = data || {};
-      return data.element || 'my-class';
-    });
   });
 
   afterEach( function () {
     if (this.component) {
-      React.unmountComponentAtNode(React.findDOMNode(this.component).parentNode);
+      ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this.component).parentNode);
     }
   });
 
   it('creates a ul dom element as its root', function () {
     this.useShallowRenderer();
     expect(this.renderedComponent.type).toBe('ul');
-    expect(this.renderedComponent.props.className).toBe('my-class');
+    expect(this.renderedComponent.props.className).toBe('DateRangePicker__Legend');
   });
 
   it('creates at least one li, selected by default, using the props.selectedLabel', function () {
     this.useShallowRenderer();
     expect(this.renderedComponent.props.children.length).toBeGreaterThan(1);
-    expect(this.renderedComponent.props.children[0]).toEqual(<li className='LegendItem'>
-      <span className='LegendItemColor' />
-      <span className='LegendItemLabel'>test</span>
+    expect(this.renderedComponent.props.children[0]).toEqual(<li className='DateRangePicker__LegendItem'>
+      <span className='DateRangePicker__LegendItemColor DateRangePicker__LegendItemColor--selection' />
+      <span className='DateRangePicker__LegendItemLabel'>test</span>
     </li>);
   });
 

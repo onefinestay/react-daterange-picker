@@ -29,6 +29,7 @@ const DateRangePicker = React.createClass({
   propTypes: {
     bemBlock: React.PropTypes.string,
     bemNamespace: React.PropTypes.string,
+    className: React.PropTypes.string,
     dateStates: React.PropTypes.array, // an array of date ranges and their states
     defaultState: React.PropTypes.string,
     disableNavigation: React.PropTypes.bool,
@@ -64,6 +65,7 @@ const DateRangePicker = React.createClass({
     return {
       bemNamespace: null,
       bemBlock: 'DateRangePicker',
+      className: '',
       numberOfCalendars: 1,
       firstOfWeek: 0,
       disableNavigation: false,
@@ -274,7 +276,7 @@ const DateRangePicker = React.createClass({
         // check if # days bucket was provided
         if (this.props.rangeBucket) {
           this.highlightRange(moment.range(date, date.clone().add(this.props.rangeBucket, 'days')));
-          this.completeRangeSelection()
+          this.completeRangeSelection();
         } else {
           // otherwise, allow selection of start + end
           this.startRangeSelection(date);
@@ -482,7 +484,7 @@ const DateRangePicker = React.createClass({
     let props;
 
     if (numberOfCalendars > 1) {
-      monthDate.add(index, 'months');  
+      monthDate.add(index, 'months');
     }
 
 
@@ -538,7 +540,7 @@ const DateRangePicker = React.createClass({
   },
 
   render: function() {
-    let {paginationArrowComponent: PaginationArrowComponent, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage, historicalView} = this.props;
+    let {paginationArrowComponent: PaginationArrowComponent, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage, historicalView, className} = this.props;
 
     let calendars;
 
@@ -549,9 +551,10 @@ const DateRangePicker = React.createClass({
     } else {
       calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
     }
+    let classes = this.cx({element: null}) + ' ' + className;
 
     return (
-      <div className={this.cx({element: null})}>
+      <div className={classes.trim()}>
         <PaginationArrowComponent direction="previous" onTrigger={this.moveBack} disabled={!this.canMoveBack()} />
         {calendars.toJS()}
         <PaginationArrowComponent direction="next" onTrigger={this.moveForward} disabled={!this.canMoveForward()} />

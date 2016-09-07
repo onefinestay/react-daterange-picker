@@ -1,6 +1,6 @@
 {
   "name": "react-daterange-picker",
-  "version": "1.1.3",
+  "version": "1.1.0-bn",
   "description": "A React based date range picker",
   "author": "Jonathan Kim <jonathan.kim@onefinestay.com>",
   "scripts": {
@@ -27,7 +27,7 @@
       "email": "alan@alanfoster.me"
     }
   ],
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "main": "dist/DateRangePicker.js",
   "keywords": [
     "react",
@@ -42,8 +42,8 @@
     "url": "https://github.com/onefinestay/react-daterange-picker"
   },
   "peerDependencies": {
-    "react": ">=0.14.0",
-    "react-dom": ">=0.14.0"
+    "react": "^0.14.0 || 15.x.x",
+    "react-dom": "^0.14.0 || 15.x.x"
   },
   "dependencies": {
     "calendar": "^0.1.0",
@@ -51,7 +51,7 @@
     "immutable": "^3.7.2",
     "moment": "^2.10.6",
     "moment-range": "^2.0.3",
-    "react-addons-pure-render-mixin": "^0.14.0"
+    "react-addons-pure-render-mixin": "^0.14.0 || 15.x.x"
   },
   "devDependencies": {
     "babel": "^5.2.16",
@@ -88,8 +88,10 @@
     "karma-webpack": "^1.7.0",
     "object.assign": "^1.1.1",
     "phantomjs": "^1.9.18",
+    "react": "^0.14.0 || 15.x.x",
+    "react-addons-test-utils": "^0.14.0 || 15.x.x",
+    "react-dom": "^0.14.0 || 15.x.x",
     "run-sequence": "~1.1.4",
-    "react-addons-test-utils": "^0.14.0",
     "timekeeper": "0.0.5",
     "transform-loader": "^0.2.1",
     "underscore": "^1.8.3",

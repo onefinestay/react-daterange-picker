@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import moment from 'moment';
 import _ from 'underscore';
@@ -11,14 +12,15 @@ import CalendarSelection from '../CalendarSelection';
 
 
 describe('The CalendarDate Component', function () {
+  const today = () => moment("2014-01-01T12:00:00Z");
 
   beforeEach(function () {
 
     const getCalendarDate = (props) => {
 
       props = _.extend({
-        date: moment(),
-        firstOfMonth: moment(),
+        date: today(),
+        firstOfMonth: today(),
         dateRangesForDate: function () {
           return {
             count: function () {
@@ -45,6 +47,7 @@ describe('The CalendarDate Component', function () {
         isInHighlightedRange: false,
         isToday: false,
         isDisabled: false,
+        bemBlock: 'DateRangePicker',
       }, props);
 
 
@@ -58,15 +61,14 @@ describe('The CalendarDate Component', function () {
     };
 
     this.useDocumentRenderer = (props) => {
-      const renderedTable = TestUtils.renderIntoDocument(<table>
-        <tbody>{getCalendarDate(props)}</tbody>
-      </table>);
+      const renderedTable = TestUtils.renderIntoDocument(
+        <table>
+          <tbody><tr>{getCalendarDate(props)}</tr></tbody>
+        </table>
+      );
       this.renderedComponent = renderedTable.querySelector('td');
     };
 
-    this.spyCx = spyOn(CalendarDate.prototype.__reactAutoBindMap, 'cx').and.callFake((data) => {
-      return data.element || 'my-class';
-    });
     this.selectDateSpy = jasmine.createSpy();
     this.highlightDateSpy = jasmine.createSpy();
     this.unHighlightDateSpy = jasmine.createSpy();
@@ -74,7 +76,7 @@ describe('The CalendarDate Component', function () {
 
   afterEach( function () {
     if (this.component) {
-      React.unmountComponentAtNode(React.findDOMNode(this.component).parentNode);
+      ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this.component).parentNode);
     }
   });
 
@@ -85,97 +87,62 @@ describe('The CalendarDate Component', function () {
 
   describe('sets the correct class', function () {
 
-    it('by defininig the expected class name', function () {
+    it('by defining the expected class name', function () {
       this.useShallowRenderer();
-      expect(this.renderedComponent.props.className).toEqual('Date');
-    });
-
-    it('by calling cx with a Date element', function () {
-      this.useShallowRenderer();
-      expect(this.spyCx).toHaveBeenCalledWith({
-        element: 'Date',
-        modifiers: jasmine.any(Object),
-        states: jasmine.any(Object),
-      });
+      expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
     });
 
     describe('by setting the expected bem modifiers', function () {
-
       it('when the provided date is today', function () {
         this.useShallowRenderer({
           isToday: true,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: {today: true, weekend: jasmine.any(Boolean), otherMonth: jasmine.any(Boolean)},
-          states: jasmine.any(Object),
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--today');
       });
-
 
       it('when the provided date is not today', function () {
         this.useShallowRenderer({
           isToday: false,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: {today: false, weekend: jasmine.any(Boolean), otherMonth: jasmine.any(Boolean)},
-          states: jasmine.any(Object),
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
       });
 
       it('when the provided date is over the weekend', function () {
-        var nextSunday = moment().day(7);
+        var nextSunday = today().day(7);
         this.useShallowRenderer({
           date: nextSunday,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: {today: jasmine.any(Boolean), weekend: true, otherMonth: jasmine.any(Boolean)},
-          states: jasmine.any(Object),
-        });
+        expect(this.renderedComponent.props.className).toContain('DateRangePicker__Date--weekend');
       });
 
 
       it('when the provided date is not over the weekend', function () {
-        let nextMonday = moment().day(8);
+        let nextMonday = today().day(8);
         this.useShallowRenderer({
           date: nextMonday,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: {today: jasmine.any(Boolean), weekend: false, otherMonth: jasmine.any(Boolean)},
-          states: jasmine.any(Object),
-        });
+        expect(this.renderedComponent.props.className).not.toContain('DateRangePicker__Date--weekend');
       });
 
       it('when the provided date is during the same month', function () {
-        let date = moment().date(8).month(3),
-          firstOfMonth = moment().date(1).month(3);
+        let date = today().date(8).month(3),
+          firstOfMonth = today().date(1).month(3);
         this.useShallowRenderer({
           date: date,
           firstOfMonth: firstOfMonth,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: {today: jasmine.any(Boolean), weekend: jasmine.any(Boolean), otherMonth: false},
-          states: jasmine.any(Object),
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
       });
 
 
       it('when the provided date is not during the same month', function () {
-        let date = moment().date(8).month(3),
-          firstOfMonth = moment().date(1).month(43);
+        let date = today().date(8).month(3),
+          firstOfMonth = today().date(1).month(43);
         this.useShallowRenderer({
           date: date,
           firstOfMonth: firstOfMonth,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: {today: jasmine.any(Boolean), weekend: jasmine.any(Boolean), otherMonth: true},
-          states: jasmine.any(Object),
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--otherMonth');
       });
     });
 
@@ -185,77 +152,49 @@ describe('The CalendarDate Component', function () {
         this.useShallowRenderer({
           isDisabled: true,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: jasmine.any(Object),
-          states: {disabled: true, highlighted: jasmine.any(Boolean), selected: jasmine.any(Boolean)},
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--is-disabled');
       });
 
       it('when the isDisabled prop is not passed in', function () {
         this.useShallowRenderer({
           isDisabled: false,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: jasmine.any(Object),
-          states: {disabled: false, highlighted: jasmine.any(Boolean), selected: jasmine.any(Boolean)},
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
       });
 
       it('when the isHighlightedDate prop is passed in', function () {
         this.useShallowRenderer({
           isHighlightedDate: true,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: jasmine.any(Object),
-          states: {disabled: jasmine.any(Boolean), highlighted: true, selected: jasmine.any(Boolean)},
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--is-highlighted');
       });
 
       it('when the isHighlightedDate prop is not passed in', function () {
         this.useShallowRenderer({
           isHighlightedDate: false,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: jasmine.any(Object),
-          states: {disabled: jasmine.any(Boolean), highlighted: false, selected: jasmine.any(Boolean)},
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
       });
 
       it('when the isSelectedDate prop is passed in', function () {
         this.useShallowRenderer({
           isSelectedDate: true,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: jasmine.any(Object),
-          states: {disabled: jasmine.any(Boolean), highlighted: jasmine.any(Boolean), selected: true},
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--is-selected');
       });
 
       it('when the isInSelectedRange prop is passed in', function () {
         this.useShallowRenderer({
           isInSelectedRange: true,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: jasmine.any(Object),
-          states: {disabled: jasmine.any(Boolean), highlighted: jasmine.any(Boolean), selected: true},
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--is-selected');
       });
 
       it('when the isInHighlightedRange prop is passed in', function () {
         this.useShallowRenderer({
           isInHighlightedRange: true,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: jasmine.any(Object),
-          states: {disabled: jasmine.any(Boolean), highlighted: jasmine.any(Boolean), selected: true},
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date DateRangePicker__Date--is-selected');
       });
 
       it('when the isSelectedDate, isInSelectedRange, isInHighlightedRange props are not passed in', function () {
@@ -264,11 +203,7 @@ describe('The CalendarDate Component', function () {
           isInSelectedRange: false,
           isInHighlightedRange: false,
         });
-        expect(this.spyCx).toHaveBeenCalledWith({
-          element: jasmine.any(String),
-          modifiers: jasmine.any(Object),
-          states: {disabled: jasmine.any(Boolean), highlighted: jasmine.any(Boolean), selected: false},
-        });
+        expect(this.renderedComponent.props.className).toEqual('DateRangePicker__Date');
       });
 
     });
@@ -319,7 +254,7 @@ describe('The CalendarDate Component', function () {
     //Workaround as suggested from https://github.com/facebook/react/issues/1297
 
     beforeEach(function(){
-      this.date = moment();
+      this.date = today();
       this.useDocumentRenderer({
         date: this.date,
       });
@@ -356,7 +291,7 @@ describe('The CalendarDate Component', function () {
     it('by creating calendar date period when there is more than one period', function () {
       this.useShallowRenderer({count: 2});
       expect(this.renderedComponent.props.children[0]).toEqual(
-        <div className='HalfDateStates'>
+        <div className='DateRangePicker__HalfDateStates'>
           <CalendarDatePeriod period='am' color='#333'/>
           <CalendarDatePeriod period='pm' color='#444'/>
         </div>
@@ -369,7 +304,7 @@ describe('The CalendarDate Component', function () {
         backgroundColor: '#333',
       };
       expect(this.renderedComponent.props.children[1]).toEqual(
-        <div className='FullDateStates' style={bg}>
+        <div className='DateRangePicker__FullDateStates' style={bg}>
         </div>
       );
     });
