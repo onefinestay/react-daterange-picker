@@ -50,7 +50,7 @@ const CalendarDate = React.createClass({
   mouseUp() {
     this.props.onSelectDate(this.props.date);
 
-    if (this.state.mouseDown) {
+    if (this.state.mouseDown && this.isMounted()) {
       this.setState({
         mouseDown: false,
       });

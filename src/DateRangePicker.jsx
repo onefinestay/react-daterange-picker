@@ -42,6 +42,7 @@ const DateRangePicker = React.createClass({
     initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
     maximumDate: React.PropTypes.instanceOf(Date),
     minimumDate: React.PropTypes.instanceOf(Date),
+    historicalView: React.PropTypes.bool,
     numberOfCalendars: React.PropTypes.number,
     onHighlightDate: React.PropTypes.func, // triggered when a date is highlighted (hovered)
     onHighlightRange: React.PropTypes.func, // triggered when a range is highlighted (hovered)
@@ -54,6 +55,7 @@ const DateRangePicker = React.createClass({
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
     value: CustomPropTypes.momentOrMomentRange,
+    rangeBucket: React.PropTypes.number, // if provided, will force a range within this number when selecting a day
   },
 
   getDefaultProps() {
@@ -90,6 +92,11 @@ const DateRangePicker = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    // only update calendar if date change is triggered outside calendar
+    if (!this.state.selectedStartDate && nextProps.value) {
+      this.onDateUpdate(nextProps.value);
+    }
+
     var nextDateStates = this.getDateStates(nextProps);
     var nextEnabledRange = this.getEnabledRange(nextProps);
 
@@ -115,8 +122,13 @@ const DateRangePicker = React.createClass({
         year = value.year();
         month = value.month();
       } else {
-        year = value.start.year();
-        month = value.start.month();
+        if (this.props.historicalView) {
+          year = value.end.year();
+          month = value.end.month();
+        } else {
+          year = value.end.year();
+          month = value.end.month();
+        }
       }
     }
 
@@ -260,12 +272,19 @@ const DateRangePicker = React.createClass({
       if (selectedStartDate) {
         this.completeRangeSelection();
       } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
-        this.startRangeSelection(date);
-        if (this.props.singleDateRange) {
-          this.highlightRange(moment.range(date, date));
+        // range selection
+        // check if # days bucket was provided
+        if (this.props.rangeBucket) {
+          this.highlightRange(moment.range(date, date.clone().add(this.props.rangeBucket, 'days')));
+          this.completeRangeSelection();
+        } else {
+          // otherwise, allow selection of start + end
+          this.startRangeSelection(date);
+          if (this.props.singleDateRange) {
+            this.highlightRange(moment.range(date, date));
+          }
         }
       }
-
     } else {
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.completeSelection();
@@ -295,6 +314,17 @@ const DateRangePicker = React.createClass({
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.highlightDate(date);
       }
+    }
+  },
+
+  onDateUpdate(range) {
+    // if the new start date doesn't match the current, update the calendar state
+    var startDate = range.start.toDate();
+    if (startDate.getFullYear() !== this.state.year) {
+      this.changeYear(startDate.getFullYear());
+    }
+    if (startDate.getMonth() !== this.state.month) {
+      this.changeMonth(startDate.getMonth());
     }
   },
 
@@ -334,14 +364,18 @@ const DateRangePicker = React.createClass({
     let range = this.state.highlightedRange;
 
     if (range && (!range.start.isSame(range.end, 'day') || this.props.singleDateRange)) {
-      this.setState({
-        selectedStartDate: null,
-        highlightedRange: null,
-        highlightedDate: null,
-        hideSelection: false,
-      });
+      this.clearHighlight();
       this.props.onSelect(range, this.statesForRange(range));
     }
+  },
+
+  clearHighlight() {
+    this.setState({
+      selectedStartDate: null,
+      highlightedRange: null,
+      highlightedDate: null,
+      hideSelection: false,
+    });
   },
 
   highlightDate(date) {
@@ -378,9 +412,14 @@ const DateRangePicker = React.createClass({
   },
 
   canMoveForward() {
-    if (this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
+    const condition = this.props.historicalView
+      ? this.getMonthDate().add(1, 'months').isAfter(this.state.enabledRange.end)
+      : this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end);
+
+    if (condition) {
       return false;
     }
+
     return true;
   },
 
@@ -444,7 +483,10 @@ const DateRangePicker = React.createClass({
     let key = `${ index}-${ year }-${ month }`;
     let props;
 
-    monthDate.add(index, 'months');
+    if (numberOfCalendars > 1) {
+      monthDate.add(index, 'months');
+    }
+
 
     let cal = new calendar.Calendar(firstOfWeek);
     let monthDates = Immutable.fromJS(cal.monthDates(monthDate.year(), monthDate.month()));
@@ -498,13 +540,21 @@ const DateRangePicker = React.createClass({
   },
 
   render: function() {
-    let {paginationArrowComponent: PaginationArrowComponent, className, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage} = this.props;
+    let {paginationArrowComponent: PaginationArrowComponent, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage, historicalView, className} = this.props;
 
-    let calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
-    className = this.cx({element: null}) + ' ' + className;
+    let calendars;
+
+
+    if (historicalView) {
+      // currently-selected day in rightmost calendar
+      calendars = Immutable.Range(-(numberOfCalendars - 1), 1).map(this.renderCalendar);
+    } else {
+      calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
+    }
+    let classes = this.cx({element: null}) + ' ' + className;
 
     return (
-      <div className={className.trim()}>
+      <div className={classes.trim()}>
         <PaginationArrowComponent direction="previous" onTrigger={this.moveBack} disabled={!this.canMoveBack()} />
         {calendars.toJS()}
         <PaginationArrowComponent direction="next" onTrigger={this.moveForward} disabled={!this.canMoveForward()} />
