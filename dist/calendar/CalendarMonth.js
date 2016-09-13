@@ -64,24 +64,23 @@ var CalendarMonth = _react2['default'].createClass({
     locale: _react2['default'].PropTypes.string
   },
 
-  _setupLocale: function _setupLocale(locale) {
-    var lang = _moment2['default'].localeData(locale);
-
-    this.WEEKDAYS = _immutable2['default'].List(lang._weekdays).zip(_immutable2['default'].List(lang._weekdaysShort));
-    this.MONTHS = _immutable2['default'].List(lang._months);
+  setLocale: function setLocale(locale) {
+    _moment2['default'].locale(locale);
+    this.WEEKDAYS = _immutable2['default'].List(_moment2['default'].weekdays()).zip(_immutable2['default'].List(_moment2['default'].weekdaysShort()));
+    this.MONTHS = _immutable2['default'].List(_moment2['default'].months());
   },
 
   componentWillMount: function componentWillMount() {
     var locale = this.props.locale;
 
-    this._setupLocale(locale);
+    this.setLocale(locale);
   },
 
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     var locale = nextProps.locale;
 
     if (locale !== this.props.locale) {
-      this._setupLocale(locale);
+      this.setLocale(locale);
     }
   },
 
