@@ -1,6 +1,6 @@
 {
   "name": "react-daterange-picker",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "A React based date range picker",
   "author": "Jonathan Kim <jonathan.kim@onefinestay.com>",
   "scripts": {
@@ -29,6 +29,10 @@
     {
       "name": "Thaer Abbas",
       "email": "thaer.abbas@tajawal.com"
+    },
+    {
+      "name": "Roman Loginov",
+      "email": "maullerz@gmail.com"
     }
   ],
   "license": "Apache-2.0",
