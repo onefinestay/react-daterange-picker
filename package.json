@@ -17,6 +17,9 @@
     "src",
     "example"
   ],
+  "engines": {
+    "node": ">=4.0"
+  },
   "contributors": [
     {
       "name": "Andrew Ingram",
