@@ -531,6 +531,7 @@ const DateRangePicker = React.createClass({
     return (
       <div className={className.trim()}>
         <PaginationArrowComponent direction="previous" onTrigger={this.moveBack} disabled={!this.canMoveBack()} />
+        <div className={this.cx({element: 'CalendarYear'})}>{this.state.year}</div>
         {calendars.toJS()}
         <PaginationArrowComponent direction="next" onTrigger={this.moveForward} disabled={!this.canMoveForward()} />
         {helpMessage ? <span className={this.cx({element: 'HelpMessage'})}>{helpMessage}</span> : null}
