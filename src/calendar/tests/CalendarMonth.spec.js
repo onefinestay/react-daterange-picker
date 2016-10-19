@@ -36,6 +36,7 @@ describe('The CalendarMonth Component', function () {
         onMonthChange: function () {},
         onYearChange: function () {},
         bemBlock: 'DateRangePicker',
+        locale: 'en',
       }, props);
 
 

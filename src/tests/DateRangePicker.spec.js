@@ -703,7 +703,7 @@ describe('The DateRangePicker component', function () {
         initialMonth: 6,
       });
       spyOn(this.renderedComponent, 'render').and.callFake( function () {
-        return <div></div>;
+        return <div />;
       });
     });
 

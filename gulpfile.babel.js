@@ -12,6 +12,9 @@ import { Server as KarmaServer } from 'karma';
 import clean from 'del';
 import runSequence from 'run-sequence';
 
+import ExampleBase from './example/base.jsx';
+
+
 const plugins = gulpLoadPlugins();
 const PRODUCTION = (process.env.NODE_ENV === 'production');
 
@@ -49,9 +52,7 @@ const webpackConfig = {
       {
         test: /\.jsx|.js$/,
         exclude: /node_modules\//,
-        loaders: [
-          'babel-loader?stage=1&plugins[]=object-assign',
-        ],
+        loader: 'babel',
       },
     ],
     postLoaders: [
@@ -86,16 +87,13 @@ gulp.task('test-coverage', ['lint'], function (done) {
     singleRun: true,
     webpack: {
       module: {
-        preLoaders: [{
-          test: /\.(js|jsx)$/,
-          include: path.resolve('src/'),
-          exclude: /tests/,
-          loader: 'isparta',
-        }, {
-          test: /\.spec.js$/,
-          include: path.resolve('src/'),
-          loader: 'babel',
-        }],
+        preLoaders: [
+          {
+            test: /\.spec.js$/,
+            include: path.resolve('src/'),
+            loader: 'babel',
+          },
+        ],
         loaders: [
           {test: /\.(js|jsx)$/, exclude: /node_modules/, loader: require.resolve('babel-loader')},
         ],
@@ -114,10 +112,7 @@ gulp.task('clean-dist', function() {
 gulp.task('build-dist-js', function() {
   // build javascript files
   return gulp.src(['src/**/*.{js,jsx}', '!src/**/tests/**', '!src/tests.webpack.js'])
-    .pipe(plugins.babel({
-      stage: 1,
-      plugins: ['object-assign'],
-    }))
+    .pipe(plugins.babel())
     .pipe(plugins.extReplace('.js'))
     .pipe(gulp.dest('dist'));
 });
@@ -149,15 +144,7 @@ gulp.task('watch-example-js', function() {
 });
 
 gulp.task('build-example', function() {
-  // setup babel hook
-  require("babel/register")({
-    stage: 1,
-    plugins: ['object-assign'],
-  });
-
-  var Index = React.createFactory(require('./example/base.jsx'));
-  var markup = '<!document html>' + ReactDOMServer.renderToString(Index());
-
+  var markup = '<!document html>' + ReactDOMServer.renderToString(<ExampleBase />);
   // write file
   fs.writeFileSync('./example/index.html', markup);
 });

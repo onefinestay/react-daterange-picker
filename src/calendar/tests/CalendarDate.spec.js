@@ -304,8 +304,7 @@ describe('The CalendarDate Component', function () {
         backgroundColor: '#333',
       };
       expect(this.renderedComponent.props.children[1]).toEqual(
-        <div className='DateRangePicker__FullDateStates' style={bg}>
-        </div>
+        <div className='DateRangePicker__FullDateStates' style={bg} />
       );
     });
   });

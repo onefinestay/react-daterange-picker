@@ -16,7 +16,7 @@ import Features from './components/features';
 
 
 // freeze date to April 1st
-timekeeper.freeze(new Date('2015-04-01'));
+timekeeper.freeze(new Date('2016-04-01'));
 
 function processCodeSnippet(src) {
   var lines = src.split('\n');
@@ -91,11 +91,31 @@ const DatePickerSingle = React.createClass({
 
 
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
+var i18nCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/i18n.jsx', 'utf8');
 
 
 const Index = React.createClass({
+
+  getInitialState() {
+    return {
+      locale: 'en',
+    };
+  },
+
   getDefaultProps() {
     return {};
+  },
+
+  _selectLocale() {
+    const locale = this.refs.locale.value;
+    if (locale !== 'en') {
+      require(`moment/locale/${locale}`);
+    }
+    moment.locale(locale);
+
+    this.setState({
+      locale: locale,
+    });
   },
 
   render() {
@@ -189,6 +209,30 @@ const Index = React.createClass({
                 selectionType="single"
                 minimumDate={new Date()} />
             </div>
+
+            <div className="example">
+              <h4>
+                i18n support based on moment/locale &nbsp;&nbsp;
+                <select ref="locale" onChange={this._selectLocale} name="locale" id="locale">
+                  <option value="en">EN</option>
+                  <option value="ar-sa">AR</option>
+                  <option value="fr">FR</option>
+                  <option value="it">IT</option>
+                  <option value="es">ES</option>
+                  <option value="de">DE</option>
+                  <option value="ru">RU</option>
+                </select>
+              </h4>
+              <DatePickerRange
+                locale={this.state.locale}
+                numberOfCalendars={2}
+                selectionType="range"
+                minimumDate={new Date()} />
+              <CodeSnippet language="javascript">
+                {processCodeSnippet(i18nCodeSnippet)}
+              </CodeSnippet>
+            </div>
+
           </div>
         </div>
 
