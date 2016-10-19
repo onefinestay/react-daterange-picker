@@ -14,6 +14,8 @@ import CalendarDate from './calendar/CalendarDate';
 import PaginationArrow from './PaginationArrow';
 
 import isMomentRange from './utils/isMomentRange';
+import hasUpdatedValue from './utils/hasUpdatedValue';
+import { getYearMonth, getYearMonthProps } from './utils/getYearMonth';
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
@@ -21,7 +23,6 @@ const absoluteMinimum = moment(new Date(-8640000000000000 / 2)).startOf('day');
 const absoluteMaximum = moment(new Date(8640000000000000 / 2)).startOf('day');
 
 function noop() {}
-
 
 const DateRangePicker = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
@@ -92,18 +93,33 @@ const DateRangePicker = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    var nextDateStates = this.getDateStates(nextProps);
-    var nextEnabledRange = this.getEnabledRange(nextProps);
+    const nextDateStates = this.getDateStates(nextProps);
+    const nextEnabledRange = this.getEnabledRange(nextProps);
 
-    this.setState({
+    const updatedState = {
+      selectedStartDate: null,
+      hideSelection: false,
       dateStates: this.state.dateStates && Immutable.is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange,
-    });
+    };
+
+    if (hasUpdatedValue(this.props, nextProps)) {
+      const isNewValueVisible = this.isStartOrEndVisible(nextProps);
+
+      if (!isNewValueVisible) {
+        const yearMonth = getYearMonthProps(nextProps);
+
+        updatedState.year = yearMonth.year;
+        updatedState.month = yearMonth.month;
+      }
+    }
+
+    this.setState(updatedState);
   },
 
   getInitialState() {
     let now = new Date();
-    let {initialYear, initialMonth, initialFromValue, selectionType, value} = this.props;
+    let {initialYear, initialMonth, initialFromValue, value} = this.props;
     let year = now.getFullYear();
     let month = now.getMonth();
 
@@ -113,20 +129,15 @@ const DateRangePicker = React.createClass({
     }
 
     if (initialFromValue && value) {
-      if (selectionType === 'single') {
-        year = value.year();
-        month = value.month();
-      } else {
-        year = value.start.year();
-        month = value.start.month();
-      }
+      const yearMonth = getYearMonthProps(this.props);
+      month = yearMonth.month;
+      year = yearMonth.year;
     }
 
     return {
       year: year,
       month: month,
       selectedStartDate: null,
-      highlightStartDate: null,
       highlightedDate: null,
       highlightRange: null,
       hideSelection: false,
@@ -359,6 +370,24 @@ const DateRangePicker = React.createClass({
     return moment(new Date(this.state.year, this.state.month, 1));
   },
 
+  isStartOrEndVisible(props) {
+    const { value, selectionType, numberOfCalendars } = props;
+
+    const isVisible = (date) => {
+      const yearMonth = getYearMonth(date);
+      const isSameYear = (yearMonth.year === this.state.year);
+      const isMonthVisible = (yearMonth.month === this.state.month) || (numberOfCalendars === 2 && (yearMonth.month - 1 === this.state.month));
+
+      return isSameYear && isMonthVisible;
+    };
+
+    if (selectionType === 'single') {
+      return isVisible(value);
+    }
+
+    return isVisible(value.start) || isVisible(value.end);
+  },
+
   canMoveBack() {
     if (this.getMonthDate().subtract(1, 'days').isBefore(this.state.enabledRange.start)) {
       return false;
@@ -372,10 +401,7 @@ const DateRangePicker = React.createClass({
     if (this.canMoveBack()) {
       monthDate = this.getMonthDate();
       monthDate.subtract(1, 'months');
-      this.setState({
-        year: monthDate.year(),
-        month: monthDate.month(),
-      });
+      this.setState(getYearMonth(monthDate));
     }
   },
 
@@ -392,10 +418,7 @@ const DateRangePicker = React.createClass({
     if (this.canMoveForward()) {
       monthDate = this.getMonthDate();
       monthDate.add(1, 'months');
-      this.setState({
-        year: monthDate.year(),
-        month: monthDate.month(),
-      });
+      this.setState(getYearMonth(monthDate));
     }
   },
 
@@ -439,7 +462,6 @@ const DateRangePicker = React.createClass({
       highlightedDate,
       highlightedRange,
     } = this.state;
-
     let monthDate = this.getMonthDate();
     let year = monthDate.year();
     let month = monthDate.month();
