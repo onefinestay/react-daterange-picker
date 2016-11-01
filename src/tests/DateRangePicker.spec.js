@@ -180,6 +180,31 @@ describe('The DateRangePicker component', function () {
       });
     });
 
+    describe('showing', function () {
+      var now = moment();
+      var prevMonth = moment().subtract(1, 'months');
+      var nextMonth = moment().add(1, 'months');
+
+      it('the current month in the left calendar by default', function () {
+        this.useShallowRenderer({
+          numberOfCalendars: 2,
+        });
+        var calendars = this.renderedComponent.props.children[1];
+        expect(calendars[0].props.firstOfMonth.month()).toBe(now.month());
+        expect(calendars[1].props.firstOfMonth.month()).toBe(nextMonth.month());
+      });
+
+      it('the current month in the right calendar', function () {
+        this.useShallowRenderer({
+          numberOfCalendars: 2,
+          showCurrentMonth: 'last',
+        });
+        var calendars = this.renderedComponent.props.children[1];
+        expect(calendars[0].props.firstOfMonth.month()).toBe(prevMonth.month());
+        expect(calendars[1].props.firstOfMonth.month()).toBe(now.month());
+      });
+    });
+
     describe('for each component the value', function () {
 
       describe('when it is a moment', function () {
