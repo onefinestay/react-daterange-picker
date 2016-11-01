@@ -53,7 +53,7 @@ const DateRangePicker = React.createClass({
     selectedLabel: React.PropTypes.string,
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     singleDateRange: React.PropTypes.bool,
-    showCurrentMonth: React.PropTypes.oneOf(['first', 'last']).isRequired, // if numberOfCalendars > 1
+    showCurrentMonth: React.PropTypes.oneOf(['first', 'last']), // if numberOfCalendars > 1
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
     value: CustomPropTypes.momentOrMomentRange,
