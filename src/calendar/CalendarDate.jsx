@@ -78,7 +78,7 @@ const CalendarDate = React.createClass({
     document.removeEventListener('touchend', this.touchEnd);
   },
 
-  touchStart(event) {
+  touchStart() {
     this.setState({
       mouseDown: true,
     });
