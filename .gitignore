@@ -1,5 +1,6 @@
 .sass-cache/
 node_modules/
+dist
 .module-cache/
 example/index.html
 example/build/

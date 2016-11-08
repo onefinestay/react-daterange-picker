@@ -4,6 +4,26 @@ import {} from 'moment-range';
 
 describe('areMomentRangesEqual', function () {
 
+  describe('when either value is not a moment range', function () {
+    beforeEach(function () {
+      const start = new Date(2012, 0, 15);
+      const end   = new Date(2012, 4, 23);
+      this.validRange = moment.range(start, end);
+    });
+
+    it('returns false if the first value is not a moment range', function () {
+      expect(areMomentRangesEqual(undefined, this.validRange)).toBe(false);
+    });
+
+    it('returns false if the first second is not a moment range', function () {
+      expect(areMomentRangesEqual(this.validRange, undefined)).toBe(false);
+    });
+
+    it('returns false if either values are not moment ranges', function () {
+      expect(areMomentRangesEqual(undefined, undefined)).toBe(false);
+    });
+  });
+
   it('returns true if the two ranges start and finish on the same day', function () {
     var start = new Date(2012, 0, 15);
     var end   = new Date(2012, 4, 23);

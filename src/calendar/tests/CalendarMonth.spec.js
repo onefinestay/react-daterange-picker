@@ -36,6 +36,7 @@ describe('The CalendarMonth Component', function () {
         onMonthChange: function () {},
         onYearChange: function () {},
         bemBlock: 'DateRangePicker',
+        locale: 'en',
       }, props);
 
 
@@ -116,12 +117,13 @@ describe('The CalendarMonth Component', function () {
 
       it('which calls props.onMonthChange if props.disableNavigation is false and if the selected value changes', function () {
         var onMonthChange = jasmine.createSpy();
-        this.useDocumentRenderer({
-          onMonthChange: onMonthChange,
-        });
-        var select = ReactDOM.findDOMNode(TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[0]);
-        select.value = '2';
+
+        this.useDocumentRenderer({ onMonthChange: onMonthChange });
+
+        var select = TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[0];
+        select.value = 2;
         TestUtils.Simulate.change(select);
+
         expect(onMonthChange).toHaveBeenCalledWith(2);
       });
 
@@ -166,7 +168,7 @@ describe('The CalendarMonth Component', function () {
         this.useDocumentRenderer({
           onYearChange: onYearChange,
         });
-        var select = ReactDOM.findDOMNode(TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[1]);
+        var select = TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[1];
         var value = (this.firstOfMonth.year() + 1).toString();
         select.value = value;
         TestUtils.Simulate.change(select);
