@@ -38,6 +38,10 @@ $ns: DateRangePicker !default;
     }
   }
 
+  &__CalendarYear {
+    text-align: center;
+  }
+
   &__PaginationArrow {
     border: 0;
     cursor: pointer;
