@@ -57,7 +57,7 @@ const CodeSnippet = React.createClass({
       <div className="code-snippet">
         {this.props.toggle ?
           <a href="#" onClick={this.handleClick} className="code-snippet__toggle-button">
-            <span className={arrowClasses}></span>
+            <span className={arrowClasses} />
             {!this.state.visible ? "Show code" : "Hide code"}
           </a> : null}
         {this.state.visible ?

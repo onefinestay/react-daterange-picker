@@ -1,4 +1,11 @@
 {
-  "presets": ["react", "stage-0", "es2015"],
-  "plugins": ["transform-object-assign", "transform-class-properties", "transform-runtime"]
+  "presets": ["react", "stage-1", "es2015"],
+  "plugins": ["transform-object-assign", "transform-class-properties", "transform-runtime"],
+  "env": {
+    "test": {
+      "plugins": [
+        "istanbul"
+      ]
+    }
+  }
 }
