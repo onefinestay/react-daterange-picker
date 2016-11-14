@@ -53,6 +53,7 @@ const DateRangePicker = React.createClass({
     selectedLabel: React.PropTypes.string,
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     singleDateRange: React.PropTypes.bool,
+    showCurrentMonth: React.PropTypes.oneOf(['first', 'last']), // if numberOfCalendars > 1
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
     value: CustomPropTypes.momentOrMomentRange,
@@ -75,6 +76,7 @@ const DateRangePicker = React.createClass({
       initialFromValue: true,
       locale: moment().locale(),
       selectionType: 'range',
+      showCurrentMonth: 'first',
       singleDateRange: false,
       stateDefinitions: {
         '__default': {
@@ -389,10 +391,12 @@ const DateRangePicker = React.createClass({
   },
 
   canMoveBack() {
-    if (this.getMonthDate().subtract(1, 'days').isBefore(this.state.enabledRange.start)) {
-      return false;
-    }
-    return true;
+    let { numberOfCalendars, showCurrentMonth } = this.props;
+    let firstVisibleMonthDate = showCurrentMonth === 'first'
+      ? this.getMonthDate()
+      : this.getMonthDate().subtract(numberOfCalendars - 1, 'months');
+
+    return !firstVisibleMonthDate.subtract(1, 'days').isBefore(this.state.enabledRange.start);
   },
 
   moveBack() {
@@ -406,10 +410,12 @@ const DateRangePicker = React.createClass({
   },
 
   canMoveForward() {
-    if (this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
-      return false;
-    }
-    return true;
+    let { numberOfCalendars, showCurrentMonth } = this.props;
+    let lastVisibleMonthDate = showCurrentMonth === 'first'
+      ? this.getMonthDate().add(numberOfCalendars - 1, 'months')
+      : this.getMonthDate();
+
+    return !lastVisibleMonthDate.add(1, 'months').isAfter(this.state.enabledRange.end);
   },
 
   moveForward() {
@@ -452,6 +458,7 @@ const DateRangePicker = React.createClass({
       firstOfWeek,
       numberOfCalendars,
       selectionType,
+      showCurrentMonth,
       value,
     } = this.props;
 
@@ -468,7 +475,11 @@ const DateRangePicker = React.createClass({
     let key = `${ index}-${ year }-${ month }`;
     let props;
 
-    monthDate.add(index, 'months');
+    if (showCurrentMonth === 'first') {
+      monthDate.add(index, 'months');
+    } else {
+      monthDate.subtract(numberOfCalendars - index - 1, 'months');
+    }
 
     let cal = new calendar.Calendar(firstOfWeek);
     let monthDates = Immutable.fromJS(cal.monthDates(monthDate.year(), monthDate.month()));
