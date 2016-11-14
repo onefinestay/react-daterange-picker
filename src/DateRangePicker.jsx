@@ -391,10 +391,12 @@ const DateRangePicker = React.createClass({
   },
 
   canMoveBack() {
-    if (this.getMonthDate().subtract(1, 'days').isBefore(this.state.enabledRange.start)) {
-      return false;
-    }
-    return true;
+    let { numberOfCalendars, showCurrentMonth } = this.props;
+    let firstVisibleMonthDate = showCurrentMonth === 'first'
+      ? this.getMonthDate()
+      : this.getMonthDate().subtract(numberOfCalendars - 1, 'months');
+
+    return !firstVisibleMonthDate.subtract(1, 'days').isBefore(this.state.enabledRange.start);
   },
 
   moveBack() {
@@ -408,10 +410,12 @@ const DateRangePicker = React.createClass({
   },
 
   canMoveForward() {
-    if (this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
-      return false;
-    }
-    return true;
+    let { numberOfCalendars, showCurrentMonth } = this.props;
+    let lastVisibleMonthDate = showCurrentMonth === 'first'
+      ? this.getMonthDate().add(numberOfCalendars - 1, 'months')
+      : this.getMonthDate();
+
+    return !lastVisibleMonthDate.add(1, 'months').isAfter(this.state.enabledRange.end);
   },
 
   moveForward() {
