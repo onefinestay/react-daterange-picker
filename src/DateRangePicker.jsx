@@ -42,6 +42,7 @@ const DateRangePicker = React.createClass({
     initialRange: React.PropTypes.object,
     initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
     locale: React.PropTypes.string,
+    selectEnd: React.PropTypes.bool,
     maximumDate: React.PropTypes.instanceOf(Date),
     minimumDate: React.PropTypes.instanceOf(Date),
     numberOfCalendars: React.PropTypes.number,
@@ -84,6 +85,7 @@ const DateRangePicker = React.createClass({
         },
       },
       selectedLabel: "Your selected dates",
+      selectEnd: false,
       defaultState: '__default',
       dateStates: [],
       showLegend: false,
@@ -97,6 +99,7 @@ const DateRangePicker = React.createClass({
     const nextEnabledRange = this.getEnabledRange(nextProps);
 
     const updatedState = {
+      selectEnd: nextProps.selectEnd,
       selectedStartDate: null,
       hideSelection: false,
       dateStates: this.state.dateStates && Immutable.is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
@@ -119,7 +122,7 @@ const DateRangePicker = React.createClass({
 
   getInitialState() {
     let now = new Date();
-    let {initialYear, initialMonth, initialFromValue, value} = this.props;
+    let {initialYear, initialMonth, initialFromValue, selectEnd, value} = this.props;
     let year = now.getFullYear();
     let month = now.getMonth();
 
@@ -140,6 +143,7 @@ const DateRangePicker = React.createClass({
       selectedStartDate: null,
       highlightedDate: null,
       highlightRange: null,
+      selectEnd: selectEnd,
       hideSelection: false,
       enabledRange: this.getEnabledRange(this.props),
       dateStates: this.getDateStates(this.props),
@@ -266,11 +270,14 @@ const DateRangePicker = React.createClass({
   },
 
   onSelectDate(date) {
-    let {selectionType} = this.props;
-    let {selectedStartDate} = this.state;
+    let {selectionType, value} = this.props;
+    let {selectEnd, selectedStartDate} = this.state;
 
     if (selectionType === 'range') {
-      if (selectedStartDate) {
+      if (selectEnd && value && value.start && value.start.diff(date) < 0) {
+        this.highlightRange(moment.range(value.start, date));
+        this.completeRangeSelection();
+      } else if (selectedStartDate) {
         this.completeRangeSelection();
       } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.startRangeSelection(date);
@@ -287,15 +294,21 @@ const DateRangePicker = React.createClass({
   },
 
   onHighlightDate(date) {
-    let {selectionType} = this.props;
-    let {selectedStartDate} = this.state;
+    let {selectionType, value} = this.props;
+    let {selectedStartDate, selectEnd} = this.state;
 
     let datePair;
     let range;
     let forwards;
 
     if (selectionType === 'range') {
-      if (selectedStartDate) {
+      if (selectEnd && value && value.start && value.start.diff(date) < 0) {
+        datePair = Immutable.List.of(value.start, date).sortBy(d => d.unix());
+        range = moment.range(datePair.get(0), datePair.get(1));
+        forwards = (range.start.unix() === value.start.unix());
+        range = this.sanitizeRange(range, forwards);
+        this.highlightRange(range);
+      } else if (selectedStartDate) {
         datePair = Immutable.List.of(selectedStartDate, date).sortBy(d => d.unix());
         range = moment.range(datePair.get(0), datePair.get(1));
         forwards = (range.start.unix() === selectedStartDate.unix());
