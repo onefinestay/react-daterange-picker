@@ -1,5 +1,4 @@
-import moment from 'moment';
-import {} from 'moment-range';
+import moment from '../momentRange';
 import isMomentRange from './isMomentRange';
 
 

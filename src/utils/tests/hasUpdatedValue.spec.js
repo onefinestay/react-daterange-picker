@@ -1,5 +1,5 @@
-import moment from 'moment';
-import {} from 'moment-range';
+import moment from '../../momentRange';
+
 import hasUpdatedValue from '../hasUpdatedValue';
 
 describe('#hasUpdatedValue', function () {

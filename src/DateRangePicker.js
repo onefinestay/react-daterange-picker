@@ -1,9 +1,7 @@
 import React from 'react';
-import moment from 'moment';
+import moment from './momentRange';
 import Immutable from 'immutable';
 import calendar from 'calendar';
-
-require('imports?define=>false!moment-range');
 
 import BemMixin from './utils/BemMixin';
 import CustomPropTypes from './utils/CustomPropTypes';
