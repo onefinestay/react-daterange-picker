@@ -25,6 +25,10 @@ module.exports = {
         loader: 'style-loader!css-loader!sass-loader',
         test: /\.scss$/,
       },
+      {
+        test: require.resolve('moment-range'),
+        loader: 'imports-loader?this=>window',
+      },
     ],
     postLoaders: [
       { loader: 'transform/cacheable?brfs', test: /(example)(.*)\.jsx?$/ },

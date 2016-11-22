@@ -1,6 +1,6 @@
 {
   "name": "nuvi-daterange-picker",
-  "version": "1.2.0-beta.1.1",
+  "version": "1.2.0-beta.1.2",
   "description": "A React based date range picker forked",
   "author": "Dennis Wilkins dennis@nuvi.com",
   "scripts": {
@@ -74,6 +74,7 @@
     "expect": "^1.16.0",
     "fetch-mock": "^5.5.0",
     "file-loader": "~0.9.0",
+    "imports-loader": "^0.6.5",
     "istanbul": "^0.4.3",
     "istanbul-instrumenter-loader": "~1.0.0",
     "jasmine-core": "^2.4.1",
