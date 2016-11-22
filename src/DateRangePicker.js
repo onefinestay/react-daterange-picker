@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import 'moment-range';
+import {} from 'moment-range';
 import Immutable from 'immutable';
 import calendar from 'calendar';
 
