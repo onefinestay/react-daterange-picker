@@ -1,3 +1,2 @@
-import DateRangePicker from './DateRangePicker';
-
-export default DateRangePicker;
+export DateRangePicker from './DateRangePicker';
+export momentRange from './momentRange';

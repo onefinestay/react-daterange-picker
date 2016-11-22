@@ -1,5 +1,5 @@
 import isMomentRange from '../isMomentRange';
-import moment from 'moment';
+import moment from '../../momentRange';
 
 describe('isMomentRange', function () {
 

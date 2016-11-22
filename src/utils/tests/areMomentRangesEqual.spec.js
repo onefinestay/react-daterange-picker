@@ -1,6 +1,6 @@
 import areMomentRangesEqual from '../areMomentRangesEqual';
-import moment from 'moment';
-import {} from 'moment-range';
+import moment from '../../momentRange';
+
 
 describe('areMomentRangesEqual', function () {
 

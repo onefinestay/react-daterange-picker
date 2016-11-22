@@ -3,8 +3,7 @@ import PaginationArrow from '../PaginationArrow';
 import CalendarMonth from '../calendar/CalendarMonth';
 import Legend from '../Legend';
 
-import moment from 'moment';
-import 'moment-range';
+import moment from '../momentRange';
 import isMomentRange from '../utils/isMomentRange';
 import areMomentRangesEqual from '../utils/areMomentRangesEqual';
 import Immutable from 'immutable';
