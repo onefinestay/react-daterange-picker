@@ -44,7 +44,7 @@ const DatePickerRange = React.createClass({
   render() {
     return (
       <div>
-        <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
+        <RangePicker onSelect={this.handleSelect} value={this.state.value} />
         <div>
           <input type="text"
             value={this.state.value ? this.state.value.start.format('LL') : ""}

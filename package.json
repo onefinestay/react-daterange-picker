@@ -1,6 +1,6 @@
 {
   "name": "react-daterange-picker-onedesert",
-  "version": "1.2.4",
+  "version": "1.2.7",
   "description": "A React based date range picker",
   "author": "Jonathan Kim <jonathan.kim@onefinestay.com>",
   "scripts": {
@@ -53,8 +53,8 @@
     "url": "https://github.com/onefinestay/react-daterange-picker"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || 15.x.x",
-    "react-dom": "^0.14.0 || 15.x.x"
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0"
   },
   "dependencies": {
     "calendar": "^0.1.0",
@@ -62,7 +62,7 @@
     "immutable": "^3.7.2",
     "moment": "^2.14.1",
     "moment-range": "^2.0.3",
-    "react-addons-pure-render-mixin": "^0.14.0 || 15.x.x"
+    "react-addons-pure-render-mixin": "^15.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",
@@ -103,9 +103,9 @@
     "karma-webpack": "^1.7.0",
     "object.assign": "^4.0.4",
     "phantomjs": "^1.9.18",
-    "react": "^0.14.0 || 15.x.x",
-    "react-addons-test-utils": "^0.14.0 || 15.x.x",
-    "react-dom": "^0.14.0 || 15.x.x",
+    "react": "^15.4.0",
+    "react-addons-test-utils": "^15.4.0",
+    "react-dom": "^15.4.0",
     "run-sequence": "~1.1.4",
     "timekeeper": "0.0.5",
     "transform-loader": "^0.2.1",
