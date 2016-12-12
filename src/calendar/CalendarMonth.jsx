@@ -25,8 +25,6 @@ const CalendarMonth = React.createClass({
     onYearChange: React.PropTypes.func,
     value: CustomPropTypes.momentOrMomentRange,
     locale: React.PropTypes.string,
-    showWeekNumber: React.PropTypes.bool,
-    weekNumberLabel: React.PropTypes.string,
   },
 
   setLocale(locale) {
@@ -84,38 +82,25 @@ const CalendarMonth = React.createClass({
   },
 
   renderWeek(dates, i) {
-    const {showWeekNumber, weekNumberLabel} = this.props;
-    const weekNumber = moment(dates.get(0)).week();
-
     let days = dates.map(this.renderDay);
     return (
-      <tr className={this.cx({element: 'Week'})} key={i}>
-        {(showWeekNumber && weekNumber) ? <td className={this.cx({element: 'WeekNumber'})}>
-          <span className={this.cx({element: 'weekNumberLabel'})}>{weekNumberLabel}{weekNumber}</span>
-        </td> : null}
-        {days.toJS()}
-      </tr>
+      <tr className={this.cx({element: 'Week'})} key={i}>{days.toJS()}</tr>
     );
   },
 
   renderDayHeaders() {
-    let {firstOfWeek, showWeekNumber} = this.props;
+    let {firstOfWeek} = this.props;
     let indices = Immutable.Range(firstOfWeek, 7).concat(Immutable.Range(0, firstOfWeek));
-
-    const style = (showWeekNumber) ? { width: '12.5%' } : null;
 
     let headers = indices.map(function(index) {
       let weekday = this.WEEKDAYS.get(index);
       return (
-        <th style={style} className={this.cx({element: 'WeekdayHeading'})} key={weekday} scope="col"><abbr title={weekday[0]}>{weekday[1]}</abbr></th>
+        <th className={this.cx({element: 'WeekdayHeading'})} key={weekday} scope="col"><abbr title={weekday[0]}>{weekday[1]}</abbr></th>
       );
     }.bind(this));
 
     return (
-      <tr className={this.cx({element: 'Weekdays'})}>
-        {(showWeekNumber) ? <th style={style} className={this.cx({element: 'WeekdayHeading'})} scope="col"><abbr></abbr></th> : null}
-        {headers.toJS()}
-      </tr>
+      <tr className={this.cx({element: 'Weekdays'})}>{headers.toJS()}</tr>
     );
   },
 

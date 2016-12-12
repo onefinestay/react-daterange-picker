@@ -256,8 +256,6 @@ const Index = React.createClass({
               defaultState="available"
               value={moment.range(initialStart, initialEnd)}
               showLegend={true}
-              showWeekNumber={true}
-              weekNumberLabel="w."
               />
             <CodeSnippet language="javascript">
               {processCodeSnippet(mainCodeSnippet)}
