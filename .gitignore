@@ -1,6 +1,5 @@
 .sass-cache/
 node_modules/
-dist
 .module-cache/
 example/index.html
 example/build/
@@ -8,5 +7,4 @@ example/css/*.css
 .idea
 .DS_Store
 *.sublime-*
-dist/ui-coverage/
 npm-debug.log
