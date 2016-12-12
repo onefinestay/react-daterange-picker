@@ -382,15 +382,14 @@ const DateRangePicker = React.createClass({
       return isSameYear && isMonthVisible;
     };
 
-    if (!value) {
-      return undefined;
-    }
-
     if (selectionType === 'single') {
       return isVisible(value);
     }
 
-    return isVisible(value.start) || isVisible(value.end);
+    if (value) {
+      return isVisible(value.start) || isVisible(value.end);
+    }
+    return undefined;
   },
 
   canMoveBack() {
