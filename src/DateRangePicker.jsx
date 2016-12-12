@@ -383,7 +383,7 @@ const DateRangePicker = React.createClass({
     };
 
     if (!value) {
-      return;
+      return undefined;
     }
 
     if (selectionType === 'single') {
