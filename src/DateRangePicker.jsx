@@ -56,6 +56,8 @@ const DateRangePicker = React.createClass({
     showLegend: React.PropTypes.bool,
     stateDefinitions: React.PropTypes.object,
     value: CustomPropTypes.momentOrMomentRange,
+    showWeekNumber: React.PropTypes.bool,
+    weekNumberLabel: React.PropTypes.string,
   },
 
   getDefaultProps() {
@@ -517,6 +519,8 @@ const DateRangePicker = React.createClass({
       dateRangesForDate: this.dateRangesForDate,
       dateComponent: CalendarDate,
       locale: this.props.locale,
+      showWeekNumber: this.props.showWeekNumber,
+      weekNumberLabel: this.props.weekNumberLabel,
     };
 
     return <CalendarMonth {...props} />;

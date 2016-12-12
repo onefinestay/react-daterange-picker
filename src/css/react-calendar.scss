@@ -147,6 +147,15 @@ $ns: DateRangePicker !default;
     width: 14.285714285714286%;
   }
 
+  &__WeekNumber {
+    font-size: 10px;
+    line-height: 1;
+    padding: 10px 0;
+    text-align: center;
+    width: 12.5%;
+    opacity: .50;
+  }
+
   &__WeekdayHeading {
     border-bottom: 1px solid #f4f5f6;
     color: #000;
@@ -159,6 +168,13 @@ $ns: DateRangePicker !default;
       font-size: inherit;
       text-decoration: none;
     }
+  }
+
+  &__WeekNumber {
+    border: 0 solid #f4f5f6;
+    border-right-width: 1px;
+    overflow: hidden;
+    position: relative;
   }
 
   &__Date {
@@ -313,6 +329,14 @@ $ns: DateRangePicker !default;
   }
 
   &__DateLabel {
+    display: block;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+  }
+
+  &__WeekNumberLabel {
     display: block;
     position: relative;
     text-align: center;
