@@ -1,6 +1,6 @@
 $arrow-size: 8px !default;
-$selection-radius: 2px !default;
-$selection-margin: 0px !default;
+$selection-radius: 5px !default;
+$selection-margin: 5px !default;
 $ns: DateRangePicker !default;
 
 .#{$ns} {
@@ -172,12 +172,6 @@ $ns: DateRangePicker !default;
       border-left-width: 1px;
     }
 
-    &--today {
-      -webkit-box-shadow: inset 0 0 0 1px #3195ce;
-      box-shadow: inset 0 0 0 1px #3195ce;
-      border-radius: $selection-radius;
-    }
-
     &--weekend {
       background-color: #f6f7f9;
     }
@@ -192,12 +186,11 @@ $ns: DateRangePicker !default;
     }
 
     &--is-selected {
-      //color: #fff;
+      color: #fff;
     }
 
     &--is-highlighted {
-      background-color: #eff9ff;
-      //color: #333;
+      color: #333;
     }
   }
 
@@ -206,47 +199,42 @@ $ns: DateRangePicker !default;
     position: absolute;
     top: 0;
 
-    // TODO: Review if there's a better way.
-    // Makes half days cover entire background.
     &--am {
       left: 0;
-      right: 0; //50%;
+      right: 50%;
     }
 
-    // TODO: Review if there's a better way.
-    // Makes half days cover entire background.
     &--pm {
-      left: 0;
-      right: 0 //50%;
+      left: 50%;
+      right: 0;
     }
   }
 
   &__CalendarSelection {
-    //border: 1px solid darken(#ed5434, 5);
+    background-color: #ed5434;
+    border: 1px solid darken(#ed5434, 5);
     bottom: $selection-margin;
     left: 0;
     position: absolute;
     right: 0;
     top: $selection-margin;
-    height: 100%;
-    border-radius: 2px;
 
     &--inOtherMonth {
       opacity: .5;
     }
 
-    $startEndColor: #3195ce;
     &--start {
-      background-color: $startEndColor;
-      //background-color: $startEndColor;
-      //border: 2px solid $startEndColor;
-      //left: $selection-margin;
+      border-bottom-left-radius: $selection-radius;
+      border-right-width: 0;
+      border-top-left-radius: $selection-radius;
+      left: $selection-margin;
     }
 
     &--end {
-      background-color: $startEndColor;
-      //border: 2px solid $startEndColor;
-      // right: $selection-margin;
+      border-bottom-right-radius: $selection-radius;
+      border-left-width: 0;
+      border-top-right-radius: $selection-radius;
+      right: $selection-margin;
     }
 
     &--segment {
@@ -261,9 +249,8 @@ $ns: DateRangePicker !default;
     }
 
     &--is-pending {
-      // TODO: Do we want to use pending?
-      //background-color: rgba(#ed5434, .75);
-      //border-width: 0;
+      background-color: rgba(#ed5434, .75);
+      border-width: 0;
     }
   }
 
@@ -300,8 +287,8 @@ $ns: DateRangePicker !default;
     }
 
     &--single {
-      background-color: #eff9ff;
-      border: 1px solid darken(#eff9ff, 5);
+      background-color: #fff;
+      border: 1px solid darken(#ed5434, 5);
       border-radius: $selection-radius;
       left: $selection-margin;
       right: $selection-margin;
