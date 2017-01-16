@@ -173,6 +173,19 @@ var CalendarDate = _react2.default.createClass({
 
     return { disabled: disabled, highlighted: highlighted, selected: selected };
   },
+  getClassNamesFromStates: function getClassNamesFromStates(states) {
+
+    var classNames = {};
+
+    states.map(function (state) {
+      var className = state.get('className');
+      if (className) {
+        classNames[className] = true;
+      }
+    });
+
+    return classNames;
+  },
   render: function render() {
     var _props3 = this.props,
         date = _props3.date,
@@ -241,6 +254,12 @@ var CalendarDate = _react2.default.createClass({
       if (pmColor) {
         cellStyle.borderRightColor = (0, _lightenDarkenColor2.default)(pmColor, -10);
       }
+    }
+
+    if (numStates) {
+      // Add class names on state to bemModifiers
+      var classNames = this.getClassNamesFromStates(states);
+      bemModifiers = Object.assign(bemModifiers, classNames);
     }
 
     return _react2.default.createElement(

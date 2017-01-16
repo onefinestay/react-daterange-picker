@@ -238,8 +238,7 @@ var DateRangePicker = _react2.default.createClass({
         range: s.range,
         state: s.state,
         selectable: def.get('selectable', true),
-        color: def.get('color'),
-        className: def.get('className')
+        color: def.get('color')
       });
     });
   },

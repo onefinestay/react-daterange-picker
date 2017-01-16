@@ -128,6 +128,9 @@
     position: relative; }
     .DateRangePicker__Date:first-child {
       border-left-width: 1px; }
+    .DateRangePicker__Date--today {
+      box-shadow: inset 0 0 0 1px #3195ce;
+      border-radius: 2px; }
     .DateRangePicker__Date--weekend {
       background-color: #f6f7f9; }
     .DateRangePicker__Date--otherMonth {
@@ -135,79 +138,68 @@
     .DateRangePicker__Date--is-disabled {
       color: #cdcdd1;
       cursor: default; }
-    .DateRangePicker__Date--is-selected {
-      color: #fff; }
     .DateRangePicker__Date--is-highlighted {
-      color: #333; }
+      background-color: #eff9ff; }
   .DateRangePicker__CalendarDatePeriod {
     bottom: 0;
     position: absolute;
     top: 0; }
     .DateRangePicker__CalendarDatePeriod--am {
       left: 0;
-      right: 50%; }
+      right: 0; }
     .DateRangePicker__CalendarDatePeriod--pm {
-      left: 50%;
+      left: 0;
       right: 0; }
   .DateRangePicker__CalendarSelection {
-    background-color: #ed5434;
-    border: 1px solid #eb401d;
-    bottom: 5px;
+    bottom: 0px;
     left: 0;
     position: absolute;
     right: 0;
-    top: 5px; }
+    top: 0px;
+    height: 100%;
+    border-radius: 2px; }
     .DateRangePicker__CalendarSelection--inOtherMonth {
       opacity: .5; }
     .DateRangePicker__CalendarSelection--start {
-      border-bottom-left-radius: 5px;
-      border-right-width: 0;
-      border-top-left-radius: 5px;
-      left: 5px; }
+      background-color: #3195ce; }
     .DateRangePicker__CalendarSelection--end {
-      border-bottom-right-radius: 5px;
-      border-left-width: 0;
-      border-top-right-radius: 5px;
-      right: 5px; }
+      background-color: #3195ce; }
     .DateRangePicker__CalendarSelection--segment {
       border-left-width: 0;
       border-right-width: 0; }
     .DateRangePicker__CalendarSelection--single {
-      border-radius: 5px;
-      left: 5px;
-      right: 5px; }
-    .DateRangePicker__CalendarSelection--is-pending {
-      background-color: rgba(237, 84, 52, 0.75);
-      border-width: 0; }
+      border-radius: 2px;
+      left: 0px;
+      right: 0px; }
   .DateRangePicker__CalendarHighlight {
     background-color: rgba(255, 255, 255, 0.25);
     border: 1px solid rgba(0, 0, 0, 0.25);
-    bottom: 5px;
+    bottom: 0px;
     left: 0;
     position: absolute;
     right: 0;
-    top: 5px; }
+    top: 0px; }
     .DateRangePicker__CalendarHighlight--inOtherMonth {
       opacity: .5; }
     .DateRangePicker__CalendarHighlight--start {
-      border-bottom-left-radius: 5px;
+      border-bottom-left-radius: 2px;
       border-right-width: 0;
-      border-top-left-radius: 5px;
-      left: 5px; }
+      border-top-left-radius: 2px;
+      left: 0px; }
     .DateRangePicker__CalendarHighlight--end {
-      border-bottom-right-radius: 5px;
+      border-bottom-right-radius: 2px;
       border-left-width: 0;
-      border-top-right-radius: 5px;
-      right: 5px; }
+      border-top-right-radius: 2px;
+      right: 0px; }
     .DateRangePicker__CalendarHighlight--segment {
       border-left-width: 0;
       border-right-width: 0; }
     .DateRangePicker__CalendarHighlight--single {
-      background-color: #fff;
-      border: 1px solid #eb401d;
-      border-radius: 5px;
-      left: 5px;
-      right: 5px; }
+      background-color: #eff9ff;
+      border: 1px solid #d6efff;
+      border-radius: 2px;
+      left: 0px;
+      right: 0px; }
   .DateRangePicker__HalfDateStates {
     bottom: -50px;
     left: -50px;
