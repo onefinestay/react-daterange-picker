@@ -147,6 +147,21 @@ const CalendarDate = React.createClass({
     return {disabled, highlighted, selected};
   },
 
+  getClassNamesFromStates(states){
+
+    const classNames = {};
+
+    states.map(function (state) {
+      const className = state.get('className');
+      if (className) {
+        classNames[className] = true;
+      }
+    });
+
+    return classNames;
+
+  },
+
   render() {
     let {
       date,
@@ -217,6 +232,14 @@ const CalendarDate = React.createClass({
         cellStyle.borderRightColor = lightenDarkenColor(pmColor, -10);
       }
     }
+
+
+    if (numStates) {
+      // Add class names on state to bemModifiers
+      let classNames = this.getClassNamesFromStates(states);
+      bemModifiers = Object.assign(bemModifiers, classNames);
+    }
+
 
     return (
       <td className={this.cx({element: 'Date', modifiers: bemModifiers, states: bemStates})}
