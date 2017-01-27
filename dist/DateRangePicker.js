@@ -79,6 +79,7 @@ var DateRangePicker = _react2.default.createClass({
     dateStates: _react2.default.PropTypes.array, // an array of date ranges and their states
     defaultState: _react2.default.PropTypes.string,
     disableNavigation: _react2.default.PropTypes.bool,
+    allowNavigationToDisabledMonths: _react2.default.PropTypes.bool,
     firstOfWeek: _react2.default.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
     helpMessage: _react2.default.PropTypes.string,
     initialDate: _react2.default.PropTypes.instanceOf(Date),
@@ -442,7 +443,7 @@ var DateRangePicker = _react2.default.createClass({
     return isVisible(value.start) || isVisible(value.end);
   },
   canMoveBack: function canMoveBack() {
-    if (this.getMonthDate().subtract(1, 'days').isBefore(this.state.enabledRange.start)) {
+    if (!this.props.allowNavigationToDisabledMonths && this.getMonthDate().subtract(1, 'days').isBefore(this.state.enabledRange.start)) {
       return false;
     }
     return true;
@@ -457,7 +458,7 @@ var DateRangePicker = _react2.default.createClass({
     }
   },
   canMoveForward: function canMoveForward() {
-    if (this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
+    if (!this.props.allowNavigationToDisabledMonths && this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
       return false;
     }
     return true;
@@ -588,9 +589,17 @@ var DateRangePicker = _react2.default.createClass({
     return _react2.default.createElement(
       'div',
       { className: className.trim() },
-      _react2.default.createElement(PaginationArrowComponent, { direction: 'previous', onTrigger: this.moveBack, disabled: !this.canMoveBack() }),
+      _react2.default.createElement(PaginationArrowComponent, {
+        direction: 'previous',
+        onTrigger: this.moveBack,
+        disabled: !this.canMoveBack()
+      }),
       calendars.toJS(),
-      _react2.default.createElement(PaginationArrowComponent, { direction: 'next', onTrigger: this.moveForward, disabled: !this.canMoveForward() }),
+      _react2.default.createElement(PaginationArrowComponent, {
+        direction: 'next',
+        onTrigger: this.moveForward,
+        disabled: !this.canMoveForward()
+      }),
       helpMessage ? _react2.default.createElement(
         'span',
         { className: this.cx({ element: 'HelpMessage' }) },
