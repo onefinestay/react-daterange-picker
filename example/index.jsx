@@ -210,6 +210,7 @@ const Index = React.createClass({
       enquire: {
         color: '#ffd200',
         label: 'Enquire',
+        className: 'enquire',
       },
       unavailable: {
         selectable: false,
@@ -330,6 +331,15 @@ const Index = React.createClass({
                 numberOfCalendars={2}
                 selectionType="range"
                 />
+            </div>
+            <div className="example">
+              <h4>Date Range Picker Allow Navigation Disabled Months</h4>
+              <DatePickerRange
+                allowNavigationToDisabledMonths
+                numberOfCalendars={2}
+                selectionType="range"
+                singleDateRange={true}
+                minimumDate={new Date()} />
             </div>
           </div>
         </div>

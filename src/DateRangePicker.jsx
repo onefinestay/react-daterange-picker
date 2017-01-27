@@ -34,6 +34,7 @@ const DateRangePicker = React.createClass({
     dateStates: React.PropTypes.array, // an array of date ranges and their states
     defaultState: React.PropTypes.string,
     disableNavigation: React.PropTypes.bool,
+    allowNavigationToDisabledMonths: React.PropTypes.bool,
     firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
     helpMessage: React.PropTypes.string,
     initialDate: React.PropTypes.instanceOf(Date),
@@ -390,7 +391,8 @@ const DateRangePicker = React.createClass({
   },
 
   canMoveBack() {
-    if (this.getMonthDate().subtract(1, 'days').isBefore(this.state.enabledRange.start)) {
+    if (!this.props.allowNavigationToDisabledMonths &&
+      this.getMonthDate().subtract(1, 'days').isBefore(this.state.enabledRange.start)) {
       return false;
     }
     return true;
@@ -407,7 +409,8 @@ const DateRangePicker = React.createClass({
   },
 
   canMoveForward() {
-    if (this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
+    if (!this.props.allowNavigationToDisabledMonths &&
+      this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
       return false;
     }
     return true;
@@ -524,16 +527,32 @@ const DateRangePicker = React.createClass({
   },
 
   render: function() {
-    let {paginationArrowComponent: PaginationArrowComponent, className, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage} = this.props;
+    let {
+      paginationArrowComponent: PaginationArrowComponent,
+      className,
+      numberOfCalendars,
+      stateDefinitions,
+      selectedLabel,
+      showLegend,
+      helpMessage,
+    } = this.props;
 
     let calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
     className = this.cx({element: null}) + ' ' + className;
 
     return (
       <div className={className.trim()}>
-        <PaginationArrowComponent direction="previous" onTrigger={this.moveBack} disabled={!this.canMoveBack()} />
+        <PaginationArrowComponent
+          direction="previous"
+          onTrigger={this.moveBack}
+          disabled={!this.canMoveBack()}
+        />
         {calendars.toJS()}
-        <PaginationArrowComponent direction="next" onTrigger={this.moveForward} disabled={!this.canMoveForward()} />
+        <PaginationArrowComponent
+          direction="next"
+          onTrigger={this.moveForward}
+          disabled={!this.canMoveForward()}
+        />
         {helpMessage ? <span className={this.cx({element: 'HelpMessage'})}>{helpMessage}</span> : null}
         {showLegend ? <Legend stateDefinitions={stateDefinitions} selectedLabel={selectedLabel} /> : null}
       </div>
