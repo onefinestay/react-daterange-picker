@@ -28,13 +28,13 @@ const DateRangePicker = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {
+    allowNavigationToDisabledMonths: React.PropTypes.bool,
     bemBlock: React.PropTypes.string,
     bemNamespace: React.PropTypes.string,
     className: React.PropTypes.string,
     dateStates: React.PropTypes.array, // an array of date ranges and their states
     defaultState: React.PropTypes.string,
     disableNavigation: React.PropTypes.bool,
-    allowNavigationToDisabledMonths: React.PropTypes.bool,
     firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
     helpMessage: React.PropTypes.string,
     initialDate: React.PropTypes.instanceOf(Date),
@@ -51,6 +51,7 @@ const DateRangePicker = React.createClass({
     onSelect: React.PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: React.PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: React.PropTypes.func,
+    removeOtherMonthDates: React.PropTypes.bool,
     selectedLabel: React.PropTypes.string,
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     singleDateRange: React.PropTypes.bool,
@@ -457,6 +458,7 @@ const DateRangePicker = React.createClass({
       numberOfCalendars,
       selectionType,
       value,
+      removeOtherMonthDates,
     } = this.props;
 
     let {
@@ -511,6 +513,7 @@ const DateRangePicker = React.createClass({
       key,
       selectionType,
       value,
+      removeOtherMonthDates,
       maxIndex: numberOfCalendars - 1,
       firstOfMonth: monthDate,
       onMonthChange: this.changeMonth,

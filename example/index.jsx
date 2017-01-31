@@ -249,6 +249,7 @@ const Index = React.createClass({
             <DatePickerRange
               firstOfWeek={1}
               numberOfCalendars={2}
+              removeOtherMonthDates
               selectionType='range'
               minimumDate={new Date()}
               maximumDate={moment().add(2, 'years').toDate()}
@@ -336,6 +337,15 @@ const Index = React.createClass({
               <h4>Date Range Picker Allow Navigation Disabled Months</h4>
               <DatePickerRange
                 allowNavigationToDisabledMonths
+                numberOfCalendars={2}
+                selectionType="range"
+                singleDateRange={true}
+                minimumDate={new Date()} />
+            </div>
+            <div className="example">
+              <h4>Disable other month dates from showing</h4>
+              <DatePickerRange
+                removeOtherMonthDates
                 numberOfCalendars={2}
                 selectionType="range"
                 singleDateRange={true}
