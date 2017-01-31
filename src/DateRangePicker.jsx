@@ -28,6 +28,7 @@ const DateRangePicker = React.createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {
+    allowNavigationToDisabledMonths: React.PropTypes.bool,
     bemBlock: React.PropTypes.string,
     bemNamespace: React.PropTypes.string,
     className: React.PropTypes.string,
@@ -50,6 +51,7 @@ const DateRangePicker = React.createClass({
     onSelect: React.PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: React.PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: React.PropTypes.func,
+    removeOtherMonthDates: React.PropTypes.bool,
     selectedLabel: React.PropTypes.string,
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     singleDateRange: React.PropTypes.bool,
@@ -196,6 +198,7 @@ const DateRangePicker = React.createClass({
         state: s.state,
         selectable: def.get('selectable', true),
         color: def.get('color'),
+        className: def.get('className'),
       });
     });
   },
@@ -389,7 +392,8 @@ const DateRangePicker = React.createClass({
   },
 
   canMoveBack() {
-    if (this.getMonthDate().subtract(1, 'days').isBefore(this.state.enabledRange.start)) {
+    if (!this.props.allowNavigationToDisabledMonths &&
+      this.getMonthDate().subtract(1, 'days').isBefore(this.state.enabledRange.start)) {
       return false;
     }
     return true;
@@ -406,7 +410,8 @@ const DateRangePicker = React.createClass({
   },
 
   canMoveForward() {
-    if (this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
+    if (!this.props.allowNavigationToDisabledMonths &&
+      this.getMonthDate().add(this.props.numberOfCalendars, 'months').isAfter(this.state.enabledRange.end)) {
       return false;
     }
     return true;
@@ -453,6 +458,7 @@ const DateRangePicker = React.createClass({
       numberOfCalendars,
       selectionType,
       value,
+      removeOtherMonthDates,
     } = this.props;
 
     let {
@@ -507,6 +513,7 @@ const DateRangePicker = React.createClass({
       key,
       selectionType,
       value,
+      removeOtherMonthDates,
       maxIndex: numberOfCalendars - 1,
       firstOfMonth: monthDate,
       onMonthChange: this.changeMonth,
@@ -523,16 +530,32 @@ const DateRangePicker = React.createClass({
   },
 
   render: function() {
-    let {paginationArrowComponent: PaginationArrowComponent, className, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage} = this.props;
+    let {
+      paginationArrowComponent: PaginationArrowComponent,
+      className,
+      numberOfCalendars,
+      stateDefinitions,
+      selectedLabel,
+      showLegend,
+      helpMessage,
+    } = this.props;
 
     let calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
     className = this.cx({element: null}) + ' ' + className;
 
     return (
       <div className={className.trim()}>
-        <PaginationArrowComponent direction="previous" onTrigger={this.moveBack} disabled={!this.canMoveBack()} />
+        <PaginationArrowComponent
+          direction="previous"
+          onTrigger={this.moveBack}
+          disabled={!this.canMoveBack()}
+        />
         {calendars.toJS()}
-        <PaginationArrowComponent direction="next" onTrigger={this.moveForward} disabled={!this.canMoveForward()} />
+        <PaginationArrowComponent
+          direction="next"
+          onTrigger={this.moveForward}
+          disabled={!this.canMoveForward()}
+        />
         {helpMessage ? <span className={this.cx({element: 'HelpMessage'})}>{helpMessage}</span> : null}
         {showLegend ? <Legend stateDefinitions={stateDefinitions} selectedLabel={selectedLabel} /> : null}
       </div>

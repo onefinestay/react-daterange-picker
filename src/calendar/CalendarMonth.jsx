@@ -25,11 +25,12 @@ const CalendarMonth = React.createClass({
     onYearChange: React.PropTypes.func,
     value: CustomPropTypes.momentOrMomentRange,
     locale: React.PropTypes.string,
+    removeOtherMonthDates: React.PropTypes.bool
   },
 
   setLocale(locale) {
     moment.locale(locale);
-    this.WEEKDAYS = Immutable.List(moment.weekdays()).zip(Immutable.List(moment.weekdaysShort()));
+    this.WEEKDAYS = Immutable.List(moment.weekdays()).zip(Immutable.List(moment.weekdaysMin()));
     this.MONTHS = Immutable.List(moment.months());
   },
 
@@ -46,7 +47,7 @@ const CalendarMonth = React.createClass({
   },
 
   renderDay(date, i) {
-    let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
+    let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, removeOtherMonthDates, ...props} = this.props;
     let d = moment(date).locale(this.props.locale);
 
     let isInSelectedRange;
@@ -65,6 +66,7 @@ const CalendarMonth = React.createClass({
 
     return (
       <CalendarDate
+        removeOtherMonthDates={removeOtherMonthDates}
         key={i}
         isToday={d.isSame(moment(), 'day')}
         isDisabled={!enabledRange.contains(d)}

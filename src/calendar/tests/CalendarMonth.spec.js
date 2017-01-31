@@ -186,13 +186,13 @@ describe('The CalendarMonth Component', function () {
 
       it('whose head contains day information', function () {
         expect(this.table.props.children[0].props.children).toEqual(<tr className='DateRangePicker__Weekdays'>
-          <th className='DateRangePicker__WeekdayHeading' key='Sunday,Sun' scope='col'><abbr title='Sunday'>Sun</abbr></th>
-          <th className='DateRangePicker__WeekdayHeading' key='Monday,Mon' scope='col'><abbr title='Monday'>Mon</abbr></th>
-          <th className='DateRangePicker__WeekdayHeading' key='Tuesday,Tue' scope='col'><abbr title='Tuesday'>Tue</abbr></th>
-          <th className='DateRangePicker__WeekdayHeading' key='Wednesday,Wed' scope='col'><abbr title='Wednesday'>Wed</abbr></th>
-          <th className='DateRangePicker__WeekdayHeading' key='Thursday,Thu' scope='col'><abbr title='Thursday'>Thu</abbr></th>
-          <th className='DateRangePicker__WeekdayHeading' key='Friday,Fri' scope='col'><abbr title='Friday'>Fri</abbr></th>
-          <th className='DateRangePicker__WeekdayHeading' key='Saturday,Sat' scope='col'><abbr title='Saturday'>Sat</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Sunday,Su' scope='col'><abbr title='Sunday'>Su</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Monday,Mo' scope='col'><abbr title='Monday'>Mo</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Tuesday,Tu' scope='col'><abbr title='Tuesday'>Tu</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Wednesday,We' scope='col'><abbr title='Wednesday'>We</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Thursday,Th' scope='col'><abbr title='Thursday'>Th</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Friday,Fr' scope='col'><abbr title='Friday'>Fr</abbr></th>
+          <th className='DateRangePicker__WeekdayHeading' key='Saturday,Sa' scope='col'><abbr title='Saturday'>Sa</abbr></th>
         </tr>);
       });
 

@@ -18,6 +18,8 @@ const CalendarDate = React.createClass({
   propTypes: {
     date: CustomPropTypes.moment,
 
+    removeOtherMonthDates: React.PropTypes.bool,
+
     firstOfMonth: React.PropTypes.object.isRequired,
 
     isSelectedDate: React.PropTypes.bool,
@@ -147,6 +149,21 @@ const CalendarDate = React.createClass({
     return {disabled, highlighted, selected};
   },
 
+  getClassNamesFromStates(states){
+
+    const classNames = {};
+
+    states.map(function (state) {
+      const className = state.get('className');
+      if (className) {
+        classNames[className] = true;
+      }
+    });
+
+    return classNames;
+
+  },
+
   render() {
     let {
       date,
@@ -159,12 +176,17 @@ const CalendarDate = React.createClass({
       isHighlightedRangeStart,
       isHighlightedRangeEnd,
       isInHighlightedRange,
+      firstOfMonth,
+      removeOtherMonthDates
     } = this.props;
 
     let bemModifiers = this.getBemModifiers();
     let bemStates = this.getBemStates();
     let pending = isInHighlightedRange;
-
+    let otherMonth = false;
+    if (date.month() !== firstOfMonth.month()) {
+      otherMonth = true;
+    }
     let color;
     let amColor;
     let pmColor;
@@ -216,6 +238,17 @@ const CalendarDate = React.createClass({
       if (pmColor) {
         cellStyle.borderRightColor = lightenDarkenColor(pmColor, -10);
       }
+    }
+
+
+    if (numStates) {
+      // Add class names on state to bemModifiers
+      let classNames = this.getClassNamesFromStates(states);
+      bemModifiers = Object.assign(bemModifiers, classNames);
+    }
+
+    if (otherMonth && removeOtherMonthDates) {
+      return <td className={this.cx({element: 'Date', modifiers: {otherMonth}})}/>
     }
 
     return (
