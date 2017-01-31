@@ -73,13 +73,13 @@ var DateRangePicker = _react2.default.createClass({
   mixins: [_BemMixin2.default, _reactAddonsPureRenderMixin2.default],
 
   propTypes: {
+    allowNavigationToDisabledMonths: _react2.default.PropTypes.bool,
     bemBlock: _react2.default.PropTypes.string,
     bemNamespace: _react2.default.PropTypes.string,
     className: _react2.default.PropTypes.string,
     dateStates: _react2.default.PropTypes.array, // an array of date ranges and their states
     defaultState: _react2.default.PropTypes.string,
     disableNavigation: _react2.default.PropTypes.bool,
-    allowNavigationToDisabledMonths: _react2.default.PropTypes.bool,
     firstOfWeek: _react2.default.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
     helpMessage: _react2.default.PropTypes.string,
     initialDate: _react2.default.PropTypes.instanceOf(Date),
@@ -96,6 +96,7 @@ var DateRangePicker = _react2.default.createClass({
     onSelect: _react2.default.PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: _react2.default.PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: _react2.default.PropTypes.func,
+    removeOtherMonthDates: _react2.default.PropTypes.bool,
     selectedLabel: _react2.default.PropTypes.string,
     selectionType: _react2.default.PropTypes.oneOf(['single', 'range']),
     singleDateRange: _react2.default.PropTypes.bool,
@@ -503,7 +504,8 @@ var DateRangePicker = _react2.default.createClass({
         firstOfWeek = _props2.firstOfWeek,
         numberOfCalendars = _props2.numberOfCalendars,
         selectionType = _props2.selectionType,
-        value = _props2.value;
+        value = _props2.value,
+        removeOtherMonthDates = _props2.removeOtherMonthDates;
     var _state2 = this.state,
         dateStates = _state2.dateStates,
         enabledRange = _state2.enabledRange,
@@ -556,6 +558,7 @@ var DateRangePicker = _react2.default.createClass({
       key: key,
       selectionType: selectionType,
       value: value,
+      removeOtherMonthDates: removeOtherMonthDates,
       maxIndex: numberOfCalendars - 1,
       firstOfMonth: monthDate,
       onMonthChange: this.changeMonth,

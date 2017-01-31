@@ -61,7 +61,8 @@ var CalendarMonth = _react2.default.createClass({
     onMonthChange: _react2.default.PropTypes.func,
     onYearChange: _react2.default.PropTypes.func,
     value: _CustomPropTypes2.default.momentOrMomentRange,
-    locale: _react2.default.PropTypes.string
+    locale: _react2.default.PropTypes.string,
+    removeOtherMonthDates: _react2.default.PropTypes.bool
   },
 
   setLocale: function setLocale(locale) {
@@ -89,7 +90,8 @@ var CalendarMonth = _react2.default.createClass({
         highlightedRange = _props.highlightedRange,
         hideSelection = _props.hideSelection,
         enabledRange = _props.enabledRange,
-        props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
+        removeOtherMonthDates = _props.removeOtherMonthDates,
+        props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange', 'removeOtherMonthDates']);
 
     var d = (0, _moment2.default)(date).locale(this.props.locale);
 
@@ -108,6 +110,7 @@ var CalendarMonth = _react2.default.createClass({
     }
 
     return _react2.default.createElement(CalendarDate, _extends({
+      removeOtherMonthDates: removeOtherMonthDates,
       key: i,
       isToday: d.isSame((0, _moment2.default)(), 'day'),
       isDisabled: !enabledRange.contains(d),

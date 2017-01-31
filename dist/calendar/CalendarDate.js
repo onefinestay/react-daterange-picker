@@ -50,6 +50,8 @@ var CalendarDate = _react2.default.createClass({
   propTypes: {
     date: _CustomPropTypes2.default.moment,
 
+    removeOtherMonthDates: _react2.default.PropTypes.bool,
+
     firstOfMonth: _react2.default.PropTypes.object.isRequired,
 
     isSelectedDate: _react2.default.PropTypes.bool,
@@ -197,13 +199,18 @@ var CalendarDate = _react2.default.createClass({
         isHighlightedDate = _props3.isHighlightedDate,
         isHighlightedRangeStart = _props3.isHighlightedRangeStart,
         isHighlightedRangeEnd = _props3.isHighlightedRangeEnd,
-        isInHighlightedRange = _props3.isInHighlightedRange;
+        isInHighlightedRange = _props3.isInHighlightedRange,
+        firstOfMonth = _props3.firstOfMonth,
+        removeOtherMonthDates = _props3.removeOtherMonthDates;
 
 
     var bemModifiers = this.getBemModifiers();
     var bemStates = this.getBemStates();
     var pending = isInHighlightedRange;
-
+    var otherMonth = false;
+    if (date.month() !== firstOfMonth.month()) {
+      otherMonth = true;
+    }
     var color = void 0;
     var amColor = void 0;
     var pmColor = void 0;
@@ -260,6 +267,10 @@ var CalendarDate = _react2.default.createClass({
       // Add class names on state to bemModifiers
       var classNames = this.getClassNamesFromStates(states);
       bemModifiers = Object.assign(bemModifiers, classNames);
+    }
+
+    if (otherMonth && removeOtherMonthDates) {
+      return _react2.default.createElement('td', { className: this.cx({ element: 'Date', modifiers: { otherMonth: otherMonth } }) });
     }
 
     return _react2.default.createElement(
