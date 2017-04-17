@@ -1,4 +1,5 @@
 import React from 'react';
+import createClass from 'create-react-class';
 
 import Immutable from 'immutable';
 
@@ -12,7 +13,7 @@ import CalendarHighlight from './CalendarHighlight';
 import CalendarSelection from './CalendarSelection';
 
 
-const CalendarDate = React.createClass({
+const CalendarDate = createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {

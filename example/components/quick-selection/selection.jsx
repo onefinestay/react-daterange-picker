@@ -1,6 +1,7 @@
 import React from 'react';
+import createClass from 'create-react-class';
 
-const Selection = React.createClass({
+const Selection = createClass({
   propTypes: {
     className: React.PropTypes.string.isRequired,
     date: React.PropTypes.object.isRequired,

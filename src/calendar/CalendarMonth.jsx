@@ -1,4 +1,5 @@
 import React from 'react';
+import createClass from 'create-react-class';
 import moment from 'moment';
 import 'moment-range';
 import calendar from 'calendar';
@@ -9,7 +10,7 @@ import CustomPropTypes from '../utils/CustomPropTypes';
 import isMomentRange from '../utils/isMomentRange';
 import PureRenderMixin from '../utils/PureRenderMixin';
 
-const CalendarMonth = React.createClass({
+const CalendarMonth = createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {

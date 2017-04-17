@@ -1,8 +1,9 @@
 import React from 'react';
+import createClass from 'create-react-class';
 import _ from 'underscore';
 import Selection from './selection';
 
-const QuickSelection = React.createClass({
+const QuickSelection = createClass({
   propTypes: {
     dates: React.PropTypes.object.isRequired,
     value: React.PropTypes.object,
