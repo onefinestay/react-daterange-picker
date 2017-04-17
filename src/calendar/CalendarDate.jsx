@@ -1,4 +1,6 @@
 import React from 'react';
+import createClass from 'create-react-class';
+import PropTypes from 'prop-types';
 
 import Immutable from 'immutable';
 
@@ -12,33 +14,33 @@ import CalendarHighlight from './CalendarHighlight';
 import CalendarSelection from './CalendarSelection';
 
 
-const CalendarDate = React.createClass({
+const CalendarDate = createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {
     date: CustomPropTypes.moment,
 
-    firstOfMonth: React.PropTypes.object.isRequired,
+    firstOfMonth: PropTypes.object.isRequired,
 
-    isSelectedDate: React.PropTypes.bool,
-    isSelectedRangeStart: React.PropTypes.bool,
-    isSelectedRangeEnd: React.PropTypes.bool,
-    isInSelectedRange: React.PropTypes.bool,
+    isSelectedDate: PropTypes.bool,
+    isSelectedRangeStart: PropTypes.bool,
+    isSelectedRangeEnd: PropTypes.bool,
+    isInSelectedRange: PropTypes.bool,
 
-    isHighlightedDate: React.PropTypes.bool,
-    isHighlightedRangeStart: React.PropTypes.bool,
-    isHighlightedRangeEnd: React.PropTypes.bool,
-    isInHighlightedRange: React.PropTypes.bool,
+    isHighlightedDate: PropTypes.bool,
+    isHighlightedRangeStart: PropTypes.bool,
+    isHighlightedRangeEnd: PropTypes.bool,
+    isInHighlightedRange: PropTypes.bool,
 
-    highlightedDate: React.PropTypes.object,
-    dateStates: React.PropTypes.instanceOf(Immutable.List),
-    isDisabled: React.PropTypes.bool,
-    isToday: React.PropTypes.bool,
+    highlightedDate: PropTypes.object,
+    dateStates: PropTypes.instanceOf(Immutable.List),
+    isDisabled: PropTypes.bool,
+    isToday: PropTypes.bool,
 
-    dateRangesForDate: React.PropTypes.func,
-    onHighlightDate: React.PropTypes.func,
-    onUnHighlightDate: React.PropTypes.func,
-    onSelectDate: React.PropTypes.func,
+    dateRangesForDate: PropTypes.func,
+    onHighlightDate: PropTypes.func,
+    onUnHighlightDate: PropTypes.func,
+    onSelectDate: PropTypes.func,
   },
 
   getInitialState() {

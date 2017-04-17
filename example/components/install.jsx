@@ -1,9 +1,10 @@
 import React from 'react';
+import createClass from 'create-react-class';
 
 import CodeSnippet from './code-snippet';
 
 
-const Install = React.createClass({
+const Install = createClass({
   render() {
     return (
       <div className="install">
