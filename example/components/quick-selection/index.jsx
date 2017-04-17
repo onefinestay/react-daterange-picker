@@ -1,13 +1,14 @@
 import React from 'react';
 import createClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 import Selection from './selection';
 
 const QuickSelection = createClass({
   propTypes: {
-    dates: React.PropTypes.object.isRequired,
-    value: React.PropTypes.object,
-    onSelect: React.PropTypes.func.isRequired,
+    dates: PropTypes.object.isRequired,
+    value: PropTypes.object,
+    onSelect: PropTypes.func.isRequired,
   },
 
   isCurrentlySelected(date) {
