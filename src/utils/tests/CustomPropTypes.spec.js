@@ -1,7 +1,6 @@
 import CustomPropTypes from '../CustomPropTypes';
 
-import moment from 'moment';
-import {} from 'moment-range';
+import moment from '../../moment-range';
 
 describe('CustomPropTypes', function () {
 

@@ -1,8 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 
 import React from 'react';
-import moment from 'moment';
-import {} from 'moment-range';
+import moment from '../src/moment-range';
 var fs = require('fs');
 import timekeeper from 'timekeeper';
 import RangePicker from '../src';
