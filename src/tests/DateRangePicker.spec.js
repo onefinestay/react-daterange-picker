@@ -3,7 +3,9 @@ import PaginationArrow from '../PaginationArrow';
 import CalendarMonth from '../calendar/CalendarMonth';
 import Legend from '../Legend';
 
-import moment from '../momentRange';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
 import isMomentRange from '../utils/isMomentRange';
 import areMomentRangesEqual from '../utils/areMomentRangesEqual';
 import Immutable from 'immutable';
@@ -12,6 +14,7 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import _ from 'lodash';
 
+const moment = extendMoment(Moment);
 
 describe('The DateRangePicker component', function () {
 

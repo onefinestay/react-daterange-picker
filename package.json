@@ -50,6 +50,7 @@
     "classnames": "^2.2.3",
     "immutable": "^3.8.0",
     "moment": "~2.15.2",
+    "moment-range": "3.0.3",
     "react-addons-pure-render-mixin": "^15.2.1"
   },
   "devDependencies": {

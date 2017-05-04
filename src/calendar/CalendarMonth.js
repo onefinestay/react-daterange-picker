@@ -1,5 +1,6 @@
 import React from 'react';
-import moment from '../momentRange';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 import calendar from 'calendar';
 import Immutable from 'immutable';
 
@@ -7,6 +8,8 @@ import BemMixin from '../utils/BemMixin';
 import CustomPropTypes from '../utils/CustomPropTypes';
 import isMomentRange from '../utils/isMomentRange';
 import PureRenderMixin from '../utils/PureRenderMixin';
+
+const moment = extendMoment(Moment);
 
 const CalendarMonth = React.createClass({
   mixins: [BemMixin, PureRenderMixin],

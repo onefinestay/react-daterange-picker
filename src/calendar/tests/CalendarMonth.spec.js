@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import CalendarMonth from '../CalendarMonth';
 import CalendarDate from '../CalendarDate';
-import moment from '../../momentRange';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 import _ from 'lodash';
+
+const moment = extendMoment(Moment);
 
 
 describe('The CalendarMonth Component', function () {
