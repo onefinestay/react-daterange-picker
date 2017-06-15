@@ -211,12 +211,12 @@ const CalendarDate = React.createClass({
     } else {
       amColor = states.getIn([0, 'color']);
       pmColor = states.getIn([1, 'color']);
-      classNames.push(states.getIn(0, 'className'));
-      classNames.push(states.getIn(1, 'className'));
+      classNames.push(states.getIn([0, 'className']));
+      classNames.push(states.getIn([1, 'className']));
 
       className = classNames.reduce((str, item) => {
         if (item) {
-          !str ? str = item : str += ` ${item}`;
+          !str ? str = item : str = `${str} ${item}`;
         }
         return str;
       }, '');
