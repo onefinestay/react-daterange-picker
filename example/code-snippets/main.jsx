@@ -16,6 +16,7 @@ const stateDefinitions = {
     selectable: false,
     color: '#78818b',
     label: 'Unavailable',
+    className: 'disabled',
   },
 };
 

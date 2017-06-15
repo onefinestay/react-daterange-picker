@@ -168,6 +168,8 @@ const CalendarDate = React.createClass({
     let color;
     let amColor;
     let pmColor;
+    let classNames = [];
+    let className;
     let states = dateRangesForDate(date);
     let numStates = states.count();
     let cellStyle = {};
@@ -194,6 +196,7 @@ const CalendarDate = React.createClass({
     if (numStates === 1) {
       // If there's only one state, it means we're not at a boundary
       color = states.getIn([0, 'color']);
+      className = states.getIn([0, 'className']) || '';
 
       if (color) {
 
@@ -208,6 +211,14 @@ const CalendarDate = React.createClass({
     } else {
       amColor = states.getIn([0, 'color']);
       pmColor = states.getIn([1, 'color']);
+      classNames.push(states.getIn(0, 'className'));
+      classNames.push(states.getIn(1, 'className'));
+
+      className = classNames.reduce((str, item) => {
+          if (item) {
+              !str ? str = item : str += ` ${item}`;
+          }
+      }, '');
 
       if (amColor) {
         cellStyle.borderLeftColor = lightenDarkenColor(amColor, -10);
@@ -219,7 +230,7 @@ const CalendarDate = React.createClass({
     }
 
     return (
-      <td className={this.cx({element: 'Date', modifiers: bemModifiers, states: bemStates})}
+      <td className={`${this.cx({element: 'Date', modifiers: bemModifiers, states: bemStates})} ${className}`}
         style={cellStyle}
         onTouchStart={this.touchStart}
         onMouseEnter={this.mouseEnter}
