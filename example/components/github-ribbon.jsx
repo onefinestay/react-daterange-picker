@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const GithubRibbon = React.createClass({
   render() {
     const style = {
