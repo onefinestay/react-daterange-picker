@@ -120,7 +120,7 @@ const DatePickerSingleWithSetDateButtons = React.createClass({
         <QuickSelection dates={dateRanges} value={this.state.value} onSelect={this.setDate} />
         <div>
           <input type="text"
-            value={this.state.value ? this.state.value.format('LL') : null}
+            value={this.state.value ? this.state.value.format('LL') : ''}
             readOnly={true} />
         </div>
       </div>
@@ -162,11 +162,11 @@ const DatePickerRangeWithSetRangeButtons = React.createClass({
         <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
         <div>
           <input type="text"
-            value={this.state.value ? this.state.value.start.format('LL') : null}
+            value={this.state.value ? this.state.value.start.format('LL') : ''}
             readOnly={true}
             placeholder="Start date"/>
           <input type="text"
-            value={this.state.value ? this.state.value.end.format('LL') : null}
+            value={this.state.value ? this.state.value.end.format('LL') : ''}
             readOnly={true}
             placeholder="End date" />
         </div>
