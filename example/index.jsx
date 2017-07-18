@@ -3,6 +3,7 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
+import createClass from 'create-react-class';
 import moment from 'moment';
 import {} from 'moment-range';
 var fs = require('fs');
@@ -27,7 +28,7 @@ function processCodeSnippet(src) {
   return lines.join('\n');
 }
 
-const DatePickerRange = React.createClass({
+const DatePickerRange = createClass({
   propTypes: {
     value: PropTypes.object,
   },
@@ -63,7 +64,7 @@ const DatePickerRange = React.createClass({
 });
 
 
-const DatePickerSingle = React.createClass({
+const DatePickerSingle = createClass({
   getInitialState() {
     return {
       value: "",
@@ -91,7 +92,7 @@ const DatePickerSingle = React.createClass({
   },
 });
 
-const DatePickerSingleWithSetDateButtons = React.createClass({
+const DatePickerSingleWithSetDateButtons = createClass({
   getInitialState() {
     return {
       value: null,
@@ -130,7 +131,7 @@ const DatePickerSingleWithSetDateButtons = React.createClass({
   },
 });
 
-const DatePickerRangeWithSetRangeButtons = React.createClass({
+const DatePickerRangeWithSetRangeButtons = createClass({
   getInitialState() {
     return {
       value: null,
@@ -180,7 +181,7 @@ const DatePickerRangeWithSetRangeButtons = React.createClass({
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 var i18nCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/i18n.jsx', 'utf8');
 
-const Index = React.createClass({
+const Index = createClass({
   getInitialState() {
     return {
       locale: 'en',

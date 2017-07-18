@@ -2,9 +2,10 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
+import createClass from 'create-react-class';
 import cx from 'classnames';
 
-const CodeSnippet = React.createClass({
+const CodeSnippet = createClass({
   propTypes: {
     children: PropTypes.node.isRequired,
     language: PropTypes.string.isRequired,

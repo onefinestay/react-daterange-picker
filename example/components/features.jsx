@@ -1,7 +1,7 @@
 import React from 'react';
+import createClass from 'create-react-class';
 
-
-const Features = React.createClass({
+const Features = createClass({
   render() {
     return (
       <div className="features">

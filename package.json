@@ -59,9 +59,11 @@
   "dependencies": {
     "calendar": "^0.1.0",
     "classnames": "^2.1.1",
+    "create-react-class": "^15.6.0",
     "immutable": "^3.7.2",
     "moment": "^2.14.1",
     "moment-range": "^2.0.3",
+    "prop-types": "^15.5.10",
     "react-addons-pure-render-mixin": "^0.14.0 || 15.x.x"
   },
   "devDependencies": {

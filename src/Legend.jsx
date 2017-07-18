@@ -1,12 +1,13 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
+import createClass from 'create-react-class';
 import BemMixin from './utils/BemMixin';
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 
-const Legend = React.createClass({
+const Legend = createClass({
   mixins: [BemMixin, PureRenderMixin],
 
   propTypes: {

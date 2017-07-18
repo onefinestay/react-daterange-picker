@@ -1,8 +1,7 @@
 import React from 'react';
+import createClass from 'create-react-class';
 
-
-
-const Header = React.createClass({
+const Header = createClass({
   render() {
     return (
       <header className="header">
