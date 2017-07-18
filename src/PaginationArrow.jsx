@@ -9,6 +9,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 const PaginationArrow = createClass({
   mixins: [BemMixin, PureRenderMixin],
+  displayName: "PaginationArrow",
 
   propTypes: {
     disabled: PropTypes.bool,

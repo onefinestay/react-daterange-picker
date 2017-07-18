@@ -29,6 +29,7 @@ function noop() {}
 
 const DateRangePicker = createClass({
   mixins: [BemMixin, PureRenderMixin],
+  displayName: "DateRangePicker",
 
   propTypes: {
     bemBlock: PropTypes.string,

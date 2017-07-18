@@ -14,6 +14,7 @@ import PureRenderMixin from '../utils/PureRenderMixin';
 
 const CalendarMonth = createClass({
   mixins: [BemMixin, PureRenderMixin],
+  displayName: "CalendarMonth",
 
   propTypes: {
     dateComponent: PropTypes.func,

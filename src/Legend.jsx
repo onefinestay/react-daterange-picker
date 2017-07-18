@@ -9,6 +9,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 const Legend = createClass({
   mixins: [BemMixin, PureRenderMixin],
+  displayName: "Legend",
 
   propTypes: {
     selectedLabel: PropTypes.string.isRequired,

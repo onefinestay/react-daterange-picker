@@ -8,6 +8,7 @@ import PureRenderMixin from '../utils/PureRenderMixin';
 
 const CalendarDatePeriod = createClass({
   mixins: [BemMixin, PureRenderMixin],
+  displayName: "CalendarDatePeriod",
 
   propTypes: {
     color: PropTypes.string,

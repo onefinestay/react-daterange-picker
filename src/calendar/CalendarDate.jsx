@@ -16,6 +16,7 @@ import CalendarSelection from './CalendarSelection';
 
 const CalendarDate = createClass({
   mixins: [BemMixin, PureRenderMixin],
+  displayName: "CalendarDate",
 
   propTypes: {
     date: CustomPropTypes.moment,
