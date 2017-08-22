@@ -1,5 +1,8 @@
 import isMomentRange from '../isMomentRange';
-import moment from 'moment';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
+const moment = extendMoment(Moment);
 
 describe('isMomentRange', function () {
 

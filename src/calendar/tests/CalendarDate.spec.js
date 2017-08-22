@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import moment from 'moment';
-import _ from 'underscore';
+import _ from 'lodash';
 
 import CalendarDate from '../CalendarDate';
 

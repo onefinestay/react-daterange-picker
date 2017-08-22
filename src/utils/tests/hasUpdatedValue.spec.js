@@ -1,6 +1,9 @@
-import moment from 'moment';
-import {} from 'moment-range';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
 import hasUpdatedValue from '../hasUpdatedValue';
+
+const moment = extendMoment(Moment);
 
 describe('#hasUpdatedValue', function () {
   const today = () => moment("2014-06-01T12:00:00Z");

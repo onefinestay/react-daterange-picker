@@ -9,7 +9,7 @@ const Install = React.createClass({
       <div className="install">
         <h2>Install</h2>
         <CodeSnippet language="bash" toggle={false}>
-          npm install react-daterange-picker
+          npm install nuvi-daterange-picker
         </CodeSnippet>
       </div>
     );
