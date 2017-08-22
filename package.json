@@ -1,9 +1,10 @@
 {
   "name": "nuvi-daterange-picker",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A React based date range picker forked",
   "author": "Dennis Wilkins dennis@nuvi.com",
   "scripts": {
+    "prepare": "npm run build",
     "test": "npm run lint && npm run karma",
     "lint": "eslint src",
     "karma": "karma start karma.conf.js --browsers Firefox --single-run",
@@ -92,6 +93,7 @@
     "timekeeper": "1.0.0",
     "transform-loader": "^0.2.3",
     "url-loader": "~0.5.7",
+    "underscore": "^1.8.3",
     "webpack": "^1.13.0"
   }
 }
