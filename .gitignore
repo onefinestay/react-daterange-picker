@@ -9,4 +9,6 @@ example/css/*.css
 .DS_Store
 *.sublime-*
 dist/ui-coverage/
+lib/
+dev/
 npm-debug.log

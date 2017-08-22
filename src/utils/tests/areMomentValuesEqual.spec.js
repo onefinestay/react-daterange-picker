@@ -1,6 +1,8 @@
 import areMomentValuesEqual from '../areMomentValuesEqual';
-import moment from 'moment';
-import 'moment-range';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
+const moment = extendMoment(Moment);
 
 describe('areMomentValuesEqual', function () {
   const today = () => moment("2014-06-01T12:00:00Z");

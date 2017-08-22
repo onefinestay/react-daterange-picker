@@ -1,8 +1,10 @@
-import moment from 'moment';
-import {} from 'moment-range';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
 import areMomentRangesEqual from './areMomentRangesEqual';
 import isMomentRange from './isMomentRange';
 
+const moment = extendMoment(Moment);
 
 function shallowEqual(objA, objB) {
   if (objA === objB) {

@@ -1,7 +1,9 @@
-import moment from 'moment';
-import {} from 'moment-range';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
 import isMomentRange from './isMomentRange';
 
+const moment = extendMoment(Moment);
 
 export default {
   momentOrMomentRange(props, propName) {
