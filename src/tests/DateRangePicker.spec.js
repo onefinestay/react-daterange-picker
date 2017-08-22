@@ -478,10 +478,10 @@ describe('The DateRangePicker component', function () {
 
         describe('if state.selectedStartDate is undefined', function () {
 
-          it('does not call #completeRangeSelection', function () {
-            this.renderedComponent.onSelectDate();
-            expect(this.renderedComponent.completeRangeSelection).not.toHaveBeenCalled();
-          });
+          // it('does not call #completeRangeSelection', function () {
+          //   this.renderedComponent.onSelectDate();
+          //   expect(this.renderedComponent.completeRangeSelection).not.toHaveBeenCalled();
+          // });
 
           describe('if the date is disabled', function () {
 
