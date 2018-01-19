@@ -1,13 +1,13 @@
-import React from 'react';
 
+import PropTypes from 'prop-types';
 import BemMixin from '../BemMixin';
 
 describe('BemMixin', function () {
 
   beforeEach(function () {
     this.types = {
-      bemNamespace: React.PropTypes.string,
-      bemBlock: React.PropTypes.string,
+      bemNamespace: PropTypes.string,
+      bemBlock: PropTypes.string,
     };
     BemMixin.props = {};
     BemMixin.context = {};
