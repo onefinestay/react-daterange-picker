@@ -1,4 +1,7 @@
 import React from 'react';
+
+import PropTypes from 'prop-types';
+import createClass from 'create-react-class';
 import moment from '../moment-range';
 import calendar from 'calendar';
 import Immutable from 'immutable';
@@ -8,22 +11,23 @@ import CustomPropTypes from '../utils/CustomPropTypes';
 import isMomentRange from '../utils/isMomentRange';
 import PureRenderMixin from '../utils/PureRenderMixin';
 
-const CalendarMonth = React.createClass({
+const CalendarMonth = createClass({
   mixins: [BemMixin, PureRenderMixin],
+  displayName: "CalendarMonth",
 
   propTypes: {
-    dateComponent: React.PropTypes.func,
-    disableNavigation: React.PropTypes.bool,
+    dateComponent: PropTypes.func,
+    disableNavigation: PropTypes.bool,
     enabledRange: CustomPropTypes.momentRange,
     firstOfMonth: CustomPropTypes.moment,
-    firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
-    hideSelection: React.PropTypes.bool,
-    highlightedDate: React.PropTypes.object,
-    highlightedRange: React.PropTypes.object,
-    onMonthChange: React.PropTypes.func,
-    onYearChange: React.PropTypes.func,
+    firstOfWeek: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
+    hideSelection: PropTypes.bool,
+    highlightedDate: PropTypes.object,
+    highlightedRange: PropTypes.object,
+    onMonthChange: PropTypes.func,
+    onYearChange: PropTypes.func,
     value: CustomPropTypes.momentOrMomentRange,
-    locale: React.PropTypes.string,
+    locale: PropTypes.string,
   },
 
   setLocale(locale) {

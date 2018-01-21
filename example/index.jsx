@@ -1,6 +1,9 @@
 /* eslint-disable react/no-multi-comp */
 
 import React from 'react';
+
+import PropTypes from 'prop-types';
+import createClass from 'create-react-class';
 import moment from '../src/moment-range';
 var fs = require('fs');
 import timekeeper from 'timekeeper';
@@ -24,9 +27,9 @@ function processCodeSnippet(src) {
   return lines.join('\n');
 }
 
-const DatePickerRange = React.createClass({
+const DatePickerRange = createClass({
   propTypes: {
-    value: React.PropTypes.object,
+    value: PropTypes.object,
   },
 
   getInitialState() {
@@ -60,7 +63,7 @@ const DatePickerRange = React.createClass({
 });
 
 
-const DatePickerSingle = React.createClass({
+const DatePickerSingle = createClass({
   getInitialState() {
     return {
       value: "",
@@ -88,7 +91,7 @@ const DatePickerSingle = React.createClass({
   },
 });
 
-const DatePickerSingleWithSetDateButtons = React.createClass({
+const DatePickerSingleWithSetDateButtons = createClass({
   getInitialState() {
     return {
       value: null,
@@ -119,7 +122,7 @@ const DatePickerSingleWithSetDateButtons = React.createClass({
         <QuickSelection dates={dateRanges} value={this.state.value} onSelect={this.setDate} />
         <div>
           <input type="text"
-            value={this.state.value ? this.state.value.format('LL') : null}
+            value={this.state.value ? this.state.value.format('LL') : ''}
             readOnly={true} />
         </div>
       </div>
@@ -127,7 +130,7 @@ const DatePickerSingleWithSetDateButtons = React.createClass({
   },
 });
 
-const DatePickerRangeWithSetRangeButtons = React.createClass({
+const DatePickerRangeWithSetRangeButtons = createClass({
   getInitialState() {
     return {
       value: null,
@@ -161,11 +164,11 @@ const DatePickerRangeWithSetRangeButtons = React.createClass({
         <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
         <div>
           <input type="text"
-            value={this.state.value ? this.state.value.start.format('LL') : null}
+            value={this.state.value ? this.state.value.start.format('LL') : ''}
             readOnly={true}
             placeholder="Start date"/>
           <input type="text"
-            value={this.state.value ? this.state.value.end.format('LL') : null}
+            value={this.state.value ? this.state.value.end.format('LL') : ''}
             readOnly={true}
             placeholder="End date" />
         </div>
@@ -177,7 +180,7 @@ const DatePickerRangeWithSetRangeButtons = React.createClass({
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
 var i18nCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/i18n.jsx', 'utf8');
 
-const Index = React.createClass({
+const Index = createClass({
   getInitialState() {
     return {
       locale: 'en',

@@ -1,21 +1,20 @@
-import React from 'react';
 import bemCx from './bemCx';
-
+import PropTypes from 'prop-types';
 
 const BemMixin = {
   propTypes: {
-    bemNamespace: React.PropTypes.string,
-    bemBlock: React.PropTypes.string,
+    bemNamespace: PropTypes.string,
+    bemBlock: PropTypes.string,
   },
 
   contextTypes: {
-    bemNamespace: React.PropTypes.string,
-    bemBlock: React.PropTypes.string,
+    bemNamespace: PropTypes.string,
+    bemBlock: PropTypes.string,
   },
 
   childContextTypes: {
-    bemNamespace: React.PropTypes.string,
-    bemBlock: React.PropTypes.string,
+    bemNamespace: PropTypes.string,
+    bemBlock: PropTypes.string,
   },
 
   getChildContext() {
