@@ -1,13 +1,16 @@
 /* global hljs */
 import React from 'react';
+
+import PropTypes from 'prop-types';
+import createClass from 'create-react-class';
 import cx from 'classnames';
 
-const CodeSnippet = React.createClass({
+const CodeSnippet = createClass({
   propTypes: {
-    children: React.PropTypes.node.isRequired,
-    language: React.PropTypes.string.isRequired,
-    toggle: React.PropTypes.bool,
-    visible: React.PropTypes.bool,
+    children: PropTypes.node.isRequired,
+    language: PropTypes.string.isRequired,
+    toggle: PropTypes.bool,
+    visible: PropTypes.bool,
   },
 
   getDefaultProps() {
@@ -57,7 +60,7 @@ const CodeSnippet = React.createClass({
       <div className="code-snippet">
         {this.props.toggle ?
           <a href="#" onClick={this.handleClick} className="code-snippet__toggle-button">
-            <span className={arrowClasses}></span>
+            <span className={arrowClasses} />
             {!this.state.visible ? "Show code" : "Hide code"}
           </a> : null}
         {this.state.visible ?

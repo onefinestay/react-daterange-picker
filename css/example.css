@@ -96,3 +96,21 @@ input {
   overflow: hidden; }
   .example h4 {
     margin-top: 0; }
+
+.singleDateRange .DateRangePicker {
+  float: left;
+  width: 50%; }
+
+.singleDateRange .quickSelection {
+  float: right;
+  width: 50%;
+  padding-top: 75px; }
+  .singleDateRange .quickSelection__selection {
+    width: 100px;
+    padding: 6px;
+    margin: 0 auto 15px;
+    display: block;
+    float: none; }
+
+.rangeDateContainer .quickSelection {
+  padding-top: 10px; }

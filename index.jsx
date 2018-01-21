@@ -1,6 +1,9 @@
 /* eslint-disable react/no-multi-comp */
 
 import React from 'react';
+
+import PropTypes from 'prop-types';
+import createClass from 'create-react-class';
 import moment from 'moment';
 import {} from 'moment-range';
 var fs = require('fs');
@@ -13,10 +16,11 @@ import GithubRibbon from './components/github-ribbon';
 import CodeSnippet from './components/code-snippet';
 import Install from './components/install';
 import Features from './components/features';
+import QuickSelection from './components/quick-selection';
 
-
+const today = moment();
 // freeze date to April 1st
-timekeeper.freeze(new Date('2015-04-01'));
+timekeeper.freeze(new Date('2016-04-01'));
 
 function processCodeSnippet(src) {
   var lines = src.split('\n');
@@ -24,10 +28,9 @@ function processCodeSnippet(src) {
   return lines.join('\n');
 }
 
-
-const DatePickerRange = React.createClass({
+const DatePickerRange = createClass({
   propTypes: {
-    value: React.PropTypes.object,
+    value: PropTypes.object,
   },
 
   getInitialState() {
@@ -61,7 +64,7 @@ const DatePickerRange = React.createClass({
 });
 
 
-const DatePickerSingle = React.createClass({
+const DatePickerSingle = createClass({
   getInitialState() {
     return {
       value: "",
@@ -89,13 +92,116 @@ const DatePickerSingle = React.createClass({
   },
 });
 
+const DatePickerSingleWithSetDateButtons = createClass({
+  getInitialState() {
+    return {
+      value: null,
+    };
+  },
+
+  handleSelect(value) {
+    this.setState({ value });
+  },
+
+  setDate(value) {
+    this.setState({ value });
+  },
+
+  render() {
+    const dateRanges = {
+      'Today': today,
+      'Next Month': today.clone().add(1, 'month'),
+      'Last Month': today.clone().subtract(1, 'month'),
+
+      'Next Year': today.clone().add(1, 'year'),
+      'Last Year': today.clone().subtract(1, 'year'),
+    };
+
+    return (
+      <div className="singleDateRange">
+        <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
+        <QuickSelection dates={dateRanges} value={this.state.value} onSelect={this.setDate} />
+        <div>
+          <input type="text"
+            value={this.state.value ? this.state.value.format('LL') : ''}
+            readOnly={true} />
+        </div>
+      </div>
+    );
+  },
+});
+
+const DatePickerRangeWithSetRangeButtons = createClass({
+  getInitialState() {
+    return {
+      value: null,
+      states: null,
+    };
+  },
+
+  handleSelect(value, states) {
+    this.setState({ value, states });
+  },
+
+  setRange(value){
+    this.setState({ value });
+  },
+
+  render() {
+    const dateRanges = {
+      'Last 7 days': moment.range(
+        today.clone().subtract(7, 'days'),
+        today.clone()
+      ),
+      'This Year': moment.range(
+        today.clone().startOf('year'),
+        today.clone()
+      ),
+    };
+
+    return (
+      <div className="rangeDateContainer">
+        <QuickSelection dates={dateRanges} value={this.state.value} onSelect={this.setRange} />
+        <RangePicker {...this.props} onSelect={this.handleSelect} value={this.state.value} />
+        <div>
+          <input type="text"
+            value={this.state.value ? this.state.value.start.format('LL') : ''}
+            readOnly={true}
+            placeholder="Start date"/>
+          <input type="text"
+            value={this.state.value ? this.state.value.end.format('LL') : ''}
+            readOnly={true}
+            placeholder="End date" />
+        </div>
+      </div>
+    );
+  },
+});
 
 var mainCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/main.jsx', 'utf8');
+var i18nCodeSnippet = fs.readFileSync(__dirname + '/code-snippets/i18n.jsx', 'utf8');
 
+const Index = createClass({
+  getInitialState() {
+    return {
+      locale: 'en',
+    };
+  },
 
-const Index = React.createClass({
   getDefaultProps() {
     return {};
+  },
+
+  _selectLocale() {
+    const locale = this.refs.locale.value;
+    if (locale !== 'en') {
+      require(`moment/locale/${locale}`);
+    }
+    moment.locale(locale);
+
+    this.setState({
+      locale: locale,
+    });
   },
 
   render() {
@@ -189,9 +295,47 @@ const Index = React.createClass({
                 selectionType="single"
                 minimumDate={new Date()} />
             </div>
+
+            <div className="example">
+              <h4>
+                i18n support based on moment/locale &nbsp;&nbsp;
+                <select ref="locale" onChange={this._selectLocale} name="locale" id="locale">
+                  <option value="en">EN</option>
+                  <option value="ar-sa">AR</option>
+                  <option value="fr">FR</option>
+                  <option value="it">IT</option>
+                  <option value="es">ES</option>
+                  <option value="de">DE</option>
+                  <option value="ru">RU</option>
+                </select>
+              </h4>
+              <DatePickerRange
+                locale={this.state.locale}
+                numberOfCalendars={2}
+                selectionType="range"
+                minimumDate={new Date()} />
+              <CodeSnippet language="javascript">
+                {processCodeSnippet(i18nCodeSnippet)}
+              </CodeSnippet>
+            </div>
+
+            <div className="example">
+              <h4>Setting Calendar Externally</h4>
+              <DatePickerSingleWithSetDateButtons
+                numberOfCalendars={1}
+                selectionType="single"
+                />
+            </div>
+
+            <div className="example">
+              <h4>Setting Calendar Range Externally</h4>
+              <DatePickerRangeWithSetRangeButtons
+                numberOfCalendars={2}
+                selectionType="range"
+                />
+            </div>
           </div>
         </div>
-
         <Footer />
       </main>
     );
