@@ -112,9 +112,10 @@ const DateRangePicker = createClass({
 
       if (!isNewValueVisible) {
         const yearMonth = getYearMonthProps(nextProps);
-
-        updatedState.year = yearMonth.year;
-        updatedState.month = yearMonth.month;
+        if (yearMonth && yearMonth.year && yearMonth.month) {
+          updatedState.year = yearMonth.year;
+          updatedState.month = yearMonth.month;
+        }
       }
     }
 
@@ -389,7 +390,10 @@ const DateRangePicker = createClass({
       return isVisible(value);
     }
 
-    return isVisible(value.start) || isVisible(value.end);
+    if (value) {
+      return isVisible(value.start) || isVisible(value.end);
+    }
+    return undefined;
   },
 
   canMoveBack() {
