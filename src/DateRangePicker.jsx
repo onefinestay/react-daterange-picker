@@ -275,7 +275,7 @@ const DateRangePicker = createClass({
     if (selectionType === 'range') {
       if (selectedStartDate) {
         this.completeRangeSelection();
-      } else if (date && !this.isDateDisabled(date) && this.isDateSelectable(date)) {
+      } else if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.startRangeSelection(date);
         if (this.props.singleDateRange) {
           this.highlightRange(moment.range(date, date));
