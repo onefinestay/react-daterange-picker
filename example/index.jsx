@@ -4,7 +4,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import createClass from 'create-react-class';
-import moment from '../src/moment-range';
+import moment from './moment-range';
 var fs = require('fs');
 import timekeeper from 'timekeeper';
 import RangePicker from '../src';
