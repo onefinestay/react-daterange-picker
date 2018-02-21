@@ -1,11 +1,11 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import CalendarDatePeriod from '../CalendarDatePeriod';
 
 
 describe('The CalendarDatePeriod Component', function () {
   beforeEach(function () {
-    var shallowRenderer = TestUtils.createRenderer();
+    var shallowRenderer = new ShallowRenderer();
     shallowRenderer.render(<CalendarDatePeriod period='month' color='pink' bemBlock='DateRangePicker' />);
     this.renderedComponent = shallowRenderer.getRenderOutput();
   });
