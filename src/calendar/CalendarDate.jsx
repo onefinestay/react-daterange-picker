@@ -81,6 +81,7 @@ const CalendarDate = createClass({
   },
 
   touchEnd() {
+    event.preventDefault();
     this.props.onHighlightDate(this.props.date);
     this.props.onSelectDate(this.props.date);
 
