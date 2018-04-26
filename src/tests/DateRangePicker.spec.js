@@ -698,7 +698,7 @@ describe('The DateRangePicker component', function () {
 
   describe('#componentWillReceiveProps', function () {
     describe('updating date states', function () {
-      beforeEach( function () {
+      it('updates state.dateStates if data provided in the props', function () {
         this.useDocumentRenderer({
           initialYear: 2000,
           initialMonth: 6,
@@ -706,9 +706,7 @@ describe('The DateRangePicker component', function () {
         spyOn(this.renderedComponent, 'render').and.callFake(function () {
           return <div />;
         });
-      });
 
-      it('updates state.dateStates if data provided in the props', function () {
         var newDateStates = ['newDateStates'];
         spyOn(this.renderedComponent, 'getDateStates').and.returnValue(newDateStates);
         spyOn(this.renderedComponent, 'getEnabledRange').and.returnValue('newEnabledRange');
@@ -717,6 +715,25 @@ describe('The DateRangePicker component', function () {
         });
         this.renderedComponent.componentWillReceiveProps({});
         expect(this.renderedComponent.state.dateStates).toBe(newDateStates);
+      });
+
+      it('returns to initial view if data provided goes from a date range to a falsy value', function () {
+        var initialYear = 2000;
+        var initialMonth = 6;
+        var value = moment.range(moment(new Date('1982/07/03')), moment(new Date('1982/07/21')));
+        this.useDocumentRenderer({
+          initialYear,
+          initialMonth,
+          value,
+        });
+        spyOn(this.renderedComponent, 'render').and.callFake(function () {
+          return <div />;
+        });
+        const newProps = Object.assign({}, this.renderedComponent.props, { value: null });
+        this.renderedComponent.componentWillReceiveProps(newProps);
+
+        expect(this.renderedComponent.state.year).toBe(initialYear);
+        expect(this.renderedComponent.state.month).toBe(initialMonth);
       });
     });
 

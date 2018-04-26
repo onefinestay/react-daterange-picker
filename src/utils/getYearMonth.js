@@ -9,7 +9,7 @@ export function getYearMonth(date) {
 export const getYearMonthProps = function (props) {
   const { selectionType, value } = props;
   if (!value) {
-    return undefined;
+    return { year: props.initialYear, month: props.initialMonth };
   }
 
   if (selectionType === 'single') {
