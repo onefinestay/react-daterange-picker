@@ -107,9 +107,7 @@ const DateRangePicker = createClass({
     };
 
     if (hasUpdatedValue(this.props, nextProps)) {
-      const isNewValueVisible = this.isStartOrEndVisible(nextProps);
-
-      if (!isNewValueVisible) {
+      if (!nextProps.value || !this.isStartOrEndVisible(nextProps)) {
         const yearMonth = getYearMonthProps(nextProps);
 
         updatedState.year = yearMonth.year;

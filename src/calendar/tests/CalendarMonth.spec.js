@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import CalendarMonth from '../CalendarMonth';
 import CalendarDate from '../CalendarDate';
 import moment from '../../moment-range';
@@ -43,7 +44,7 @@ describe('The CalendarMonth Component', function () {
     };
 
     this.useShallowRenderer = (props) => {
-      this.shallowRenderer = TestUtils.createRenderer();
+      this.shallowRenderer = new ShallowRenderer();
       this.shallowRenderer.render(getCalendarMonth(props));
       this.renderedComponent = this.shallowRenderer.getRenderOutput();
       this.container = this.renderedComponent.props.children[0];
@@ -51,7 +52,7 @@ describe('The CalendarMonth Component', function () {
     };
 
     this.useDocumentRenderer = (props) => {
-      this.component = this.renderedComponent = TestUtils.renderIntoDocument(getCalendarMonth(props));
+      this.component = this.renderedComponent = ReactTestUtils.renderIntoDocument(getCalendarMonth(props));
     };
 
     this.firstOfMonth = moment();
@@ -118,9 +119,9 @@ describe('The CalendarMonth Component', function () {
         var onMonthChange = jasmine.createSpy();
         this.useDocumentRenderer({ onMonthChange: onMonthChange });
 
-        var select = TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[0];
+        var select = ReactTestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[0];
         select.value = 2;
-        TestUtils.Simulate.change(select);
+        ReactTestUtils.Simulate.change(select);
 
         expect(onMonthChange).toHaveBeenCalledWith(2);
       });
@@ -166,10 +167,10 @@ describe('The CalendarMonth Component', function () {
         this.useDocumentRenderer({
           onYearChange: onYearChange,
         });
-        var select = TestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[1];
+        var select = ReactTestUtils.scryRenderedDOMComponentsWithTag(this.renderedComponent, 'select')[1];
         var value = (this.firstOfMonth.year() + 1).toString();
         select.value = value;
-        TestUtils.Simulate.change(select);
+        ReactTestUtils.Simulate.change(select);
         expect(onYearChange).toHaveBeenCalledWith(parseInt(value, 10));
       });
 
