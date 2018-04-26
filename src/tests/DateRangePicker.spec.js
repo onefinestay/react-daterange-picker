@@ -320,7 +320,7 @@ describe('The DateRangePicker component', function () {
           initialMonth: 6,
         });
         this.renderedComponent.highlightRange(highlightedRange);
-        var calendarMonthComponent = TestUtils.scryRenderedComponentsWithType(this.renderedComponent, CalendarMonth)[0];
+        var calendarMonthComponent = ReactTestUtils.scryRenderedComponentsWithType(this.renderedComponent, CalendarMonth)[0];
         expect(calendarMonthComponent.props.highlightedRange).toBe(highlightedRange);
       });
 
