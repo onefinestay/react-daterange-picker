@@ -480,21 +480,25 @@ const DateRangePicker = createClass({
     let monthEnd = monthDates.last().last();
     let monthRange = moment.range(monthStart, monthEnd);
 
+    const isRangeVisible = range => (
+      monthRange.overlaps(range) ||
+      monthRange.end.isSame(range.start) ||
+      monthRange.start.isSame(range.end)
+    );
+
     if (moment.isMoment(value)) {
       if (!monthRange.contains(value)) {
         value = null;
       }
-    } else if (isMomentRange(value)) {
-      if (!monthRange.overlaps(value)) {
-        value = null;
-      }
+    } else if (isMomentRange(value) && !isRangeVisible(value)) {
+      value = null;
     }
 
     if (!moment.isMoment(highlightedDate) || !monthRange.contains(highlightedDate)) {
       highlightedDate = null;
     }
 
-    if (!isMomentRange(highlightedRange) || !monthRange.overlaps(highlightedRange)) {
+    if (!isMomentRange(highlightedRange) || !isRangeVisible(highlightedRange)) {
       highlightedRange = null;
     }
 
