@@ -446,6 +446,13 @@ const DateRangePicker = createClass({
     });
   },
 
+  rangesOverlap(rangeA, rangeB) {
+    if (rangeA.overlaps(rangeB) || rangeA.contains(rangeB.start) || rangeA.contains(rangeB.end)) {
+      return true;
+    }
+    return false;
+  },
+
   renderCalendar(index) {
     let {
       bemBlock,
@@ -477,21 +484,17 @@ const DateRangePicker = createClass({
     let monthEnd = monthDates.last().last();
     let monthRange = moment.range(monthStart, monthEnd);
 
-    if (moment.isMoment(value)) {
-      if (!monthRange.contains(value)) {
-        value = null;
-      }
-    } else if (isMomentRange(value)) {
-      if (!monthRange.overlaps(value)) {
-        value = null;
-      }
+    if (moment.isMoment(value) && !monthRange.contains(value)) {
+      value = null;
+    } else if (isMomentRange(value) && !(this.rangesOverlap(monthRange, value))) {
+      value = null;
     }
 
     if (!moment.isMoment(highlightedDate) || !monthRange.contains(highlightedDate)) {
       highlightedDate = null;
     }
 
-    if (!isMomentRange(highlightedRange) || !monthRange.overlaps(highlightedRange)) {
+    if (!isMomentRange(highlightedRange) || !(this.rangesOverlap(monthRange, highlightedRange))) {
       highlightedRange = null;
     }
 

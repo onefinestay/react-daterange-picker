@@ -312,6 +312,18 @@ describe('The DateRangePicker component', function () {
         expect(calendarMonthComponent.props.highlightedRange).toBe(highlightedRange);
       });
 
+      it('is set to highlightedRange on month boundaries', function () {
+        var highlightedRange = moment.range(moment('2016 07 31', 'YYYY MM DD'), moment('2016 08 01', 'YYYY MM DD'));
+        this.useDocumentRenderer({
+          firstOfWeek: 1,
+          initialYear: 2016,
+          initialMonth: 6,
+        });
+        this.renderedComponent.highlightRange(highlightedRange);
+        var calendarMonthComponent = TestUtils.scryRenderedComponentsWithType(this.renderedComponent, CalendarMonth)[0];
+        expect(calendarMonthComponent.props.highlightedRange).toBe(highlightedRange);
+      });
+
     });
 
     describe('each component takes in a large number of other attributes', function () {
