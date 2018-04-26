@@ -3,8 +3,7 @@ import PaginationArrow from '../PaginationArrow';
 import CalendarMonth from '../calendar/CalendarMonth';
 import Legend from '../Legend.jsx';
 
-import moment from 'moment';
-import 'moment-range';
+import moment from '../moment-range';
 import isMomentRange from '../utils/isMomentRange';
 import areMomentRangesEqual from '../utils/areMomentRangesEqual';
 import Immutable from 'immutable';

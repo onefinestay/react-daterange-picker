@@ -2,8 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import createClass from 'create-react-class';
-import moment from 'moment';
-import {} from 'moment-range';
+import moment from './moment-range';
 import Immutable from 'immutable';
 import calendar from 'calendar';
 

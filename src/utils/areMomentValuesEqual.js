@@ -1,5 +1,4 @@
-import moment from 'moment';
-import 'moment-range';
+import moment from '../moment-range';
 
 export default function (previousValue, nextValue) {
   const areBothMoment = moment.isMoment(previousValue) && moment.isMoment(nextValue);

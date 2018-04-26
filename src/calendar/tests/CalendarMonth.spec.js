@@ -4,8 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import ShallowRenderer from 'react-test-renderer/shallow';
 import CalendarMonth from '../CalendarMonth';
 import CalendarDate from '../CalendarDate';
-import moment from 'moment';
-import {} from 'moment-range';
+import moment from '../../moment-range';
 import _ from 'underscore';
 
 
