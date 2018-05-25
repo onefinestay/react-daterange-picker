@@ -5,6 +5,12 @@ A React based date range picker.
 
 [Demo](http://onefinestay.github.io/react-daterange-picker/)
 
+## Getting Started
+
+There's lots of examples within the [demo page](http://onefinestay.github.io/react-daterange-picker/), or check out a minimal example within code CodeSandbox:
+
+[![Edit 0xv5m04yql](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/0xv5m04yql?initialpath=%2Fsrc%2FDateRangeExample.js)
+
 ## Features
 
 * Select a date range in an intuitive way.
