@@ -124,7 +124,7 @@ const DateRangePicker = createClass({
     let year = now.getFullYear();
     let month = now.getMonth();
 
-    if (initialYear && initialMonth) {
+    if (initialYear && Number.isInteger(initialMonth)) {
       year = initialYear;
       month = initialMonth;
     }
