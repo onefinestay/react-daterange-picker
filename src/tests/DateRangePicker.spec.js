@@ -241,7 +241,7 @@ describe('The DateRangePicker component', function () {
           });
           expect(this.renderedComponent.state.month).toBe(11);
         });
-        
+
         // TODO: Should this test exist?
         // it('this.state.month set to initialMonth if initialMonth is a higher than maximum integer', function () {
         //   this.useDocumentRenderer({
