@@ -1,5 +1,8 @@
+import moment from '../moment-range';
+import isMomentRange from './isMomentRange';
+
 export function getYearMonth(date) {
-  if (!date) {
+  if (!moment.isMoment(date)) {
     return undefined;
   }
 
@@ -7,14 +10,14 @@ export function getYearMonth(date) {
 }
 
 export const getYearMonthProps = function (props) {
-  const { selectionType, value } = props;
-  if (!value) {
-    return { year: props.initialYear, month: props.initialMonth };
+  const { selectionType, value, initialYear, initialMonth } = props;
+  if (!(moment.isMoment(value) || isMomentRange(value))) {
+    return { year: initialYear, month: initialMonth };
   }
 
   if (selectionType === 'single') {
     return getYearMonth(value);
   }
 
-  return getYearMonth(props.value.start);
+  return getYearMonth(value.start);
 };

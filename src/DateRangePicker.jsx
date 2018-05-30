@@ -124,12 +124,12 @@ const DateRangePicker = createClass({
     let year = now.getFullYear();
     let month = now.getMonth();
 
-    if (initialYear && initialMonth) {
+    if (Number.isInteger(initialYear) && Number.isInteger(initialMonth)) {
       year = initialYear;
       month = initialMonth;
     }
 
-    if (initialFromValue && value) {
+    if (initialFromValue && (moment.isMoment(value) || isMomentRange(value))) {
       const yearMonth = getYearMonthProps(this.props);
       month = yearMonth.month;
       year = yearMonth.year;
