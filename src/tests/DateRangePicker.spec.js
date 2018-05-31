@@ -180,6 +180,112 @@ describe('The DateRangePicker component', function () {
       });
     });
 
+    describe('for each component the initial month and year', function () {
+
+      describe('when it is set via initialYear and initialMonth', function () {
+
+        it('this.state.year is set to now.year() if initialYear is not an integer', function () {
+          this.useDocumentRenderer({
+            initialYear: null,
+            initialMonth: 6,
+          });
+          expect(this.renderedComponent.state.year).toBe(moment().year());
+        });
+
+        it('this.state.year set to initialYear if initialYear is an integer', function () {
+          this.useDocumentRenderer({
+            initialYear: 2000,
+            initialMonth: 6,
+          });
+          expect(this.renderedComponent.state.year).toBe(2000);
+        });
+
+        it('this.state.month set to now.month() if initialMonth is not an integer', function () {
+          this.useDocumentRenderer({
+            initialYear: 2000,
+            initialMonth: null,
+          });
+          expect(this.renderedComponent.state.month).toBe(moment().month());
+        });
+
+        it('this.state.month set to initialMonth if initialMonth is an integer', function () {
+          this.useDocumentRenderer({
+            initialYear: 2000,
+            initialMonth: 6,
+          });
+          expect(this.renderedComponent.state.month).toBe(6);
+        });
+
+        it('this.state.month set to initialMonth if initialMonth is a minimum integer', function () {
+          this.useDocumentRenderer({
+            initialYear: 2000,
+            initialMonth: 0,
+          });
+          expect(this.renderedComponent.state.month).toBe(0);
+        });
+
+        it('this.state.month set to initialMonth if initialMonth is a maximum integer', function () {
+          this.useDocumentRenderer({
+            initialYear: 2000,
+            initialMonth: 11,
+          });
+          expect(this.renderedComponent.state.month).toBe(11);
+        });
+
+      });
+
+      describe('when it is set via value and initialFromValue in single mode', function () {
+
+        it('this.state set to now if value is not a moment', function () {
+          this.useDocumentRenderer({
+            selectionType: 'single',
+            value: null,
+            initialFromValue: true,
+          });
+          expect(this.renderedComponent.state.year).toBe(moment().year());
+          expect(this.renderedComponent.state.month).toBe(moment().month());
+        });
+
+        it('this.state set to value if value is a moment', function () {
+          var value = moment('2003 01 01', 'YYYY MM DD');
+          this.useDocumentRenderer({
+            selectionType: 'single',
+            value: value,
+            initialFromValue: true,
+          });
+          expect(this.renderedComponent.state.year).toBe(2003);
+          expect(this.renderedComponent.state.month).toBe(0);
+        });
+
+      });
+
+      describe('when it is set via value and initialFromValue in range mode', function () {
+
+        it('this.state set to now if value is not a moment', function () {
+          this.useDocumentRenderer({
+            selectionType: 'range',
+            value: null,
+            initialFromValue: true,
+          });
+          expect(this.renderedComponent.state.year).toBe(moment().year());
+          expect(this.renderedComponent.state.month).toBe(moment().month());
+        });
+
+        it('this.state set to value if value is a momentRange', function () {
+          var value = moment.range(moment('2003 02 03', 'YYYY MM DD'), moment('2004 07 20', 'YYYY MM DD'));
+          this.useDocumentRenderer({
+            selectionType: 'range',
+            value: value,
+            initialFromValue: true,
+          });
+          expect(this.renderedComponent.state.year).toBe(2003);
+          expect(this.renderedComponent.state.month).toBe(1);
+        });
+
+      });
+
+    });
+
     describe('for each component the value', function () {
 
       describe('when it is a moment', function () {
