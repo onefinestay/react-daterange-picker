@@ -224,16 +224,6 @@ describe('The DateRangePicker component', function () {
           expect(this.renderedComponent.state.month).toBe(0);
         });
 
-        // TODO: Should this test exist?
-        // it('this.state.month set to initialMonth if initialMonth is a lower than minimum integer', function () {
-        //   this.useDocumentRenderer({
-        //     initialYear: 2000,
-        //     initialMonth: -1,
-        //   });
-        //   console.log(this.renderedComponent.state.month);
-        //   expect(this.renderedComponent.state.month).toBe(11);
-        // });
-
         it('this.state.month set to initialMonth if initialMonth is a maximum integer', function () {
           this.useDocumentRenderer({
             initialYear: 2000,
@@ -241,16 +231,6 @@ describe('The DateRangePicker component', function () {
           });
           expect(this.renderedComponent.state.month).toBe(11);
         });
-
-        // TODO: Should this test exist?
-        // it('this.state.month set to initialMonth if initialMonth is a higher than maximum integer', function () {
-        //   this.useDocumentRenderer({
-        //     initialYear: 2000,
-        //     initialMonth: 12,
-        //   });
-        //   console.log(this.renderedComponent.state.month);
-        //   expect(this.renderedComponent.state.month).toBe(0);
-        // });
 
       });
 
@@ -273,21 +253,9 @@ describe('The DateRangePicker component', function () {
             value: value,
             initialFromValue: true,
           });
-          expect(this.renderedComponent.state.year).toBe(value.year());
-          expect(this.renderedComponent.state.month).toBe(value.month());
+          expect(this.renderedComponent.state.year).toBe(2003);
+          expect(this.renderedComponent.state.month).toBe(0);
         });
-
-        // TODO: Should this test exist? It currently causes errors as momentRange not expected
-        // it('this.state set to value if value is a momentRange', function () {
-        //   var value = moment.range(moment('2003 01 01', 'YYYY MM DD'), moment('2004 01 01', 'YYYY MM DD'));
-        //   this.useDocumentRenderer({
-        //     selectionType: 'single',
-        //     value: value,
-        //     initialFromValue: true,
-        //   });
-        //   expect(this.renderedComponent.state.year).toBe(value.start.year());
-        //   expect(this.renderedComponent.state.month).toBe(value.start.month());
-        // });
 
       });
 
@@ -303,27 +271,15 @@ describe('The DateRangePicker component', function () {
           expect(this.renderedComponent.state.month).toBe(moment().month());
         });
 
-        // TODO: Should this test exist? It currently causes errors as moment not expected
-        // it('this.state set to value if value is a moment', function () {
-        //   var value = moment('2003 01 01', 'YYYY MM DD');
-        //   this.useDocumentRenderer({
-        //     selectionType: 'range',
-        //     value: value,
-        //     initialFromValue: true,
-        //   });
-        //   expect(this.renderedComponent.state.year).toBe(value.year());
-        //   expect(this.renderedComponent.state.month).toBe(value.month());
-        // });
-
         it('this.state set to value if value is a momentRange', function () {
-          var value = moment.range(moment('2003 01 01', 'YYYY MM DD'), moment('2004 01 01', 'YYYY MM DD'));
+          var value = moment.range(moment('2003 02 03', 'YYYY MM DD'), moment('2004 07 20', 'YYYY MM DD'));
           this.useDocumentRenderer({
             selectionType: 'range',
             value: value,
             initialFromValue: true,
           });
-          expect(this.renderedComponent.state.year).toBe(value.start.year());
-          expect(this.renderedComponent.state.month).toBe(value.start.month());
+          expect(this.renderedComponent.state.year).toBe(2003);
+          expect(this.renderedComponent.state.month).toBe(1);
         });
 
       });

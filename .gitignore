@@ -12,4 +12,3 @@ dist/ui-coverage/
 npm-debug.log
 .publish
 .vscode
-package-lock.json
