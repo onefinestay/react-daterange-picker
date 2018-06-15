@@ -82,16 +82,16 @@ const DateRangePicker = createClass({
       stateDefinitions: {
         available: {
           color: null,
-          label: "Available"
+          label: "Available",
         },
         enquire: {
           color: "#ffd200",
-          label: "Enquire"
+          label: "Enquire",
         },
         unavailable: {
           selectable: false,
           color: "#78818b",
-          label: "Unavailable"
+          label: "Unavailable",
         },
       },
       selectedLabel: "Your selected dates",
