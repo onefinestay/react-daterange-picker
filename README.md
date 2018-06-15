@@ -1,15 +1,53 @@
 React Daterange Picker
 ======================
 
-A React based date range picker.
-
-[Demo](http://onefinestay.github.io/react-daterange-picker/)
+A React based date range picker. [Demo](http://onefinestay.github.io/react-daterange-picker/)
 
 ## Getting Started
+### Installation
 
-There's lots of examples within the [demo page](http://onefinestay.github.io/react-daterange-picker/), or check out a minimal example within code CodeSandbox:
+Add React Daterange Picker to your project by executing
 
+```bash
+npm install react-daterange-picker
+```
+or
+```bash
+yarn add react-daterange-picker
+```
+
+### Usage
+
+Here's an example of basic usage:
+
+```js
+import React, {Component} from 'react'
+import DateRangePicker from 'react-daterange-picker'
+import 'react-daterange-picker/dist/css/react-calendar.css' // For some basic styling. (OPTIONAL)
+
+class MyApp extends Component {
+  state = {
+    dates: null
+  }
+
+  onSelect = dates => this.setState({dates})
+
+  render() {
+    return (
+      <div>
+        <DateRangePicker
+          onSelect={this.onSelect}
+          value={this.state.dates}
+        />
+      </div>
+    )
+  }
+}
+```
+
+Here is a working example:
 [![Edit 0xv5m04yql](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/0xv5m04yql?initialpath=%2Fsrc%2FDateRangeExample.js)
+
 
 ## Features
 
