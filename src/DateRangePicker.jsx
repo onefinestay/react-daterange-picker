@@ -80,14 +80,22 @@ const DateRangePicker = createClass({
       selectionType: 'range',
       singleDateRange: false,
       stateDefinitions: {
-        '__default': {
+        available: {
           color: null,
-          selectable: true,
-          label: null,
+          label: "Available"
+        },
+        enquire: {
+          color: "#ffd200",
+          label: "Enquire"
+        },
+        unavailable: {
+          selectable: false,
+          color: "#78818b",
+          label: "Unavailable"
         },
       },
       selectedLabel: "Your selected dates",
-      defaultState: '__default',
+      defaultState: 'available',
       dateStates: [],
       showLegend: false,
       onSelect: noop,
