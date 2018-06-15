@@ -3,7 +3,7 @@ React Daterange Picker
 
 A React based date range picker. [Demo](http://onefinestay.github.io/react-daterange-picker/)
 
-## Getting Started
+## Getting started
 ### Installation
 
 Add React Daterange Picker to your project by executing
@@ -48,7 +48,6 @@ class MyApp extends Component {
 Here is a working example:
 [![Edit 0xv5m04yql](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/0xv5m04yql?initialpath=%2Fsrc%2FDateRangeExample.js)
 
-
 ## Features
 
 * Select a date range in an intuitive way.
@@ -56,13 +55,48 @@ Here is a working example:
 * Show any number of months at the same time.
 * Visually represent half day states.
 
-## React Version
+### Available props
+|prop|description|default|type|
+|--|----|--|----|
+|bemBlock|||String|
+|bemNamespace||'DateRangePicker'|String|
+|className|||String|
+|dateStates|An array of date ranges and their states||Array|
+|defaultState|||String|
+|disableNavigation||false|Boolean|
+|firstOfWeek|The first day of the week, as a number between 0-6, where 0 is Sunday|0|Integer|
+|helpMessage|| |String|
+|initialDate|| |Date|
+|initialFromValue||true|Boolean|
+|initialMonth|Overrides values derived from initialDate/initialRange| |Integer|
+|initialRange|| |Object|
+|initialYear|Overrides values derived from initialDate/initialRange| |Integer|
+|locale||moment().locale()|String|
+|maximumDate|The last date that is possible to choose. Every date after will be unselectable|null|Moment or Date|
+|minimumDate|The earliest date that is possible to choose. Every date before will be unselectable |null|Moment or Date|
+|numberOfCalendars|The number of months showing next to each other|1|Integer|
+|onHighlightDate|Triggered when a date is highlighted (hovered)| |Function|
+|onHighlightRange|Triggered when a range is highlighted (hovered)| |Function|
+|onSelect|Triggered when a date or range is selected. returns `value`| | `({start, end}) => this.setState({start, end})` |
+|onSelectStart|Triggered when the first date in a range is selected| |Function|
+|paginationArrowComponent||PaginationArrow|Component|
+|selectedLabel||'Your selected dates'|String|
+|selectionType|| |String (`single` or `range`)|
+|singleDateRange||false|Boolean|
+|showLegend||false|Boolean|
+|stateDefinitions|| |Object|
+|value|Contains the start and end value of the selected date range. Format: `value={start: null, end: null}` (moment range)|null|Moment|
+
+
+
+
+## React version
 
 React 0.14, 15, and 16 are all supported in the latest version of react-daterange-picker.
 
 If you wish to user an older version of React, please use react-daterange-picker v0.12.x or below.
 
-## Change Log
+## Changelog
 
 All change log information is available within the project's [releases](https://github.com/onefinestay/react-daterange-picker/releases).
 
