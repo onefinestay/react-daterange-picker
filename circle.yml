@@ -24,20 +24,20 @@ jobs:
       - run: 
           name: Test project
           command: npm test
-  deploy:
+  publish:
     working_directory: ~/build
     docker:
       - image: circleci/node:8.11.2-stretch-browsers
     steps:
       - run:
-          name: Deploy
+          name: Publish project
           command: npm publish
 workflows:
   version: 2
   build-deploy:
     jobs:
       - build
-      - deploy
+      - publish
           requires:
             - build
           filters:
