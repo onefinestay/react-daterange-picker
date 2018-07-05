@@ -36,11 +36,14 @@ jobs:
       - attach_workspace:
           at: ~/build
       - run:
+          name: Add npm auth key
+          command: echo "//registry.npmjs.org/:_authToken=d8f5a681-d77d-434a-9b2d-d3839b04b26f" >> ~/.npmrc          
+      - run:
           name: Publish project
           command: npm publish
 workflows:
   version: 2
-  build-deploy:
+  build-publish:
     jobs:
       - build:
           filters:
