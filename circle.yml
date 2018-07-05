@@ -24,11 +24,17 @@ jobs:
       - run: 
           name: Test project
           command: npm test
+      - persist_to_workspace:
+          root: ~/build
+          paths:
+            - .
   publish:
     working_directory: ~/build
     docker:
       - image: circleci/node:8.11.2-stretch-browsers
     steps:
+      - attach_workspace:
+          at: ~/build
       - run:
           name: Publish project
           command: npm publish
