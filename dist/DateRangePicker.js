@@ -89,6 +89,7 @@ var DateRangePicker = _react2['default'].createClass({
     onSelect: _react2['default'].PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: _react2['default'].PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: _react2['default'].PropTypes.func,
+    renderDate: _react2['default'].PropTypes.func,
     selectedLabel: _react2['default'].PropTypes.string,
     selectionType: _react2['default'].PropTypes.oneOf(['single', 'range']),
     singleDateRange: _react2['default'].PropTypes.bool,
@@ -523,6 +524,7 @@ var DateRangePicker = _react2['default'].createClass({
     var firstOfWeek = _props2.firstOfWeek;
     var fullDayStates = _props2.fullDayStates;
     var numberOfCalendars = _props2.numberOfCalendars;
+    var renderDate = _props2.renderDate;
     var selectionType = _props2.selectionType;
     var value = _props2.value;
     var weekdayNames = _props2.weekdayNames;
@@ -577,6 +579,7 @@ var DateRangePicker = _react2['default'].createClass({
       highlightedRange: highlightedRange,
       index: index,
       key: key,
+      renderDate: renderDate,
       selectionType: selectionType,
       value: value,
       weekdayNames: weekdayNames,

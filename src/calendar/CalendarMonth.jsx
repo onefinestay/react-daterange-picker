@@ -29,6 +29,7 @@ const CalendarMonth = React.createClass({
     highlightedRange: React.PropTypes.object,
     onMonthChange: React.PropTypes.func,
     onYearChange: React.PropTypes.func,
+    renderDate: React.PropTypes.func,
     value: CustomPropTypes.momentOrMomentRange,
     weekdayNames: CustomPropTypes.weekArray,
   },

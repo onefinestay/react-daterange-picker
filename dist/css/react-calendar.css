@@ -214,8 +214,7 @@
     position: absolute;
     right: -50px;
     top: -50px;
-    -webkit-transform: rotate(30deg);
-            transform: rotate(30deg); }
+    transform: rotate(30deg); }
   .DateRangePicker__FullDateStates {
     bottom: 0;
     left: 0;

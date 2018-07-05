@@ -98,6 +98,15 @@ const Index = React.createClass({
     return {};
   },
 
+  dateRender(date) {
+    if (date.isSame(moment('2015-03-24'))) {
+      return (
+        <span>{ date.format('D') }<br />{'custom'}</span>
+      );
+    }
+    return date.format('D');
+  },
+
   render() {
     const stateDefinitions = {
       available: {
@@ -197,6 +206,12 @@ const Index = React.createClass({
                   selectionType="single"
                   minimumDate={new Date()}
                   weekdayNames={["M", "T", "W", "T", "F", "S", "S"]} />
+            </div>
+
+            <div className="example">
+              <h4>Custom date renderer</h4>
+              <DatePickerSingle
+                renderDate={this.dateRender} />
             </div>
           </div>
         </div>

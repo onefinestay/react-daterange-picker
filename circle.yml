@@ -1,0 +1,26 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/build
+    docker:
+      - image: circleci/node:8.11.2-stretch-browsers
+    steps:
+      - checkout
+      - run:
+          name: Install npm
+          command: sudo npm install -g npm@6.1
+      - run:
+          name: Add npm auth key
+          command: echo "//registry.npmjs.org/:_authToken=d8f5a681-d77d-434a-9b2d-d3839b04b26f" >> ~/.npmrc
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: 
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: 
+          name: Test project
+          command: npm test

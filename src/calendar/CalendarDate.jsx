@@ -18,6 +18,8 @@ const CalendarDate = React.createClass({
   propTypes: {
     date: CustomPropTypes.moment,
 
+    renderDate: React.PropTypes.func,
+
     firstOfMonth: React.PropTypes.object.isRequired,
 
     isSelectedDate: React.PropTypes.bool,
@@ -132,6 +134,14 @@ const CalendarDate = React.createClass({
     return {disabled, highlighted, selected};
   },
 
+  renderDate(date) {
+    const {
+      renderDate,
+    } = this.props;
+
+    return renderDate ? renderDate(date) : date.format('D');
+  },
+
   render() {
     let {
         date,
@@ -219,7 +229,7 @@ const CalendarDate = React.createClass({
           </div>}
           {numStates === 1 &&
           <div className={this.cx({element: "FullDateStates"})} style={style} />}
-          <span className={this.cx({element: "DateLabel"})}>{date.format('D')}</span>
+          <span className={this.cx({element: "DateLabel"})}>{this.renderDate(date)}</span>
           {selectionModifier ? <CalendarSelection modifier={selectionModifier} pending={pending} /> : null}
           {highlightModifier ? <CalendarHighlight modifier={highlightModifier} /> : null}
         </td>

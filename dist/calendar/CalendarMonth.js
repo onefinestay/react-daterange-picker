@@ -65,6 +65,7 @@ var CalendarMonth = _react2['default'].createClass({
     highlightedRange: _react2['default'].PropTypes.object,
     onMonthChange: _react2['default'].PropTypes.func,
     onYearChange: _react2['default'].PropTypes.func,
+    renderDate: _react2['default'].PropTypes.func,
     value: _utilsCustomPropTypes2['default'].momentOrMomentRange,
     weekdayNames: _utilsCustomPropTypes2['default'].weekArray
   },

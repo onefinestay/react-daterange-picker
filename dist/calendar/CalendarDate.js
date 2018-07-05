@@ -50,6 +50,8 @@ var CalendarDate = _react2['default'].createClass({
   propTypes: {
     date: _utilsCustomPropTypes2['default'].moment,
 
+    renderDate: _react2['default'].PropTypes.func,
+
     firstOfMonth: _react2['default'].PropTypes.object.isRequired,
 
     isSelectedDate: _react2['default'].PropTypes.bool,
@@ -166,6 +168,12 @@ var CalendarDate = _react2['default'].createClass({
     return { disabled: disabled, highlighted: highlighted, selected: selected };
   },
 
+  renderDate: function renderDate(date) {
+    var renderDate = this.props.renderDate;
+
+    return renderDate ? renderDate(date) : date.format('D');
+  },
+
   render: function render() {
     var _props3 = this.props;
     var date = _props3.date;
@@ -255,7 +263,7 @@ var CalendarDate = _react2['default'].createClass({
       _react2['default'].createElement(
         'span',
         { className: this.cx({ element: "DateLabel" }) },
-        date.format('D')
+        this.renderDate(date)
       ),
       selectionModifier ? _react2['default'].createElement(_CalendarSelection2['default'], { modifier: selectionModifier, pending: pending }) : null,
       highlightModifier ? _react2['default'].createElement(_CalendarHighlight2['default'], { modifier: highlightModifier }) : null

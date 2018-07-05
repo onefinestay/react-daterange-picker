@@ -48,6 +48,7 @@ const DateRangePicker = React.createClass({
     onSelect: React.PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: React.PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: React.PropTypes.func,
+    renderDate: React.PropTypes.func,
     selectedLabel: React.PropTypes.string,
     selectionType: React.PropTypes.oneOf(['single', 'range']),
     singleDateRange: React.PropTypes.bool,
@@ -457,6 +458,7 @@ const DateRangePicker = React.createClass({
         firstOfWeek,
         fullDayStates,
         numberOfCalendars,
+        renderDate,
         selectionType,
         value,
         weekdayNames,
@@ -514,6 +516,7 @@ const DateRangePicker = React.createClass({
       highlightedRange,
       index,
       key,
+      renderDate,
       selectionType,
       value,
       weekdayNames,
