@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     working_directory: ~/build
     docker:
       - image: circleci/node:8.11.2-stretch-browsers
@@ -43,15 +43,15 @@ jobs:
           command: npm publish
 workflows:
   version: 2
-  build-publish:
+  test-publish:
     jobs:
-      - build:
+      - test:
           filters:
             tags:
               only: /v[0-9]+(\.[0-9]+)+/
       - publish:
           requires:
-            - build
+            - test
           filters:
             branches:
               ignore: /.*/
