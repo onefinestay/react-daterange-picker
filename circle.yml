@@ -37,7 +37,7 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - publish
+      - publish:
           requires:
             - build
           filters:
