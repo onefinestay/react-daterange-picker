@@ -457,6 +457,7 @@ const DateRangePicker = createClass({
     let {
       bemBlock,
       bemNamespace,
+      disableNavigation,
       firstOfWeek,
       numberOfCalendars,
       selectionType,
@@ -505,6 +506,7 @@ const DateRangePicker = createClass({
       enabledRange,
       firstOfWeek,
       hideSelection,
+      disableNavigation,
       highlightedDate,
       highlightedRange,
       index,
