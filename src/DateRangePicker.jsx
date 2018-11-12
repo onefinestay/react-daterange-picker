@@ -57,6 +57,7 @@ const DateRangePicker = createClass({
     selectionType: PropTypes.oneOf(['single', 'range']),
     singleDateRange: PropTypes.bool,
     showLegend: PropTypes.bool,
+    preventMoveOnCompleteRange: PropTypes.bool,
     stateDefinitions: PropTypes.object,
     value: CustomPropTypes.momentOrMomentRange,
   },
@@ -90,6 +91,7 @@ const DateRangePicker = createClass({
       defaultState: '__default',
       dateStates: [],
       showLegend: false,
+      preventMoveOnCompleteRange: true,
       onSelect: noop,
       paginationArrowComponent: PaginationArrow,
     };
