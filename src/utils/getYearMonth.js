@@ -10,8 +10,8 @@ export function getYearMonth(date) {
 }
 
 export const getYearMonthProps = function (props) {
-  const { selectionType, value, initialYear, initialMonth, preventMoveOnCompleteRange } = props;
-  if (!(moment.isMoment(value) || isMomentRange(value)) || preventMoveOnCompleteRange) {
+  const { selectionType, value, initialYear, initialMonth } = props;
+  if (!(moment.isMoment(value) || isMomentRange(value))) {
     return { year: initialYear, month: initialMonth };
   }
 
@@ -20,4 +20,9 @@ export const getYearMonthProps = function (props) {
   }
 
   return getYearMonth(value.start);
+};
+
+export const getOptionalYearProps = function (props) {
+  const { preventMoveOnCompleteRange, initialYear, initialMonth } = props;
+  return preventMoveOnCompleteRange ? { year: initialYear, month: initialMonth } : getYearMonthProps(props);
 };

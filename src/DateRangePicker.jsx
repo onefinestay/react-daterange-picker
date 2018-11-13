@@ -17,7 +17,7 @@ import PaginationArrow from './PaginationArrow';
 
 import isMomentRange from './utils/isMomentRange';
 import hasUpdatedValue from './utils/hasUpdatedValue';
-import { getYearMonth, getYearMonthProps } from './utils/getYearMonth';
+import { getOptionalYearProps, getYearMonth, getYearMonthProps } from './utils/getYearMonth';
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
@@ -91,7 +91,7 @@ const DateRangePicker = createClass({
       defaultState: '__default',
       dateStates: [],
       showLegend: false,
-      preventMoveOnCompleteRange: true,
+      preventMoveOnCompleteRange: false,
       onSelect: noop,
       paginationArrowComponent: PaginationArrow,
     };
@@ -110,7 +110,7 @@ const DateRangePicker = createClass({
 
     if (hasUpdatedValue(this.props, nextProps)) {
       if (!nextProps.value || !this.isStartOrEndVisible(nextProps)) {
-        const yearMonth = getYearMonthProps(nextProps);
+        const yearMonth = getOptionalYearProps(nextProps);
 
         updatedState.year = yearMonth.year;
         updatedState.month = yearMonth.month;
