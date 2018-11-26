@@ -279,7 +279,7 @@ describe('The DateRangePicker component', function () {
             initialFromValue: true,
           });
           expect(this.renderedComponent.state.year).toBe(2003);
-          expect(this.renderedComponent.state.month).toBe(2);
+          expect(this.renderedComponent.state.month).toBe(0);
         });
 
       });
@@ -890,7 +890,7 @@ describe('The DateRangePicker component', function () {
         spyOn(this.renderedComponent, 'getDateStates').and.returnValue([]);
         this.renderedComponent.componentWillReceiveProps({value: newValue, selectionType: 'range'});
         expect(this.renderedComponent.state.year).toBe(newValue.start.year());
-        expect(this.renderedComponent.state.month).toBe(moment(newValue.start).add(1, 'M').month());
+        expect(this.renderedComponent.state.month).toBe(moment(newValue.start).subtract(1, 'M').month());
       });
     });
   });

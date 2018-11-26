@@ -19,7 +19,7 @@ export const getYearMonthProps = function (props) {
     return getYearMonth(value);
   }
 
-  return getYearMonth(moment(value.start).add(1, 'M'));
+  return getYearMonth(moment(value.start).subtract(1, 'M'));
 };
 
 export const getOptionalYearProps = function (props) {
