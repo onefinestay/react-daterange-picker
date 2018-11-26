@@ -6,9 +6,7 @@ export function getYearMonth(date) {
     return undefined;
   }
 
-  const clonedDate = moment(date).add(1, 'M');
-
-  return { year: clonedDate.year(), month: clonedDate.month() };
+  return { year: date.year(), month: date.month() };
 }
 
 export const getYearMonthProps = function (props) {
@@ -21,7 +19,7 @@ export const getYearMonthProps = function (props) {
     return getYearMonth(value);
   }
 
-  return getYearMonth(value.start);
+  return getYearMonth(moment(value.start).add(1, 'M'));
 };
 
 export const getOptionalYearProps = function (props) {
