@@ -143,6 +143,7 @@ const DateRangePicker = createClass({
       selectedStartDate: null,
       highlightedDate: null,
       highlightRange: null,
+      move: '',
       hideSelection: false,
       enabledRange: this.getEnabledRange(this.props),
       dateStates: this.getDateStates(this.props),
@@ -404,7 +405,9 @@ const DateRangePicker = createClass({
     if (this.canMoveBack()) {
       monthDate = this.getMonthDate();
       monthDate.subtract(1, 'months');
+      this.setState({ move: 'move-prev' });
       this.setState(getYearMonth(monthDate));
+      this.setState({ move: '' });
     }
   },
 
@@ -421,7 +424,9 @@ const DateRangePicker = createClass({
     if (this.canMoveForward()) {
       monthDate = this.getMonthDate();
       monthDate.add(1, 'months');
+      this.setState({ move: 'move-next' });
       this.setState(getYearMonth(monthDate));
+      this.setState({ move: '' });
     }
   },
 
@@ -530,9 +535,9 @@ const DateRangePicker = createClass({
 
   render: function() {
     let {paginationArrowComponent: PaginationArrowComponent, className, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage} = this.props;
-
+    const {move} = this.state;
     let calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
-    className = this.cx({element: null}) + ' ' + className;
+    className = this.cx({element: null}) + ' ' + className + ' ' + move;
 
     return (
       <div className={className.trim()}>
