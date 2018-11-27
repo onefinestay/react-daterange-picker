@@ -17,7 +17,7 @@ import PaginationArrow from './PaginationArrow';
 
 import isMomentRange from './utils/isMomentRange';
 import hasUpdatedValue from './utils/hasUpdatedValue';
-import { getYearMonth, getYearMonthProps } from './utils/getYearMonth';
+import { getOptionalYearProps, getYearMonth, getYearMonthProps } from './utils/getYearMonth';
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
@@ -57,6 +57,7 @@ const DateRangePicker = createClass({
     selectionType: PropTypes.oneOf(['single', 'range']),
     singleDateRange: PropTypes.bool,
     showLegend: PropTypes.bool,
+    preventMoveOnCompleteRange: PropTypes.bool,
     stateDefinitions: PropTypes.object,
     value: CustomPropTypes.momentOrMomentRange,
   },
@@ -90,6 +91,7 @@ const DateRangePicker = createClass({
       defaultState: '__default',
       dateStates: [],
       showLegend: false,
+      preventMoveOnCompleteRange: false,
       onSelect: noop,
       paginationArrowComponent: PaginationArrow,
     };
@@ -108,7 +110,7 @@ const DateRangePicker = createClass({
 
     if (hasUpdatedValue(this.props, nextProps)) {
       if (!nextProps.value || !this.isStartOrEndVisible(nextProps)) {
-        const yearMonth = getYearMonthProps(nextProps);
+        const yearMonth = getOptionalYearProps(nextProps);
 
         updatedState.year = yearMonth.year;
         updatedState.month = yearMonth.month;
@@ -141,6 +143,7 @@ const DateRangePicker = createClass({
       selectedStartDate: null,
       highlightedDate: null,
       highlightRange: null,
+      move: '',
       hideSelection: false,
       enabledRange: this.getEnabledRange(this.props),
       dateStates: this.getDateStates(this.props),
@@ -402,7 +405,8 @@ const DateRangePicker = createClass({
     if (this.canMoveBack()) {
       monthDate = this.getMonthDate();
       monthDate.subtract(1, 'months');
-      this.setState(getYearMonth(monthDate));
+      this.setState({ move: 'move-prev' });
+      window.setTimeout(() => this.setState(Object.assign(getYearMonth(monthDate), { move: '' })), 500);
     }
   },
 
@@ -419,7 +423,8 @@ const DateRangePicker = createClass({
     if (this.canMoveForward()) {
       monthDate = this.getMonthDate();
       monthDate.add(1, 'months');
-      this.setState(getYearMonth(monthDate));
+      this.setState({ move: 'move-next' });
+      window.setTimeout(() => this.setState(Object.assign(getYearMonth(monthDate), { move: '' })), 500);
     }
   },
 
@@ -528,9 +533,9 @@ const DateRangePicker = createClass({
 
   render: function() {
     let {paginationArrowComponent: PaginationArrowComponent, className, numberOfCalendars, stateDefinitions, selectedLabel, showLegend, helpMessage} = this.props;
-
+    const {move} = this.state;
     let calendars = Immutable.Range(0, numberOfCalendars).map(this.renderCalendar);
-    className = this.cx({element: null}) + ' ' + className;
+    className = this.cx({element: null}) + ' ' + className + ' ' + move;
 
     return (
       <div className={className.trim()}>

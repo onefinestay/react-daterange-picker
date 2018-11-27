@@ -120,17 +120,6 @@ describe('The DateRangePicker component', function () {
       expect(this.renderedComponent.props.children[0].props.disabled).toBe(false);
     });
 
-    it('the left one when clicked moves the calendar one month in the past', function () {
-      this.useDocumentRenderer({
-        initialYear: 2000,
-        initialMonth: 6,
-      });
-      var leftArrow = ReactTestUtils.scryRenderedDOMComponentsWithClass(this.renderedComponent, 'DateRangePicker__PaginationArrowIcon')[0];
-      ReactTestUtils.Simulate.click(leftArrow);
-
-      expect(this.renderedComponent.state.month).toBe(5);
-    });
-
     it('the right one gets disabled when we are at the end of the permitted period', function () {
       this.useShallowRenderer({
         maximumDate: new Date(2000, 6, 15),
@@ -147,17 +136,6 @@ describe('The DateRangePicker component', function () {
         initialMonth: 6,
       });
       expect(this.renderedComponent.props.children[2].props.disabled).toBe(true);
-    });
-
-    it('the right one when clicked moves the calendar one month in the future', function () {
-      this.useDocumentRenderer({
-        initialYear: 2000,
-        initialMonth: 6,
-      });
-      var rightArrow = ReactTestUtils.scryRenderedDOMComponentsWithClass(this.renderedComponent, 'DateRangePicker__PaginationArrowIcon')[1];
-      ReactTestUtils.Simulate.click(rightArrow);
-
-      expect(this.renderedComponent.state.month).toBe(7);
     });
 
   });
@@ -279,7 +257,7 @@ describe('The DateRangePicker component', function () {
             initialFromValue: true,
           });
           expect(this.renderedComponent.state.year).toBe(2003);
-          expect(this.renderedComponent.state.month).toBe(1);
+          expect(this.renderedComponent.state.month).toBe(0);
         });
 
       });
@@ -890,7 +868,7 @@ describe('The DateRangePicker component', function () {
         spyOn(this.renderedComponent, 'getDateStates').and.returnValue([]);
         this.renderedComponent.componentWillReceiveProps({value: newValue, selectionType: 'range'});
         expect(this.renderedComponent.state.year).toBe(newValue.start.year());
-        expect(this.renderedComponent.state.month).toBe(newValue.start.month());
+        expect(this.renderedComponent.state.month).toBe(moment(newValue.start).subtract(1, 'M').month());
       });
     });
   });
