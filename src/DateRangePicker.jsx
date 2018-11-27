@@ -406,8 +406,7 @@ const DateRangePicker = createClass({
       monthDate = this.getMonthDate();
       monthDate.subtract(1, 'months');
       this.setState({ move: 'move-prev' });
-      this.setState(getYearMonth(monthDate));
-      window.setTimeout(() => this.setState({ move: '' }), 500);
+      window.setTimeout(() => this.setState(Object.assign(getYearMonth(monthDate), { move: '' })), 500);
     }
   },
 
@@ -425,8 +424,7 @@ const DateRangePicker = createClass({
       monthDate = this.getMonthDate();
       monthDate.add(1, 'months');
       this.setState({ move: 'move-next' });
-      this.setState(getYearMonth(monthDate));
-      window.setTimeout(() => this.setState({ move: '' }), 500);
+      window.setTimeout(() => this.setState(Object.assign(getYearMonth(monthDate), { move: '' })), 500);
     }
   },
 
