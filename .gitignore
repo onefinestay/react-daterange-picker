@@ -11,3 +11,4 @@ dist/ui-coverage/
 npm-debug.log
 .publish
 .vscode
+dist/
