@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import moment from 'moment';
 import _ from 'underscore';
 
@@ -55,13 +56,13 @@ describe('The CalendarDate Component', function () {
     };
 
     this.useShallowRenderer = (props) => {
-      this.shallowRenderer = TestUtils.createRenderer();
+      this.shallowRenderer = new ShallowRenderer();
       this.shallowRenderer.render(getCalendarDate(props));
       this.renderedComponent = this.shallowRenderer.getRenderOutput();
     };
 
     this.useDocumentRenderer = (props) => {
-      const renderedTable = TestUtils.renderIntoDocument(
+      const renderedTable = ReactTestUtils.renderIntoDocument(
         <table>
           <tbody><tr>{getCalendarDate(props)}</tr></tbody>
         </table>
@@ -231,7 +232,7 @@ describe('The CalendarDate Component', function () {
 
     beforeEach(function () {
       this.useDocumentRenderer();
-      TestUtils.Simulate.touchStart(this.renderedComponent);
+      ReactTestUtils.Simulate.touchStart(this.renderedComponent);
       var evt = document.createEvent('CustomEvent');
       evt.initCustomEvent('touchend', false, false, null);
       document.dispatchEvent(evt);
@@ -261,23 +262,23 @@ describe('The CalendarDate Component', function () {
     });
 
     it('by calling props.onHighlightDate after a mouse enter', function () {
-      TestUtils.SimulateNative.mouseOver(this.renderedComponent);
+      ReactTestUtils.SimulateNative.mouseOver(this.renderedComponent);
       expect(this.highlightDateSpy).toHaveBeenCalledWith(this.date);
     });
 
     it('by calling props.onSelectDate after mouse down + mouse leave', function () {
-      TestUtils.Simulate.mouseDown(this.renderedComponent);
-      TestUtils.SimulateNative.mouseOut(this.renderedComponent);
+      ReactTestUtils.Simulate.mouseDown(this.renderedComponent);
+      ReactTestUtils.SimulateNative.mouseOut(this.renderedComponent);
       expect(this.selectDateSpy).toHaveBeenCalledWith(this.date);
     });
 
     it('by calling props.onUnHighlightDate after a mouse leave', function () {
-      TestUtils.SimulateNative.mouseOut(this.renderedComponent);
+      ReactTestUtils.SimulateNative.mouseOut(this.renderedComponent);
       expect(this.unHighlightDateSpy).toHaveBeenCalledWith(this.date);
     });
 
     it('by calling props.onSelectDate after mouse down + mouse up', function () {
-      TestUtils.Simulate.mouseDown(this.renderedComponent);
+      ReactTestUtils.Simulate.mouseDown(this.renderedComponent);
       var evt = document.createEvent('CustomEvent');
       evt.initCustomEvent('mouseup', false, false, null);
       document.dispatchEvent(evt);
@@ -304,8 +305,7 @@ describe('The CalendarDate Component', function () {
         backgroundColor: '#333',
       };
       expect(this.renderedComponent.props.children[1]).toEqual(
-        <div className='DateRangePicker__FullDateStates' style={bg}>
-        </div>
+        <div className='DateRangePicker__FullDateStates' style={bg} />
       );
     });
   });
