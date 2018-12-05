@@ -1,11 +1,11 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import CalendarHighlight from '../CalendarHighlight';
 
 
 describe('The CalendarHighlight Component', function () {
   beforeEach(function () {
-    var shallowRenderer = TestUtils.createRenderer();
+    var shallowRenderer = new ShallowRenderer();
     shallowRenderer.render(<CalendarHighlight pending={true} modifier='test' bemBlock='DateRangePicker' />);
     this.renderedComponent = shallowRenderer.getRenderOutput();
   });

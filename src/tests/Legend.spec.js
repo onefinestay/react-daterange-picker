@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import Legend from '../Legend';
 import _ from 'underscore';
 
@@ -20,13 +21,13 @@ describe('The Legend component', function () {
     };
 
     this.useShallowRenderer = (props) => {
-      this.shallowRenderer = TestUtils.createRenderer();
+      this.shallowRenderer = new ShallowRenderer();
       this.shallowRenderer.render(getLegend(props));
       this.renderedComponent = this.shallowRenderer.getRenderOutput();
     };
 
     this.useDocumentRenderer = (props) => {
-      const domComponent = TestUtils.renderIntoDocument(<div>{getLegend(props)}</div>);
+      const domComponent = ReactTestUtils.renderIntoDocument(<div>{getLegend(props)}</div>);
       this.renderedComponent = domComponent.childNodes[0];
     };
   });

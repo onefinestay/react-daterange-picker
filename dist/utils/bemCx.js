@@ -1,20 +1,22 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports['default'] = bemCx;
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+exports.default = bemCx;
 function bemCx() {
-  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-  var block = options.block;
-  var element = options.element;
-  var namespace = options.namespace;
-  var modifiers = options.modifiers;
-  var states = options.states;
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var block = options.block,
+      element = options.element,
+      namespace = options.namespace,
+      modifiers = options.modifiers,
+      states = options.states;
 
   var bemClasses = [];
-  var baseClassName = undefined;
+  var baseClassName = void 0;
 
   if (element) {
     if (namespace) {
@@ -33,7 +35,7 @@ function bemCx() {
   bemClasses.push(baseClassName);
 
   if (states) {
-    if (typeof states === 'object') {
+    if ((typeof states === 'undefined' ? 'undefined' : _typeof(states)) === 'object') {
       states = Object.keys(states).filter(function (s) {
         return states[s];
       });
@@ -45,7 +47,7 @@ function bemCx() {
   }
 
   if (modifiers) {
-    if (typeof modifiers === 'object') {
+    if ((typeof modifiers === 'undefined' ? 'undefined' : _typeof(modifiers)) === 'object') {
       modifiers = Object.keys(modifiers).filter(function (m) {
         return modifiers[m];
       });
@@ -64,5 +66,3 @@ function bemCx() {
 
   return bemClasses.join(' ');
 }
-
-module.exports = exports['default'];

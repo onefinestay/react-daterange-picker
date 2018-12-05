@@ -1,20 +1,16 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports['default'] = isMomentRange;
+exports.default = isMomentRange;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var _momentRange = require('../moment-range');
 
-var _moment = require('moment');
+var _momentRange2 = _interopRequireDefault(_momentRange);
 
-var _moment2 = _interopRequireDefault(_moment);
-
-require('moment-range');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function isMomentRange(val) {
-  return val && val.start && val.end && _moment2['default'].isMoment(val.start) && _moment2['default'].isMoment(val.end);
+  return val && val.start && val.end && _momentRange2.default.isMoment(val.start) && _momentRange2.default.isMoment(val.end);
 }
-
-module.exports = exports['default'];

@@ -1,7 +1,8 @@
 import React from 'react';
 
+import createClass from 'create-react-class';
 import DateRangePicker from 'react-daterange-picker';
-import moment from 'moment-range';
+import moment from '../moment-range';
 
 const stateDefinitions = {
   available: {
@@ -36,7 +37,7 @@ const dateRanges = [
   },
 ];
 
-const DatePicker = React.createClass({
+const DatePicker = createClass({
   getInitialState() {
     return {
       value: null,
