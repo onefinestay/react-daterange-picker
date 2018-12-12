@@ -317,7 +317,7 @@ const Index = createClass({
               <h4>Custom date renderer</h4>
               <DatePickerSingle
                 renderDate={this.dateRender} />
-              </div>
+            </div>
             <div className="example">
               <h4>
                 i18n support based on moment/locale &nbsp;&nbsp;
