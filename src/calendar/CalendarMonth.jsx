@@ -1,6 +1,8 @@
 import React from 'react';
-import moment from 'moment';
-import {} from 'moment-range';
+
+import PropTypes from 'prop-types';
+import createClass from 'create-react-class';
+import moment from '../moment-range';
 import calendar from 'calendar';
 import Immutable from 'immutable';
 
@@ -12,26 +14,26 @@ import PureRenderMixin from '../utils/PureRenderMixin';
 const lang = moment().localeData();
 
 const DEFAULT_WEEKDAYS = Immutable.List(lang._weekdaysShort);
-const MONTHS = Immutable.List(lang._months);
 
-
-const CalendarMonth = React.createClass({
+const CalendarMonth = createClass({
   mixins: [BemMixin, PureRenderMixin],
+  displayName: "CalendarMonth",
 
   propTypes: {
-    dateComponent: React.PropTypes.func,
-    disableNavigation: React.PropTypes.bool,
+    dateComponent: PropTypes.func,
+    disableNavigation: PropTypes.bool,
     enabledRange: CustomPropTypes.momentRange,
     firstOfMonth: CustomPropTypes.moment,
-    firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
-    hideSelection: React.PropTypes.bool,
-    highlightedDate: React.PropTypes.object,
-    highlightedRange: React.PropTypes.object,
-    onMonthChange: React.PropTypes.func,
-    onYearChange: React.PropTypes.func,
-    renderDate: React.PropTypes.func,
+    firstOfWeek: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
+    hideSelection: PropTypes.bool,
+    highlightedDate: PropTypes.object,
+    highlightedRange: PropTypes.object,
+    onMonthChange: PropTypes.func,
+    onYearChange: PropTypes.func,
+    renderDate: PropTypes.func,
     value: CustomPropTypes.momentOrMomentRange,
     weekdayNames: CustomPropTypes.weekArray,
+    locale: PropTypes.string,
   },
 
   getDefaultProps: function() {
@@ -40,9 +42,27 @@ const CalendarMonth = React.createClass({
     };
   },
 
+  setLocale(locale) {
+    moment.locale(locale);
+    this.WEEKDAYS = Immutable.List(moment.weekdays()).zip(Immutable.List(moment.weekdaysShort()));
+    this.MONTHS = Immutable.List(moment.months());
+  },
+
+  componentWillMount() {
+    const { locale } = this.props;
+    this.setLocale(locale);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    const { locale } = nextProps;
+    if (locale !== this.props.locale) {
+      this.setLocale(locale);
+    }
+  },
+
   renderDay(date, i) {
     let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
-    let d = moment(date);
+    let d = moment(date).locale(this.props.locale);
 
     let isInSelectedRange;
     let isSelectedDate;
@@ -117,7 +137,7 @@ const CalendarMonth = React.createClass({
     }
 
     return (
-      <option key={year} value={year}>{year}</option>
+      <option key={year} value={year}>{moment(year, 'YYYY').locale(this.props.locale).format('YYYY')}</option>
     );
   },
 
@@ -129,7 +149,7 @@ const CalendarMonth = React.createClass({
     let modifiers = {year: true};
     return (
       <span className={this.cx({element: 'MonthHeaderLabel', modifiers})}>
-        {firstOfMonth.format('YYYY')}
+        {firstOfMonth.locale(this.props.locale).format('YYYY')}
         {this.props.disableNavigation ? null : <select className={this.cx({element: 'MonthHeaderSelect'})} value={y} onChange={this.handleYearChange}>{choices.toJS()}</select>}
       </span>
     );
@@ -159,12 +179,12 @@ const CalendarMonth = React.createClass({
 
   renderHeaderMonth() {
     let {firstOfMonth} = this.props;
-    let choices = MONTHS.map(this.renderMonthChoice);
+    let choices = this.MONTHS.map(this.renderMonthChoice);
     let modifiers = {month: true};
 
     return (
       <span className={this.cx({element: 'MonthHeaderLabel', modifiers})}>
-        {firstOfMonth.format('MMMM')}
+        {firstOfMonth.locale(this.props.locale).format('MMMM')}
         {this.props.disableNavigation ? null : <select className={this.cx({element: 'MonthHeaderSelect'})} value={firstOfMonth.month()} onChange={this.handleMonthChange}>{choices.toJS()}</select>}
       </span>
     );

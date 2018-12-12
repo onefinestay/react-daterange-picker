@@ -9,3 +9,5 @@ example/css/*.css
 *.sublime-*
 dist/ui-coverage/
 npm-debug.log
+.publish
+.vscode

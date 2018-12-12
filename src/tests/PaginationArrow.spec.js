@@ -1,5 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import _ from 'underscore';
 
 import PaginationArrow from '../PaginationArrow';
@@ -19,7 +19,7 @@ describe('The Pagination Arrow component', function () {
     };
 
     this.useShallowRenderer = (props) => {
-      this.shallowRenderer = TestUtils.createRenderer();
+      this.shallowRenderer = new ShallowRenderer();
       this.shallowRenderer.render(getPaginationArrow(props));
       this.renderedComponent = this.shallowRenderer.getRenderOutput();
     };
