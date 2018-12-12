@@ -11,7 +11,7 @@ jobs:
           command: sudo npm install -g npm@6.1
       - run:
           name: Add npm auth key
-          command: echo "//registry.npmjs.org/:_authToken=d8f5a681-d77d-434a-9b2d-d3839b04b26f" >> ~/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=9951c9d9-b86d-46ed-89fb-59503798d1a3" >> ~/.npmrc
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: 
@@ -37,7 +37,7 @@ jobs:
           at: ~/build
       - run:
           name: Add npm auth key
-          command: echo "//registry.npmjs.org/:_authToken=d8f5a681-d77d-434a-9b2d-d3839b04b26f" >> ~/.npmrc          
+          command: echo "//registry.npmjs.org/:_authToken=9951c9d9-b86d-46ed-89fb-59503798d1a3" >> ~/.npmrc       
       - run:
           name: Publish project
           command: npm publish
