@@ -14,8 +14,6 @@ import PureRenderMixin from '../utils/PureRenderMixin';
 const lang = moment().localeData();
 
 const DEFAULT_WEEKDAYS = Immutable.List(lang._weekdaysShort);
-const MONTHS = Immutable.List(lang._months);
-
 
 const CalendarMonth = createClass({
   mixins: [BemMixin, PureRenderMixin],
@@ -26,13 +24,13 @@ const CalendarMonth = createClass({
     disableNavigation: PropTypes.bool,
     enabledRange: CustomPropTypes.momentRange,
     firstOfMonth: CustomPropTypes.moment,
-    firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
-    hideSelection: React.PropTypes.bool,
-    highlightedDate: React.PropTypes.object,
-    highlightedRange: React.PropTypes.object,
-    onMonthChange: React.PropTypes.func,
-    onYearChange: React.PropTypes.func,
-    renderDate: React.PropTypes.func,
+    firstOfWeek: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
+    hideSelection: PropTypes.bool,
+    highlightedDate: PropTypes.object,
+    highlightedRange: PropTypes.object,
+    onMonthChange: PropTypes.func,
+    onYearChange: PropTypes.func,
+    renderDate: PropTypes.func,
     value: CustomPropTypes.momentOrMomentRange,
     weekdayNames: CustomPropTypes.weekArray,
     locale: PropTypes.string,
@@ -112,7 +110,7 @@ const CalendarMonth = createClass({
     let headers = indices.map(function(index) {
       let {weekdayNames} = this.props;
       let weekdays = Immutable.List(lang._weekdays).zip(Immutable.List(weekdayNames));
-      let weekday = this.WEEKDAYS.get(index);
+      let weekday = weekdays.get(index);
       return (
         <th className={this.cx({element: 'WeekdayHeading'})} key={weekday} scope="col"><abbr title={weekday[0]}>{weekday[1]}</abbr></th>
       );

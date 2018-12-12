@@ -21,10 +21,8 @@ const CalendarDate = createClass({
   propTypes: {
     date: CustomPropTypes.moment,
 
-    renderDate: React.PropTypes.func,
-
-    firstOfMonth: React.PropTypes.object.isRequired,
-
+    renderDate: PropTypes.func,
+    firstOfMonth: PropTypes.object.isRequired,
 
     isSelectedDate: PropTypes.bool,
     isSelectedRangeStart: PropTypes.bool,
@@ -36,11 +34,11 @@ const CalendarDate = createClass({
     isHighlightedRangeEnd: PropTypes.bool,
     isInHighlightedRange: PropTypes.bool,
 
-    fullDayStates: React.PropTypes.bool,
-    highlightedDate: React.PropTypes.object,
-    dateStates: React.PropTypes.instanceOf(Immutable.List),
-    isDisabled: React.PropTypes.bool,
-    isToday: React.PropTypes.bool,
+    fullDayStates: PropTypes.bool,
+    highlightedDate: PropTypes.object,
+    dateStates: PropTypes.instanceOf(Immutable.List),
+    isDisabled: PropTypes.bool,
+    isToday: PropTypes.bool,
 
     dateRangesForDate: PropTypes.func,
     onHighlightDate: PropTypes.func,

@@ -198,6 +198,7 @@ const Index = createClass({
       );
     }
     return date.format('D');
+  },
 
   _selectLocale() {
     const locale = this.refs.locale.value;
@@ -316,6 +317,8 @@ const Index = createClass({
               <h4>Custom date renderer</h4>
               <DatePickerSingle
                 renderDate={this.dateRender} />
+            </div>
+            <div className="example">
               <h4>
                 i18n support based on moment/locale &nbsp;&nbsp;
                 <select ref="locale" onChange={this._selectLocale} name="locale" id="locale">
