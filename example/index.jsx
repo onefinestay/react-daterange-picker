@@ -305,7 +305,7 @@ const Index = createClass({
             </div>
 
             <div className="example">
-              <h4>Cusom weekdays</h4>
+              <h4>Custom weekdays</h4>
               <DatePickerSingle
                   numberOfCalendars={2}
                   selectionType="single"
