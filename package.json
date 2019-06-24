@@ -1,6 +1,6 @@
 {
   "name": "@bellhops/react-daterange-picker",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "A React based date range picker",
   "author": "Jonathan Kim <jonathan.kim@onefinestay.com>",
   "scripts": {
