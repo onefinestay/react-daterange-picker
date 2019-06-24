@@ -33,7 +33,7 @@ describe('The Pagination Arrow component', function () {
     });
     expect(this.renderedComponent).toEqual(
       <div bemBlock='DateRangePicker' className='DateRangePicker__PaginationArrow DateRangePicker__PaginationArrow--next' onClick={clickTrigger} >
-        <div className='DateRangePicker__PaginationArrowIcon DateRangePicker__PaginationArrowIcon--next' />
+        <div className='DateRangePicker__PaginationArrowIcon DateRangePicker__PaginationArrowIcon--next' id='next'/>
       </div>
     );
   });
