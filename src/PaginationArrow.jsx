@@ -41,7 +41,7 @@ const PaginationArrow = createClass({
 
     return (
       <div className={this.cx(elementOpts)} {...props} onClick={onTrigger}>
-        <div className={this.cx(iconOpts)} />
+        <div className={this.cx(iconOpts)} id={ direction } />
       </div>
     );
   },
