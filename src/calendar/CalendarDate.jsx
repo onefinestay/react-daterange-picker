@@ -44,6 +44,7 @@ const CalendarDate = createClass({
     onHighlightDate: PropTypes.func,
     onUnHighlightDate: PropTypes.func,
     onSelectDate: PropTypes.func,
+    locale: PropTypes.string,
   },
 
   getInitialState() {
@@ -248,7 +249,7 @@ const CalendarDate = createClass({
           </div>}
           {numStates === 1 &&
           <div className={this.cx({element: "FullDateStates"})} style={style} />}
-          <span id={this.renderDate(date)} className={this.cx({element: "DateLabel"})}>{this.renderDate(date)}</span>
+          <span id={this.props.firstOfMonth.locale(this.props.locale).format('MMMM') + this.renderDate(date)} className={this.cx({element: "DateLabel"})}>{this.renderDate(date)}</span>
           {selectionModifier ? <CalendarSelection modifier={selectionModifier} pending={pending} /> : null}
           {highlightModifier ? <CalendarHighlight modifier={highlightModifier} /> : null}
         </td>
