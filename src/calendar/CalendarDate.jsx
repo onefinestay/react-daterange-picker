@@ -20,7 +20,6 @@ const CalendarDate = createClass({
 
   propTypes: {
     date: CustomPropTypes.moment,
-    disableSelection: PropTypes.bool,
 
     firstOfMonth: PropTypes.object.isRequired,
 
@@ -67,7 +66,9 @@ const CalendarDate = createClass({
   },
 
   mouseUp() {
-    if (this.isSelectionDisabled()) return;
+    if (this.isSelectionDisabled()) {
+      return;
+    }
 
     this.props.onSelectDate(this.props.date);
 
@@ -85,7 +86,9 @@ const CalendarDate = createClass({
   },
 
   mouseDown() {
-    if (this.props.disableSelection) return;
+    if (this.isSelectionDisabled()) {
+      return;
+    }
 
     this.setState({
       mouseDown: true,
@@ -96,7 +99,10 @@ const CalendarDate = createClass({
 
   touchEnd() {
     event.preventDefault();
-    if (this.isSelectionDisabled()) return;
+
+    if (this.isSelectionDisabled()) {
+      return;
+    }
 
     this.props.onHighlightDate(this.props.date);
     this.props.onSelectDate(this.props.date);
@@ -115,7 +121,10 @@ const CalendarDate = createClass({
 
   touchStart(event) {
     event.preventDefault();
-    if (this.isSelectionDisabled()) return;
+
+    if (this.isSelectionDisabled()) {
+      return;
+    }
 
     this.setState({
       mouseDown: true,
@@ -124,13 +133,17 @@ const CalendarDate = createClass({
   },
 
   mouseEnter() {
-    if (this.isSelectionDisabled()) return;
+    if (this.isSelectionDisabled()) {
+      return;
+    }
 
     this.props.onHighlightDate(this.props.date);
   },
 
   mouseLeave() {
-    if (this.isSelectionDisabled()) return;
+    if (this.isSelectionDisabled()) {
+      return;
+    }
 
     if (this.state.mouseDown) {
       this.props.onSelectDate(this.props.date);
@@ -165,12 +178,11 @@ const CalendarDate = createClass({
       isSelectedDate,
       isInSelectedRange,
       isInHighlightedRange,
-      disableSelection,
       isHighlightedDate: highlighted,
       isDisabled: disabled,
     } = this.props;
 
-    let selectionDisabled = this.isSelectionDisabled()
+    let selectionDisabled = this.isSelectionDisabled();
     let selected = (!selectionDisabled) && isSelectedDate || isInSelectedRange || isInHighlightedRange;
 
     return {disabled, highlighted, selected, selectionDisabled};
