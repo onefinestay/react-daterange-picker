@@ -54,7 +54,7 @@ const DateRangePicker = createClass({
     onSelectStart: PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: PropTypes.func,
     selectedLabel: PropTypes.string,
-    selectionType: PropTypes.oneOf(['single', 'range']),
+    selectionType: PropTypes.oneOf(['none', 'single', 'range']),
     singleDateRange: PropTypes.bool,
     showLegend: PropTypes.bool,
     stateDefinitions: PropTypes.object,
@@ -280,7 +280,7 @@ const DateRangePicker = createClass({
         }
       }
 
-    } else {
+    } else if (selectionType === 'single') {
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.completeSelection();
       }
