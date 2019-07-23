@@ -189,6 +189,10 @@ $ns: DateRangePicker !default;
       color: #fff;
     }
 
+    &--is-selectionDisabled {
+      cursor: inherit;
+    }
+
     &--is-highlighted {
       color: #333;
     }

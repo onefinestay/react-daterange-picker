@@ -91,6 +91,58 @@ const DatePickerSingle = createClass({
   },
 });
 
+const DatePickerNoSelection = createClass({
+  render() {
+    const stateDefinitions = {
+      available: {
+        color: '#ffffff',
+        label: 'Available',
+      },
+      enquire: {
+        color: '#ffd200',
+        label: 'Enquire',
+      },
+      unavailable: {
+        selectable: false,
+        color: '#78818b',
+        label: 'Unavailable',
+      },
+    };
+
+    const dateRanges = [
+      {
+        state: 'enquire',
+        range: moment.range(
+          moment().add(2, 'weeks').subtract(5, 'days'),
+          moment().add(2, 'weeks').add(6, 'days')
+        ),
+      },
+      {
+        state: 'unavailable',
+        range: moment.range(
+          moment().add(3, 'weeks'),
+          moment().add(3, 'weeks').add(5, 'days')
+        ),
+      },
+    ];
+
+    return (
+      <div>
+        <RangePicker
+            firstOfWeek={1}
+            numberOfCalendars={2}
+            selectionType='none'
+            minimumDate={new Date()}
+            maximumDate={moment().add(2, 'years').toDate()}
+            stateDefinitions={stateDefinitions}
+            dateStates={dateRanges}
+            defaultState="available"
+            showLegend={true} />
+      </div>
+    );
+  },
+});
+
 const DatePickerSingleWithSetDateButtons = createClass({
   getInitialState() {
     return {
@@ -332,6 +384,11 @@ const Index = createClass({
                 numberOfCalendars={2}
                 selectionType="range"
                 />
+            </div>
+
+            <div className="example">
+              <h4>Disabling selection (display only)</h4>
+              <DatePickerNoSelection />
             </div>
           </div>
         </div>

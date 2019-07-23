@@ -42,6 +42,11 @@ const CalendarDate = createClass({
     onHighlightDate: PropTypes.func,
     onUnHighlightDate: PropTypes.func,
     onSelectDate: PropTypes.func,
+
+    // TODO: There is an explicit range of allowed values for this prop. We
+    // don't validate against the explicit range because it would be tedious to
+    // make changes elsewhere.
+    selectionType: PropTypes.string.isRequired,
   },
 
   getInitialState() {
@@ -56,7 +61,15 @@ const CalendarDate = createClass({
     document.removeEventListener('touchend', this.touchEnd);
   },
 
+  isSelectionDisabled() {
+    return this.props.selectionType === 'none';
+  },
+
   mouseUp() {
+    if (this.isSelectionDisabled()) {
+      return;
+    }
+
     this.props.onSelectDate(this.props.date);
 
     if (this.isUnmounted) {
@@ -73,6 +86,10 @@ const CalendarDate = createClass({
   },
 
   mouseDown() {
+    if (this.isSelectionDisabled()) {
+      return;
+    }
+
     this.setState({
       mouseDown: true,
     });
@@ -82,6 +99,11 @@ const CalendarDate = createClass({
 
   touchEnd() {
     event.preventDefault();
+
+    if (this.isSelectionDisabled()) {
+      return;
+    }
+
     this.props.onHighlightDate(this.props.date);
     this.props.onSelectDate(this.props.date);
 
@@ -99,6 +121,11 @@ const CalendarDate = createClass({
 
   touchStart(event) {
     event.preventDefault();
+
+    if (this.isSelectionDisabled()) {
+      return;
+    }
+
     this.setState({
       mouseDown: true,
     });
@@ -106,10 +133,18 @@ const CalendarDate = createClass({
   },
 
   mouseEnter() {
+    if (this.isSelectionDisabled()) {
+      return;
+    }
+
     this.props.onHighlightDate(this.props.date);
   },
 
   mouseLeave() {
+    if (this.isSelectionDisabled()) {
+      return;
+    }
+
     if (this.state.mouseDown) {
       this.props.onSelectDate(this.props.date);
 
@@ -117,6 +152,7 @@ const CalendarDate = createClass({
         mouseDown: false,
       });
     }
+
     this.props.onUnHighlightDate(this.props.date);
   },
 
@@ -146,9 +182,10 @@ const CalendarDate = createClass({
       isDisabled: disabled,
     } = this.props;
 
-    let selected = isSelectedDate || isInSelectedRange || isInHighlightedRange;
+    let selectionDisabled = this.isSelectionDisabled();
+    let selected = (!selectionDisabled) && isSelectedDate || isInSelectedRange || isInHighlightedRange;
 
-    return {disabled, highlighted, selected};
+    return {disabled, highlighted, selected, selectionDisabled};
   },
 
   render() {
@@ -180,19 +217,21 @@ const CalendarDate = createClass({
     let highlightModifier;
     let selectionModifier;
 
-    if (isSelectedDate || (isSelectedRangeStart && isSelectedRangeEnd)
-        || (isHighlightedRangeStart && isHighlightedRangeEnd)) {
-      selectionModifier = 'single';
-    } else if (isSelectedRangeStart || isHighlightedRangeStart) {
-      selectionModifier = 'start';
-    } else if (isSelectedRangeEnd || isHighlightedRangeEnd) {
-      selectionModifier = 'end';
-    } else if (isInSelectedRange || isInHighlightedRange) {
-      selectionModifier = 'segment';
-    }
+    if (!this.isSelectionDisabled()) {
+      if (isSelectedDate || (isSelectedRangeStart && isSelectedRangeEnd)
+          || (isHighlightedRangeStart && isHighlightedRangeEnd)) {
+        selectionModifier = 'single';
+      } else if (isSelectedRangeStart || isHighlightedRangeStart) {
+        selectionModifier = 'start';
+      } else if (isSelectedRangeEnd || isHighlightedRangeEnd) {
+        selectionModifier = 'end';
+      } else if (isInSelectedRange || isInHighlightedRange) {
+        selectionModifier = 'segment';
+      }
 
-    if (isHighlightedDate) {
-      highlightModifier = 'single';
+      if (isHighlightedDate) {
+        highlightModifier = 'single';
+      }
     }
 
     if (numStates === 1) {
