@@ -45,7 +45,7 @@ const CalendarDate = createClass({
 
     // TODO: There is an explicit range of allowed values for this prop. We
     // don't validate against the explicit range because it would be tedious to
-    // make changes everhwehere.
+    // make changes elsewhere.
     selectionType: PropTypes.string.isRequired,
   },
 
