@@ -326,6 +326,7 @@ const DateRangePicker = createClass({
   startRangeSelection(date) {
     this.setState({
       hideSelection: true,
+      highlightedDates: [],
       selectedStartDate: date,
     });
     if (typeof this.props.onSelectStart === 'function') {
