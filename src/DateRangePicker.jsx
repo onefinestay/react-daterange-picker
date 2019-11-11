@@ -120,15 +120,15 @@ const DateRangePicker = createClass({
 
   getInitialState() {
     let now = new Date();
-    let {initialYear, initialMonth, initialFromValue, value} = this.props;
+    let {initialYear, initialMonth, initialFromValue, value, selectionType} = this.props;
     let year = now.getFullYear();
     let month = now.getMonth();
     let selectedMultipleDates = [];
 
-    if (Array.isArray(value)) {
-      selectedMultipleDates = value.map(function(selectedDate) {
-        return moment(selectedDate).format('YYYY-MM-DD');
-      });
+    if (selectionType === 'multiple') {
+      selectedMultipleDates = Array.isArray(value)
+        ? value.map(date => moment(date))
+        : [moment(value)];
     }
 
     if (Number.isInteger(initialYear) && Number.isInteger(initialMonth)) {
