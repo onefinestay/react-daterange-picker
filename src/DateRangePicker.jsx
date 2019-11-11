@@ -54,11 +54,11 @@ const DateRangePicker = createClass({
     onSelectStart: PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: PropTypes.func,
     selectedLabel: PropTypes.string,
-    selectionType: PropTypes.oneOf(['single', 'range']),
+    selectionType: PropTypes.oneOf(['single', 'range', 'multiple']),
     singleDateRange: PropTypes.bool,
     showLegend: PropTypes.bool,
     stateDefinitions: PropTypes.object,
-    value: CustomPropTypes.momentOrMomentRange,
+    value: CustomPropTypes.momentOrMomentRangeOrArray,
   },
 
   getDefaultProps() {
@@ -123,6 +123,13 @@ const DateRangePicker = createClass({
     let {initialYear, initialMonth, initialFromValue, value} = this.props;
     let year = now.getFullYear();
     let month = now.getMonth();
+    let selectedMultipleDates = [];
+
+    if (Array.isArray(value)) {
+      selectedMultipleDates = value.map(function(selectedDate) {
+        return moment(selectedDate).format('YYYY-MM-DD');
+      });
+    }
 
     if (Number.isInteger(initialYear) && Number.isInteger(initialMonth)) {
       year = initialYear;
@@ -140,6 +147,7 @@ const DateRangePicker = createClass({
       month: month,
       selectedStartDate: null,
       highlightedDate: null,
+      highlightedDates: selectedMultipleDates,
       highlightRange: null,
       hideSelection: false,
       enabledRange: this.getEnabledRange(this.props),
@@ -280,6 +288,10 @@ const DateRangePicker = createClass({
         }
       }
 
+    } else if (selectionType === 'multiple') {
+      if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.completeMultipleSelection(date);
+      }
     } else {
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.completeSelection();
@@ -356,6 +368,21 @@ const DateRangePicker = createClass({
       });
       this.props.onSelect(range, this.statesForRange(range));
     }
+  },
+
+  completeMultipleSelection(momentDate) {
+    const date = momentDate.format('YYYY-MM-DD');
+    const highlightedDates = this.state.highlightedDates;
+    const index = highlightedDates.indexOf(date);
+
+    if (index > -1) {
+      highlightedDates.splice(index, 1);
+      this.setState({ highlightedDates: highlightedDates });
+    } else {
+      highlightedDates.push(date);
+      this.setState({ highlightedDates: highlightedDates });
+    }
+    this.props.onSelect(highlightedDates, this.statesForDate(momentDate));
   },
 
   highlightDate(date) {
@@ -468,6 +495,7 @@ const DateRangePicker = createClass({
       enabledRange,
       hideSelection,
       highlightedDate,
+      highlightedDates,
       highlightedRange,
     } = this.state;
     let monthDate = this.getMonthDate();
@@ -506,6 +534,7 @@ const DateRangePicker = createClass({
       firstOfWeek,
       hideSelection,
       highlightedDate,
+      highlightedDates,
       highlightedRange,
       index,
       key,
