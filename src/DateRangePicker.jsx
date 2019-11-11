@@ -373,13 +373,13 @@ const DateRangePicker = createClass({
   completeMultipleSelection(momentDate) {
     const date = momentDate.format('YYYY-MM-DD');
     const highlightedDates = this.state.highlightedDates;
-    const index = highlightedDates.indexOf(date);
+    const index = highlightedDates.map(el => el.format('YYYY-MM-DD')).indexOf(date);
 
     if (index > -1) {
       highlightedDates.splice(index, 1);
       this.setState({ highlightedDates: highlightedDates });
     } else {
-      highlightedDates.push(date);
+      highlightedDates.push(momentDate);
       this.setState({ highlightedDates: highlightedDates });
     }
     this.props.onSelect(highlightedDates, this.statesForDate(momentDate));
