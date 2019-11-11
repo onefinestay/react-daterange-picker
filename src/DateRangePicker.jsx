@@ -411,6 +411,8 @@ const DateRangePicker = createClass({
 
     if (selectionType === 'single') {
       return isVisible(value);
+    } else if (selectionType === 'multiple') {
+      return isVisible(value[0]);
     }
 
     return isVisible(value.start) || isVisible(value.end);
