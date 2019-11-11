@@ -260,6 +260,7 @@ const DateRangePicker = createClass({
     this.setState({
       highlightedRange: range,
       highlightedDate: null,
+      highlightedDates: [],
     });
     if (typeof this.props.onHighlightRange === 'function') {
       this.props.onHighlightRange(range, this.statesForRange(range));
@@ -360,6 +361,7 @@ const DateRangePicker = createClass({
     if (range && (!range.start.isSame(range.end, 'day') || this.props.singleDateRange)) {
       this.setState({
         selectedStartDate: null,
+        highlightedDates: [],
         highlightedRange: null,
         highlightedDate: null,
         hideSelection: false,
@@ -375,11 +377,15 @@ const DateRangePicker = createClass({
 
     if (index > -1) {
       highlightedDates.splice(index, 1);
-      this.setState({ highlightedDates: highlightedDates });
     } else {
       highlightedDates.push(momentDate);
-      this.setState({ highlightedDates: highlightedDates });
     }
+
+    this.setState({
+      highlightedDates,
+      highlightedRange: null,
+      highlightedDate: null,
+    });
     this.props.onSelect(highlightedDates, this.statesForDate(momentDate));
   },
 
