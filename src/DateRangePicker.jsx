@@ -134,7 +134,9 @@ const DateRangePicker = createClass({
       selectedMultipleDates = Array.isArray(value)
         ? value.map(date => moment(date))
         : [moment(value)];
-    } else if (initialFromValue && (moment.isMoment(value) || isMomentRange(value))) {
+    }
+    
+    if (initialFromValue && (moment.isMoment(value) || isMomentRange(value))) {
       const yearMonth = getYearMonthProps(this.props);
       month = yearMonth.month;
       year = yearMonth.year;
@@ -417,7 +419,7 @@ const DateRangePicker = createClass({
     if (selectionType === 'single') {
       return isVisible(value);
     } else if (selectionType === 'multiple') {
-      return value.every(el => isVisible(el));
+      return Array.isArray(value) && value.length > 0 && (isVisible(value[0]) && isVisible(value[value.length - 1]));
     }
 
     return isVisible(value.start) || isVisible(value.end);
