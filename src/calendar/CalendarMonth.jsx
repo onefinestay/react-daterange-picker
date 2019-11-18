@@ -59,7 +59,7 @@ const CalendarMonth = createClass({
 
     if (!hideSelection && value && moment.isMoment(value) && value.isSame(d, 'day')) {
       isSelectedDate = true;
-    } else if (!hideSelection && highlightedDates.map(date => date.format('YYYY-MM-DD')).indexOf(d.format('YYYY-MM-DD')) > -1) {
+    } else if (!hideSelection && !isMomentRange(value) && highlightedDates.map(date => date.format('YYYY-MM-DD')).indexOf(d.format('YYYY-MM-DD')) > -1) {
       isSelectedDate = true;
     } else if (!hideSelection && value && isMomentRange(value) && value.contains(d)) {
       isInSelectedRange = true;
