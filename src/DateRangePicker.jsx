@@ -136,7 +136,7 @@ const DateRangePicker = createClass({
         : [moment(value)];
     }
     
-    if (initialFromValue && (moment.isMoment(value) || isMomentRange(value))) {
+    if (initialFromValue && (moment.isMoment(value) || isMomentRange(value) || (Array.isArray(value) && value.length && moment.isMoment(value[0])))) {
       const yearMonth = getYearMonthProps(this.props);
       month = yearMonth.month;
       year = yearMonth.year;
