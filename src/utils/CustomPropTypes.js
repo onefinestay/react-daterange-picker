@@ -3,7 +3,7 @@ import isMomentRange from './isMomentRange';
 
 
 export default {
-  momentOrMomentRange(props, propName) {
+  momentOrMomentRangeOrArray(props, propName) {
     let val = props[propName];
 
     if (!val) {
@@ -12,8 +12,10 @@ export default {
       return null;
     } else if (isMomentRange(val)) {
       return null;
+    } else if (Array.isArray(val) && val.every(el => moment.isMoment(el))) {
+      return null;
     }
-    return new Error(`'${propName}' must be a moment or a moment range`);
+    return new Error(`'${propName}' must be a moment or a moment range or an array of moments`);
   },
 
   moment(props, propName) {

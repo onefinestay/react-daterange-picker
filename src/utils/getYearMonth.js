@@ -11,12 +11,14 @@ export function getYearMonth(date) {
 
 export const getYearMonthProps = function (props) {
   const { selectionType, value, initialYear, initialMonth } = props;
-  if (!(moment.isMoment(value) || isMomentRange(value))) {
+  if (!(moment.isMoment(value) || isMomentRange(value) || (Array.isArray(value) && value.length && moment.isMoment(value[0])))) {
     return { year: initialYear, month: initialMonth };
   }
 
   if (selectionType === 'single') {
     return getYearMonth(value);
+  } else if (selectionType === 'multiple') {
+    return getYearMonth(value[0]);
   }
 
   return getYearMonth(value.start);

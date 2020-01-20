@@ -54,11 +54,11 @@ const DateRangePicker = createClass({
     onSelectStart: PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: PropTypes.func,
     selectedLabel: PropTypes.string,
-    selectionType: PropTypes.oneOf(['single', 'range']),
+    selectionType: PropTypes.oneOf(['single', 'range', 'multiple']),
     singleDateRange: PropTypes.bool,
     showLegend: PropTypes.bool,
     stateDefinitions: PropTypes.object,
-    value: CustomPropTypes.momentOrMomentRange,
+    value: CustomPropTypes.momentOrMomentRangeOrArray,
   },
 
   getDefaultProps() {
@@ -120,16 +120,23 @@ const DateRangePicker = createClass({
 
   getInitialState() {
     let now = new Date();
-    let {initialYear, initialMonth, initialFromValue, value} = this.props;
+    let {initialYear, initialMonth, initialFromValue, value, selectionType} = this.props;
     let year = now.getFullYear();
     let month = now.getMonth();
+    let selectedMultipleDates = [];
 
     if (Number.isInteger(initialYear) && Number.isInteger(initialMonth)) {
       year = initialYear;
       month = initialMonth;
     }
 
-    if (initialFromValue && (moment.isMoment(value) || isMomentRange(value))) {
+    if (selectionType === 'multiple') {
+      selectedMultipleDates = Array.isArray(value)
+        ? value.map(date => moment(date))
+        : [moment(value)];
+    }
+    
+    if (initialFromValue && (moment.isMoment(value) || isMomentRange(value) || (Array.isArray(value) && value.length && moment.isMoment(value[0])))) {
       const yearMonth = getYearMonthProps(this.props);
       month = yearMonth.month;
       year = yearMonth.year;
@@ -140,6 +147,7 @@ const DateRangePicker = createClass({
       month: month,
       selectedStartDate: null,
       highlightedDate: null,
+      highlightedDates: selectedMultipleDates,
       highlightRange: null,
       hideSelection: false,
       enabledRange: this.getEnabledRange(this.props),
@@ -254,6 +262,7 @@ const DateRangePicker = createClass({
     this.setState({
       highlightedRange: range,
       highlightedDate: null,
+      highlightedDates: [],
     });
     if (typeof this.props.onHighlightRange === 'function') {
       this.props.onHighlightRange(range, this.statesForRange(range));
@@ -280,6 +289,10 @@ const DateRangePicker = createClass({
         }
       }
 
+    } else if (selectionType === 'multiple') {
+      if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
+        this.completeMultipleSelection(date);
+      }
     } else {
       if (!this.isDateDisabled(date) && this.isDateSelectable(date)) {
         this.completeSelection();
@@ -315,6 +328,7 @@ const DateRangePicker = createClass({
   startRangeSelection(date) {
     this.setState({
       hideSelection: true,
+      highlightedDates: [],
       selectedStartDate: date,
     });
     if (typeof this.props.onSelectStart === 'function') {
@@ -350,12 +364,32 @@ const DateRangePicker = createClass({
     if (range && (!range.start.isSame(range.end, 'day') || this.props.singleDateRange)) {
       this.setState({
         selectedStartDate: null,
+        highlightedDates: [],
         highlightedRange: null,
         highlightedDate: null,
         hideSelection: false,
       });
       this.props.onSelect(range, this.statesForRange(range));
     }
+  },
+
+  completeMultipleSelection(momentDate) {
+    const date = momentDate.format('YYYY-MM-DD');
+    const highlightedDates = this.state.highlightedDates;
+    const index = highlightedDates.map(el => el.format('YYYY-MM-DD')).indexOf(date);
+
+    if (index > -1) {
+      highlightedDates.splice(index, 1);
+    } else {
+      highlightedDates.push(momentDate);
+    }
+
+    this.setState({
+      highlightedDates,
+      highlightedRange: null,
+      highlightedDate: null,
+    });
+    this.props.onSelect(highlightedDates, this.statesForDate(momentDate));
   },
 
   highlightDate(date) {
@@ -384,6 +418,8 @@ const DateRangePicker = createClass({
 
     if (selectionType === 'single') {
       return isVisible(value);
+    } else if (selectionType === 'multiple') {
+      return Array.isArray(value) && value.length > 0 && (isVisible(value[0]) && isVisible(value[value.length - 1]));
     }
 
     return isVisible(value.start) || isVisible(value.end);
@@ -468,6 +504,7 @@ const DateRangePicker = createClass({
       enabledRange,
       hideSelection,
       highlightedDate,
+      highlightedDates,
       highlightedRange,
     } = this.state;
     let monthDate = this.getMonthDate();
@@ -506,6 +543,7 @@ const DateRangePicker = createClass({
       firstOfWeek,
       hideSelection,
       highlightedDate,
+      highlightedDates,
       highlightedRange,
       index,
       key,

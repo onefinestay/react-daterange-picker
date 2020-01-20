@@ -26,7 +26,7 @@ const CalendarMonth = createClass({
     highlightedRange: PropTypes.object,
     onMonthChange: PropTypes.func,
     onYearChange: PropTypes.func,
-    value: CustomPropTypes.momentOrMomentRange,
+    value: CustomPropTypes.momentOrMomentRangeOrArray,
     locale: PropTypes.string,
   },
 
@@ -49,7 +49,7 @@ const CalendarMonth = createClass({
   },
 
   renderDay(date, i) {
-    let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
+    let {dateComponent: CalendarDate, value, highlightedDate, highlightedDates, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
     let d = moment(date).locale(this.props.locale);
 
     let isInSelectedRange;
@@ -58,6 +58,8 @@ const CalendarMonth = createClass({
     let isSelectedRangeEnd;
 
     if (!hideSelection && value && moment.isMoment(value) && value.isSame(d, 'day')) {
+      isSelectedDate = true;
+    } else if (!hideSelection && !isMomentRange(value) && highlightedDates.map(date => date.format('YYYY-MM-DD')).indexOf(d.format('YYYY-MM-DD')) > -1) {
       isSelectedDate = true;
     } else if (!hideSelection && value && isMomentRange(value) && value.contains(d)) {
       isInSelectedRange = true;
