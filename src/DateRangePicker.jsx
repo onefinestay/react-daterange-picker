@@ -100,7 +100,7 @@ const DateRangePicker = createClass({
     const nextEnabledRange = this.getEnabledRange(nextProps);
 
     const updatedState = {
-      selectedStartDate: null,
+      selectedStartDate: this.state.selectedStartDate,
       hideSelection: false,
       dateStates: this.state.dateStates && Immutable.is(this.state.dateStates, nextDateStates) ? this.state.dateStates : nextDateStates,
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange,
